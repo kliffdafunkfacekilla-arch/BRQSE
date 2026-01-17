@@ -1,0 +1,402 @@
+[
+  {
+    "Unnamed: 0": "",
+    "Unnamed: 1": "",
+    "Unnamed: 2": "",
+    "Unnamed: 3": "",
+    "Unnamed: 4": "",
+    "Unnamed: 5": ""
+  },
+  {
+    "Unnamed: 0": "",
+    "Unnamed: 1": "",
+    "Unnamed: 2": "",
+    "Unnamed: 3": "",
+    "Unnamed: 4": "",
+    "Unnamed: 5": ""
+  },
+  {
+    "Unnamed: 0": "",
+    "Unnamed: 1": "",
+    "Unnamed: 2": "",
+    "Unnamed: 3": "",
+    "Unnamed: 4": "",
+    "Unnamed: 5": ""
+  },
+  {
+    "Unnamed: 0": "Category",
+    "Unnamed: 1": "Option",
+    "Unnamed: 2": "Choice Name",
+    "Unnamed: 3": "Stat 1",
+    "Unnamed: 4": "Stat 2",
+    "Unnamed: 5": "Body Part"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Grazer",
+    "Unnamed: 2": "Seal",
+    "Unnamed: 3": "Endure",
+    "Unnamed: 4": "Fortitude",
+    "Unnamed: 5": "Blubber Layer"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Grazer",
+    "Unnamed: 2": "Coi",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Blubber Layer"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Climber",
+    "Unnamed: 2": "Dolphin",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Folded Legs"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Climber",
+    "Unnamed: 2": "Crab",
+    "Unnamed: 3": "Finesse",
+    "Unnamed: 4": "Fortitude",
+    "Unnamed: 5": "Folded Legs"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Scavenger",
+    "Unnamed: 2": "Catfish",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Awareness",
+    "Unnamed: 5": "Suction Pad"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Scavenger",
+    "Unnamed: 2": "Seahorse",
+    "Unnamed: 3": "Reflex",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Suction Pad"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Predator",
+    "Unnamed: 2": "Shark",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Dorsal Fin"
+  },
+  {
+    "Unnamed: 0": "ANCESTRY",
+    "Unnamed: 1": "Predator",
+    "Unnamed: 2": "Squid",
+    "Unnamed: 3": "Reflex",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Dorsal Fin"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Retreat",
+    "Unnamed: 2": "Ink",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Ink Sacs"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Retreat",
+    "Unnamed: 2": "Slippery",
+    "Unnamed: 3": "Reflex",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Ink Sacs"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Stealth",
+    "Unnamed: 2": "Deep",
+    "Unnamed: 3": "Finesse",
+    "Unnamed: 4": "Intuition",
+    "Unnamed: 5": "Color Change"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Stealth",
+    "Unnamed: 2": "Sand",
+    "Unnamed: 3": "Logic",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Color Change"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Intimidate",
+    "Unnamed: 2": "Gape",
+    "Unnamed: 3": "Charm",
+    "Unnamed: 4": "Might",
+    "Unnamed: 5": "Tooth Rows"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Intimidate",
+    "Unnamed: 2": "Spine",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Charm",
+    "Unnamed: 5": "Tooth Rows"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Tough",
+    "Unnamed: 2": "Scale",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Might",
+    "Unnamed: 5": "Heavy Scales"
+  },
+  {
+    "Unnamed: 0": "DEFENSE",
+    "Unnamed: 1": "Tough",
+    "Unnamed: 2": "Jelly",
+    "Unnamed: 3": "Vitality",
+    "Unnamed: 4": "Fortitude",
+    "Unnamed: 5": "Heavy Scales"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Claws",
+    "Unnamed: 2": "Pinch",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Fortitude",
+    "Unnamed: 5": "Crab Claw"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Claws",
+    "Unnamed: 2": "Barb",
+    "Unnamed: 3": "Reflex",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Crab Claw"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Strikes",
+    "Unnamed: 2": "Ram",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Endure",
+    "Unnamed: 5": "Tentacle"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Strikes",
+    "Unnamed: 2": "Tentacle",
+    "Unnamed: 3": "Finesse",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Tentacle"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Biological",
+    "Unnamed: 2": "Shock",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Electric Nodes"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Biological",
+    "Unnamed: 2": "Toxin",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Vitality",
+    "Unnamed: 5": "Electric Nodes"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Strength",
+    "Unnamed: 2": "Drag",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Will",
+    "Unnamed: 5": "Webbed Hands"
+  },
+  {
+    "Unnamed: 0": "OFFENSE",
+    "Unnamed: 1": "Strength",
+    "Unnamed: 2": "Crush",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Fortitude",
+    "Unnamed: 5": "Webbed Hands"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Ornate",
+    "Unnamed: 2": "Bright",
+    "Unnamed: 3": "Charm",
+    "Unnamed: 4": "Awareness",
+    "Unnamed: 5": "Angler Light"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Ornate",
+    "Unnamed: 2": "Lure",
+    "Unnamed: 3": "Charm",
+    "Unnamed: 4": "Will",
+    "Unnamed: 5": "Angler Light"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Pack",
+    "Unnamed: 2": "School",
+    "Unnamed: 3": "Will",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Blowhole"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Pack",
+    "Unnamed: 2": "Pod",
+    "Unnamed: 3": "Intuition",
+    "Unnamed: 4": "Charm",
+    "Unnamed: 5": "Blowhole"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Vocal",
+    "Unnamed: 2": "Song",
+    "Unnamed: 3": "Knowledge",
+    "Unnamed: 4": "Charm",
+    "Unnamed: 5": "Throat Sac"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Vocal",
+    "Unnamed: 2": "Click",
+    "Unnamed: 3": "Intuition",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Throat Sac"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Solitary",
+    "Unnamed: 2": "Deep",
+    "Unnamed: 3": "Will",
+    "Unnamed: 4": "Endure",
+    "Unnamed: 5": "Barnacles"
+  },
+  {
+    "Unnamed: 0": "SOCIAL",
+    "Unnamed: 1": "Solitary",
+    "Unnamed: 2": "Ancient",
+    "Unnamed: 3": "Knowledge",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Barnacles"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Varied",
+    "Unnamed: 2": "Amphib",
+    "Unnamed: 3": "Endure",
+    "Unnamed: 4": "Vitality",
+    "Unnamed: 5": "Moist Skin"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Varied",
+    "Unnamed: 2": "Current",
+    "Unnamed: 3": "Reflex",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Moist Skin"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Toxic",
+    "Unnamed: 2": "Filter",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Will",
+    "Unnamed: 5": "Poision Sting"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Toxic",
+    "Unnamed: 2": "Sump",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Endure",
+    "Unnamed: 5": "Poision Sting"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Safe",
+    "Unnamed: 2": "Navigator",
+    "Unnamed: 3": "Knowledge",
+    "Unnamed: 4": "Logic",
+    "Unnamed: 5": "Star Scales"
+  },
+  {
+    "Unnamed: 0": "ENVIRON",
+    "Unnamed: 1": "Safe",
+    "Unnamed: 2": "Flow",
+    "Unnamed: 3": "Charm",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Star Scales"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Senses",
+    "Unnamed: 2": "Sonar",
+    "Unnamed: 3": "Awareness",
+    "Unnamed: 4": "Intuition",
+    "Unnamed: 5": "Ear Holes"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Senses",
+    "Unnamed: 2": "Lateral",
+    "Unnamed: 3": "Awareness",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Ear Holes"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Tactics",
+    "Unnamed: 2": "Fluid",
+    "Unnamed: 3": "Logic",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Jointless Limbs"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Tactics",
+    "Unnamed: 2": "Surge",
+    "Unnamed: 3": "Might",
+    "Unnamed: 4": "Reflex",
+    "Unnamed: 5": "Jointless Limbs"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Tool Use",
+    "Unnamed: 2": "Salvage",
+    "Unnamed: 3": "Knowledge",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Long Fingers"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Tool Use",
+    "Unnamed: 2": "Net",
+    "Unnamed: 3": "Logic",
+    "Unnamed: 4": "Finesse",
+    "Unnamed: 5": "Long Fingers"
+  },
+  {
+    "Unnamed: 0": "ADAPT",
+    "Unnamed: 1": "Resistance",
+    "Unnamed: 2": "Regen",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Vitality",
+    "Unnamed: 5": "Blue Skin"
+  },
+  {
+    "Unnamed: 0": "",
+    "Unnamed: 1": "Resistance",
+    "Unnamed: 2": "Cold",
+    "Unnamed: 3": "Fortitude",
+    "Unnamed: 4": "Endure",
+    "Unnamed: 5": "Blue Skin"
+  }
+]

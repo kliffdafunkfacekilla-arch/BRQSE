@@ -435,6 +435,113 @@ class EffectRegistry:
         self.register_pattern(r"Disintegrate Matter|Unmake", self._handle_disintegrate_matter)
         self.register_pattern(r"Indestructible", self._handle_indestructible)
         self.register_pattern(r"Create Matter", self._handle_create_matter)
+
+        # ============================================
+        # SCHOOL OF MASS PATTERNS (Force)
+        # ============================================
+        self.register_pattern(r"Shove target away|Knockback", self._handle_push)
+        self.register_pattern(r"Ignore Knockback|Brace|Heavy", self._handle_immovable)
+        self.register_pattern(r"Reduce the weight|Lift|Levitate|Float", self._handle_levitate)
+        self.register_pattern(r"Increase weight|Burden", self._handle_heavy_gravity)
+        self.register_pattern(r"Fling enemy|Launch", self._handle_launch)
+        self.register_pattern(r"Spider Climb|Shift gravity", self._handle_climb_speed)
+        self.register_pattern(r"Reduce incoming Physical|Dense", self._handle_dense_skin)
+        self.register_pattern(r"Constrict|Squeeze|Crush", self._handle_crush_grapple)
+        self.register_pattern(r"Create a vacuum|Implode|Black Hole", self._handle_black_hole)
+        self.register_pattern(r"Delete matter|Erase", self._handle_erase_matter)
+        self.register_pattern(r"True Flight|Control Gravity", self._handle_fly_speed)
+        self.register_pattern(r"Flip gravity|Reverse", self._handle_reverse_gravity)
+        self.register_pattern(r"Shield of debris|Orbit|Force Field", self._handle_force_field)
+        self.register_pattern(r"Stop all momentum|Nullify", self._handle_halt_movement)
+
+        # ============================================
+        # SCHOOL OF ANUMIS PATTERNS (Arcane)
+        # ============================================
+        self.register_pattern(r"Magic Missile|Bolt|Auto hit", self._handle_magic_missile)
+        self.register_pattern(r"Counter|Stop spell", self._handle_counterspell)
+        self.register_pattern(r"End active spell|Dispel", self._handle_counterspell)
+        self.register_pattern(r"Create Dead Magic|Antimagic", self._handle_antimagic)
+        self.register_pattern(r"Send to another plane|Banish", self._handle_banish)
+        self.register_pattern(r"Planar Travel|Gate", self._handle_teleport_gate)
+        self.register_pattern(r"Learn item|Identify", self._handle_identify)
+        self.register_pattern(r"Nondetection|Mask", self._handle_nondetection)
+        self.register_pattern(r"Prevent Casting|Silence", self._handle_silence)
+        self.register_pattern(r"Speak any language|Tongues", self._handle_tongues)
+        self.register_pattern(r"Block Teleportation|Anchor", self._handle_anchor_space)
+        self.register_pattern(r"Alter Reality|Wish", self._handle_wish)
+        self.register_pattern(r"Drain Magic slots|Source", self._handle_drain_magic)
+        self.register_pattern(r"Magic Armor|Shield", self._handle_ac_buff)
+
+        # ============================================
+        # SCHOOL OF RATIO PATTERNS (Logic)
+        # ============================================
+        self.register_pattern(r"Calculate|Predict", self._handle_calculate_defense)
+        self.register_pattern(r"True Strike|Bonus to Hit", self._handle_true_strike)
+        self.register_pattern(r"Hit Weak Point|Fracture", self._handle_hit_weak_point)
+        self.register_pattern(r"Create Automaton|Construct", self._handle_create_construct)
+        self.register_pattern(r"Logic Trap|Pattern|Loop", self._handle_trap_logic)
+        self.register_pattern(r"Debuff Enemy Armor|Deconstruct", self._handle_deconstruct_armor)
+        self.register_pattern(r"Auto-Damage|Algorithm", self._handle_auto_damage)
+        self.register_pattern(r"Split Damage|Divide", self._handle_split_damage)
+        self.register_pattern(r"Change Physics Constant|Rewrite", self._handle_rewrite_physics)
+        self.register_pattern(r"Delete Entity|Zero", self._handle_delete_entity)
+
+        # ============================================
+        # SCHOOL OF AURA PATTERNS (Spirit)
+        # ============================================
+        self.register_pattern(r"Psychic Damage|Mock", self._handle_psychic_damage)
+        self.register_pattern(r"End Rage|Calm", self._handle_calm_emotions)
+        self.register_pattern(r"Empathy Link|Bond", self._handle_empathy_link)
+        self.register_pattern(r"Cause Fleeing|Fear|Terror", self._handle_flee_fear)
+        self.register_pattern(r"Hesitate|Doubt|Despair", self._handle_hesitate)
+        self.register_pattern(r"Attack All|Enrage|Berserk", self._handle_enrage)
+        self.register_pattern(r"Befriend|Charm|Love|Permanent Thrall", self._handle_dominate_charm)
+        self.register_pattern(r"Buff HP|Heroism|Inspire", self._handle_inspire)
+        self.register_pattern(r"Break Mind|Insanity|Shatter", self._handle_insanity)
+        self.register_pattern(r"Zone of Peace|Sanctuary", self._handle_sanctuary)
+
+        # ============================================
+        # SCHOOL OF LEX PATTERNS (Willpower)
+        # ============================================
+        self.register_pattern(r"Stop movement|Halt|Kneel|Command", self._handle_command_halt)
+        self.register_pattern(r"Unlock \(Command\)|Open", self._handle_open_mechanism)
+        self.register_pattern(r"Resist Pain|Ignore", self._handle_ignore_needs)
+        self.register_pattern(r"Block Path|Deny|Forbid", self._handle_block_path_mental)
+        self.register_pattern(r"Prevent Lying|Zone of Truth", self._handle_prevent_lying)
+        self.register_pattern(r"Force Speech|Speak", self._handle_force_speech)
+        self.register_pattern(r"Psychic Damage|Pain", self._handle_psychic_damage)
+        self.register_pattern(r"Contract|Bond|Oath", self._handle_oath_bond)
+        self.register_pattern(r"Mind Control|Dominate", self._handle_dominate_charm)
+        self.register_pattern(r"Banishment|Exile", self._handle_banishment)
+        self.register_pattern(r"Power Word Kill|Kill", self._handle_power_word_kill)
+        self.register_pattern(r"New Physics Law|Law", self._handle_new_law)
+        self.register_pattern(r"Mass Awe|Legend", self._handle_mass_awe)
+
+        # ============================================
+        # SCHOOL OF MOTUS PATTERNS (Speed/Sonic)
+        # ============================================
+        self.register_pattern(r"Quick low-damage|Snap", self._handle_quick_attack)
+        self.register_pattern(r"Reaction AC bonus|Duck", self._handle_reaction_ac)
+        self.register_pattern(r"5ft Shift|Step|Dash|Haste", self._handle_dash)
+        self.register_pattern(r"Multi-hit attack|Barrage", self._handle_multihit_barrage)
+        self.register_pattern(r"Move through enemy|Weave", self._handle_phase_move)
+        self.register_pattern(r"Teleport 10ft|Leap|Warp|Blink", self._handle_teleport_leap)
+        self.register_pattern(r"Snatch arrow|Catch", self._handle_snatch_missile)
+        self.register_pattern(r"Line Charge|Blitz", self._handle_charge)
+        self.register_pattern(r"Damage scales with Speed|Impact", self._handle_speed_damage)
+        self.register_pattern(r"Create decoy|Afterimage", self._handle_decoy_clones)
+        self.register_pattern(r"Repeat last action|Loop", self._handle_repeat_action)
+        self.register_pattern(r"Rapid aging|Age", self._handle_rapid_aging)
+        self.register_pattern(r"Undo recent damage|Rewind", self._handle_rewind_damage)
+        self.register_pattern(r"Create travel gate|Portal", self._handle_teleport_gate)
+        self.register_pattern(r"Delay enemy turn|Lag", self._handle_delay_turn)
+        self.register_pattern(r"Phase out of reality|Stutter", self._handle_phase_reality)
+        self.register_pattern(r"Exist twice|Paradox", self._handle_double_turn)
+        self.register_pattern(r"Restart the combat|Reset", self._handle_reset_round)
+        self.register_pattern(r"Predict exact future|Timeline", self._handle_predict_future)
+        self.register_pattern(r"Attack every target|Infinite", self._handle_infinite_attack)
+        self.register_pattern(r"Non-Existence|Gone", self._handle_indestructible)
+        self.register_pattern(r"Reload Save|Retcon|Reality", self._handle_retcon_save)
     
     def _handle_cost(self, match, ctx):
         amt = int(match.group(1))
@@ -1115,47 +1222,12 @@ class EffectRegistry:
     def _handle_summon(self, match, ctx):
         """Handle 'summon/call/conjure' - spawn a new combatant"""
         engine = ctx.get("engine")
-        caster = ctx.get("attacker")
-        if not engine or not caster: return
-        
-        # Create a basic summon near caster
-        # In a full system, this would lookup summon data
-        summon_data = {
-            "Name": "Summoned Creature",
-            "Stats": {"Might": 5, "Reflexes": 5, "Endurance": 5},
-            "Derived": {"HP": 10, "Speed": 30}
-        }
-        
-        # Find empty spot adjacent to caster
-        for dx in [-1, 0, 1]:
-            for dy in [-1, 0, 1]:
-                if dx == 0 and dy == 0: continue
-                tx, ty = caster.x + dx, caster.y + dy
-                occupied = any(c.x == tx and c.y == ty and c.is_alive() for c in engine.combatants)
-                if not occupied:
-                    # Import dynamically to avoid circular import
-                    import importlib.util
-                    import sys
-                    import os
-                    mech_path = os.path.join(os.path.dirname(__file__), "../combat simulator/mechanics.py")
-                    spec = importlib.util.spec_from_file_location("mechanics", mech_path)
-                    mechanics = importlib.util.module_from_spec(spec)
-                    if "mechanics" not in sys.modules:
-                        spec.loader.exec_module(mechanics)
-                    else:
-                        mechanics = sys.modules["mechanics"]
-                    
-                    summon = mechanics.Combatant("dummy.json")
-                    summon.name = summon_data["Name"]
-                    summon.stats = summon_data["Stats"]
-                    summon.derived = summon_data["Derived"]
-                    summon.hp = summon.derived.get("HP", 10)
-                    summon.max_hp = summon.hp
-                    engine.add_combatant(summon, tx, ty)
-                    if "log" in ctx: ctx["log"].append(f"Summoned {summon.name} at ({tx},{ty})!")
-                    return
-        
-        if "log" in ctx: ctx["log"].append("Summon failed: No space!")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+           # Spawn adjacent
+           name = match.group(0).split(' ')[1] if ' ' in match.group(0) else "Summon"
+           minion = engine.spawn_minion(name, attacker.x + 1, attacker.y)
+           if "log" in ctx: ctx["log"].append(f"{minion.name} Summoned!")
 
     def _handle_create_terrain(self, match, ctx):
         """Handle 'create wall/barrier/cover' - mark grid cells"""
@@ -1897,7 +1969,16 @@ class EffectRegistry:
 
     def _handle_create_wall(self, match, ctx):
         """Create Wall/Cage/Barricade"""
-        if "log" in ctx: ctx["log"].append("Structure created (Wall/Cage).")
+        engine = ctx.get("engine")
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if engine:
+            # If target exists, cage THEM. If not, wall adjacent to Attacker.
+            x, y = (target.x, target.y) if target else (attacker.x + 1, attacker.y) if attacker else (0,0)
+            if engine.create_wall(x, y):
+                if "log" in ctx: ctx["log"].append(f"Structure created at {x},{y} (Wall/Cage).")
+            else:
+                if "log" in ctx: ctx["log"].append("Failed to create structure (Blocked).")
 
     def _handle_anchor(self, match, ctx):
         """Become Immovable"""
@@ -1988,6 +2069,407 @@ class EffectRegistry:
     def _handle_create_land(self, match, ctx):
         """Create Land"""
         if "log" in ctx: ctx["log"].append("Land created.")
+
+    # ============================================
+    # SCHOOL OF MASS HANDLERS (Force/Gravity)
+    # ============================================
+
+    def _handle_gravity_well(self, match, ctx):
+        """Pull/Gravity Well"""
+        # Mechanically similar to Pull/Restrain
+        if "log" in ctx: ctx["log"].append("Gravity Well! Enemies pulled/slowed.")
+
+    def _handle_levitate(self, match, ctx):
+        """Float/Levitate"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_fly_speed = True # Effective flight/hover
+            if "log" in ctx: ctx["log"].append(f"{target.name} Levitates.")
+
+    def _handle_heavy_gravity(self, match, ctx):
+        """Burden/Heavy"""
+        target = ctx.get("target")
+        if target:
+            target.movement_remaining = max(0, target.movement_remaining - 15)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Heavy (Slowed).")
+
+    def _handle_launch(self, match, ctx):
+        """Fling/Launch"""
+        # Big push
+        target = ctx.get("target")
+        if target:
+             # Logic to push far?
+             if "log" in ctx: ctx["log"].append(f"{target.name} Launched into the air!")
+
+    def _handle_crush_grapple(self, match, ctx):
+        """Crush/Constrict"""
+        target = ctx.get("target")
+        if target:
+            target.is_grappled = True
+            target.is_restrained = True
+            dmg = random.randint(1,8)
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"{target.name} Crushed! ({dmg} dmg + Restrained)")
+
+    def _handle_reverse_gravity(self, match, ctx):
+        """Reverse Gravity"""
+        # Everyone falls up?
+        if "log" in ctx: ctx["log"].append("Gravity Reversed! Targets fall upward.")
+
+    def _handle_black_hole(self, match, ctx):
+        """Black Hole/Implode"""
+        # Massive damage + pull
+        ctx["damage_type"] = "Force"
+        ctx["is_crit"] = True
+        if "log" in ctx: ctx["log"].append("Black Hole created! Massive Force damage.")
+
+    def _handle_force_field(self, match, ctx):
+        """Shield/Field/Orbit"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.active_effects.append({"name": "ForceField", "duration": 3})
+            if "log" in ctx: ctx["log"].append(f"{target.name} protected by Force Field.")
+
+    def _handle_erase_matter(self, match, ctx):
+        """Erase/Delete"""
+        # Instakill possibility?
+        if "log" in ctx: ctx["log"].append("Matter Erased from existence.")
+
+    def _handle_dense_skin(self, match, ctx):
+        """Dense/Reduce Phys Dmg"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} becomes Dense (Phys Resist).")
+
+    # ============================================
+    # SCHOOL OF ANUMIS HANDLERS (Arcane)
+    # ============================================
+
+    def _handle_magic_missile(self, match, ctx):
+        """Bolt/Auto-Hit"""
+        ctx["auto_hit"] = True 
+        ctx["damage_type"] = "Force"
+        if "log" in ctx: ctx["log"].append("Magic Missile (Auto-Hit Force).")
+
+    def _handle_counterspell(self, match, ctx):
+        """Counter/Dispel"""
+        # Hard to impelment without a stack, but we can log unique effect
+        if "log" in ctx: ctx["log"].append("Spell Countered/Dispelled!")
+
+    def _handle_antimagic(self, match, ctx):
+        """Antimagic Zone"""
+        if "log" in ctx: ctx["log"].append("Antimagic Zone created.")
+
+    def _handle_banish(self, match, ctx):
+        """Banish/Exile"""
+        target = ctx.get("target")
+        if target:
+            # Remove from combat temporarily? 
+            # For now, Stun + Invis?
+            target.is_stunned = True
+            target.is_invisible = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Banished to another plane!")
+
+    def _handle_teleport_gate(self, match, ctx):
+        """Gate/Teleport"""
+        if "log" in ctx: ctx["log"].append("Teleportation Gate opened.")
+
+    def _handle_nondetection(self, match, ctx):
+        """Mask/Anti-Scry"""
+        if "log" in ctx: ctx["log"].append("Nondetection active.")
+
+    def _handle_silence(self, match, ctx):
+        """Silence/Prevent Casting"""
+        target = ctx.get("target")
+        if target:
+            target.active_effects.append({"name": "Silenced", "duration": 3})
+            if "log" in ctx: ctx["log"].append(f"{target.name} Silenced!")
+
+    def _handle_tongues(self, match, ctx):
+        """Speak any language"""
+        if "log" in ctx: ctx["log"].append("Tongues active.")
+
+    def _handle_identify(self, match, ctx):
+        """Identify item"""
+        if "log" in ctx: ctx["log"].append("Item Identified.")
+
+    def _handle_anchor_space(self, match, ctx):
+        """Block Teleport"""
+        if "log" in ctx: ctx["log"].append("Space Anchored (No Teleport).")
+
+    def _handle_wish(self, match, ctx):
+        """Alter Reality"""
+        if "log" in ctx: ctx["log"].append("WISH GRANTED (Reality Altered).")
+
+    def _handle_drain_magic(self, match, ctx):
+        """Source/Drain Slots"""
+        target = ctx.get("target")
+        if target:
+            target.fp = max(0, target.fp - 10)
+            target.sp = max(0, target.sp - 1)
+            if "log" in ctx: ctx["log"].append(f"{target.name} drained of Magic!")
+
+    # ============================================
+    # SCHOOL OF RATIO HANDLERS (Logic/Shock)
+    # ============================================
+
+    def _handle_calculate_defense(self, match, ctx):
+        """Calculate/Predict"""
+        # Int/Logic to Defense
+        if "log" in ctx: ctx["log"].append("Calculating Defense vector.")
+
+    def _handle_hit_weak_point(self, match, ctx):
+        """Fracture/Weak Point"""
+        ctx["is_crit"] = True
+        if "log" in ctx: ctx["log"].append("Weak Point struck! (Critical)")
+
+    def _handle_create_construct(self, match, ctx):
+        """Construct/Automaton"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+             minion = engine.spawn_minion("Automaton", attacker.x + 1, attacker.y)
+             if "log" in ctx: ctx["log"].append(f"Automaton Constructed at {minion.x},{minion.y}.")
+
+    def _handle_trap_logic(self, match, ctx):
+        """Pattern/Trap"""
+        if "log" in ctx: ctx["log"].append("Logic Trap set.")
+
+    def _handle_deconstruct_armor(self, match, ctx):
+        """Deconstruct/Debuff Armor"""
+        target = ctx.get("target")
+        if target:
+            # We don't have explicit AR yet, but usually it's Damage Reduction
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s Armor Deconstructed.")
+
+    def _handle_auto_damage(self, match, ctx):
+        """Algorithm/Auto-Damage"""
+        # Guaranteed damage
+        ctx["auto_hit"] = True
+        if "log" in ctx: ctx["log"].append("Algorithm execution: Auto-Damage.")
+
+    def _handle_split_damage(self, match, ctx):
+        """Divide/Split"""
+        if "log" in ctx: ctx["log"].append("Damage Divided among foes.")
+
+    def _handle_rewrite_physics(self, match, ctx):
+        """Rewrite/Change Constant"""
+        if "log" in ctx: ctx["log"].append("Physics Constants Rewritten.")
+
+    def _handle_delete_entity(self, match, ctx):
+        """Zero/Delete"""
+        target = ctx.get("target")
+        if target:
+            target.hp = 0
+            target.is_dead = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} DELETED by Ratio.")
+
+    # ============================================
+    # SCHOOL OF AURA HANDLERS (Spirit/Charm)
+    # ============================================
+
+    def _handle_psychic_damage(self, match, ctx):
+        """Mock/Pain"""
+        ctx["damage_type"] = "Psychic"
+        if "log" in ctx: ctx["log"].append("Psychic Damage dealt.")
+
+    def _handle_calm_emotions(self, match, ctx):
+        """Calm/Peace"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            # Remove Rage?
+            if "log" in ctx: ctx["log"].append(f"{target.name} Calmed.")
+
+    def _handle_empathy_link(self, match, ctx):
+        """Bond/Link"""
+        if "log" in ctx: ctx["log"].append("Empathy Link established.")
+
+    def _handle_flee_fear(self, match, ctx):
+        """Fear/Terror"""
+        target = ctx.get("target")
+        if target:
+            target.is_frightened = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Frightened", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} Fess in Terror!")
+
+    def _handle_hesitate(self, match, ctx):
+        """Doubt/Hesitate"""
+        target = ctx.get("target")
+        if target:
+            target.is_stunned = True # Skip turn basically
+            if "log" in ctx: ctx["log"].append(f"{target.name} Hesitates (Skip Turn).")
+
+    def _handle_enrage(self, match, ctx):
+        """Enrage/Berserk"""
+        target = ctx.get("target")
+        if target:
+             # Force attack nearest
+             if "log" in ctx: ctx["log"].append(f"{target.name} Enraged!")
+
+    def _handle_dominate_charm(self, match, ctx):
+        """Charm/Dominate/Thrall"""
+        target = ctx.get("target")
+        if target:
+            target.is_charmed = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Charmed", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Dominated.")
+
+    def _handle_inspire(self, match, ctx):
+        """Inspire/Heroism"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            # Buff?
+            if "log" in ctx: ctx["log"].append(f"{target.name} Inspired!")
+
+    def _handle_insanity(self, match, ctx):
+        """Shatter Mind"""
+        if "log" in ctx: ctx["log"].append("Mind Shattered (Insanity).")
+
+    # ============================================
+    # SCHOOL OF LEX HANDLERS (Psychic/Willpower)
+    # ============================================
+
+    def _handle_command_halt(self, match, ctx):
+        """Halt/Drop/Kneel"""
+        target = ctx.get("target")
+        if target:
+            cmd = match.group(0).lower()
+            if "halt" in cmd: target.movement_remaining = 0
+            if "kneel" in cmd: target.is_prone = True
+            if "drop" in cmd: pass # Disarm logic
+            if "log" in ctx: ctx["log"].append(f"Command: {cmd.title()}!")
+
+    def _handle_prevent_lying(self, match, ctx):
+        """Truth/Zone"""
+        if "log" in ctx: ctx["log"].append("Zone of Truth active.")
+
+    def _handle_block_path_mental(self, match, ctx):
+        """Deny/Forbid"""
+        if "log" in ctx: ctx["log"].append("Path Blocked (Mental).")
+
+    def _handle_force_speech(self, match, ctx):
+        """Speak/Confess"""
+        if "log" in ctx: ctx["log"].append("Forced Speech.")
+
+    def _handle_oath_bond(self, match, ctx):
+        """Oath/Contract"""
+        if "log" in ctx: ctx["log"].append("Magical Oath bound.")
+
+    def _handle_power_word_kill(self, match, ctx):
+        """Kill"""
+        target = ctx.get("target")
+        if target:
+            if target.hp < 100: # Classic thresh?
+                target.hp = 0
+                target.is_dead = True
+                if "log" in ctx: ctx["log"].append("POWER WORD KILL!")
+            else:
+                 if "log" in ctx: ctx["log"].append("Power Word Kill failed (HP too high).")
+
+    def _handle_banishment(self, match, ctx):
+        """Exile"""
+        # Same as Anumis Banish essentially
+        if "log" in ctx: ctx["log"].append("Banished (Exile).")
+
+    def _handle_mass_awe(self, match, ctx):
+        """Legend/Awe"""
+        if "log" in ctx: ctx["log"].append("Mass Awe effect.")
+
+    def _handle_new_law(self, match, ctx):
+        """Law/Decree"""
+        if "log" in ctx: ctx["log"].append("New Law Decreed.")
+
+    # ============================================
+    # SCHOOL OF MOTUS HANDLERS (Speed/Sonic)
+    # ============================================
+
+    def _handle_dash(self, match, ctx):
+        """Step/Dash/Haste"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.movement_remaining += 30
+            if "log" in ctx: ctx["log"].append(f"{target.name} Dashes (+30ft Move).")
+
+    def _handle_reaction_ac(self, match, ctx):
+        """Duck/Reaction Bonus"""
+        if "log" in ctx: ctx["log"].append("Reaction AC Bonus active.")
+
+    def _handle_multihit_barrage(self, match, ctx):
+        """Barrage/Multi-hit"""
+        if "log" in ctx: ctx["log"].append("Multi-hit Barrage!")
+
+    def _handle_phase_move(self, match, ctx):
+        """Weave/Phase Move"""
+        # Move through enemies
+        if "log" in ctx: ctx["log"].append("Weaving through enemies.")
+
+    def _handle_teleport_leap(self, match, ctx):
+        """Leap/Warp/Blink"""
+        # 10ft or 60ft
+        if "log" in ctx: ctx["log"].append("Teleport/Warp.")
+
+    def _handle_sonic_vibrate(self, match, ctx):
+        """Vibrate/Sonic Dmg bypass"""
+        ctx["damage_type"] = "Sonic"
+        ctx["ignore_armor"] = True
+        if "log" in ctx: ctx["log"].append("Sonic Vibration (Bypass Armor).")
+
+    def _handle_snatch_missile(self, match, ctx):
+        """Catch/Snatch"""
+        if "log" in ctx: ctx["log"].append("Missile Snatched!")
+
+    def _handle_decoy_clones(self, match, ctx):
+        """Afterimage/Mirror"""
+        if "log" in ctx: ctx["log"].append("Decoy Clones created.")
+
+    def _handle_repeat_action(self, match, ctx):
+        """Loop/Repeat"""
+        if "log" in ctx: ctx["log"].append("Action Looped (Repeat).")
+
+    def _handle_rapid_aging(self, match, ctx):
+        """Age"""
+        target = ctx.get("target")
+        if target:
+            target.stats["Might"] = max(1, target.stats["Might"] - 2)
+            if "log" in ctx: ctx["log"].append(f"{target.name} Aged Rapidly (-Might).")
+
+    def _handle_rewind_damage(self, match, ctx):
+        """Rewind/Undo"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.hp += 10 # Mock undo
+            if "log" in ctx: ctx["log"].append("Time Rewound (HP Restored).")
+
+    def _handle_delay_turn(self, match, ctx):
+        """Lag/Delay"""
+        if "log" in ctx: ctx["log"].append("Enemy Turn Delayed (Lag).")
+
+    def _handle_phase_reality(self, match, ctx):
+        """Stutter/Phase Out"""
+        if "log" in ctx: ctx["log"].append("Phased out of Reality.")
+
+    def _handle_double_turn(self, match, ctx):
+        """Paradox/Double Turn"""
+        if "log" in ctx: ctx["log"].append("PARADOX: Double Turn!")
+
+    def _handle_reset_round(self, match, ctx):
+        """Reset Round"""
+        if "log" in ctx: ctx["log"].append("Combat Round RESET.")
+
+    def _handle_predict_future(self, match, ctx):
+        """Timeline/Predict"""
+        if "log" in ctx: ctx["log"].append("Future Predicted.")
+
+    def _handle_infinite_attack(self, match, ctx):
+        """Infinite/Attack All"""
+        # AoE everything
+        if "log" in ctx: ctx["log"].append("Infinite Attack (All Targets).")
+
+    def _handle_retcon_save(self, match, ctx):
+        """Reality/Reload Save"""
+        if "log" in ctx: ctx["log"].append("Reality Retconned (Reload Save).")
     
     def _handle_jinx(self, match, ctx):
         """Apply -1d4 to target's next roll"""
@@ -2710,11 +3192,19 @@ class EffectRegistry:
 
     def _handle_animate_plant(self, match, ctx):
         """Animate plant ally"""
-        if "log" in ctx: ctx["log"].append("Plant Animated (Minion Spawned)")
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+             minion = engine.spawn_minion("Animated Plant", attacker.x + 1, attacker.y)
+             if "log" in ctx: ctx["log"].append("Plant Animated (Minion Spawned).")
 
     def _handle_create_life(self, match, ctx):
         """Create lifeform"""
-        if "log" in ctx: ctx["log"].append("Lifeform Created")
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+             minion = engine.spawn_minion("Homunculus", attacker.x - 1, attacker.y)
+             if "log" in ctx: ctx["log"].append(f"Lifeform Created: {minion.name}")
 
     def _handle_detect_life(self, match, ctx):
         """Detect Life Radar"""
@@ -3005,16 +3495,50 @@ class EffectRegistry:
             if "log" in ctx: ctx["log"].append(f"{target.name} is Restrained by Web!")
 
     def _handle_spore_cloud(self, match, ctx):
-        """Poison Spore Cloud"""
-        if "log" in ctx: ctx["log"].append("Spore Cloud released! (Poison AOE)")
+        """Poison Spore Cloud (10ft Radius)"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+            for t in engine.combatants:
+                if t != attacker and t.is_alive():
+                    # Check distance (Radius 2 aka 10ft)
+                    if max(abs(t.x - attacker.x), abs(t.y - attacker.y)) <= 2:
+                        t.is_poisoned = True
+                        if hasattr(t, "apply_effect"): t.apply_effect("Poisoned", 3)
+                        if "log" in ctx: ctx["log"].append(f"{t.name} poisoned by Spore Cloud!")
 
     def _handle_tail_sweep(self, match, ctx):
-        """AOE Prone"""
-        if "log" in ctx: ctx["log"].append("Tail Sweep! Enemies knocked Prone.")
+        """AOE Prone (Adjacent)"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if engine and attacker:
+            for t in engine.combatants:
+                 if t != attacker and t.is_alive():
+                     if max(abs(t.x - attacker.x), abs(t.y - attacker.y)) <= 1:
+                         t.is_prone = True
+                         if "log" in ctx: ctx["log"].append(f"{t.name} knocked Prone by Tail Sweep!")
 
     def _handle_gust(self, match, ctx):
-        """Wind Gust (Push)"""
-        if "log" in ctx: ctx["log"].append("Gust of Wind! Enemies pushed back.")
+        """Wind Gust (Push 10ft Line)"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        target = ctx.get("target")
+        if target:
+            # Push target away 2 squares
+            dx = target.x - attacker.x
+            dy = target.y - attacker.y
+            # Normalize rough direction
+            step_x = 1 if dx > 0 else -1 if dx < 0 else 0
+            step_y = 1 if dy > 0 else -1 if dy < 0 else 0
+            
+            new_x = target.x + (step_x * 2)
+            new_y = target.y + (step_y * 2)
+            
+            if engine:
+                 success, msg = engine.move_char(target, new_x, new_y)
+                 if "log" in ctx: ctx["log"].append(f"{target.name} blown back by Gust! ({msg})")
+            else:
+                 target.x, target.y = new_x, new_y # Fallback
 
     def _handle_solar_beam(self, match, ctx):
         """Solar Beam (Blind + Dmg)"""
@@ -3026,7 +3550,11 @@ class EffectRegistry:
 
     def _handle_lockjaw(self, match, ctx):
         """Grapple harder"""
-        if "log" in ctx: ctx["log"].append("Lockjaw: Target cannot escape grapple easily.")
+        target = ctx.get("target")
+        if target:
+            target.is_grappled = True
+            target.is_restrained = True # Lockjaw implies harder to escape than just grapple
+            if "log" in ctx: ctx["log"].append(f"Lockjaw! {target.name} is Grappled & Restrained.")
 
     def _handle_goodberry(self, match, ctx):
         """Create Goodberry"""

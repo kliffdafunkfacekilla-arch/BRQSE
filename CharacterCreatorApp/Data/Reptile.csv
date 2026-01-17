@@ -1,0 +1,47 @@
+Category,Option,Choice Name,Stat 1,Stat 2,Body Part
+ANCESTRY,Grazer,Tortoise,Fortitude,Endure,Heavy Shell
+ANCESTRY,Grazer,Iguana,Reflex,Awareness,Heavy Shell
+ANCESTRY,Climber,Gecko,Finesse,Reflex,Sticky Toe Pads
+ANCESTRY,Climber,Snake,Might,Finesse,Sticky Toe Pads
+ANCESTRY,Scavenger,Monitor,Fortitude,Vitality,Forked Tongue
+ANCESTRY,Scavenger,Chamelon,Reflex,Awareness,Forked Tongue
+ANCESTRY,Predator,Croc,Might,Intuition,Long Jaw
+ANCESTRY,Predator,Frog,Finesse,Logic,Long Jaw
+DEFENSE,Retreat,Shed Tail,Vitality,Reflex,Webbed Claws
+DEFENSE,Retreat,Swim,Endure,Reflex,Webbed Claws
+DEFENSE,Stealth,Chameleon,Intuition,Finesse,Shifting Scales
+DEFENSE,Stealth,Mud-Skin,Logic,Awareness,Shifting Scales
+DEFENSE,Intimidate,Hood,Charm,Will,Tail Rattle
+DEFENSE,Intimidate,Hiss,Logic,Charm,Tail Rattle
+DEFENSE,Tough,Plating,Fortitude,Might,Bony Knobs
+DEFENSE,Tough,Rubber,Vitality,Endure,Bony Knobs
+OFFENSE,Claws,Dig,Might,Fortitude,Hooked Claws
+OFFENSE,Claws,Rend,Finesse,Might,Hooked Claws
+OFFENSE,Strikes,Tail-Whip,Reflex,Might,Heavy Tail
+OFFENSE,Strikes,Snap,Reflex,Awareness,Heavy Tail
+OFFENSE,Biological,Venom,Fortitude,Logic,Retractable Fangs
+OFFENSE,Biological,Spit,Fortitude,Finesse,Retractable Fangs
+OFFENSE,Strength,Crush,Might,Endure,Curved Teeth
+OFFENSE,Strength,Lock-Jaw,Might,Will,Curved Teeth
+SOCIAL,Ornate,Frills,Charm,Awareness,Head Crest
+SOCIAL,Ornate,Colors,Charm,Intuition,Head Crest
+SOCIAL,Pack,Nest,Will,Logic,Vertical Pupils
+SOCIAL,Pack,Hunt,Intuition,Awareness,Vertical Pupils
+SOCIAL,Vocal,Old Tongue,Knowledge,Will,Throat Pouch
+SOCIAL,Vocal,Rumble,Might,Charm,Throat Pouch
+SOCIAL,Solitary,Dormant,Endure,Fortitude,Heavy Eyelids
+SOCIAL,Solitary,Loner,Logic,Finesse,Heavy Eyelids
+ENVIRON,Varied,Cold-Blood,Logic,Fortitude,Heat Pits
+ENVIRON,Varied,Heat-Pit,Awareness,Endure,Heat Pits
+ENVIRON,Toxic,Acid-Blood,Fortitude,Vitality,Neck Gills
+ENVIRON,Toxic,Filter,Vitality,Will,Neck Gills
+ENVIRON,Safe,Ancient,Logic,Knowledge,Back Fins
+ENVIRON,Safe,Ritual,Charm,Will,Back Fins
+ADAPT,Senses,Vibration,Awareness,Intuition,Long Tongue
+ADAPT,Senses,Tongue,Awareness,Knowledge,Long Tongue
+ADAPT,Tactics,Patience,Will,Logic,Angular Eyes
+ADAPT,Tactics,Geometry,Logic,Awareness,Angular Eyes
+ADAPT,Tool Use,Trap-Maker,Finesse,Logic,Glider Fins
+ADAPT,Tool Use,Carver,Knowledge,Might,Glider Fins
+ADAPT,Resistance,Iron-Mind,Fortitude,Will,Metallic Scales
+ADAPT,Resistance,Thick-Scale,Fortitude,Endure,Metallic Scales

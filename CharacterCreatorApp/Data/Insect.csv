@@ -1,0 +1,47 @@
+Category,Option,Choice Name,Stat 1,Stat 2,Body Part
+ANCESTRY,Grazer,Locust,Endure,Reflex,Jumping Legs
+ANCESTRY,Grazer,Aphid,Fortitude,Vitality,Jumping Legs
+ANCESTRY,Climber,Spider,Finesse,Reflex,Extra Limbs
+ANCESTRY,Climber,Ant,Might,Endure,Extra Limbs
+ANCESTRY,Scavenger,Roach,Fortitude,Vitality,Flat Body
+ANCESTRY,Scavenger,Beetle,Reflex,Awareness,Flat Body
+ANCESTRY,Predator,Mantis,Reflex,Finesse,Striped Abdomen
+ANCESTRY,Predator,Wasp,Might,Reflex,Striped Abdomen
+DEFENSE,Retreat,Skitter,Finesse,Reflex,Shovel Legs
+DEFENSE,Retreat,Burrow,Might,Fortitude,Shovel Legs
+DEFENSE,Stealth,Stick,Finesse,Logic,Color Change
+DEFENSE,Stealth,Shadow,Intuition,Finesse,Color Change
+DEFENSE,Intimidate,Buzz,Charm,Fortitude,Large Pincers
+DEFENSE,Intimidate,Mandible,Might,Will,Large Pincers
+DEFENSE,Tough,Chitin,Fortitude,Endure,Thick Plates
+DEFENSE,Tough,Goo,Vitality,Fortitude,Thick Plates
+OFFENSE,Claws,Scythe,Might,Finesse,Bladed Arms
+OFFENSE,Claws,Pinch,Might,Fortitude,Bladed Arms
+OFFENSE,Strikes,Sting,Reflex,Logic,Barb Stinger
+OFFENSE,Strikes,Spit,Fortitude,Reflex,Barb Stinger
+OFFENSE,Biological,Chem,Fortitude,Knowledge,Toxic Fangs
+OFFENSE,Biological,Poison,Fortitude,Logic,Toxic Fangs
+OFFENSE,Strength,Clamp,Might,Will,Serrated Grip
+OFFENSE,Strength,Lift,Might,Endure,Serrated Grip
+SOCIAL,Ornate,Moth,Charm,Intuition,Antennae
+SOCIAL,Ornate,Butterfly,Charm,Finesse,Antennae
+SOCIAL,Pack,Hive,Logic,Will,Blank Stare
+SOCIAL,Pack,Swarm,Endure,Reflex,Blank Stare
+SOCIAL,Vocal,Signal,Knowledge,Awareness,Pheromone Plumes
+SOCIAL,Vocal,Click,Logic,Knowledge,Pheromone Plumes
+SOCIAL,Solitary,Ronin,Will,Fortitude,Needle Limbs
+SOCIAL,Solitary,Assassin,Logic,Finesse,Needle Limbs
+ENVIRON,Varied,Adapt,Fortitude,Vitality,Spiracles
+ENVIRON,Varied,Spores,Knowledge,Fortitude,Spiracles
+ENVIRON,Toxic,Eater,Fortitude,Will,Waxy Shell
+ENVIRON,Toxic,Resist,Fortitude,Endure,Waxy Shell
+ENVIRON,Safe,Builder,Logic,Knowledge,Earthy Claws
+ENVIRON,Safe,Guard,Will,Reflex,Earthy Claws
+ADAPT,Senses,Compound,Awareness,Reflex,Faceted Eyes
+ADAPT,Senses,Antennae,Awareness,Logic,Faceted Eyes
+ADAPT,Tactics,Swarm-Hit,Logic,Might,Spiked Knees
+ADAPT,Tactics,Drone,Intuition,Fortitude,Spiked Knees
+ADAPT,Tool Use,Silk,Finesse,Knowledge,Spinnerets
+ADAPT,Tool Use,Bio-Smith,Knowledge,Logic,Spinnerets
+ADAPT,Resistance,Rad-Hard,Fortitude,Will,Resisting Chitin
+ADAPT,Resistance,Exo,Fortitude,Endure,Resisting Chitin

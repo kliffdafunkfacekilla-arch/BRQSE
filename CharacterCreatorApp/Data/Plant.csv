@@ -1,0 +1,47 @@
+Category,Option,Choice Name,Stat 1,Stat 2,Body Part
+ANCESTRY,Grazer,Moss,Endure,Fortitude,Mossy Skin
+ANCESTRY,Grazer,Fern,Reflex,Finesse,Mossy Skin
+ANCESTRY,Climber,Vine,Finesse,Might,Tendril Fingers
+ANCESTRY,Climber,Shrub,Might,Fortitude,Tendril Fingers
+ANCESTRY,Scavenger,Fungi,Fortitude,Knowledge,Mushroom Cap
+ANCESTRY,Scavenger,Flower,Fortitude,Vitality,Mushroom Cap
+ANCESTRY,Predator,Tree,Reflex,Finesse,Sharp Thorns
+ANCESTRY,Predator,Fly Trap,Might,Finesse,Sharp Thorns
+DEFENSE,Retreat,Curl,Logic,Finesse,Closing Foliage
+DEFENSE,Retreat,Drop,Reflex,Finesse,Closing Foliage
+DEFENSE,Stealth,Mimic,Finesse,Logic,Adaptive Leaves
+DEFENSE,Stealth,Burrow,Endure,Fortitude,Adaptive Leaves
+DEFENSE,Intimidate,Thorns,Charm,Might,Thorns
+DEFENSE,Intimidate,Size,Might,Will,Thorns
+DEFENSE,Tough,Bark,Fortitude,Will,IronBark
+DEFENSE,Tough,Sap,Vitality,Fortitude,IronBark
+OFFENSE,Claws,Branch,Might,Fortitude,Razor Leaves
+OFFENSE,Claws,Whip,Finesse,Reflex,Razor Leaves
+OFFENSE,Strikes,Needle,Reflex,Awareness,Cactus Spines
+OFFENSE,Strikes,Spore,Fortitude,Logic,Cactus Spines
+OFFENSE,Biological,Pollen,Vitality,Charm,Toxic Sap
+OFFENSE,Biological,Acid,Fortitude,Logic,Toxic Sap
+OFFENSE,Strength,Root,Might,Endure,Wide Roots
+OFFENSE,Strength,Crush,Might,Vitality,Wide Roots
+SOCIAL,Ornate,Flower,Charm,Will,Flower Head
+SOCIAL,Ornate,Fruit,Charm,Vitality,Flower Head
+SOCIAL,Pack,Grove,Intuition,Logic,Root Ball
+SOCIAL,Pack,Tangle,Endure,Might,Root Ball
+SOCIAL,Vocal,Rustle,Knowledge,Awareness,Whistling Branches
+SOCIAL,Vocal,Scream,Charm,Fortitude,Whistling Branches
+SOCIAL,Solitary,Oak,Will,Fortitude,Gnarled Face
+SOCIAL,Solitary,Cactus,Endure,Fortitude,Gnarled Face
+ENVIRON,Varied,Hardy,Endure,Vitality,Fluff Blooms
+ENVIRON,Varied,Aquatic,Fortitude,Logic,Fluff Blooms
+ENVIRON,Toxic,Purify,Fortitude,Logic,Irritating Sap
+ENVIRON,Toxic,Filter,Vitality,Endure,Irritating Sap
+ENVIRON,Safe,Symbiosis,Will,Intuition,Long Stem
+ENVIRON,Safe,Garden,Charm,Knowledge,Long Stem
+ADAPT,Senses,Tremor,Awareness,Might,Stalk Hairs
+ADAPT,Senses,Sun,Awareness,Intuition,Stalk Hairs
+ADAPT,Tactics,Barrier,Logic,Might,Pine Needles
+ADAPT,Tactics,Encircle,Reflex,Finesse,Pine Needles
+ADAPT,Tool Use,Growth,Finesse,Knowledge,Fruit Blooms
+ADAPT,Tool Use,Potion,Knowledge,Logic,Fruit Blooms
+ADAPT,Resistance,Fire,Fortitude,Fortitude,Pine Cones
+ADAPT,Resistance,Magic,Will,Knowledge,Pine Cones

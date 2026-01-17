@@ -1,0 +1,370 @@
+[
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "The Ox",
+    "Stat 1": "Might",
+    "Stat 2": "Endure",
+    "Body Part": "Antlers"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "The Stag",
+    "Stat 1": "Reflex",
+    "Stat 2": "Will",
+    "Body Part": "Antlers"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "The Ape",
+    "Stat 1": "Finesse",
+    "Stat 2": "Knowledge",
+    "Body Part": "Long Arms"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "The Bear",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Long Arms"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "The Rat",
+    "Stat 1": "Vitality",
+    "Stat 2": "Logic",
+    "Body Part": "Hairless Tail"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "The Coon",
+    "Stat 1": "Finesse",
+    "Stat 2": "Awareness",
+    "Body Part": "Hairless Tail"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "The Wolf",
+    "Stat 1": "Endure",
+    "Stat 2": "Charm",
+    "Body Part": "Slit Pupils"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "The Cat",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Slit Pupils"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "The Hare",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Prehensile Tail"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "The Possum",
+    "Stat 1": "Will",
+    "Stat 2": "Logic",
+    "Body Part": "Prehensile Tail"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "The Fox",
+    "Stat 1": "Intuition",
+    "Stat 2": "Finesse",
+    "Body Part": "Round Ears"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "The Mouse",
+    "Stat 1": "Awareness",
+    "Stat 2": "Reflex",
+    "Body Part": "Round Ears"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Roar",
+    "Stat 1": "Might",
+    "Stat 2": "Charm",
+    "Body Part": "Spiked Fur"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Bristle",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Spiked Fur"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Thick Fur",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Endure",
+    "Body Part": "Thick Fur Coat"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Fat Layer",
+    "Stat 1": "Vitality",
+    "Stat 2": "Fortitude",
+    "Body Part": "Thick Fur Coat"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Digger",
+    "Stat 1": "Might",
+    "Stat 2": "Logic",
+    "Body Part": "Retractable Claws"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Slasher",
+    "Stat 1": "Finesse",
+    "Stat 2": "Reflex",
+    "Body Part": "Retractable Claws"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Kick",
+    "Stat 1": "Might",
+    "Stat 2": "Endure",
+    "Body Part": "Hooves"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Bite",
+    "Stat 1": "Might",
+    "Stat 2": "Vitality",
+    "Body Part": "Hooves"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Musk",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Charm",
+    "Body Part": "Scent Glands"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Adrenaline",
+    "Stat 1": "Vitality",
+    "Stat 2": "Reflex",
+    "Body Part": "Scent Glands"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Lock-Jaw",
+    "Stat 1": "Might",
+    "Stat 2": "Will",
+    "Body Part": "Square Jaw"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Pack-Back",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Square Jaw"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Mane",
+    "Stat 1": "Charm",
+    "Stat 2": "Knowledge",
+    "Body Part": "Neck Mane"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Antlers",
+    "Stat 1": "Charm",
+    "Stat 2": "Might",
+    "Body Part": "Neck Mane"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "Alpha",
+    "Stat 1": "Will",
+    "Stat 2": "Logic",
+    "Body Part": "Expressive Eyes"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "Bond",
+    "Stat 1": "Intuition",
+    "Stat 2": "Charm",
+    "Body Part": "Expressive Eyes"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Howl",
+    "Stat 1": "Charm",
+    "Stat 2": "Endure",
+    "Body Part": "Thick Throat"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Chatter",
+    "Stat 1": "Logic",
+    "Stat 2": "Knowledge",
+    "Body Part": "Thick Throat"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Rogue",
+    "Stat 1": "Awareness",
+    "Stat 2": "Finesse",
+    "Body Part": "Mossed Fur"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Hermit",
+    "Stat 1": "Will",
+    "Stat 2": "Fortitude",
+    "Body Part": "Mossed Fur"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Migrator",
+    "Stat 1": "Endure",
+    "Stat 2": "Intuition",
+    "Body Part": "Wide Paws"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Adapter",
+    "Stat 1": "Vitality",
+    "Stat 2": "Logic",
+    "Body Part": "Wide Paws"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Sewer-Kin",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Oily Fur"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Lab-Rat",
+    "Stat 1": "Logic",
+    "Stat 2": "Knowledge",
+    "Body Part": "Oily Fur"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Domestic",
+    "Stat 1": "Charm",
+    "Stat 2": "Knowledge",
+    "Body Part": "Silky Fur"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Builder",
+    "Stat 1": "Logic",
+    "Stat 2": "Might",
+    "Body Part": "Silky Fur"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Bat-Ears",
+    "Stat 1": "Awareness",
+    "Stat 2": "Reflex",
+    "Body Part": "Swivel Ears"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Wet-Nose",
+    "Stat 1": "Awareness",
+    "Stat 2": "Intuition",
+    "Body Part": "Swivel Ears"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Pack-Tac",
+    "Stat 1": "Logic",
+    "Stat 2": "Charm",
+    "Body Part": "Padded Feet"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Ambush",
+    "Stat 1": "Awareness",
+    "Stat 2": "Reflex",
+    "Body Part": "Padded Feet"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Thumbs",
+    "Stat 1": "Finesse",
+    "Stat 2": "Logic",
+    "Body Part": "Long Fingers"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Craft",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Endure",
+    "Body Part": "Long Fingers"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Resistance",
+    "Choice Name": "Grit",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Will",
+    "Body Part": "Iron Gut"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Resistance",
+    "Choice Name": "Immunity",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Iron Gut"
+  }
+]

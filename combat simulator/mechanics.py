@@ -1,8 +1,25 @@
+
 import json
 import os
 import random
-
+import math
 import sys
+
+# Add local directory to path for imports
+sys.path.append(os.path.dirname(__file__))
+
+# Try to import Engines
+try:
+    from ai_engine import AIDecisionEngine
+except ImportError:
+    AIDecisionEngine = None
+    
+try:
+    from inventory_engine import Inventory
+except ImportError:
+    Inventory = None
+    print("[Mechanics] Warning: Could not import Inventory")
+
 # Ensure we can import abilities module if it's in a subfolder relative to this script
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from abilities import engine_hooks
@@ -11,9 +28,12 @@ from abilities import engine_hooks
 STAT_BLOCK = ["Might", "Reflexes", "Endurance", "Vitality", "Fortitude", "Knowledge", "Logic", "Awareness", "Intuition", "Charm", "Willpower", "Finesse"]
 
 class Combatant:
-    def __init__(self, filepath):
+    def __init__(self, filepath=None, data=None):
         self.filepath = filepath
-        self.data = self._load_data(filepath)
+        if data:
+            self.data = data
+        else:
+            self.data = self._load_data(filepath)
         
         self.name = self.data.get("Name", "Unknown")
         self.species = self.data.get("Species", "Unknown")
@@ -44,6 +64,24 @@ class Combatant:
         
         # FIX: Critical states
         self.is_dead = False          # True = permanently dead until revived
+        
+        # INVENTORY SYSTEM
+        self.inventory = Inventory() if Inventory else None
+        self._init_loadout()
+        
+    def _init_loadout(self):
+        """Auto-equip items from data if Inventory exists"""
+        if not self.inventory: return
+        
+        # Check 'Gear' or 'Weapons' list in data
+        # Assuming simple list of strings for now
+        gear = self.data.get("Gear", []) + self.data.get("Weapons", []) + self.data.get("Armor", [])
+        
+        for item_name in gear:
+            # Simple heuristic: try to equip everything
+            # The inventory engine handles lookup
+            self.inventory.equip(item_name) # Will slot into Armor/MainHand automatically
+
         self.is_broken = False        # True = CMP at 0 (mental break)
         self.is_exhausted = False     # True = SP at 0 (physical exhaustion)
         self.is_drained = False       # True = FP at 0 (focus depleted)
@@ -243,6 +281,10 @@ class CombatEngine:
         self.weapon_db = self._load_weapon_db()
         self.turn_order = []
         self.current_turn_idx = 0
+        self.log = []
+        self.walls = set() # (x,y) tuples
+        self.terrain = [] # Dictionaries {x,y,type,active}
+        self.ai = AIDecisionEngine() if AIDecisionEngine else None
 
     def _load_weapon_db(self):
         db = {}
@@ -311,7 +353,12 @@ class CombatEngine:
         Execute a turn for an AI-controlled character.
         Returns action log.
         """
-        log = [f"[AI] {ai_char.name} thinks..."]
+        # USE NEW AI ENGINE IF AVAILABLE
+        if self.ai:
+            return self.ai.evaluate_turn(ai_char, self)
+            
+        # --- FALLBACK LEGACY LOGIC ---
+        log = [f"[AI] {ai_char.name} thinks (Legacy)..."]
         
         # Get AI template from data
         ai_template = ai_char.data.get("AI", "Aggressive")
@@ -398,6 +445,9 @@ class CombatEngine:
         for c in self.combatants:
             if c.is_alive() and c != char and c.x == tx and c.y == ty:
                 return False, "Blocked!"
+        
+        if (tx, ty) in self.walls:
+            return False, "Blocked by Wall!"
                 
         char.x = tx
         char.y = ty
@@ -420,98 +470,70 @@ class CombatEngine:
         if dist_sq > reach:
             return [f"Target out of range! (Distance: {dist_sq * 5}ft, Reach: {reach * 5}ft)"]
 
-        # 1. Determine Stats
-        atk_stat = "Might"
-        atk_skill = "Weapon" 
-        def_stat = "Reflexes"
-        def_skill = "Dodge"
+        log = [f"{attacker.name} attacks {target.name}!"]
+
+        # 1. Determine Damage Dice & Type
+        dmg_dice = "1d4"
+        damage_type = "Bludgeoning"
+        weapon_tags = {}
         
-        # Roll
-        atk_roll = random.randint(1, 20)
-        atk_mod = attacker.get_stat(atk_stat) + attacker.get_skill_rank(atk_skill)
+        if attacker.inventory:
+            dmg_dice, damage_type, weapon_tags = attacker.inventory.get_weapon_stats()
+            
+        # Parse Dice (e.g. "2d6")
+        if "d" in dmg_dice:
+            num, sides = map(int, dmg_dice.split("d"))
+            damage = sum(random.randint(1, sides) for _ in range(num))
+        else:
+            damage = int(dmg_dice)
+            
+        # 2. To Hit Calculation (Resource Clash)
+        # Attacker uses Might/Finesse vs Defender's Armor Stat
+        def_stat_name = "Reflexes"
+        if target.inventory: # Changed from defender to target
+            def_stat_name = target.inventory.get_defense_stat()
+            
+        hit_score = attacker.stats.get("Might", 0) + random.randint(1, 20)
+        def_score = target.stats.get(def_stat_name, 0) + 10 # Passive defense? Or roll? # Changed from defender to target
+        # Making it a roll for active combat
+        def_roll = target.stats.get(def_stat_name, 0) + random.randint(1, 20) # Changed from defender to target
         
-        # Hook Context
-        ctx = {
-            "attacker": attacker,
-            "target": target,
-            "engine": self,
-            "log": [],
-            "attack_roll": atk_roll + atk_mod, # Mutable
-            "damage_type": "Physical",
-            "auto_hit": False,
-            "is_crit": False,
-            "advantage": False,
-            "disadvantage": False
+        # LOGIC: Check Hit
+        if hit_score >= def_roll:
+            # HIT
+             target.take_damage(damage) # Simplified for now, removed damage_type, attacker
+             log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
+        else:
+             log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
+             
+        return log
+
+    def create_wall(self, x, y):
+        """Creates a blocking wall at x,y"""
+        if 0 <= x < 12 and 0 <= y < 12:
+            self.walls.add((x, y))
+            return True
+        return False
+
+    def spawn_minion(self, name, x, y, team="Enemy"):
+        """Spawns a temporary combatant"""
+        # Minimal template
+        data = {
+            "Name": name,
+            "Species": "Construct",
+            "Stats": {"Might": 10, "Reflexes": 10, "Endurance": 10, "Speed": 30},
+            "Derived": {"HP": 20, "CMP": 10, "SP": 10, "FP": 10},
+            "Skills": [],
+            "Traits": [],
+            "Powers": [],
+            "AI": "Aggressive"
         }
         
-        # ON_ATTACK Hooks
-        engine_hooks.apply_hooks(attacker, "ON_ATTACK", ctx)
-        
-        # Re-calc total based on context changes
-        if ctx["advantage"] and not ctx["disadvantage"]:
-             r2 = random.randint(1, 20)
-             atk_roll = max(atk_roll, r2)
-             # Re-calc base
-             ctx["attack_roll"] = atk_roll + atk_mod 
-             # Note: Context modifiers to "attack_roll" (like +2) might be lost if we just reset it here.
-             # Better: track bonus separate from roll. But for now, let's just assume simple flow.
-             
-        atk_total = ctx["attack_roll"]
-
-        
-        def_roll = random.randint(1, 20)
-        def_mod = target.get_stat(def_stat) + target.get_skill_rank(def_skill)
-        def_total = def_roll + def_mod
-        
-        margin = atk_total - def_total
-        
-        log = [f"{attacker.name} attacks {target.name}!"]
-        if ctx["log"]: log.extend(ctx["log"])
-        
-        log.append(f"ATK: {atk_total} ({atk_roll}+{atk_mod}) vs DEF: {def_total} ({def_roll}+{def_mod})")
-        
-        # Crit check
-        crit_thresh = ctx.get("crit_threshold", 20)
-        if atk_roll >= crit_thresh:
-            ctx["is_crit"] = True
-            log.append(f"CRITICAL HIT! (Rolled {atk_roll})")
-
-        margin = atk_total - def_total
-        if ctx["auto_hit"]: margin = max(1, margin)
-
-        
-        if margin == 0:
-            self.clash_active = True
-            self.clash_participants = (attacker, target)
-            self.clash_stat = atk_stat 
-            log.append("--- CLASH INITIATED! ---")
-            log.append("CLASH START")
-            return log
-            
-        elif margin > 0:
-            dmg, w_name = self.calc_damage(attacker, margin)
-            
-            # Apply HIT Effects
-            ctx["incoming_damage"] = dmg
-            engine_hooks.apply_hooks(attacker, "ON_HIT", ctx)
-            engine_hooks.apply_hooks(target, "ON_DEFEND", ctx) # Apply defenses
-            
-            final_dmg = max(0, ctx["incoming_damage"])
-            target.hp -= final_dmg
-            
-            if target.hp < 0: target.hp = 0
-            log.append(f"HIT! ({w_name}) Dmg: {final_dmg}. {target.name} HP: {target.hp}")
-            if ctx["log"]: log.extend(ctx["log"])
-            
-        else:
-            log.append("MISS!")
-            
-        if "log" in ctx: ctx["log"].extend(ctx["log"]) # This was redundant in original code, fixing
-            
-        else:
-            log.append("MISS!")
-            
-        return log
+        minion = Combatant(filepath=None, data=data)
+        minion.name = f"{name}_{len(self.combatants)}" # Unique-ish ID
+        self.add_combatant(minion, x, y)
+        self.turn_order.append(minion) # Add to turn order immediately
+        return minion
 
     def cast_power(self, caster, target, power_data, save_type="Willpower"):
         """

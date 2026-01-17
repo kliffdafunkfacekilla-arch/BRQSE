@@ -1,0 +1,30 @@
+MARGIN RANGE,OUTCOME NAME,DAMAGE TYPE,STATUS EFFECT / CONSEQUENCE
+NAT 20,CRITICAL,Double Damage,INJURY (Roll on Injury Table).
+#ERROR!,CRUSHING BLOW,Normal HP Damage,"Target is STAGGERED (No Reactions, Next Action Disadv)."
+#ERROR!,SOLID HIT,Normal HP Damage,None.
+#ERROR!,GRAZE,Half HP Damage,1d4 Composure Dmg (Stress/Fear).
+0 (TIE),THE CLASH,See Clash Table,Initiate Clash Protocol.
+-1 to -5,CLEAN MISS,,None.
+-6 to -11,BAD MISS,,Attacker is STAGGERED (Off-balance).
+-12 or less,FAIL,,Attacker falls PRONE.
+NAT 1,DISASTER,1d4 Self Damage,Attacker is PRONE & DISARMED.
+,,,
+OPTION,COST,EFFECT DESCRIPTION,
+OVERPOWER,2 Stamina,"Force a Hit. Deal Normal Damage. (If both Overpower, both take damage).",
+COUNTER,2 Stamina,Force a Miss. Deflect and make an immediate Free Attack.,
+BREAK,-1 Durability,Sunder. Take the hit but the enemy Weapon/Shield takes -1 Penalty permanently.,
+YIELD,,Retreat. No Damage. You are pushed back 5ft and lose Initiative.,
+,,,
+TRIGGER EVENT,MECHANIC / RULE,EFFECT / COST,
+OVERCHARGE (Physical),Pay HP for missing Stamina,Cost: 2 HP per 1 Stamina. (Muscle Tear).,
+OVERCHARGE (Mental),Pay Comp for missing Focus,Cost: 2 Composure per 1 Focus. (Mind Fracture).,
+BLOWOUT LIMIT,HP < 50% or Focus 0,Apply STATUS: Weakened or Shaken.,
+CRITICAL INJURY,Nat 20 or Massive Dmg,1: Concussion (No Focus). 2: Broken Arm. 3: Broken Leg.,
+...Injury cont.,...,4: Eye/Ear Loss. 5: Internal Bleeding. 6: Severed Limb.,
+,,,
+STATUS,EFFECT SUMMARY,CURE / END CONDITION,
+STAGGERED,No Reactions. Next Action has Disadvantage.,End of your next Turn.,
+PRONE,Melee hits you with Advantage. Ranged has Disadvantage.,Spend Half Movement to stand.,
+DISARMED,Weapon drops in adjacent square (or flies 10ft).,Interact Action to pick up.,
+BROKEN,0 Composure. Cannot Attack/Cast. Can only Defend/Flee.,Rally Action or Restore Composure.,
+INJURED,"Structural Damage (Broken Bone, Concussion).",Medical Surgery or High-Tier Magic.,
