@@ -89,6 +89,7 @@ class CharacterBuilder:
         
         self.traits = [] 
         self.body_parts = [] 
+        self.armor_prof = [] # Added for safety
         
         self.skills = [] 
         self.powers = [] 
@@ -142,6 +143,7 @@ class App:
         self.input_active = False
         self.input_text = ""
         self.hover_text = ""
+        self.validation_error = None
 
     def run(self):
         while True:
@@ -184,19 +186,40 @@ class App:
                      if event.key == pygame.K_LEFT: self.handle_action("BACK")
 
     def handle_action(self, action_id):
+        self.validation_error = None
         if action_id == "NEW_CHAR":
             self.state = "WIZARD"
             self.wizard_step = 1
+            self.buttons = []
             self.setup_wizard_ui()
+        elif action_id == "MANAGE":
+            self.state = "MANAGE"
+            self.buttons = []
+        elif action_id == "RANDOM":
+            self.generate_random()
         elif action_id == "EXIT":
             pygame.quit(); sys.exit()
+        
+        # MANAGE State Logic
+        elif action_id == "BACK":
+            if self.state == "MANAGE":
+                self.state = "MENU"
+                self.buttons = []
+            else:
+                self.wizard_step -= 1
+                self.setup_wizard_ui()
+        elif action_id.startswith("DEL_"):
+            fname = action_id[4:]
+            path = os.path.join(SAVE_DIR, fname)
+            if os.path.exists(path):
+                os.remove(path)
+            self.buttons = [] # Refresh list handling
+
         elif action_id == "NEXT":
-            if self.wizard_step == 1 and not self.builder.species: return
+            if not self.validate_step(): return
             self.wizard_step += 1
             self.setup_wizard_ui()
-        elif action_id == "BACK":
-            self.wizard_step -= 1
-            self.setup_wizard_ui()
+
         elif action_id == "INPUT_NAME":
             self.input_active = True
         elif action_id == "SAVE":
@@ -233,13 +256,13 @@ class App:
             self.builder.skills.append(skill)
             self.setup_wizard_ui()
             
-        elif action_id.startswith("SELECT_SCHOOL_"):
-             sch = action_id.replace("SELECT_SCHOOL_", "")
-             if sch in self.builder.powers:
-                 self.builder.powers.remove(sch)
+        elif action_id.startswith("SELECT_POWER_"):
+             power = action_id.replace("SELECT_POWER_", "")
+             if power in self.builder.powers:
+                 self.builder.powers.remove(power)
              else:
                  if len(self.builder.powers) < 2:
-                     self.builder.powers.append(sch)
+                     self.builder.powers.append(power)
              self.setup_wizard_ui()
              
         elif action_id.startswith("BUY_"):
@@ -251,6 +274,70 @@ class App:
                     self.builder.money -= cost
                     self.builder.inventory.append(item_name)
                     self.setup_wizard_ui()
+
+    def validate_step(self):
+        # Step 1: Name & Species
+        if self.wizard_step == 1:
+            if not self.builder.name or not self.builder.name.strip() or self.builder.name == "Unknown": 
+                self.validation_error = "ENTER A NAME FIRST"
+                return False
+            if not self.builder.species: 
+                self.validation_error = "SELECT A SPECIES FIRST"
+                return False
+            
+        # Steps 2-7: Evolution
+        elif 2 <= self.wizard_step <= 7:
+            expected = self.wizard_step - 1
+            if len(self.builder.traits) < expected: 
+                self.validation_error = "SELECT A TRAIT FIRST"
+                return False
+            
+        # Step 8-10: Backgrounds
+        elif 8 <= self.wizard_step <= 10:
+             phases = [self.data.backgrounds["Origin"], self.data.backgrounds["Education"], self.data.armor_groups]
+             rows = phases[self.wizard_step - 8]
+             found = False
+             for r in rows:
+                 if self.wizard_step == 10:
+                     grp = r.get("Family Name")
+                     if grp and grp in self.builder.armor_prof: found = True
+                 else:
+                     s = r.get("Skill Name") or r.get("Skill")
+                     if s and s in self.builder.skills: found = True
+                 if found: break
+             if not found: 
+                 self.validation_error = "MAKE A SELECTION FIRST"
+                 return False
+
+        # Step 11: Training
+        elif self.wizard_step == 11:
+            weps = [r['Family Name'] for r in self.data.weapon_groups]
+            if not any(s in self.builder.skills for s in weps): 
+                self.validation_error = "SELECT WEAPON TRAINING"
+                return False
+
+        # Step 12: Catalyst
+        elif self.wizard_step == 12:
+             utils = [r['Skill Name'] for r in self.data.all_skills if r.get("Type") == "Utility"]
+             tools = [r['Tool_Name'] for r in self.data.tool_types]
+             if not any(s in self.builder.skills for s in utils + tools): 
+                 self.validation_error = "SELECT UTILITY OR TOOL"
+                 return False
+
+        # Step 13: Species Skill
+        elif self.wizard_step == 13:
+             sp_skills = [r.get("Skill Name") or r.get("Skill") for r in self.data.skills.get(self.builder.species, [])]
+             if not any(s in self.builder.skills for s in sp_skills): 
+                 self.validation_error = "SELECT SPECIES SKILL"
+                 return False
+
+        # Step 14: Schools (Now Abilities)
+        elif self.wizard_step == 14:
+             if len(self.builder.powers) < 2: 
+                 self.validation_error = f"SELECT 2 ABILITIES ({len(self.builder.powers)}/2)"
+                 return False
+
+        return True
 
     def select_background_skill(self, skill_name):
         phases = [
@@ -357,9 +444,7 @@ class App:
         path = os.path.join(SAVE_DIR, filename)
         
         final_powers = self.builder.powers.copy()
-        if final_powers:
-            final_powers.append("Shape: Touch")
-            final_powers.append("Power: 1d6 Damage")
+        # Note: Powers list is now Names (e.g. "Push"), not "School".
             
         data = {
             "Name": self.builder.name,
@@ -383,6 +468,8 @@ class App:
         # Validation for Step 1
         can_proceed = True
         next_label = "NEXT >"
+        # Pre-checks logic can be removed if we rely on validate_step 
+        # But keeping it for label change is fine
         if self.wizard_step == 1 and not self.builder.species:
             can_proceed = False
             next_label = "SELECT SPECIES"
@@ -411,6 +498,8 @@ class App:
         # 2-7. EVOLUTION
         elif 2 <= self.wizard_step <= 7:
             cats = ["ANCESTRY", "DEFENSE", "OFFENSE", "SOCIAL", "ENVIRON", "ADAPT"]
+            step_title = f"EVOLUTION ({self.wizard_step-1}/6): {cats[self.wizard_step - 2]}"
+            # Update title in draw_wizard, but here create buttons
             cat = cats[self.wizard_step - 2]
             sp_rows = self.data.evolutions.get(self.builder.species, [])
             opts = [r for r in sp_rows if r["Category"] == cat]
@@ -532,34 +621,59 @@ class App:
                      self.buttons.append(Button((x, y, 900, 40), label[:80]+"...", bid, label))
                      y += 50
                  
-        # 14. ABILITIES (Schools of Power)
-        # 14. ABILITIES (Schools of Power)
+        # 14. ABILITIES (Tier 1 Spells)
         elif self.wizard_step == 14:
-            valid_schools = []
-            seen_schools = set()
-            for row in self.data.abilities["Schools"]:
-                sch = row.get("School") # Key is "School", not "SchoolName"
-                if not sch or sch in seen_schools: continue
+            try:
+                valid_powers = []
                 
-                attr = row["Attribute"]
-                if self.builder.current_stats.get(attr, 0) >= 12:
-                    valid_schools.append(row)
-                    seen_schools.add(sch)
-            
-            x, y = 50, 150
-            self.buttons.append(Button((x, y-40, 500, 30), "SELECT 2 SCHOOLS (Stat >= 12):", "NONE"))
-            
-            pass_count = 0 
-            for row in valid_schools:
-                sch = row["School"]
-                attr = row["Attribute"]
-                bid = f"SELECT_SCHOOL_{sch}"
-                label = f"{sch} ({attr})"
-                self.buttons.append(Button((x, y, 300, 40), label, bid, row.get("Description", "")))
-                if pass_count % 2 == 1:
-                     x = 50; y += 50
-                else: x = 400
-                pass_count += 1
+                # Check if data exists
+                if "Schools" not in self.data.abilities:
+                     with open("crash_log.txt", "a") as f: f.write("Step 14 Error: 'Schools' key missing in data.abilities\n")
+                
+                schools_data = self.data.abilities.get("Schools", [])
+                
+                for row in schools_data:
+                    # Filter Tier 1
+                    if str(row.get("Tier", "0")) != "1": continue
+                    
+                    sch = row.get("School")
+                    attr = row.get("Attribute")
+                    if not attr: continue 
+                    
+                    # Safe stat check
+                    stat_val = self.builder.current_stats.get(attr, 0)
+                    if stat_val >= 12:
+                        valid_powers.append(row)
+                
+                x, y = 30, 150
+                self.buttons.append(Button((x, y-40, 500, 30), "SELECT 2 TIER 1 ABILITIES (Stat >= 12):", "NONE"))
+                
+                y_offset = 0
+                col = 0
+                for row in valid_powers:
+                    p_name = row.get("Name")
+                    p_sch = row.get("School")
+                    p_type = row.get("Type")
+                    bid = f"SELECT_POWER_{p_name}"
+                    label = f"{p_name} ({p_sch} {p_type})"
+                    
+                    bx = 30 + col * 340
+                    by = 150 + y_offset
+                    
+                    desc = row.get("Description", "")
+                    self.buttons.append(Button((bx, by, 330, 40), label, bid, desc))
+                    
+                    y_offset += 50
+                    # Wrap column if full
+                    if 150 + y_offset > SCREEN_H - 120:
+                        y_offset = 0
+                        col += 1
+                        
+            except Exception as e:
+                import traceback
+                with open("crash_log.txt", "a") as f:
+                    f.write(f"Step 14 Crash: {e}\n")
+                    traceback.print_exc(file=f)
 
         # 15. GEAR
         elif self.wizard_step == 15:
@@ -567,9 +681,21 @@ class App:
             self.buttons.append(Button((x, y, 300, 30), f"GOLD: {self.builder.money}", "NONE"))
             y += 40
             for item in self.data.gear:
-                name = item["Item"]
-                cost = int(item["Cost"]) if item["Cost"].isdigit() else 0
-                wtype = item["Type"]
+                # Handle potential BOM in keys or mismatched headers
+                name = item.get("Name") or item.get("Item") or item.get("\ufeffName")
+                if not name: continue
+                
+                cost_val = item.get("Cost") or item.get("Value") or "999"
+                # Strip non-numeric chars (e.g. '50 gp' -> '50')
+                import re
+                c_clean = re.sub(r"[^0-9]", "", str(cost_val))
+                try: 
+                    cost = int(c_clean)
+                except: 
+                    cost = 999
+                
+                wtype = item.get("Type", "Unknown")
+                
                 if cost <= self.builder.money:
                     label = f"{name} ({cost}g) - {wtype}"
                     bid = f"BUY_{name}"
@@ -601,18 +727,138 @@ class App:
             self.buttons.append(Button((x, y, 400, 40), lab, bid))
             y += 50
 
+    def generate_random(self):
+        import random
+        self.builder = CharacterBuilder()
+        self.builder.name = f"Random_{random.randint(100,999)}"
+        
+        # 1. Species
+        sps = list(self.data.species_stats.keys())
+        if not sps: return
+        self.builder.species = random.choice(sps)
+        self.builder.init_stats(self.data.species_stats.get(self.builder.species, {}))
+        
+        # 2-7. Evolutions (6 categories, one choice each)
+        evos = self.data.evolutions.get(self.builder.species, [])
+        cats = {}
+        for r in evos:
+            c = r.get("Category")
+            if c not in cats: cats[c] = []
+            cats[c].append(r)
+            
+        for c in cats:
+            if not cats[c]: continue
+            choice = random.choice(cats[c])
+            # Add the Choice Name to traits (recalc_stats will process stats + body parts)
+            trait_name = choice.get("Choice Name")
+            if trait_name:
+                self.builder.traits.append(trait_name)
+        
+        # Apply all stat bonuses and body parts
+        self.recalc_stats()
+                    
+        # 8-10. Backgrounds
+        # Origin
+        if self.data.backgrounds["Origin"]:
+            bg = random.choice(self.data.backgrounds["Origin"])
+            self.select_background_skill(bg.get("Skill Name") or bg.get("Skill"))
+
+        # Education
+        if self.data.backgrounds["Education"]:
+             bg = random.choice(self.data.backgrounds["Education"])
+             self.select_background_skill(bg.get("Skill Name") or bg.get("Skill"))
+             
+        # Adulthood
+        if self.data.backgrounds["Adulthood"]:
+            bg = random.choice(self.data.backgrounds["Adulthood"])
+            grp = bg.get("Family Name")
+            if grp: self.builder.armor_prof.append(grp)
+            
+        # 11. Training
+        if self.data.weapon_groups:
+             wg = random.sample(self.data.weapon_groups, min(2, len(self.data.weapon_groups)))
+             for g in wg:
+                 self.builder.skills.append(g.get("Family Name"))
+                 
+        # 12. Catalyst
+        utils = [r for r in self.data.all_skills if r.get("Type") == "Utility"]
+        if utils: self.builder.skills.append(random.choice(utils).get("Skill Name"))
+        
+        tools = self.data.tool_types
+        if tools: self.builder.skills.append(random.choice(tools).get("Tool_Name"))
+        
+        # 13. Species Skill
+        sp_skills = self.data.skills.get(self.builder.species, [])
+        valid_sp = []
+        for s in sp_skills:
+            req = s.get("Body Part") or s.get("Required Body Part")
+            if req and req in self.builder.body_parts:
+                valid_sp.append(s)
+        if valid_sp:
+             self.builder.skills.append(random.choice(valid_sp).get("Skill Name"))
+             
+        # 14. Schools (Tier 1 Spells)
+        schools = self.data.abilities.get("Schools", [])
+        valid_t1 = []
+        for s in schools:
+             if str(s.get("Tier")) == "1":
+                 attr = s.get("Attribute")
+                 if self.builder.current_stats.get(attr, 0) >= 12:
+                     p_name = s.get("Name")
+                     if p_name: valid_t1.append(p_name)
+
+        if valid_t1:
+            picks = random.sample(valid_t1, min(2, len(valid_t1)))
+            self.builder.powers.extend(picks)
+            
+        self.recalc_stats()
+        
+        self.state = "WIZARD"
+        self.wizard_step = 16
+        self.buttons = []
+        self.setup_wizard_ui()
+
     def draw(self):
         self.screen.fill(COLOR_BG)
         if self.state == "MENU": self.draw_menu()
         elif self.state == "WIZARD": self.draw_wizard()
+        elif self.state == "MANAGE": self.draw_manage()
         pygame.display.flip()
+
+    def draw_manage(self):
+        t = self.title_font.render("MANAGE CHARACTERS", True, COLOR_ACCENT)
+        self.screen.blit(t, (SCREEN_W//2 - t.get_width()//2, 50))
+        
+        if not self.buttons:
+             # Scan saves
+             if not os.path.exists(SAVE_DIR): os.makedirs(SAVE_DIR)
+             files = [f for f in os.listdir(SAVE_DIR) if f.endswith(".json")]
+             
+             x, y = SCREEN_W//2 - 200, 150
+             if not files:
+                 self.buttons.append(Button((x, y, 400, 40), "NO SAVES FOUND", "NONE"))
+             else:
+                 for f in files:
+                     self.buttons.append(Button((x, y, 300, 40), f, "NONE"))
+                     # Delete button logic requires unique IDs, but let's keep it simple for now or use lambda-like ID
+                     self.buttons.append(Button((x+310, y, 80, 40), "DEL", f"DEL_{f}"))
+                     y += 50
+             
+             self.buttons.append(Button((50, 50, 100, 40), "BACK", "BACK"))
+             
+        for b in self.buttons: b.draw(self.screen, self.font)
 
     def draw_menu(self):
         t = self.title_font.render("CHARACTER WIZARD", True, COLOR_ACCENT)
         self.screen.blit(t, (SCREEN_W//2 - t.get_width()//2, 100))
         if not self.buttons:
             cx = SCREEN_W // 2
-            self.buttons = [Button((cx - 100, 300, 200, 50), "NEW CHARACTER", "NEW_CHAR"), Button((cx - 100, 460, 200, 50), "EXIT", "EXIT")]
+            self.buttons = [
+                Button((cx - 150, 250, 300, 50), "NEW CHARACTER", "NEW_CHAR"),
+                Button((cx - 150, 320, 300, 50), "RANDOM CHARACTER", "RANDOM"),
+                Button((cx - 150, 390, 300, 50), "MANAGE CHARACTERS", "MANAGE"),
+                Button((cx - 150, 550, 300, 50), "EXIT", "EXIT")
+            ]
         for b in self.buttons: b.draw(self.screen, self.font)
 
     def draw_wizard(self):
@@ -628,7 +874,7 @@ class App:
         elif self.wizard_step == 11: step_title = "TRAINING: Melee & Ranged"
         elif self.wizard_step == 12: step_title = "CATALYST: Utility & Tool"
         elif self.wizard_step == 13: step_title = "SPECIES SKILL"
-        elif self.wizard_step == 14: step_title = "ABILITIES (Select 2)"
+        elif self.wizard_step == 14: step_title = "ABILITIES (Select 2 Tier 1)"
         elif self.wizard_step == 15: step_title = "GEAR SHOP"
         elif self.wizard_step == 16: step_title = "SUMMARY"
             
@@ -650,8 +896,8 @@ class App:
             if b.action_id.startswith("SELECT_SPSKILL_"):
                  sk = b.action_id.replace("SELECT_SPSKILL_", "")
                  if sk in self.builder.skills: is_sel = True
-            if b.action_id.startswith("SELECT_SCHOOL_"):
-                 sk = b.action_id.replace("SELECT_SCHOOL_", "")
+            if b.action_id.startswith("SELECT_POWER_"):
+                 sk = b.action_id.replace("SELECT_POWER_", "")
                  if sk in self.builder.powers: is_sel = True
                  
             b.draw(self.screen, self.font, is_sel)
@@ -663,6 +909,14 @@ class App:
             surf = self.font.render(self.hover_text, True, COLOR_HIGHLIGHT)
             pygame.draw.rect(self.screen, (0,0,0), (mx+10, my+10, surf.get_width()+10, 30))
             self.screen.blit(surf, (mx+15, my+15))
+            
+        if self.validation_error:
+            # Draw centralized error message
+            surf = self.title_font.render(self.validation_error, True, (255, 50, 50))
+            rect = surf.get_rect(center=(SCREEN_W//2, SCREEN_H - 100))
+            pygame.draw.rect(self.screen, (20,0,0), rect.inflate(20, 10))
+            pygame.draw.rect(self.screen, (255,0,0), rect.inflate(20, 10), 2)
+            self.screen.blit(surf, rect)
             
         if self.input_active:
              pygame.draw.rect(self.screen, (0,0,0), (0,0,SCREEN_W,SCREEN_H), 200)
@@ -705,6 +959,11 @@ class App:
         self.screen.blit(self.font.render("Skills:", True, COLOR_HIGHLIGHT), (x, y)); y+=25
         for sk in self.builder.skills:
             self.screen.blit(self.font.render(f" - {sk}", True, (150,200,150)), (x, y)); y+=20
+            
+        y += 10
+        self.screen.blit(self.font.render("Powers:", True, COLOR_HIGHLIGHT), (x, y)); y+=25
+        for p in self.builder.powers:
+            self.screen.blit(self.font.render(f" - {p}", True, (200,150,255)), (x, y)); y+=20
 
 if __name__ == "__main__":
     if not os.path.exists(SAVE_DIR): os.makedirs(SAVE_DIR)

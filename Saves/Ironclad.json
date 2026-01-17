@@ -12,6 +12,23 @@
         "HP": 20,
         "Speed": 10
     },
-    "BodyParts": ["Head", "Torso", "Arms", "Legs"],
-    "Skills": ["Sword", "Guard"]
+    "BodyParts": [
+        "Head",
+        "Torso",
+        "Arms",
+        "Legs"
+    ],
+    "Skills": [
+        "Sword",
+        "Guard"
+    ],
+    "Traits": [
+        "Second Wind",
+        "Smite",
+        "Provoke"
+    ],
+    "Inventory": [
+        "Greatsword",
+        "Full Plate"
+    ]
 }

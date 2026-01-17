@@ -12,16 +12,49 @@ def load_rules():
     except: return {}
 
 RULES = load_rules()
-COMBAT_RULES = RULES.get("Combat_Rules", []) # User code had 'combat_rules' lowercase, my json has CamelCase 'Combat_Rules' usually? 
-# Creating fallback in case of key mismatch
+COMBAT_RULES = RULES.get("Combat_Rules", [])
 if not COMBAT_RULES: COMBAT_RULES = RULES.get("combat_rules", [])
 
+# --- WEAPON DB LOADING (Ported from mechanics.py) ---
+def load_weapon_db():
+    db = {}
+    # Path relative to scripts/combat_engine.py
+    csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Data/weapons_and_armor.csv")
+    try:
+        with open(csv_path, 'r', encoding='utf-8') as f:
+            header = f.readline()
+            for line in f:
+                parts = line.strip().split(',')
+                if len(parts) < 7: continue
+                name = parts[0]
+                tags = parts[6]
+                
+                dice = "1d4"
+                if "DMG:" in tags:
+                    for t in tags.split('|'):
+                        if t.startswith("DMG:"):
+                            sub = t.split(':')
+                            if len(sub) > 1: dice = sub[1]
+                            break
+                db[name] = dice
+    except: pass
+    return db
+
+WEAPON_DB = load_weapon_db()
+
 def resolve_attack(attacker, defender):
-    # 1. ROLL
-    # We assume 'attacker' and 'defender' are Character objects with 'get_roll_mod'
-    # Defaulting to Might/Plate if data missing for robustness
+    # 1. Roll (Opposed)
+    # Attacker: d20 + Weapon Skill + Stat
+    # Defender: d20 + Armor Skill + Stat
+    
+    # Resolve Stats
     atk_stat = attacker.weapon_data.get("attr", "Might")
-    def_stat = defender.armor_data.get("attr", "Endurance") # Armor uses defensive stat
+    def_stat = defender.armor_data.get("attr", "Reflexes")
+    
+    # If char_engine didn't load weapon data (because json empty), defaults might be wrong.
+    # We rely on get_roll_mod doing the heavy lifting if possible, 
+    # but currently char_engine relies on weapon_data too.
+    # For now, we trust attacker.get_roll_mod handles the stat lookup.
     
     atk_roll = random.randint(1, 20)
     atk_total = atk_roll + attacker.get_roll_mod(atk_stat)
@@ -31,95 +64,75 @@ def resolve_attack(attacker, defender):
     
     margin = atk_total - def_total
     
-    # 2. RESOLVE
-    outcome = "UNKNOWN"
+    # 2. Results
+    outcome = "MISS"
     damage = 0
+    desc = f"Missed! ({margin})"
     
     if margin == 0:
-        return {"outcome": "THE CLASH", "margin": 0, "damage": 0, "desc": "Perfect Tie!"}
+        return {"outcome": "THE CLASH", "margin": 0, "damage": 0, "desc": "CLASH TRIGGERED! (Tie)"}
+    
+    elif margin > 0:
+        outcome = "HIT"
+        # Calculate Damage
+        # Try Weapon DB first (more reliable if JSON empty)
+        w_name = attacker.weapon_name
+        dice = WEAPON_DB.get(w_name, "1d4")
         
-    # Check Rules
-    for rule in COMBAT_RULES:
-        # Foundry saved 'Range': {'min': x, 'max': y}. User code calculates r_min, r_max from flat dict?
-        # User Code: r_min = rule.get("min", -99)
-        # My JSON: "Range": {"min": 5, "max": 9}
-        # Adaptation needed OR I assume user code matches JSON?
-        # User said "It correctly calculates Margins...". 
-        # I suspect the User's code expects a different JSON structure than what I built.
-        # But I must use THEIR code.
-        # However, if I use their code exactly, it looks for `rule.get("min")` which doesn't exist in my JSON struct `rule["Range"]["min"]`.
-        # I will PATCH logic to be robust or it won't work.
-        # User said: "You can copy/paste these directly".
-        # If I change it, I disobey "copy/paste directly".
-        # If I don't, it breaks.
-        # I will use the code but allow for the `Range` dictionary if `min` is missing.
+        # Roll Dice
+        try:
+            num, sides = map(int, dice.split('d'))
+            base_dmg = sum(random.randint(1, sides) for _ in range(num))
+        except: base_dmg = 1
         
-        r_min = rule.get("min")
-        r_max = rule.get("max")
+        # Add Stat Mod (Default Might for now, or match weapon attr)
+        stat_bonus = attacker.attributes.get(atk_stat, 0)
+        damage = max(1, base_dmg + int(stat_bonus))
         
-        if r_min is None:
-            r_range = rule.get("Range", {})
-            r_min = r_range.get("min", -99)
-            r_max = r_range.get("max", 99)
-        else:
-            r_min = int(r_min)
-            r_max = int(r_max)
+        desc = f"HIT! ({w_name}) Dmg: {damage}"
 
-        if r_min <= margin <= r_max:
-             # Foundry Key: "Outcome" (Camel). User Key: "outcome" (lower).
-            outcome = rule.get("outcome", rule.get("Outcome", "HIT"))
-            break
-            
-    # Simple Damage Logic (Replace with complex later if needed)
-    # User code assumes "1d6" string. My JSON has whatever CSV had.
-    dmg_val = attacker.weapon_data.get("dmg", "1d6")
-    try:
-        base_dmg = int(dmg_val.split('d')[1]) # Hacky parse "1d6" -> 6
-    except:
-        base_dmg = 6
-    
-    if "CRITICAL" in outcome: damage = base_dmg * 2
-    elif "SOLID" in outcome: damage = base_dmg
-    elif "GRAZE" in outcome: damage = max(1, base_dmg // 2)
-    else: damage = 0
-    
     return {
         "outcome": outcome,
         "margin": margin,
         "damage": damage,
-        "desc": f"{outcome} ({margin}) - {damage} Dmg"
+        "desc": desc
     }
 
 def resolve_clash_effect(winner_stat, winner, loser):
-    # THE PHYSICS TABLE (Design Bible v4.0)
+    # THE CLASH TABLE (User Rules)
     stat = winner_stat.upper()
+    effect = "Staggered"
     
-    if stat == "MIGHT":
-        return "OVERPOWER: Winner advances 1, Loser pushed back 1."
-    elif stat == "FINESSE":
-        return "DISARM: Loser drops weapon."
-    elif stat == "REFLEXES":
-        return "REDIRECT: Positions Swapped."
-    elif stat == "VITALITY":
-        loser.apply_composure_damage(3)
-        return "EXHAUST: Loser takes 3 Composure Dmg."
-    elif stat == "FORTITUDE":
-        return "BULWARK: Loser pulled forward 1."
-    elif stat == "KNOWLEDGE":
-        return "ANALYZE: Winner moves to flank."
-    elif stat == "LOGIC":
+    if "MIGHT" in stat:
+        effect += ", Pushed Back 1, Winner Steps Forward 1"
+    elif "ENDURANCE" in stat:
+        effect += ", Pushed Back 1"
+    elif "FINESSE" in stat:
+        effect += ", Disarmed"
+    elif "REFLEX" in stat:
+        effect += ", Positions Swapped"
+    elif "KNOWLEDGE" in stat:
+        effect += ", Winner Moves Beside Loser"
+    elif "LOGIC" in stat:
         loser.current_hp -= 2
-        return "CALCULATED: 2 HP Damage."
-    elif stat == "AWARENESS":
-        return "SPOT: Loser is Slowed."
-    elif stat == "INTUITION":
-        return "HAZARD: Loser pushed into obstacle."
-    elif stat == "CHARM":
-        return "FEINT: Winner sidesteps, Loser stumbles."
-    elif stat == "WILLPOWER":
-        return "DOMINATE: Advantage on next turn."
+        effect += ", 2 HP Damage"
+    elif "VITALITY" in stat:
+        loser.apply_composure_damage(2)
+        effect += ", 2 CMP Damage"
+    elif "FORTITUDE" in stat:
+        effect += ", Loser Moved Sideways, Winner Steps Forward"
+    elif "AWARENESS" in stat:
+        effect += ", Winner Side Steps, Loser Steps Opposite"
+    elif "INTUITION" in stat:
+        effect += ", Winner Moves Beside, Loser into Hazard"
+    elif "CHARM" in stat:
+        effect += ", Winner Side Steps, Loser Forward 2"
+    elif "WILLPOWER" in stat:
+        effect += ", Winner Moves Behind Loser"
+    else:
+        effect += ", Shoved"
         
-    return "Generic Shove."
+    return effect
 
 def resolve_channeling(chaos_level):
     roll = random.randint(1, 10)

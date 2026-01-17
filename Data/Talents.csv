@@ -167,3 +167,7 @@ Magnetism,Passive,Attribute_Score,CHARM,16,Merchants buy items for 20% more and 
 Cult Leader,Passive,Attribute_Score,CHARM,20,You can attract a dedicated follower (NPC) who serves you loyally until death.,follower_spawn
 Iron Will,Passive,Attribute_Score,WILLPOWER,16,You have Advantage on all saves against Magic.,save_advantage(magic)
 Unshakable,Active,Attribute_Score,WILLPOWER,20,"You are immune to Mind Control, Possession, and Fear.","immunity(mind_control, fear)"
+
+Second Wind,Active,None,1,0,5 SP,Heal 5 HP
+
+Provoke,Active,None,1,0,0 SP,Force Attack
