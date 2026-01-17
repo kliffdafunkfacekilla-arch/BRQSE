@@ -149,9 +149,150 @@ class EffectRegistry:
         self.register_pattern(r"summon|call|conjure", self._handle_summon)
         self.register_pattern(r"create (wall|barrier|cover)", self._handle_create_terrain)
 
+        # ============================================
+        # SCHOOL OF FLUX EFFECTS
+        # ============================================
+        
+        # --- FLUX: PHASING & ETHEREAL ---
+        self.register_pattern(r"Ethereal|No Phys(?:ical)? Dmg", self._handle_ethereal)
+        self.register_pattern(r"[Pp]hase|[Pp]hasing", self._handle_phase)
+        self.register_pattern(r"Walk through.*?(wall|solid)", self._handle_phase_walk)
+        self.register_pattern(r"Amorphous|Immune Crits.*?Grap", self._handle_amorphous)
+        
+        # --- FLUX: DISPLACEMENT ---
+        self.register_pattern(r"appear 5ft from|Displacement|Mirror Image", self._handle_displacement)
+        
+        # --- FLUX: DISINTEGRATE & DAMAGE ---
+        self.register_pattern(r"Disintegrate", self._handle_disintegrate)
+        self.register_pattern(r"Damage over Time|DoT|Bleed", self._handle_dot)
+        self.register_pattern(r"Cut off|Sever.*?(limb|appendage)", self._handle_sever_limb)
+        self.register_pattern(r"Compress.*?space|Gravity well|Pull enemies", self._handle_compress_space)
+        
+        # --- FLUX: ESCAPE & MOVEMENT ---
+        self.register_pattern(r"Escape.*?(bindings|grapple|restraints)", self._handle_escape_grapple)
+        self.register_pattern(r"Find path|Pathfinding", self._handle_find_path)
+        
+        # --- FLUX: ITEM MANIPULATION ---
+        self.register_pattern(r"Force drop|Disarm", self._handle_disarm)
+        self.register_pattern(r"Grab.*?(weapon|item|projectile)|Snatch|Catch.*?thrown", self._handle_snatch_projectile)
+        self.register_pattern(r"Steal.*?(equipped|item)|Pickpocket", self._handle_steal_item)
+        self.register_pattern(r"Switch.*?items|Swap.*?items", self._handle_switch_items)
+        
+        # --- FLUX: ARMOR PENETRATION ---
+        self.register_pattern(r"Ignore.*?Armor|Ignore AR|Bypass Armor", self._handle_ignore_armor)
+        self.register_pattern(r"Precision.*?knock.*?down", self._handle_precision_knockdown)
+        self.register_pattern(r"Reduce.*?melee damage", self._handle_reduce_melee_damage)
+        
+        # --- FLUX: UTILITY ---
+        self.register_pattern(r"Open.*?mechanism|Pick lock|Unlock", self._handle_open_mechanism)
+        self.register_pattern(r"Clean.*?poison|Purify", self._handle_purify_liquid)
+        self.register_pattern(r"Un-mix|Separate compound", self._handle_unmix_potion)
 
+        # ============================================
+        # ON_ATTACK REACTIVE EFFECTS
+        # ============================================
+        
+        # --- ATTACK TRIGGERS ---
+        self.register_pattern(r"crit(?:ical)? (?:hit )?range.*?19", self._handle_crit_range_19)
+        self.register_pattern(r"attack.*?two adjacent|attack.*?2 adjacent", self._handle_attack_adjacent)
+        self.register_pattern(r"flanking.*?attack|sting.*?flanking", self._handle_flanking_attack)
+        self.register_pattern(r"enemy moves within.*?(\d+)ft.*?attack", self._handle_opportunity_attack)
+        self.register_pattern(r"bonus.*?(\d+).*?Attack Rolls?.*?allies", self._handle_rally_allies)
+        self.register_pattern(r"no penalt(?:y|ies).*?moving.*?Ranged", self._handle_mobile_shooter)
+        self.register_pattern(r"piercing.*?19|crit.*?19.*?pierc", self._handle_piercing_crit)
+        self.register_pattern(r"behind you.*?reflex attack", self._handle_tail_attack)
+        self.register_pattern(r"shield.*?ally.*?overhead|shield.*?rain", self._handle_shield_ally)
+        self.register_pattern(r"water.*?attack.*?not pushed|remain upright", self._handle_water_stability)
+        
+        # --- ON_HIT EFFECTS ---
+        self.register_pattern(r"Magic Missile|Auto hit", self._handle_auto_hit)
+        self.register_pattern(r"Damage scales.*?Speed", self._handle_speed_damage)
+        self.register_pattern(r"Quick.*?low.*?damage|quick attack", self._handle_quick_attack)
+        self.register_pattern(r"Enemy hits self|reflect.*?self", self._handle_self_hit)
+        self.register_pattern(r"Miss hits Ally|miss.*?ally", self._handle_miss_ally)
+        self.register_pattern(r"Auto-Damage|No Roll", self._handle_auto_damage)
+        self.register_pattern(r"Weak Point|crit bonus", self._handle_weak_point)
+        self.register_pattern(r"True Strike|Bonus to Hit", self._handle_true_strike)
+        self.register_pattern(r"cannot be healed.*?non-magical|unhealable", self._handle_unhealable_wound)
+        self.register_pattern(r"unarmed.*?head.*?shoved|headbutt.*?push", self._handle_headbutt)
 
-    # --- NEW HANDLERS ---
+        # ============================================
+        # SCHOOL OF OMEN EFFECTS (Luck/Fate Magic)
+        # ============================================
+        
+        # --- OMEN: LUCK MODIFIERS ---
+        self.register_pattern(r"Jinx|bad luck", self._handle_jinx)
+        self.register_pattern(r"Bless|good luck", self._handle_bless)
+        self.register_pattern(r"Curse|Disadvantage on Rolls", self._handle_curse)
+        self.register_pattern(r"Fate|Advantage on Rolls", self._handle_fate)
+        self.register_pattern(r"Reroll 1s|Lucky", self._handle_lucky)
+        self.register_pattern(r"Force Reroll|Take Low", self._handle_force_reroll)
+        
+        # --- OMEN: MISHAPS ---
+        self.register_pattern(r"Trip|Cause Prone.*?Bad Luck", self._handle_luck_trip)
+        self.register_pattern(r"Weapon Failure|Jam", self._handle_weapon_jam)
+        self.register_pattern(r"Fumble|drops? item", self._handle_fumble)
+        self.register_pattern(r"Backfire|Enemy hits self", self._handle_backfire)
+        self.register_pattern(r"Ricochet|Miss hits Ally", self._handle_ricochet)
+        
+        # --- OMEN: FATE MANIPULATION ---
+        self.register_pattern(r"Calamity|Crit Fail", self._handle_calamity)
+        self.register_pattern(r"Miracle|Survive.*?1HP", self._handle_miracle)
+        self.register_pattern(r"Doom|Instant Kill", self._handle_doom)
+        self.register_pattern(r"Divine|Auto-Save", self._handle_divine_save)
+        self.register_pattern(r"Favor|Auto.*?Natural 20", self._handle_auto_nat20)
+        self.register_pattern(r"Karma|Reflect Hit", self._handle_karma)
+        
+        # --- OMEN: UTILITY ---
+        self.register_pattern(r"Coin Flip|50/50|Guess", self._handle_coin_flip)
+        self.register_pattern(r"Locate Object|Find", self._handle_locate)
+        self.register_pattern(r"Danger Sense|Hunch", self._handle_danger_sense)
+        self.register_pattern(r"Best Route|Path", self._handle_best_route)
+        self.register_pattern(r"Random Buff|Gamble", self._handle_gamble)
+        self.register_pattern(r"Find Loot|Serendipity", self._handle_serendipity)
+        self.register_pattern(r"Talk to Dead|Spirit", self._handle_speak_dead)
+        self.register_pattern(r"Hint.*?Future|Augury", self._handle_augury)
+        self.register_pattern(r"Force.*?Roll|Destiny", self._handle_destiny)
+
+        # ============================================
+        # SCHOOL OF VITA EFFECTS (Life/Death Magic)
+        # ============================================
+        
+        # --- VITA: HEALING ---
+        self.register_pattern(r"Heal HP every turn|Regenerat", self._handle_regeneration)
+        self.register_pattern(r"Heal minor wounds|Minor Heal", self._handle_minor_heal)
+        self.register_pattern(r"Stasis Heal|Full recovery", self._handle_full_heal)
+        self.register_pattern(r"Stop Bleeding|Clot", self._handle_stop_bleed)
+        self.register_pattern(r"Cure Disease|Immunity", self._handle_cure_disease)
+        self.register_pattern(r"Cure Poison|Antidote", self._handle_cure_poison)
+        
+        # --- VITA: LIFE MANIPULATION ---
+        self.register_pattern(r"Lifesteal|Heal for Dmg|Drain Life", self._handle_lifesteal)
+        self.register_pattern(r"Life Bond|Share HP", self._handle_life_bond)
+        self.register_pattern(r"Auto-Life|on death", self._handle_auto_life)
+        self.register_pattern(r"Resurrect|Revive|Bring back", self._handle_resurrect)
+        self.register_pattern(r"Eat minion.*?heal|Consume ally", self._handle_consume_ally)
+        
+        # --- VITA: DEBUFFS & DAMAGE ---
+        self.register_pattern(r"Inflict Disease|Plague", self._handle_inflict_disease)
+        self.register_pattern(r"Necrotic damage|Wither", self._handle_necrotic)
+        self.register_pattern(r"Drain Stat|Weaken", self._handle_stat_drain)
+        self.register_pattern(r"Massive.*?DoT|Rot", self._handle_massive_dot)
+        self.register_pattern(r"Spreading.*?infection|Contagion", self._handle_contagion)
+        self.register_pattern(r"Kill creature type|Bane", self._handle_creature_bane)
+        
+        # --- VITA: BODY MODIFICATION ---
+        self.register_pattern(r"Enlarge|Grow.*?size", self._handle_enlarge)
+        self.register_pattern(r"Grow Gills|Grow Claws|Grow Wings", self._handle_grow_appendage)
+        self.register_pattern(r"Natural Armor|skin.*?armor", self._handle_natural_armor)
+        self.register_pattern(r"Turn into bugs|Swarm form", self._handle_swarm_form)
+        self.register_pattern(r"Grow spare body|Clone", self._handle_clone)
+        
+        # --- VITA: UTILITY ---
+        self.register_pattern(r"Animate.*?(Plant|Tree)|Awaken", self._handle_animate_plant)
+        self.register_pattern(r"Create.*?Lifeform|Spawn", self._handle_create_life)
+        self.register_pattern(r"Detect Life|Life Radar", self._handle_detect_life)
+        self.register_pattern(r"Vines.*?restrict|Entangle", self._handle_vines)    # --- NEW HANDLERS ---
     
     def _handle_cost(self, match, ctx):
         amt = int(match.group(1))
@@ -334,13 +475,28 @@ class EffectRegistry:
         if "log" in ctx: ctx["log"].append(f"Can Teleport {dist}ft")
 
     def _handle_fly_speed(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Has Fly Speed")
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_fly_speed = True
+            if "log" in ctx: ctx["log"].append("Has Fly Speed")
 
     def _handle_swim_speed(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Has Swim Speed")
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_swim_speed = True
+            if "log" in ctx: ctx["log"].append("Has Swim Speed")
 
     def _handle_climb_speed(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Has Climb Speed")
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_climb_speed = True
+            if "log" in ctx: ctx["log"].append("Has Climb Speed")
+    
+    def _handle_burrow_speed(self, match, ctx):
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_burrow_speed = True
+            if "log" in ctx: ctx["log"].append("Has Burrow Speed")
 
     def _handle_invisibility(self, match, ctx):
         user = ctx.get("attacker")
@@ -1010,6 +1166,621 @@ class EffectRegistry:
         if target:
             target.is_restrained = True
             ctx["log"].append(f"{target.name} Restrained!")
+
+    # ============================================
+    # SCHOOL OF FLUX HANDLERS
+    # ============================================
+    
+    def _handle_ethereal(self, match, ctx):
+        """Become Ethereal - immune to physical damage"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.is_ethereal = True if hasattr(user, 'is_ethereal') else None
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(user, "apply_effect"):
+                user.apply_effect("Ethereal", duration)
+            if "log" in ctx: ctx["log"].append(f"{user.name} becomes Ethereal! (Immune to Physical)")
+    
+    def _handle_phase(self, match, ctx):
+        """Phase through matter temporarily"""
+        user = ctx.get("attacker")
+        target = ctx.get("target")
+        
+        # If targeting ally, apply to them
+        apply_to = target if target else user
+        if apply_to:
+            apply_to.is_phasing = True if hasattr(apply_to, 'is_phasing') else None
+            if hasattr(apply_to, "apply_effect"):
+                apply_to.apply_effect("Phasing", 1)
+            if "log" in ctx: ctx["log"].append(f"{apply_to.name} is Phasing!")
+    
+    def _handle_phase_walk(self, match, ctx):
+        """Walk through solid walls"""
+        user = ctx.get("attacker")
+        if user:
+            # Allow movement through obstacles for 1 turn
+            user.can_phase_walk = True
+            if "log" in ctx: ctx["log"].append(f"{user.name} can walk through walls!")
+    
+    def _handle_amorphous(self, match, ctx):
+        """Amorphous form - immune to crits and grapple"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.is_amorphous = True if hasattr(user, 'is_amorphous') else None
+            # Also grants crit immunity
+            if "is_crit" in ctx:
+                ctx["is_crit"] = False
+            # Cannot be grappled
+            user.is_grapple_immune = True
+            if "log" in ctx: ctx["log"].append(f"{user.name} becomes Amorphous! (Immune to Crits & Grapple)")
+    
+    def _handle_displacement(self, match, ctx):
+        """Displacement - appear 5ft from actual position, attacks have disadvantage"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_displacement = True
+            # Enemies have disadvantage when attacking
+            if "log" in ctx: ctx["log"].append(f"{user.name} is displaced! (Attackers have Disadvantage)")
+    
+    def _handle_disintegrate(self, match, ctx):
+        """Disintegrate - massive damage, kills outright if HP drops to 0"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            # Massive damage: 10d6 force
+            dmg = sum(random.randint(1, 6) for _ in range(10))
+            target.hp -= dmg
+            
+            # If this kills them, they turn to dust (can't be revived normally)
+            if target.hp <= 0:
+                target.is_disintegrated = True
+                if "log" in ctx: ctx["log"].append(f"{target.name} DISINTEGRATED! ({dmg} force damage) - reduced to dust!")
+            else:
+                if "log" in ctx: ctx["log"].append(f"Disintegrate deals {dmg} force damage to {target.name}!")
+    
+    def _handle_dot(self, match, ctx):
+        """Damage over Time / Bleed effect"""
+        target = ctx.get("target")
+        if target:
+            # Apply bleeding effect - 1d4 damage per turn for 3 turns
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Bleeding", duration=3, on_expire="is_bleeding")
+            target.is_bleeding = True
+            target.bleed_damage = random.randint(1, 4)  # Store DoT amount
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Bleeding! ({target.bleed_damage}/turn for 3 rounds)")
+    
+    def _handle_sever_limb(self, match, ctx):
+        """Cut off a limb - permanent debuff"""
+        target = ctx.get("target")
+        if target:
+            limbs = ["arm", "leg", "tail", "wing"]
+            severed = random.choice(limbs)
+            
+            # Apply permanent penalty
+            if severed == "arm":
+                if "Might" in target.stats:
+                    target.stats["Might"] = max(0, target.stats["Might"] - 4)
+            elif severed == "leg":
+                if hasattr(target, "movement"):
+                    target.movement = max(5, target.movement - 10)
+            
+            target.hp -= 5  # Trauma damage
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s {severed} severed! Permanent debuff applied.")
+    
+    def _handle_compress_space(self, match, ctx):
+        """Compress space to a point - pulls all nearby enemies toward caster"""
+        engine = ctx.get("engine")
+        caster = ctx.get("attacker")
+        if not engine or not caster: return
+        
+        pull_range = 4  # 20ft
+        pulled = 0
+        
+        for c in engine.combatants:
+            if c == caster or not c.is_alive(): continue
+            dx = abs(c.x - caster.x)
+            dy = abs(c.y - caster.y)
+            dist = max(dx, dy)
+            
+            if dist <= pull_range and dist > 1:
+                # Pull 2 squares toward caster
+                dir_x = -1 if c.x > caster.x else (1 if c.x < caster.x else 0)
+                dir_y = -1 if c.y > caster.y else (1 if c.y < caster.y else 0)
+                c.x += dir_x * 2
+                c.y += dir_y * 2
+                pulled += 1
+        
+        if "log" in ctx: ctx["log"].append(f"Space compressed! {pulled} enemies pulled toward {caster.name}!")
+    
+    def _handle_escape_grapple(self, match, ctx):
+        """Escape grapple/bindings/restraints automatically"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.is_grappled = False
+            user.is_restrained = False
+            if "log" in ctx: ctx["log"].append(f"{user.name} escapes restraints!")
+    
+    def _handle_find_path(self, match, ctx):
+        """Magically find path to any location"""
+        if "log" in ctx: ctx["log"].append("Path revealed! (Pathfinding active)")
+    
+    def _handle_disarm(self, match, ctx):
+        """Force target to drop held item"""
+        target = ctx.get("target")
+        if target:
+            # Remove first weapon from inventory
+            if hasattr(target, "inventory") and target.inventory:
+                dropped = target.inventory.pop(0) if target.inventory else "nothing"
+                if "log" in ctx: ctx["log"].append(f"{target.name} drops {dropped}!")
+            else:
+                if "log" in ctx: ctx["log"].append(f"{target.name} disarmed!")
+    
+    def _handle_snatch_projectile(self, match, ctx):
+        """Catch a thrown weapon/projectile"""
+        if "incoming_damage" in ctx:
+            ctx["incoming_damage"] = 0
+        if "log" in ctx: ctx["log"].append("Projectile snatched from air! No damage.")
+    
+    def _handle_steal_item(self, match, ctx):
+        """Steal equipped item from target"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            if hasattr(target, "inventory") and target.inventory:
+                stolen = target.inventory.pop(0)
+                if hasattr(attacker, "inventory"):
+                    attacker.inventory.append(stolen)
+                if "log" in ctx: ctx["log"].append(f"{attacker.name} steals {stolen} from {target.name}!")
+            else:
+                if "log" in ctx: ctx["log"].append(f"{target.name} has nothing to steal!")
+    
+    def _handle_switch_items(self, match, ctx):
+        """Swap held items with target"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker and hasattr(target, "inventory") and hasattr(attacker, "inventory"):
+            # Swap first items
+            if target.inventory and attacker.inventory:
+                target.inventory[0], attacker.inventory[0] = attacker.inventory[0], target.inventory[0]
+                if "log" in ctx: ctx["log"].append(f"Items swapped between {attacker.name} and {target.name}!")
+    
+    def _handle_ignore_armor(self, match, ctx):
+        """Ignore target's armor (attack bypasses AC)"""
+        ctx["ignore_armor"] = True
+        ctx["auto_hit"] = True  # Effectively auto-hits since armor is ignored
+        if "log" in ctx: ctx["log"].append("Attack ignores armor!")
+    
+    def _handle_precision_knockdown(self, match, ctx):
+        """Precision strike to knock target prone"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            if "log" in ctx: ctx["log"].append(f"Precision hit! {target.name} knocked Prone!")
+    
+    def _handle_reduce_melee_damage(self, match, ctx):
+        """Reduce incoming melee damage"""
+        if "incoming_damage" in ctx:
+            reduction = ctx["incoming_damage"] // 2
+            ctx["incoming_damage"] = ctx["incoming_damage"] - reduction
+            if "log" in ctx: ctx["log"].append(f"Melee damage reduced by {reduction}!")
+    
+    def _handle_open_mechanism(self, match, ctx):
+        """Open simple mechanism/lock"""
+        if "log" in ctx: ctx["log"].append("Mechanism unlocked!")
+    
+    def _handle_purify_liquid(self, match, ctx):
+        """Clean poison/toxin from liquid"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_poisoned = False
+            if hasattr(target, "active_effects"):
+                target.active_effects = [e for e in target.active_effects if "poison" not in e.get("name", "").lower()]
+            if "log" in ctx: ctx["log"].append(f"Poison purified from {target.name}!")
+    
+    def _handle_unmix_potion(self, match, ctx):
+        """Separate compound/potion into components"""
+        if "log" in ctx: ctx["log"].append("Compound separated into base components!")
+
+    # ============================================
+    # ON_ATTACK REACTIVE HANDLERS
+    # ============================================
+    
+    def _handle_attack_adjacent(self, match, ctx):
+        """Attack two adjacent enemies with one roll"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        primary = ctx.get("target")
+        if not engine or not attacker or not primary: return
+        
+        # Find another enemy adjacent to primary
+        for c in engine.combatants:
+            if c == attacker or c == primary or not c.is_alive(): continue
+            dx = abs(c.x - primary.x)
+            dy = abs(c.y - primary.y)
+            if max(dx, dy) <= 1:
+                # Hit this one too with same damage
+                dmg = ctx.get("incoming_damage", 5)
+                c.hp -= dmg
+                if "log" in ctx: ctx["log"].append(f"Cleave! {c.name} takes {dmg} damage!")
+                return
+    
+    def _handle_flanking_attack(self, match, ctx):
+        """Bonus attack against flanking enemy"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if not engine or not attacker: return
+        
+        # Find enemy adjacent and "behind" attacker
+        for c in engine.combatants:
+            if c == attacker or not c.is_alive(): continue
+            # Check if flanking (opposite side of another ally)
+            dx = c.x - attacker.x
+            dy = c.y - attacker.y
+            if max(abs(dx), abs(dy)) <= 1:
+                # Quick sting attack
+                sting_dmg = 3
+                c.hp -= sting_dmg
+                if "log" in ctx: ctx["log"].append(f"Flanking sting! {c.name} takes {sting_dmg}!")
+                return
+
+    def _handle_opportunity_attack(self, match, ctx):
+        """Opportunity attack when enemy enters range"""
+        range_ft = int(match.group(1)) if match.group(1) else 5
+        ctx["opportunity_range"] = range_ft
+        if "log" in ctx: ctx["log"].append(f"Ready: Opportunity attack within {range_ft}ft")
+
+    def _handle_rally_allies(self, match, ctx):
+        """Give allies bonus to attack rolls"""
+        bonus = int(match.group(1)) if match.group(1) else 1
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if not engine or not attacker: return
+        
+        # Apply buff to all allies within 30ft (6 squares)
+        for c in engine.combatants:
+            if c == attacker or not c.is_alive(): continue
+            dx = abs(c.x - attacker.x)
+            dy = abs(c.y - attacker.y)
+            if max(dx, dy) <= 6:
+                if hasattr(c, "apply_effect"):
+                    c.apply_effect("RallyBonus", duration=1)
+                if "log" in ctx: ctx["log"].append(f"{c.name} gains +{bonus} to Attack!")
+
+    def _handle_mobile_shooter(self, match, ctx):
+        """No penalty to ranged attacks while moving"""
+        ctx["mobile_shooter"] = True
+        if "log" in ctx: ctx["log"].append("Mobile Shooter: No movement penalty to ranged")
+
+    def _handle_piercing_crit(self, match, ctx):
+        """Crit range 19-20 on piercing attacks"""
+        ctx["crit_threshold"] = 19
+        if "log" in ctx: ctx["log"].append("Piercing Crit: 19-20!")
+
+    def _handle_tail_attack(self, match, ctx):
+        """Reflex attack against enemy behind"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if not engine or not attacker: return
+        
+        # Check for enemy directly behind (y - 1)
+        for c in engine.combatants:
+            if c == attacker or not c.is_alive(): continue
+            if c.x == attacker.x and c.y == attacker.y - 1:
+                tail_dmg = 4
+                c.hp -= tail_dmg
+                if "log" in ctx: ctx["log"].append(f"Tail swipe! {c.name} takes {tail_dmg}!")
+                return
+
+    def _handle_shield_ally(self, match, ctx):
+        """Shield adjacent ally from overhead attacks"""
+        if "log" in ctx: ctx["log"].append("Shielding adjacent ally from overhead attacks")
+
+    def _handle_water_stability(self, match, ctx):
+        """Remain stable against water attacks"""
+        ctx["water_immune_push"] = True
+        if "log" in ctx: ctx["log"].append("Water Stability: Cannot be pushed by water")
+
+    def _handle_speed_damage(self, match, ctx):
+        """Damage scales with Speed stat"""
+        attacker = ctx.get("attacker")
+        if attacker:
+            speed = attacker.derived.get("Speed", 30) // 5
+            if "incoming_damage" in ctx:
+                ctx["incoming_damage"] += speed
+            if "log" in ctx: ctx["log"].append(f"Speed Bonus: +{speed} damage!")
+
+    def _handle_quick_attack(self, match, ctx):
+        """Quick low-damage attack"""
+        target = ctx.get("target")
+        if target:
+            dmg = 2
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"Quick strike! {dmg} damage!")
+
+    def _handle_self_hit(self, match, ctx):
+        """Enemy damages self instead"""
+        attacker = ctx.get("attacker")  # The enemy attacking
+        dmg = ctx.get("incoming_damage", 5)
+        if attacker:
+            attacker.hp -= dmg
+            ctx["incoming_damage"] = 0  # Cancel original damage
+            if "log" in ctx: ctx["log"].append(f"Reflected! {attacker.name} hits self for {dmg}!")
+
+    def _handle_miss_ally(self, match, ctx):
+        """Miss redirects to ally"""
+        engine = ctx.get("engine")
+        target = ctx.get("target")
+        if not engine or not target: return
+        
+        # Find adjacent ally
+        for c in engine.combatants:
+            if c == target or not c.is_alive(): continue
+            dx = abs(c.x - target.x)
+            dy = abs(c.y - target.y)
+            if max(dx, dy) <= 1:
+                dmg = ctx.get("incoming_damage", 3)
+                c.hp -= dmg
+                if "log" in ctx: ctx["log"].append(f"Miss hits {c.name} instead for {dmg}!")
+                return
+
+    def _handle_auto_damage(self, match, ctx):
+        """Automatic damage (no roll needed)"""
+        target = ctx.get("target")
+        if target:
+            dmg = 5  # Fixed damage
+            target.hp -= dmg
+            ctx["auto_hit"] = True
+            if "log" in ctx: ctx["log"].append(f"Auto-damage: {dmg}!")
+
+    def _handle_weak_point(self, match, ctx):
+        """Hit weak point for automatic crit"""
+        ctx["is_crit"] = True
+        if "incoming_damage" in ctx:
+            ctx["incoming_damage"] *= 2
+        if "log" in ctx: ctx["log"].append("Weak Point! Critical hit!")
+
+    def _handle_true_strike(self, match, ctx):
+        """Bonus to hit on next attack"""
+        if "attack_roll" in ctx:
+            ctx["attack_roll"] += 5
+        if "log" in ctx: ctx["log"].append("True Strike: +5 to hit!")
+
+    def _handle_unhealable_wound(self, match, ctx):
+        """Wound cannot be healed by non-magical means"""
+        target = ctx.get("target")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Unhealable", duration=600)  # 1 hour
+            if "log" in ctx: ctx["log"].append(f"{target.name} has an unhealable wound!")
+
+    def _handle_headbutt(self, match, ctx):
+        """Headbutt pushes target back 5ft"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            dmg = 3
+            target.hp -= dmg
+            # Push 5ft (1 square)
+            dx = target.x - attacker.x
+            dy = target.y - attacker.y
+            if dx != 0: dx = 1 if dx > 0 else -1
+            if dy != 0: dy = 1 if dy > 0 else -1
+            target.x += dx
+            target.y += dy
+            if "log" in ctx: ctx["log"].append(f"Headbutt! {target.name} takes {dmg} and pushed!")
+
+    # ============================================
+    # SCHOOL OF OMEN HANDLERS (Luck/Fate Magic)
+    # ============================================
+    
+    def _handle_jinx(self, match, ctx):
+        """Apply -1d4 to target's next roll"""
+        target = ctx.get("target")
+        if target:
+            malus = random.randint(1, 4)
+            if "attack_roll" in ctx:
+                ctx["attack_roll"] -= malus
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Jinxed", duration=1)
+            if "log" in ctx: ctx["log"].append(f"Jinxed! -{malus} to next roll!")
+
+    def _handle_bless(self, match, ctx):
+        """Apply +1d4 to ally's next roll"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            bonus = random.randint(1, 4)
+            if "attack_roll" in ctx:
+                ctx["attack_roll"] += bonus
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Blessed", duration=1)
+            if "log" in ctx: ctx["log"].append(f"Blessed! +{bonus} to next roll!")
+
+    def _handle_curse(self, match, ctx):
+        """Apply Disadvantage on all rolls"""
+        target = ctx.get("target")
+        if target:
+            ctx["disadvantage"] = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Cursed", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Cursed! Disadvantage on rolls!")
+
+    def _handle_fate(self, match, ctx):
+        """Apply Advantage on all rolls"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            ctx["advantage"] = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Fated", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Fated! Advantage on rolls!")
+
+    def _handle_lucky(self, match, ctx):
+        """Reroll any 1s"""
+        ctx["reroll_ones"] = True
+        if "log" in ctx: ctx["log"].append("Lucky! Reroll 1s!")
+
+    def _handle_force_reroll(self, match, ctx):
+        """Force enemy to reroll, take lower"""
+        target = ctx.get("target")
+        if target:
+            ctx["force_reroll_low"] = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} must reroll and take lower!")
+
+    def _handle_luck_trip(self, match, ctx):
+        """Bad luck causes target to trip"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            if "log" in ctx: ctx["log"].append(f"Bad luck! {target.name} trips and falls Prone!")
+
+    def _handle_weapon_jam(self, match, ctx):
+        """Cause weapon to jam/fail"""
+        target = ctx.get("target")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("WeaponJammed", duration=1)
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s weapon jams!")
+
+    def _handle_fumble(self, match, ctx):
+        """Cause target to drop held item"""
+        target = ctx.get("target")
+        if target and hasattr(target, "inventory") and target.inventory:
+            dropped = target.inventory.pop(0)
+            if "log" in ctx: ctx["log"].append(f"{target.name} fumbles and drops {dropped}!")
+        elif "log" in ctx:
+            ctx["log"].append("Fumble! (No item to drop)")
+
+    def _handle_backfire(self, match, ctx):
+        """Enemy hits self instead of target"""
+        attacker = ctx.get("attacker")
+        dmg = ctx.get("incoming_damage", 5)
+        if attacker:
+            attacker.hp -= dmg
+            ctx["incoming_damage"] = 0
+            if "log" in ctx: ctx["log"].append(f"Backfire! {attacker.name} hits self for {dmg}!")
+
+    def _handle_ricochet(self, match, ctx):
+        """Miss ricochets to hit ally"""
+        # Same as miss_ally but thematic for Omen
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if not engine or not attacker: return
+        
+        for c in engine.combatants:
+            if c == attacker or not c.is_alive(): continue
+            dx = abs(c.x - attacker.x)
+            dy = abs(c.y - attacker.y)
+            if max(dx, dy) <= 2:
+                dmg = ctx.get("incoming_damage", 4)
+                c.hp -= dmg
+                if "log" in ctx: ctx["log"].append(f"Ricochet! {c.name} hit for {dmg}!")
+                return
+
+    def _handle_calamity(self, match, ctx):
+        """Force critical failure on target"""
+        target = ctx.get("target")
+        if target:
+            ctx["force_crit_fail"] = True
+            if "attack_roll" in ctx:
+                ctx["attack_roll"] = 1  # Natural 1
+            if "log" in ctx: ctx["log"].append(f"Calamity! {target.name} critically fails!")
+
+    def _handle_miracle(self, match, ctx):
+        """Survive lethal damage with 1 HP"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Miracle", duration=1)
+            # Set flag that will be checked before death
+            ctx["miracle_save"] = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} invokes Miracle! Will survive with 1 HP!")
+
+    def _handle_doom(self, match, ctx):
+        """Instant kill (powerful effect)"""
+        target = ctx.get("target")
+        if target:
+            target.hp = 0
+            if "log" in ctx: ctx["log"].append(f"DOOM! {target.name} is instantly slain!")
+
+    def _handle_divine_save(self, match, ctx):
+        """Automatically succeed on save"""
+        ctx["save_success"] = True
+        ctx["auto_save"] = True
+        if "log" in ctx: ctx["log"].append("Divine intervention! Auto-save success!")
+
+    def _handle_auto_nat20(self, match, ctx):
+        """Automatically roll Natural 20"""
+        ctx["attack_roll"] = 20
+        ctx["is_crit"] = True
+        ctx["auto_hit"] = True
+        if "log" in ctx: ctx["log"].append("Divine Favor! Natural 20!")
+
+    def _handle_karma(self, match, ctx):
+        """Reflect damage back to attacker"""
+        attacker = ctx.get("attacker")
+        dmg = ctx.get("incoming_damage", 5)
+        if attacker and dmg > 0:
+            attacker.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"Karma! {attacker.name} takes {dmg} reflected damage!")
+
+    def _handle_coin_flip(self, match, ctx):
+        """50/50 chance for good or bad outcome"""
+        result = random.choice(["Heads", "Tails"])
+        ctx["coin_result"] = result
+        if "log" in ctx: ctx["log"].append(f"Coin Flip: {result}!")
+
+    def _handle_locate(self, match, ctx):
+        """Locate an object"""
+        if "log" in ctx: ctx["log"].append("Object located! (Direction known)")
+
+    def _handle_danger_sense(self, match, ctx):
+        """Sense incoming danger"""
+        attacker = ctx.get("attacker")
+        if attacker:
+            if hasattr(attacker, "apply_effect"):
+                attacker.apply_effect("DangerSense", duration=10)
+            ctx["cannot_be_surprised"] = True
+            if "log" in ctx: ctx["log"].append("Danger Sense active! Cannot be surprised!")
+
+    def _handle_best_route(self, match, ctx):
+        """Find best path/route"""
+        if "log" in ctx: ctx["log"].append("Best route revealed!")
+
+    def _handle_gamble(self, match, ctx):
+        """Random buff effect"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            buffs = ["Blessed", "Fated", "Lucky", "Hasted", "Strengthened"]
+            chosen = random.choice(buffs)
+            if hasattr(target, "apply_effect"):
+                target.apply_effect(chosen, duration=3)
+            if "log" in ctx: ctx["log"].append(f"Gamble! {target.name} gains {chosen}!")
+
+    def _handle_serendipity(self, match, ctx):
+        """Find useful loot"""
+        attacker = ctx.get("attacker")
+        if attacker and hasattr(attacker, "inventory"):
+            loot = random.choice(["Healing Potion", "Gold Coins", "Magic Scroll", "Lucky Charm"])
+            attacker.inventory.append(loot)
+            if "log" in ctx: ctx["log"].append(f"Serendipity! Found {loot}!")
+
+    def _handle_speak_dead(self, match, ctx):
+        """Communicate with deceased"""
+        if "log" in ctx: ctx["log"].append("Spirit contacted! You may ask 3 questions...")
+
+    def _handle_augury(self, match, ctx):
+        """Hint about future outcome"""
+        outcomes = ["Weal (Good)", "Woe (Bad)", "Both", "Neither"]
+        result = random.choice(outcomes)
+        if "log" in ctx: ctx["log"].append(f"Augury reveals: {result}")
+
+    def _handle_destiny(self, match, ctx):
+        """Force a specific roll result"""
+        # Set next roll to a specific value
+        forced = random.randint(10, 20)  # Generally favorable
+        ctx["forced_roll"] = forced
+        if "attack_roll" in ctx:
+            ctx["attack_roll"] = forced
+        if "log" in ctx: ctx["log"].append(f"Destiny! Next roll forced to {forced}!")
 
 # Singleton instance for easy access
 registry = EffectRegistry()

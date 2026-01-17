@@ -42,6 +42,12 @@ class Combatant:
         self.is_sanctuary = False
         self.taunted_by = None
         
+        # FIX: Critical states
+        self.is_dead = False          # True = permanently dead until revived
+        self.is_broken = False        # True = CMP at 0 (mental break)
+        self.is_exhausted = False     # True = SP at 0 (physical exhaustion)
+        self.is_drained = False       # True = FP at 0 (focus depleted)
+        
         # Duration-based effects: list of {name, duration, on_expire}
         # duration = rounds remaining (-1 = permanent until cleared)
         self.active_effects = []
@@ -88,7 +94,70 @@ class Combatant:
         return 0
 
     def is_alive(self):
-        return self.hp > 0
+        # FIX: Also check is_dead flag
+        return self.hp > 0 and not self.is_dead
+    
+    def take_damage(self, amount):
+        """
+        Apply damage with death checking.
+        Returns actual damage dealt.
+        """
+        if self.is_dead:
+            return 0  # Can't damage a corpse
+        
+        self.hp -= amount
+        if self.hp <= 0:
+            self.hp = 0
+            self.is_dead = True
+        return amount
+    
+    def heal(self, amount):
+        """
+        Heal HP. FIX: Cannot heal if dead.
+        Returns actual healing applied.
+        """
+        if self.is_dead:
+            return 0  # Need resurrection, not healing
+        
+        old_hp = self.hp
+        self.hp = min(self.hp + amount, self.max_hp)
+        return self.hp - old_hp
+    
+    def revive(self, hp_amount=1):
+        """
+        Revive a dead character.
+        """
+        if self.is_dead:
+            self.is_dead = False
+            self.hp = min(hp_amount, self.max_hp)
+            return True
+        return False
+    
+    def check_resources(self):
+        """
+        Check resource levels and set broken states.
+        Call this after modifying CMP/SP/FP.
+        """
+        # CMP = Mental break
+        if self.cmp <= 0:
+            self.cmp = 0
+            self.is_broken = True
+        elif self.cmp > 0:
+            self.is_broken = False
+            
+        # SP = Exhaustion
+        if self.sp <= 0:
+            self.sp = 0
+            self.is_exhausted = True
+        elif self.sp > 0:
+            self.is_exhausted = False
+            
+        # FP = Drained
+        if self.fp <= 0:
+            self.fp = 0
+            self.is_drained = True
+        elif self.fp > 0:
+            self.is_drained = False
 
     def roll_save(self, save_type):
         """
@@ -115,14 +184,26 @@ class Combatant:
         effect_name: e.g. 'Frightened', 'Poisoned'
         duration: rounds (-1 = permanent)
         on_expire: optional callback or flag name to clear
+        
+        FIX: Now refreshes duration if effect already exists (no stacking).
         """
+        flag = f"is_{effect_name.lower()}"
+        on_exp = on_expire or flag
+        
+        # Check if effect already exists - refresh duration instead of stacking
+        for eff in self.active_effects:
+            if eff["name"] == effect_name:
+                # Refresh: take the longer duration
+                eff["duration"] = max(eff["duration"], duration)
+                return
+        
+        # New effect
         self.active_effects.append({
             "name": effect_name,
             "duration": duration,
-            "on_expire": on_expire or f"is_{effect_name.lower()}"
+            "on_expire": on_exp
         })
         # Also set the flag immediately
-        flag = f"is_{effect_name.lower()}"
         if hasattr(self, flag):
             setattr(self, flag, True)
 
@@ -324,22 +405,20 @@ class CombatEngine:
         return True, f"Moved to {tx},{ty}. ({char.movement_remaining} left)"
 
     def attack_target(self, attacker, target):
-        # Range Check
-        reach = 1.5 # 5ft + diagonals
-        # Allow reach override from context (can't easily do BEFORE effect loading...)
-        # Chicken/Egg: We need to load effects to know reach, but we check range before rolling.
-        # Solution: Load effects for "Passive" reach first? Or just allow attack if within expanded reach?
-        # For now, let's keep basic check.
-        
+        # FIX #4: Proper Range Check
         dx = abs(attacker.x - target.x)
         dy = abs(attacker.y - target.y)
-        dist_sq = max(dx, dy)
+        dist_sq = max(dx, dy)  # Chebyshev distance in squares
         
-        # Check defaults
-        if dist_sq > 1: # Default 5ft
-             # Check if we have reach effect?
-             # This requires pre-loading.
-             pass
+        # Default melee reach is 1 square (5ft)
+        # Check for reach-extending effects
+        reach = 1
+        for eff in attacker.active_effects:
+            if "reach" in eff["name"].lower():
+                reach = 2  # 10ft reach
+        
+        if dist_sq > reach:
+            return [f"Target out of range! (Distance: {dist_sq * 5}ft, Reach: {reach * 5}ft)"]
 
         # 1. Determine Stats
         atk_stat = "Might"
