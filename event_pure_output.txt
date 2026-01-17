@@ -1,0 +1,52 @@
+==================================================
+10 PURE EVENTS (No Chaos)
+==================================================
+
+[1] Tripwire Alarm
+    Type: TRAP
+    Danger: 1, Check: Awareness
+    Chaos: NONE
+
+[2] Wounded Soldier
+    Type: NPC_SOCIAL
+    Disposition: Desperate, Reward: Ally
+    Chaos: NONE
+
+[3] Guard Patrol
+    Type: STEALTH
+    Difficulty: 2, Check: Finesse
+    Chaos: NONE
+
+[4] Wandering Peddler
+    Type: MERCHANT
+    Chaos: NONE
+
+[5] Skeleton with Pouch
+    Type: ITEM_FIND
+    Loot Tier: 2
+    Chaos: NONE
+
+[6] Guard Patrol
+    Type: STEALTH
+    Difficulty: 2, Check: Finesse
+    Chaos: NONE
+
+[7] Goblin Scouts
+    Type: MONSTER_AMBUSH
+    Tier: 1, Count: 1d4+1, AI: Aggressive
+    Chaos: NONE
+
+[8] Hidden Cache
+    Type: ITEM_FIND
+    Loot Tier: 3
+    Chaos: NONE
+
+[9] Trapped Hallway
+    Type: STEALTH
+    Difficulty: 3, Check: Awareness
+    Chaos: NONE
+
+[10] Wolf Pack
+    Type: MONSTER_AMBUSH
+    Tier: 1, Count: 1d6, AI: Flanking
+    Chaos: NONE

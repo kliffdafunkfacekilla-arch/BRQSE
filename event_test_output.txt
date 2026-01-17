@@ -1,0 +1,49 @@
+==================================================
+ENCOUNTER GENERATOR TEST
+==================================================
+
+--- 5 RANDOM ENCOUNTERS ---
+
+[1] EVENT: Pressure Plate Sequence
+
+[2] EVENT: Magic Rune
+
+[3] EVENT: Magic Rune
+
+[4] EVENT: Wolf Pack
+
+[5] EVENT: Lost Traveler
+
+
+--- FORCED EVENT TYPES ---
+
+TRAP: Tripwire Alarm
+  Details: {'name': 'Tripwire Alarm', 'danger': 1, 'skill_check': 'Awareness', 'effect': 'Alert Enemies', 'type': 'TRAP'}
+
+PUZZLE: Magic Seal
+  Details: {'name': 'Magic Seal', 'difficulty': 5, 'skill_check': 'Knowledge', 'reward': 'Artifact', 'type': 'PUZZLE'}
+
+NPC_SOCIAL: Rival Adventurer
+  Details: {'name': 'Rival Adventurer', 'disposition': 'Hostile', 'skill_check': 'Charm', 'reward': 'Duel or Trade', 'type': 'NPC_SOCIAL'}
+
+MONSTER_AMBUSH: Wolf Pack
+  Details: {'name': 'Wolf Pack', 'tier': 1, 'count': '1d6', 'behavior': 'Flanking', 'type': 'MONSTER_AMBUSH'}
+
+
+--- WITH CHAOS MODIFIERS ---
+
+CHAOS: WILD_MAGIC
+  EVENT: Abandoned Campsite
+  CHAOS: WILD_MAGIC - Magic is unstable.
+  Effects: ['All spells trigger wild surge', 'Random beneficial/harmful effects', 'FP costs halved']
+
+CHAOS: GRAVITY_ANOMALY
+  EVENT: Black Market Contact
+  CHAOS: GRAVITY_ANOMALY - Gravity shifts unpredictably.
+  Effects: ['Movement costs doubled', 'Jump distance tripled', 'Falling damage halved']
+
+CHAOS: BLOOD_MOON
+  EVENT: Magic Seal
+  CHAOS: BLOOD_MOON - The moon bleeds red.
+  Effects: ['Enemies +2 to all stats', 'Undead regenerate', 'Player crit range expanded']
+

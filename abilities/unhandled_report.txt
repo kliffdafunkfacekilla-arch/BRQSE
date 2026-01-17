@@ -17,8 +17,6 @@
 [ON_HIT (90)] AOE hit around self.
 [ON_HIT (90)] Damage scales with Speed.
 [ON_HIT (90)] Quick low-damage hit.
-[ON_HIT (90)] +1d4 to Hit.
-[ON_HIT (90)] -1d4 to Hit.
 [ON_HIT (90)] Enemy hits self.
 [ON_HIT (90)] Miss hits Ally.
 [ON_HIT (90)] Auto-Damage (No Roll).
@@ -63,7 +61,6 @@
 [ACTIVE (31)] While swimming, you can Dash as a Bonus Action.
 [OTHER (477)] Alter Reality.
 [OTHER (477)] Block Teleportation.
-[OTHER (477)] Call Ally/Monster.
 [OTHER (477)] Create Dead Magic Zone.
 [OTHER (477)] Create Illusion (Visual).
 [OTHER (477)] Decipher text/runes.
@@ -248,10 +245,8 @@
 [OTHER (477)] Create a safe hut/bunker.
 [OTHER (477)] Create a temporary structure.
 [OTHER (477)] Create an obstacle to trip foes.
-[OTHER (477)] Create cover instantly.
 [OTHER (477)] Create new land/island.
 [OTHER (477)] Create permanent wall/tower.
-[OTHER (477)] Create walls around target.
 [OTHER (477)] End Time for target.
 [OTHER (477)] Feign Death (Indistinguishable).
 [OTHER (477)] Freeze target in time/space.
@@ -265,7 +260,6 @@
 [OTHER (477)] Stop target movement completely.
 [OTHER (477)] Stop target's heart (Save).
 [OTHER (477)] Turn target to stone (Save).
-[OTHER (477)] Avoid Traps automatically.
 [OTHER (477)] Bonus to Saving Throw.
 [OTHER (477)] Brain Melt (Int Dmg).
 [OTHER (477)] Cannot Fail rolls.
@@ -339,7 +333,6 @@
 [OTHER (477)] You can hold your breath for 1 hour.
 [OTHER (477)] You have no penalty to Perception (Hearing) while underwater.
 [OTHER (477)] If you lose teeth (or break them on armor), they grow back fully after a Long Rest.
-[OTHER (477)] Amplify your voice. All creatures in 30ft can hear you clearly, even underwater.
 [OTHER (477)] Your skin acts as a grinding tool; you can wear through ropes or wood over time.
 [OTHER (477)] You can move sideways or backwards at full speed without penalty.
 [OTHER (477)] Catch a small moving object (fish, arrow, coin) out of the air/water.
@@ -367,7 +360,6 @@
 [OTHER (477)] Dig a foxhole in 1 round. You gain Half-Cover while standing in that spot.
 [OTHER (477)] Use an object, reload a weapon, or open a door while keeping your main hands full.
 [OTHER (477)] You can see in all directions at once. You cannot be Flanked.
-[OTHER (477)] Jump up to 30ft horizontally or 15ft vertically without a running start.
 [OTHER (477)] When an enemy misses you with a weapon, attempt to Disarm them (catch the blade).
 [OTHER (477)] Produce up to 50ft of silk rope per day. It is strong enough to hold your weight.
 [OTHER (477)] When an enemy misses you, you can jump over them to the opposite side (flanking position).
@@ -393,7 +385,6 @@
 [OTHER (477)] You ignore penalties from extreme heat or extreme cold environments.
 [OTHER (477)] You can breathe air and water.
 [OTHER (477)] You can hold your breath for up to 1 hour.
-[OTHER (477)] You automatically detect sudden drops in temperature or the presence of undead (cold bodies).
 [OTHER (477)] You cannot be moved against your will (Shoved/Pulled) while you are conscious and on solid ground.
 [OTHER (477)] When falling, you can move 2ft horizontally for every 1ft you fall.
 [OTHER (477)] You can see 180 degrees. You cannot be Flanked.

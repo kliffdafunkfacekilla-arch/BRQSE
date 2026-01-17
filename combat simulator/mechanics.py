@@ -42,6 +42,10 @@ class Combatant:
         self.is_sanctuary = False
         self.taunted_by = None
         
+        # Duration-based effects: list of {name, duration, on_expire}
+        # duration = rounds remaining (-1 = permanent until cleared)
+        self.active_effects = []
+        
         # Resources
         self.max_hp = self.derived.get("HP", 10)
         self.max_cmp = self.derived.get("CMP", 10)
@@ -85,6 +89,68 @@ class Combatant:
 
     def is_alive(self):
         return self.hp > 0
+
+    def roll_save(self, save_type):
+        """
+        Roll a saving throw.
+        save_type: 'Endurance' (tank), 'Reflex' (dodge), 'Fortitude' (resist), 
+                   'Willpower' (mental), 'Intuition' (see through)
+        Returns: (roll_total, roll_natural)
+        """
+        stat_map = {
+            "Endurance": "Endurance",
+            "Reflex": "Reflexes",
+            "Fortitude": "Fortitude",
+            "Willpower": "Willpower",
+            "Intuition": "Intuition"
+        }
+        stat = stat_map.get(save_type, save_type)
+        nat_roll = random.randint(1, 20)
+        mod = self.get_stat(stat)
+        return nat_roll + mod, nat_roll
+
+    def apply_effect(self, effect_name, duration=1, on_expire=None):
+        """
+        Apply a timed effect.
+        effect_name: e.g. 'Frightened', 'Poisoned'
+        duration: rounds (-1 = permanent)
+        on_expire: optional callback or flag name to clear
+        """
+        self.active_effects.append({
+            "name": effect_name,
+            "duration": duration,
+            "on_expire": on_expire or f"is_{effect_name.lower()}"
+        })
+        # Also set the flag immediately
+        flag = f"is_{effect_name.lower()}"
+        if hasattr(self, flag):
+            setattr(self, flag, True)
+
+    def tick_effects(self):
+        """
+        Called at start/end of turn. Decrements durations and clears expired.
+        Returns list of expired effect names.
+        """
+        expired = []
+        remaining = []
+        
+        for eff in self.active_effects:
+            if eff["duration"] == -1:
+                remaining.append(eff) # Permanent
+                continue
+                
+            eff["duration"] -= 1
+            if eff["duration"] <= 0:
+                # Expired - clear the flag
+                flag = eff.get("on_expire")
+                if flag and hasattr(self, flag):
+                    setattr(self, flag, False)
+                expired.append(eff["name"])
+            else:
+                remaining.append(eff)
+        
+        self.active_effects = remaining
+        return expired
 
 class CombatEngine:
     def __init__(self):
@@ -138,6 +204,13 @@ class CombatEngine:
         return self.turn_order[self.current_turn_idx]
 
     def end_turn(self):
+        # Tick effects on current character before ending
+        active = self.turn_order[self.current_turn_idx]
+        expired = active.tick_effects()
+        log = []
+        if expired:
+            log.append(f"Effects expired on {active.name}: {', '.join(expired)}")
+        
         self.current_turn_idx = (self.current_turn_idx + 1) % len(self.turn_order)
         # Skip dead
         start = self.current_turn_idx
@@ -146,10 +219,11 @@ class CombatEngine:
             if self.current_turn_idx == start: break # Everyone dead
         
         # Reset movement for new active char
-        active = self.turn_order[self.current_turn_idx]
-        active.movement_remaining = active.movement
+        new_active = self.turn_order[self.current_turn_idx]
+        new_active.movement_remaining = new_active.movement
         
-        return [f"{active.name}'s Turn. (Speed: {active.movement_remaining})"]
+        log.append(f"{new_active.name}'s Turn. (Speed: {new_active.movement_remaining})")
+        return log
 
     def execute_ai_turn(self, ai_char):
         """
@@ -357,6 +431,58 @@ class CombatEngine:
             
         else:
             log.append("MISS!")
+            
+        return log
+
+    def cast_power(self, caster, target, power_data, save_type="Willpower"):
+        """
+        Cast a power/spell with opposed roll saving throw.
+        caster: The one casting
+        target: The one being affected
+        power_data: dict with 'Name', 'Stat', 'Effect', etc.
+        save_type: How the target chooses to resist (Endurance/Reflex/Fortitude/Willpower/Intuition)
+        """
+        power_name = power_data.get("Name", "Unknown Power")
+        power_stat = power_data.get("Stat", "Knowledge") # Default casting stat
+        effect_desc = power_data.get("Effect", "")
+        
+        log = [f"{caster.name} casts {power_name} on {target.name}!"]
+        
+        # Caster rolls d20 + Power Stat
+        caster_roll = random.randint(1, 20)
+        caster_mod = caster.get_stat(power_stat)
+        caster_total = caster_roll + caster_mod
+        log.append(f"Caster Roll: {caster_total} ({caster_roll}+{caster_mod} {power_stat})")
+        
+        # Target rolls d20 + Chosen Save Stat
+        target_total, target_nat = target.roll_save(save_type)
+        target_mod = target_total - target_nat
+        log.append(f"Save Roll ({save_type}): {target_total} ({target_nat}+{target_mod})")
+        
+        # Context for effects
+        ctx = {
+            "attacker": caster,
+            "target": target,
+            "engine": self,
+            "log": [],
+            "caster_total": caster_total,
+            "save_total": target_total,
+            "save_success": target_total >= caster_total
+        }
+        
+        if target_total >= caster_total:
+            log.append(f"{target.name} resists! (Save Success)")
+            # Some effects still apply on save (half damage, etc.)
+            ctx["save_success"] = True
+        else:
+            log.append(f"{target.name} fails to resist!")
+            ctx["save_success"] = False
+            # Apply full effect
+            from abilities.effects_registry import registry
+            registry.resolve(effect_desc, ctx)
+        
+        if ctx["log"]:
+            log.extend(ctx["log"])
             
         return log
 

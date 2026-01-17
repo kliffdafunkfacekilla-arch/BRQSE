@@ -50,6 +50,9 @@ class EffectRegistry:
         self.register_pattern(r"Auto-Crit", self._handle_auto_crit)
         self.register_pattern(r"Disadvantage", self._handle_disadvantage)
         self.register_pattern(r"Advantage", self._handle_advantage)
+        self.register_pattern(r"\+(\d+)d(\d+) to Hit", self._handle_die_hit_bonus)
+        self.register_pattern(r"-(\d+)d(\d+) to Hit", self._handle_die_hit_penalty)
+        self.register_pattern(r"Damage Reduction.*?(\d+)", self._handle_damage_reduction)
         
         # --- DEFENSE / RESIST ---
         self.register_pattern(r"Resistance to (\w+)", self._handle_resistance)
@@ -131,6 +134,20 @@ class EffectRegistry:
         self.register_pattern(r"See in Darkness", self._handle_darkvision)
         self.register_pattern(r"Tremorsense|Detect.*?location", self._handle_tremorsense)
         self.register_pattern(r"Natural Armor.*?(\d+)", self._handle_natural_armor_formula) # 13+Dex
+        
+        # --- SAVE EFFECTS ---
+        self.register_pattern(r"save.*?or.*?(Prone|Frightened|Charmed|Blinded|Paralyzed|Poisoned|Stunned|Restrained|Deafened)", self._handle_save_condition)
+        self.register_pattern(r"save.*?or.*?pushed.*?(\d+)ft", self._handle_save_push)
+        self.register_pattern(r"save.*?or.*?half damage", self._handle_save_half_damage)
+        self.register_pattern(r"save.*?or.*?(\d+)d?(\d+)? damage", self._handle_save_damage)
+        
+        # --- AOE / MULTI-TARGET ---
+        self.register_pattern(r"(\d+)ft (cone|line|radius|sphere)", self._handle_aoe_shape)
+        self.register_pattern(r"all (enemies|creatures|allies) (within|in) (\d+)ft", self._handle_aoe_targets)
+        
+        # --- SUMMON / CREATE ---
+        self.register_pattern(r"summon|call|conjure", self._handle_summon)
+        self.register_pattern(r"create (wall|barrier|cover)", self._handle_create_terrain)
 
 
 
@@ -203,38 +220,62 @@ class EffectRegistry:
     def _handle_stun(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_stunned = True # Need to add to Combatant
-            if "log" in ctx: ctx["log"].append(f"{t.name} Stunned!")
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Stunned", duration)
+            else:
+                t.is_stunned = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Stunned for {duration} round(s)!")
             
     def _handle_paralyze(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_paralyzed = True
-            if "log" in ctx: ctx["log"].append(f"{t.name} Paralyzed!")
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Paralyzed", duration)
+            else:
+                t.is_paralyzed = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Paralyzed for {duration} round(s)!")
 
     def _handle_poison(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_poisoned = True
-            if "log" in ctx: ctx["log"].append(f"{t.name} Poisoned!")
+            duration = ctx.get("effect_duration", 3) # Poison lasts longer typically
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Poisoned", duration)
+            else:
+                t.is_poisoned = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Poisoned for {duration} round(s)!")
 
     def _handle_fear(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_frightened = True
-            if "log" in ctx: ctx["log"].append(f"{t.name} Frightened!")
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Frightened", duration)
+            else:
+                t.is_frightened = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Frightened for {duration} round(s)!")
 
     def _handle_charm(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_charmed = True
-            if "log" in ctx: ctx["log"].append(f"{t.name} Charmed!")
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Charmed", duration)
+            else:
+                t.is_charmed = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Charmed for {duration} round(s)!")
 
     def _handle_deafen(self, match, ctx):
         t = ctx.get("target")
         if t: 
-            t.is_deafened = True
-            if "log" in ctx: ctx["log"].append(f"{t.name} Deafened!")
+            duration = ctx.get("effect_duration", 1)
+            if hasattr(t, "apply_effect"):
+                t.apply_effect("Deafened", duration)
+            else:
+                t.is_deafened = True
+            if "log" in ctx: ctx["log"].append(f"{t.name} Deafened for {duration} round(s)!")
 
     def _handle_ac_buff(self, match, ctx):
         amt = int(match.group(1))
@@ -347,46 +388,179 @@ class EffectRegistry:
             if "log" in ctx: ctx["log"].append(f"{user.name} has Sanctuary!")
 
     def _handle_chain_attack(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Effect: Chain Lightning (Not fully impl)")
+        """Chain Lightning - hit primary target, then chain to nearest"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        primary = ctx.get("target")
+        if not engine or not attacker or not primary: return
+        
+        # Deal damage to primary (already done by main attack)
+        # Find next nearest enemy and deal reduced damage
+        chain_dmg = ctx.get("incoming_damage", 5) // 2  # Half damage to chain
+        
+        nearest = None
+        min_dist = 999
+        for c in engine.combatants:
+            if c == attacker or c == primary or not c.is_alive(): continue
+            dx = abs(c.x - primary.x)
+            dy = abs(c.y - primary.y)
+            dist = max(dx, dy)
+            if dist < min_dist and dist <= 2:  # 10ft chain range
+                min_dist = dist
+                nearest = c
+        
+        if nearest:
+            nearest.hp -= chain_dmg
+            if "log" in ctx: ctx["log"].append(f"Chain hit {nearest.name} for {chain_dmg}!")
+        else:
+            if "log" in ctx: ctx["log"].append("Chain ends (no nearby target)")
 
     def _handle_temp_ac_advantage(self, match, ctx):
-        # "Bonus to AC vs one attack" -> Advantage on Defense
-        # Mechanics supports "advantage" in ctx, but that's usually for the ATTACKER.
-        # Defending with advantage?
-        # Mechanics.py: def_roll = random.randint(1, 20) ...
-        # We need to set a flag in context like "defense_advantage"
         ctx["defense_advantage"] = True 
         if "log" in ctx: ctx["log"].append("Defensive Advantage!")
 
     def _handle_line_attack(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Effect: Line Attack (Needs Geometry)")
+        """Line attack - hit all enemies in a line from caster"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        target = ctx.get("target")
+        if not engine or not attacker: return
+        
+        # Get direction from attacker to target
+        if target:
+            dx = 1 if target.x > attacker.x else (-1 if target.x < attacker.x else 0)
+            dy = 1 if target.y > attacker.y else (-1 if target.y < attacker.y else 0)
+        else:
+            dx, dy = 0, 1  # Default forward
+        
+        # Check all cells in line up to 6 squares (30ft)
+        line_targets = []
+        for i in range(1, 7):
+            check_x = attacker.x + dx * i
+            check_y = attacker.y + dy * i
+            for c in engine.combatants:
+                if c.x == check_x and c.y == check_y and c.is_alive() and c != attacker:
+                    line_targets.append(c)
+        
+        ctx["aoe_targets"] = line_targets
+        if "log" in ctx: ctx["log"].append(f"Line attack hits {len(line_targets)} targets!")
 
     def _handle_redirect(self, match, ctx):
-         if "log" in ctx: ctx["log"].append("Effect: Redirect Attack")
+        """Redirect attack to adjacent ally"""
+        engine = ctx.get("engine")
+        target = ctx.get("target")  # Original target
+        if not engine or not target: return
+        
+        # Find adjacent ally to redirect to
+        for c in engine.combatants:
+            if c == target or not c.is_alive(): continue
+            dx = abs(c.x - target.x)
+            dy = abs(c.y - target.y)
+            if max(dx, dy) <= 1:
+                ctx["target"] = c  # Redirect!
+                if "log" in ctx: ctx["log"].append(f"Attack redirected to {c.name}!")
+                return
+        
+        if "log" in ctx: ctx["log"].append("No adjacent target to redirect to")
 
     def _handle_aoe_attack(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Effect: Attack All Enemies")
+        """Attack every enemy instantly"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        if not engine or not attacker: return
+        
+        base_dmg = ctx.get("incoming_damage", 3)
+        hit_count = 0
+        
+        for c in engine.combatants:
+            if c == attacker or not c.is_alive(): continue
+            c.hp -= base_dmg
+            hit_count += 1
+        
+        if "log" in ctx: ctx["log"].append(f"AOE Attack! Hit {hit_count} enemies for {base_dmg} each!")
 
     def _handle_charge(self, match, ctx):
-        if "log" in ctx: ctx["log"].append("Effect: Line Charge")
+        """Line charge - move in straight line and attack first enemy hit"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        target = ctx.get("target")
+        if not engine or not attacker: return
+        
+        # Direction to target
+        if target:
+            dx = 1 if target.x > attacker.x else (-1 if target.x < attacker.x else 0)
+            dy = 1 if target.y > attacker.y else (-1 if target.y < attacker.y else 0)
+        else:
+            dx, dy = 0, 1
+        
+        # Move up to 6 squares, stop when hitting enemy
+        charge_dist = 0
+        for i in range(1, 7):
+            new_x = attacker.x + dx * i
+            new_y = attacker.y + dy * i
+            
+            # Check for collision
+            hit_enemy = None
+            for c in engine.combatants:
+                if c.x == new_x and c.y == new_y and c.is_alive() and c != attacker:
+                    hit_enemy = c
+                    break
+            
+            if hit_enemy:
+                # Stop here or one square before
+                attacker.x = new_x - dx
+                attacker.y = new_y - dy
+                charge_dist = i - 1
+                charge_dmg = 5 + charge_dist  # Bonus damage from momentum
+                hit_enemy.hp -= charge_dmg
+                if "log" in ctx: ctx["log"].append(f"Charge! Moved {charge_dist*5}ft, hit {hit_enemy.name} for {charge_dmg}!")
+                return
+            else:
+                charge_dist = i
+        
+        # No enemy hit, just move
+        attacker.x = attacker.x + dx * charge_dist
+        attacker.y = attacker.y + dy * charge_dist
+        if "log" in ctx: ctx["log"].append(f"Charge! Moved {charge_dist*5}ft (no enemy hit)")
 
     def _handle_multihit(self, match, ctx):
-        # "Multi-hit attack"
-        # This usually means rolling attack multiple times.
-        # The engine calls 'attack_target' ONCE.
-        # To do this correctly, 'mechanics.py' needs to support a loop or we call it recursively?
-        # Recursion is dangerous here.
-        if "log" in ctx: ctx["log"].append("Effect: Multi-Hit")
+        """Multi-hit attack - roll attack multiple times with reduced damage"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        target = ctx.get("target")
+        if not engine or not attacker or not target: return
+        
+        num_hits = 3  # Default 3 hits
+        dmg_per_hit = 2  # Low damage per hit
+        total_dmg = 0
+        
+        for i in range(num_hits):
+            # Each hit has chance to miss
+            hit_roll = random.randint(1, 20) + attacker.get_stat("Might")
+            def_val = 10 + target.get_stat("Reflexes")
+            if hit_roll >= def_val:
+                target.hp -= dmg_per_hit
+                total_dmg += dmg_per_hit
+        
+        if "log" in ctx: ctx["log"].append(f"Multi-hit! {num_hits} attacks, {total_dmg} total damage!")
 
     def _handle_aging(self, match, ctx):
-        # "Rapid aging... massive CMP dmg, -2 to 2 stats"
+        """Rapid aging - massive CMP damage and stat reduction"""
         target = ctx.get("target")
-        if target:
-            dmg = 10 # "Massive"
-            target.cmp -= dmg
-            # Stats (assuming permanent for session or track temp malus)
-            # For now, just log the stat drop
-            if "log" in ctx: ctx["log"].append(f"{target.name} Aged! -10 CMP, Stats Reduced.")
+        if not target: return
+        
+        cmp_dmg = 10
+        target.cmp = max(0, getattr(target, 'cmp', 10) - cmp_dmg)
+        
+        # Reduce 2 random stats by 2
+        stat_names = ["Might", "Reflexes", "Endurance", "Vitality", "Willpower", "Charm"]
+        import random
+        reduced = random.sample(stat_names, 2)
+        for stat in reduced:
+            if stat in target.stats:
+                target.stats[stat] = max(0, target.stats[stat] - 2)
+        
+        if "log" in ctx: ctx["log"].append(f"{target.name} Aged! -{cmp_dmg} CMP, -{2} to {reduced[0]} and {reduced[1]}")
 
     def _handle_reflect(self, match, ctx):
         # "Reflect Hit to attacker"
@@ -479,10 +653,260 @@ class EffectRegistry:
 
     def _handle_natural_armor_formula(self, match, ctx):
         # "Base Armor Class is 13 + Dex"
-        # Complex to implement dynamically without a stat recalc phase.
-        # Just log for now.
         base = int(match.group(1))
         if "log" in ctx: ctx["log"].append(f"Natural Armor Base {base}")
+    
+    # --- SAVE EFFECT HANDLERS ---
+    
+    def _handle_save_condition(self, match, ctx):
+        """Handle 'save or (Condition)' - only apply if save failed"""
+        if ctx.get("save_success"): return # Saved, no effect
+        
+        condition = match.group(1).lower()
+        target = ctx.get("target")
+        if not target: return
+        
+        # Check for duration in the original effect description
+        # e.g. "Frightened for 1 round" or "Poisoned for 1 minute"
+        duration = 1 # Default 1 round
+        effect_desc = ctx.get("effect_desc", "")
+        
+        import re
+        dur_match = re.search(r"for (\d+) (round|minute|turn|hour)", effect_desc, re.IGNORECASE)
+        if dur_match:
+            num = int(dur_match.group(1))
+            unit = dur_match.group(2).lower()
+            if unit == "minute":
+                duration = num * 10 # 10 rounds per minute
+            elif unit == "hour":
+                duration = num * 600
+            else:
+                duration = num
+        
+        # Use apply_effect if available
+        if hasattr(target, "apply_effect"):
+            target.apply_effect(condition.capitalize(), duration)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is {condition.capitalize()} for {duration} rounds!")
+        else:
+            # Fallback to direct flag
+            condition_map = {
+                "prone": "is_prone", "frightened": "is_frightened",
+                "charmed": "is_charmed", "blinded": "is_blinded",
+                "paralyzed": "is_paralyzed", "poisoned": "is_poisoned",
+                "stunned": "is_stunned", "restrained": "is_restrained",
+                "deafened": "is_deafened"
+            }
+            attr = condition_map.get(condition)
+            if attr and hasattr(target, attr):
+                setattr(target, attr, True)
+                if "log" in ctx: ctx["log"].append(f"{target.name} is {condition.capitalize()}!")
+
+    def _handle_save_push(self, match, ctx):
+        """Handle 'save or pushed Xft'"""
+        if ctx.get("save_success"): return
+        
+        dist_ft = int(match.group(1))
+        # Reuse existing push handler logic
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            squares = dist_ft // 5
+            dx = target.x - attacker.x
+            dy = target.y - attacker.y
+            if dx == 0 and dy == 0: return
+            dir_x = 1 if dx > 0 else (-1 if dx < 0 else 0)
+            dir_y = 1 if dy > 0 else (-1 if dy < 0 else 0)
+            target.x += dir_x * squares
+            target.y += dir_y * squares
+            if "log" in ctx: ctx["log"].append(f"Pushed {dist_ft}ft!")
+
+    def _handle_save_half_damage(self, match, ctx):
+        """Handle 'save or half damage' - if saved, halve incoming"""
+        if ctx.get("save_success") and "incoming_damage" in ctx:
+            ctx["incoming_damage"] //= 2
+            if "log" in ctx: ctx["log"].append("Saved! Damage Halved.")
+
+    def _handle_save_damage(self, match, ctx):
+        """Handle 'save or Xd? damage' - if failed, apply damage"""
+        if ctx.get("save_success"): return
+        
+        amt_str = match.group(1) or "1"
+        die_str = match.group(2)
+        target = ctx.get("target")
+        if not target: return
+        
+        dmg = 0
+        if die_str:
+            num = int(amt_str)
+            sides = int(die_str)
+            dmg = sum(random.randint(1, sides) for _ in range(num))
+        else:
+            dmg = int(amt_str) if amt_str else 0
+        
+        target.hp -= dmg
+        if "log" in ctx: ctx["log"].append(f"Save Failed! {dmg} damage!")
+    
+    # --- AOE HANDLERS ---
+    
+    def _handle_aoe_shape(self, match, ctx):
+        """Handle 'Xft cone/line/radius/sphere' - find all targets in range"""
+        size = int(match.group(1))
+        shape = match.group(2).lower()
+        ctx["aoe_size"] = size
+        ctx["aoe_shape"] = shape
+        
+        # Get all combatants in range from engine
+        engine = ctx.get("engine")
+        caster = ctx.get("attacker")
+        if not engine or not caster: return
+        
+        squares = size // 5
+        targets_hit = []
+        
+        for c in engine.combatants:
+            if c == caster or not c.is_alive(): continue
+            dx = abs(c.x - caster.x)
+            dy = abs(c.y - caster.y)
+            dist = max(dx, dy)
+            
+            if shape in ["radius", "sphere"]:
+                if dist <= squares:
+                    targets_hit.append(c)
+            elif shape == "cone":
+                # Simple cone: within range and in front (y > caster.y for example)
+                if dist <= squares:
+                    targets_hit.append(c)
+            elif shape == "line":
+                # Simple line: same row or column
+                if (dx == 0 or dy == 0) and dist <= squares:
+                    targets_hit.append(c)
+        
+        ctx["aoe_targets"] = targets_hit
+        if "log" in ctx: ctx["log"].append(f"AOE {size}ft {shape}: Hit {len(targets_hit)} targets")
+
+    def _handle_aoe_targets(self, match, ctx):
+        """Handle 'all enemies/creatures/allies within Xft' - apply effect to each"""
+        target_type = match.group(1).lower()
+        dist = int(match.group(3))
+        
+        engine = ctx.get("engine")
+        caster = ctx.get("attacker")
+        if not engine or not caster: return
+        
+        squares = dist // 5
+        targets = []
+        
+        for c in engine.combatants:
+            if not c.is_alive(): continue
+            dx = abs(c.x - caster.x)
+            dy = abs(c.y - caster.y)
+            if max(dx, dy) > squares: continue
+            
+            # Filter by type
+            if target_type == "enemies" and c != caster:
+                targets.append(c)
+            elif target_type == "allies" and c != caster:
+                # Would need faction system, for now assume all non-caster
+                targets.append(c)
+            elif target_type == "creatures":
+                targets.append(c)
+        
+        ctx["aoe_targets"] = targets
+        if "log" in ctx: ctx["log"].append(f"Targets: {len(targets)} {target_type} within {dist}ft")
+
+    def _handle_summon(self, match, ctx):
+        """Handle 'summon/call/conjure' - spawn a new combatant"""
+        engine = ctx.get("engine")
+        caster = ctx.get("attacker")
+        if not engine or not caster: return
+        
+        # Create a basic summon near caster
+        # In a full system, this would lookup summon data
+        summon_data = {
+            "Name": "Summoned Creature",
+            "Stats": {"Might": 5, "Reflexes": 5, "Endurance": 5},
+            "Derived": {"HP": 10, "Speed": 30}
+        }
+        
+        # Find empty spot adjacent to caster
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
+                if dx == 0 and dy == 0: continue
+                tx, ty = caster.x + dx, caster.y + dy
+                occupied = any(c.x == tx and c.y == ty and c.is_alive() for c in engine.combatants)
+                if not occupied:
+                    # Import dynamically to avoid circular import
+                    import importlib.util
+                    import sys
+                    import os
+                    mech_path = os.path.join(os.path.dirname(__file__), "../combat simulator/mechanics.py")
+                    spec = importlib.util.spec_from_file_location("mechanics", mech_path)
+                    mechanics = importlib.util.module_from_spec(spec)
+                    if "mechanics" not in sys.modules:
+                        spec.loader.exec_module(mechanics)
+                    else:
+                        mechanics = sys.modules["mechanics"]
+                    
+                    summon = mechanics.Combatant("dummy.json")
+                    summon.name = summon_data["Name"]
+                    summon.stats = summon_data["Stats"]
+                    summon.derived = summon_data["Derived"]
+                    summon.hp = summon.derived.get("HP", 10)
+                    summon.max_hp = summon.hp
+                    engine.add_combatant(summon, tx, ty)
+                    if "log" in ctx: ctx["log"].append(f"Summoned {summon.name} at ({tx},{ty})!")
+                    return
+        
+        if "log" in ctx: ctx["log"].append("Summon failed: No space!")
+
+    def _handle_create_terrain(self, match, ctx):
+        """Handle 'create wall/barrier/cover' - mark grid cells"""
+        terrain_type = match.group(1).lower()
+        engine = ctx.get("engine")
+        caster = ctx.get("attacker")
+        if not engine or not caster: return
+        
+        # Create terrain in front of caster
+        tx, ty = caster.x, caster.y + 1
+        
+        # Store terrain in engine (add terrain list if not exists)
+        if not hasattr(engine, "terrain"):
+            engine.terrain = []
+        
+        engine.terrain.append({
+            "type": terrain_type,
+            "x": tx,
+            "y": ty,
+            "blocks_movement": terrain_type == "wall",
+            "provides_cover": terrain_type in ["barrier", "cover"]
+        })
+        
+        if "log" in ctx: ctx["log"].append(f"Created {terrain_type} at ({tx},{ty})!")
+
+    def _handle_die_hit_bonus(self, match, ctx):
+        """Handle '+1d4 to Hit' etc."""
+        num = int(match.group(1))
+        sides = int(match.group(2))
+        bonus = sum(random.randint(1, sides) for _ in range(num))
+        if "attack_roll" in ctx:
+            ctx["attack_roll"] += bonus
+        if "log" in ctx: ctx["log"].append(f"+{num}d{sides} to Hit ({bonus})")
+
+    def _handle_die_hit_penalty(self, match, ctx):
+        """Handle '-1d4 to Hit' etc."""
+        num = int(match.group(1))
+        sides = int(match.group(2))
+        malus = sum(random.randint(1, sides) for _ in range(num))
+        if "attack_roll" in ctx:
+            ctx["attack_roll"] -= malus
+        if "log" in ctx: ctx["log"].append(f"-{num}d{sides} to Hit ({malus})")
+
+    def _handle_damage_reduction(self, match, ctx):
+        """Handle 'Damage Reduction X'"""
+        dr = int(match.group(1))
+        if "incoming_damage" in ctx:
+            ctx["incoming_damage"] = max(0, ctx["incoming_damage"] - dr)
+        if "log" in ctx: ctx["log"].append(f"Damage Reduced by {dr}")
         
     def _handle_deal_damage(self, match, ctx):
         # Ex: Deal 1d6 Fire Damage

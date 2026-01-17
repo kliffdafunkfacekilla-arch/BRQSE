@@ -1,0 +1,54 @@
+============================================================
+ENEMY AI STRESS TEST
+============================================================
+
+=== TEST: 100 Basic Iterations ===
+  Completed: 100 iterations
+  Errors: 0
+
+=== TEST: 10 Enemies Simultaneously ===
+  Rounds completed: 5
+  AI calls: 50
+  Errors: 0
+
+=== TEST: Enemy vs Enemy (No Player) ===
+  Red_Goblin HP: 2/20
+  Blue_Goblin HP: 2/20
+
+=== TEST: Clash Spam (50 clashes) ===
+  Clashes resolved: 50
+  Errors: 0
+
+=== TEST: Dead Targets ===
+  Log: ['[AI] Confused_Goblin acting as AGGRESSIVE...', 'Confused_Goblin waits (No targets).']
+
+=== TEST: No Targets ===
+  Log: ['[AI] Lonely_Goblin acting as AGGRESSIVE...', 'Lonely_Goblin waits (No targets).']
+
+=== TEST: All Behaviors x All Positions ===
+  Combinations tested: 96
+  Errors: 0
+
+=== TEST: Resource Exhaustion ===
+  Log: ['[AI] Broke_Mage acting as CASTER...', 'Broke_Mage uses Fireball!', 'Effect applied to Player']
+
+=== TEST: Extreme Positions ===
+  Positions tested: 8
+  Errors: 0
+
+============================================================
+RESULTS SUMMARY
+============================================================
+  [PASS] 100 Iterations
+  [PASS] Multi Enemy
+  [PASS] Enemy vs Enemy
+  [PASS] Clash Spam
+  [PASS] Dead Targets
+  [PASS] No Targets
+  [PASS] All Behaviors
+  [PASS] Resource Empty
+  [PASS] Extreme Positions
+
+Total: 9 passed, 0 failed
+
+*** ALL TESTS PASSED! AI is robust. ***

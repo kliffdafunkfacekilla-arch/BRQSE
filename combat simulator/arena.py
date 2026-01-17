@@ -4,6 +4,10 @@ import os
 import mechanics
 import enemy_spawner
 
+# Add parent path for AI module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from AI.enemy_ai import EnemyAI, Behavior
+
 # Constants
 SCREEN_W, SCREEN_H = 1000, 700
 TILE_SIZE = 50
@@ -63,6 +67,9 @@ class ArenaApp:
         # Enemy Spawner
         self.ai_templates = enemy_spawner.get_ai_templates()
         self.selected_ai_template = self.ai_templates[0] if self.ai_templates else "Aggressive"
+        
+        # AI Controller (initialized when combat starts)
+        self.ai = None
         
     def run(self):
         self.scan_saves()
@@ -154,6 +161,9 @@ class ArenaApp:
         self.engine.add_combatant(self.fighter1, 3, 3)
         self.engine.add_combatant(self.fighter2, 8, 8)
         
+        # Initialize AI controller
+        self.ai = EnemyAI(self.engine)
+        
         self.log_lines = self.engine.start_combat()
         self.state = "COMBAT"
         self.scan_saves()
@@ -172,9 +182,22 @@ class ArenaApp:
         # Check if new active char is AI-controlled
         active = self.engine.get_active_char()
         if active and active.data.get("AI"):
-            # Execute AI turn
-            ai_log = self.engine.execute_ai_turn(active)
+            # Map AI template to Behavior
+            ai_template = active.data.get("AI", "Aggressive")
+            behavior_map = {
+                "Aggressive": Behavior.AGGRESSIVE,
+                "Defensive": Behavior.CAMPER,
+                "Ranged": Behavior.RANGED,
+                "Berserker": Behavior.AGGRESSIVE,
+                "Caster": Behavior.CASTER,
+                "Spellblade": Behavior.SPELLBLADE,
+            }
+            behavior = behavior_map.get(ai_template, Behavior.AGGRESSIVE)
+            
+            # Execute AI turn using full EnemyAI module
+            ai_log = self.ai.take_turn(active, behavior)
             self.log_lines.extend(ai_log)
+            
             # Automatically end their turn
             res = self.engine.end_turn()
             self.log_lines.extend(res)
@@ -283,6 +306,26 @@ class ArenaApp:
                 pct = c.hp / c.max_hp
                 pygame.draw.rect(self.screen, (255,0,0), (cx+5, cy-8, 40, 5))
                 pygame.draw.rect(self.screen, (0,255,0), (cx+5, cy-8, 40*pct, 5))
+                
+                # Status Effect Icons (compact text)
+                status_icons = []
+                if c.is_stunned: status_icons.append("STN")
+                if c.is_poisoned: status_icons.append("PSN")
+                if c.is_frightened: status_icons.append("FRG")
+                if c.is_charmed: status_icons.append("CHM")
+                if c.is_paralyzed: status_icons.append("PRL")
+                if c.is_prone: status_icons.append("PRN")
+                if c.is_blinded: status_icons.append("BLD")
+                if c.is_grappled: status_icons.append("GRP")
+                if c.is_restrained: status_icons.append("RST")
+                if c.is_sanctuary: status_icons.append("SNC")
+                if c.is_confused: status_icons.append("CNF")
+                if c.is_berserk: status_icons.append("BRK")
+                
+                if status_icons:
+                    status_text = " ".join(status_icons[:3]) # Limit to 3 shown
+                    status_surf = self.font.render(status_text, True, (255, 200, 50))
+                    self.screen.blit(status_surf, (cx, cy + TILE_SIZE - 10))
 
             # 3. HUD
             pygame.draw.rect(self.screen, (10,10,20), (0, 600, SCREEN_W, 100))
