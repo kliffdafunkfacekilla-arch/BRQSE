@@ -66,15 +66,15 @@ class EffectRegistry:
         self.register_pattern(r"Restrained", self._handle_restrained)
         self.register_pattern(r"Stun", self._handle_stun)
         self.register_pattern(r"Paralyze", self._handle_paralyze)
-        self.register_pattern(r"Poison", self._handle_poison)
+        self.register_pattern(r"(?<!Cure )Poison", self._handle_poison)
         self.register_pattern(r"Fear|Frightened", self._handle_fear)
         self.register_pattern(r"Charm", self._handle_charm)
         self.register_pattern(r"Deafen", self._handle_deafen)
         
         # --- HEALING & RESOURCES ---
-        self.register_pattern(r"Heal (\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
+        self.register_pattern(r"Heal (?!HP every|minor)(\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
         self.register_pattern(r"Regain (\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
-        self.register_pattern(r"Temp(?:orary)? HP", self._handle_temp_hp)
+        self.register_pattern(r"(?<!Stasis )Temp(?:orary)? HP", self._handle_temp_hp)
         
         # --- BUFFS / DEBUFFS ---
         self.register_pattern(r"\+(\d+) (AC|Armor Class)", self._handle_ac_buff)
@@ -93,7 +93,7 @@ class EffectRegistry:
         # --- UTILITY ---
         self.register_pattern(r"Invisible|Invisibility", self._handle_invisibility)
         self.register_pattern(r"Darkvision", self._handle_darkvision)
-        self.register_pattern(r"Light", self._handle_light)
+        self.register_pattern(r"(?<!Explosion of )(?<!Massive )(?<!Holy )Light", self._handle_light)
 
         # --- COSTS ---
         self.register_pattern(r"Cost:? (\d+) (SP|FP|CMP|HP)", self._handle_cost)
@@ -164,7 +164,7 @@ class EffectRegistry:
         
         # --- FLUX: DISINTEGRATE & DAMAGE ---
         self.register_pattern(r"Disintegrate", self._handle_disintegrate)
-        self.register_pattern(r"Damage over Time|DoT|Bleed", self._handle_dot)
+        self.register_pattern(r"Damage over Time|(?<!Massive )(?<!Rapid )DoT|(?<!Stop )Bleed", self._handle_dot)
         self.register_pattern(r"Cut off|Sever.*?(limb|appendage)", self._handle_sever_limb)
         self.register_pattern(r"Compress.*?space|Gravity well|Pull enemies", self._handle_compress_space)
         
@@ -292,7 +292,149 @@ class EffectRegistry:
         self.register_pattern(r"Animate.*?(Plant|Tree)|Awaken", self._handle_animate_plant)
         self.register_pattern(r"Create.*?Lifeform|Spawn", self._handle_create_life)
         self.register_pattern(r"Detect Life|Life Radar", self._handle_detect_life)
-        self.register_pattern(r"Vines.*?restrict|Entangle", self._handle_vines)    # --- NEW HANDLERS ---
+        self.register_pattern(r"Vines.*?restrict|Entangle", self._handle_vines)
+
+        # ============================================
+        # SCHOOL OF LUX EFFECTS (Light/Vision Magic)
+        # ============================================
+        
+        # --- LUX: DAMAGE & OFFENSE ---
+        self.register_pattern(r"Laser.*?Damage|(?<!Solar )Beam", self._handle_laser)
+        self.register_pattern(r"Massive Light Damage|Nova", self._handle_nova)
+        self.register_pattern(r"Split Beam|Multi-hit", self._handle_split_beam)
+        self.register_pattern(r"Burn Undead|Holy Damage", self._handle_burn_undead)
+        self.register_pattern(r"Explosion of Light|Flashbang", self._handle_light_explosion)
+        self.register_pattern(r"Heat Metal|Burn(ing)?", self._handle_heat_metal)
+        
+        # --- LUX: VISION & DETECTION ---
+        self.register_pattern(r"See Invisible|Truesight", self._handle_see_invis)
+        self.register_pattern(r"See Through Walls|X-Ray", self._handle_xray)
+        self.register_pattern(r"See in Darkness|Darkvision", self._handle_darkvision)
+        self.register_pattern(r"Know Location|GPS", self._handle_gps)
+        self.register_pattern(r"Postcognition|See Past", self._handle_postcognition)
+        self.register_pattern(r"Remote Viewing|Scry", self._handle_scry)
+        self.register_pattern(r"Bonus Perception|Enhanced Vision", self._handle_bonus_perception)
+        
+        # --- LUX: DEBUFFS (BLIND/DAZZLE) ---
+        self.register_pattern(r"Blind foe|Blindness", self._handle_blindness)
+        self.register_pattern(r"Permanent Blindness", self._handle_perm_blind)
+        self.register_pattern(r"Dazzle|Visual Noise", self._handle_dazzle)
+        self.register_pattern(r"Block Sight Line|Obscure", self._handle_block_sight)
+        
+        # --- LUX: ILLUSION & STEALTH ---
+        self.register_pattern(r"Turn Invisible|Invisibility", self._handle_invisibility)
+        self.register_pattern(r"Alter Self|Disguise", self._handle_disguise)
+        self.register_pattern(r"Blend with surroundings|Camouflage", self._handle_camo)
+        self.register_pattern(r"Hologram|Illusion|Decoy", self._handle_illusion)
+        self.register_pattern(r"Major Image|Fake Terrain", self._handle_major_image)
+        self.register_pattern(r"Hidden from Reality", self._handle_hidden_reality)
+
+        # ============================================
+        # SPECIES SKILLS (REGISTRATIONS)
+        # ============================================
+        self.register_pattern(r"Gore|Charge attack|moves 20ft.*?damage", self._handle_gore_charge)
+        self.register_pattern(r"Lunge|Reach increases|Long Arms", self._handle_lunge_reach)
+        self.register_pattern(r"Inject Venom|Poison bite|Envenom", self._handle_venom_injection)
+        self.register_pattern(r"Trample|Run over|move through", self._handle_trample)
+        self.register_pattern(r"Wall Crawler|Walk on walls|Spider climb", self._handle_wall_walk)
+        self.register_pattern(r"Tremorsense|Detect vibration", self._handle_tremorsense)
+        self.register_pattern(r"Advantage to maintain a grapple|Grapple Bonus", self._handle_grapple_bonus)
+        self.register_pattern(r"Cone Attack|Fire cone|Breath weapon", self._handle_cone_attack)
+        self.register_pattern(r"Bleed damage|Bleeding", self._handle_bleed_dot)
+        self.register_pattern(r"Ignore.*?Cover", self._handle_ignore_cover)
+        self.register_pattern(r"Auto-Grapple|Grapple on hit", self._handle_auto_grapple)
+
+        # --- SPECIES: MOVEMENT ---
+        self.register_pattern(r"Swim Speed|Propel|Paddle", self._handle_swim_speed)
+        self.register_pattern(r"Fly Speed|Soar|Fragile Speed", self._handle_fly_speed)
+        self.register_pattern(r"Burrow Speed|Earth Glide", self._handle_burrow_speed)
+        self.register_pattern(r"Climb Speed|Climber", self._handle_climb_speed)
+        self.register_pattern(r"Move through.*?space|Squeeze|Compact", self._handle_squeeze)
+        
+        # --- SPECIES: SENSES ---
+        self.register_pattern(r"Bio-Sense|Heartbeat detection", self._handle_biosense)
+        self.register_pattern(r"Thermal Sight|Heat detection", self._handle_thermal_sight)
+        self.register_pattern(r"Omni-Vision|Peripheral Sight|Cannot be Flanked", self._handle_omnivision)
+        self.register_pattern(r"Eavesdrop|Hearing", self._handle_enhanced_hearing)
+        
+        # --- SPECIES: DEFENSE ---
+        self.register_pattern(r"Anchor|Rooted|Dig In|Cannot be moved", self._handle_immovable)
+        self.register_pattern(r"Slippery|Slick Escape|Friction", self._handle_slippery)
+        self.register_pattern(r"Withdraw|Shell|Turtle", self._handle_withdraw)
+        
+        # --- SPECIES: OFFENSE ---
+        self.register_pattern(r"Web Shot|Sticky Net", self._handle_web_shot)
+        self.register_pattern(r"Spore Cloud|Release spores", self._handle_spore_cloud)
+        self.register_pattern(r"Tail Sweep|Spin attack", self._handle_tail_sweep)
+        self.register_pattern(r"Gust|Wind line", self._handle_gust)
+        self.register_pattern(r"Solar Beam|Dazzling beam", self._handle_solar_beam)
+        self.register_pattern(r"Lockjaw|Hooked teeth", self._handle_lockjaw)
+        
+        # --- SPECIES: UTILITY ---
+        self.register_pattern(r"Goodberry|Grow fruit", self._handle_goodberry)
+        self.register_pattern(r"Mimicry|Imitate voice", self._handle_mimicry)
+        self.register_pattern(r"Breathe underwater|Amphibious|Respire", self._handle_water_breathing)
+
+        # ============================================
+        # SCHOOL OF ORDO PATTERNS
+        # ============================================
+        self.register_pattern(r"Stop target movement|Halt", self._handle_halt_movement)
+        self.register_pattern(r"Stand up|Stand", self._handle_stand_up)
+        self.register_pattern(r"Keep a door.*?shut|Hold", self._handle_hold_door)
+        self.register_pattern(r"Create an obstacle|Trip", self._handle_trip)
+        self.register_pattern(r"Natural Armor bonus|Skin", self._handle_natural_armor_buff)
+        self.register_pattern(r"Ignore hunger|Sustain", self._handle_ignore_needs)
+        self.register_pattern(r"Create (wall|barrier|cover|structure|hut|bunker)", self._handle_create_wall)
+        self.register_pattern(r"Become immovable|Anchor", self._handle_anchor)
+        self.register_pattern(r"Stop decay|Preserve", self._handle_ignore_needs)
+        self.register_pattern(r"Turn target to stone|Petrify", self._handle_petrify)
+        self.register_pattern(r"Gain Temporary HP|Reinforce", self._handle_temp_hp_buff)
+        self.register_pattern(r"Bury target|Entomb", self._handle_create_wall)
+        self.register_pattern(r"Take damage meant for an ally|Absorb", self._handle_absorb_damage)
+        self.register_pattern(r"Unopenable|Arcane Lock", self._handle_hold_door)
+        self.register_pattern(r"Freeze target in time|Stasis", self._handle_stasis)
+        self.register_pattern(r"Return damage|Reflect", self._handle_reflect_damage)
+        self.register_pattern(r"Feign Death|Statue", self._handle_feign_death)
+        self.register_pattern(r"Stop target's heart|Arrest", self._handle_stop_heart)
+        self.register_pattern(r"Take 0 Damage|Immunity", self._handle_invulnerability)
+        self.register_pattern(r"Run forever|Stamina", self._handle_infinite_stamina)
+        self.register_pattern(r"Make target fragile|Crystallize", self._handle_shatter)
+        self.register_pattern(r"Invulnerable Structure|Fortress|Monolith", self._handle_fortress)
+        self.register_pattern(r"End Time|Stop", self._handle_time_stop)
+        self.register_pattern(r"Cannot die|Eternal", self._handle_immortality)
+        self.register_pattern(r"Create new land|Foundation", self._handle_create_land)
+
+        # ============================================
+        # SCHOOL OF NEXUS PATTERNS
+        # ============================================
+        self.register_pattern(r"Deal Fire Damage|Heat|Burn", self._handle_fire_damage)
+        self.register_pattern(r"Bonus AC|Harden", self._handle_harden_skin)
+        self.register_pattern(r"Mold clay|Shape", self._handle_shape_matter)
+        self.register_pattern(r"Deal Cold Damage|Chill", self._handle_cold_damage)
+        self.register_pattern(r"Resist Elements|Insulate", self._handle_resist_elements)
+        self.register_pattern(r"Weld metal|Fuse", self._handle_fuse_matter)
+        self.register_pattern(r"Deal Lightning Damage|Shock", self._handle_lightning_damage)
+        self.register_pattern(r"Absorb Shock|Ground", self._handle_absorb_shock)
+        self.register_pattern(r"Weaken metal|Rust", self._handle_rust)
+        self.register_pattern(r"Skin becomes Iron|Plate", self._handle_harden_skin)
+        self.register_pattern(r"Fix broken item|Repair", self._handle_repair)
+        self.register_pattern(r"Deal Acid Damage|Melt", self._handle_acid_damage)
+        self.register_pattern(r"Extinguish fires|Cool", self._handle_extinguish)
+        self.register_pattern(r"Create weapon|Forge", self._handle_forge)
+        self.register_pattern(r"Deal Sonic Damage|Shatter", self._handle_sonic_damage)
+        self.register_pattern(r"Skin becomes Diamond", self._handle_harden_skin)
+        self.register_pattern(r"Change material|Transmute", self._handle_transmute)
+        self.register_pattern(r"Deal Force Damage|Explode", self._handle_force_damage)
+        self.register_pattern(r"Bounce Physical|Rubber", self._handle_bounce_physical)
+        self.register_pattern(r"Turn solid to liquid|Liquify", self._handle_liquify)
+        self.register_pattern(r"Turn solid to gas|Vaporize|Gas", self._handle_mist_form)
+        self.register_pattern(r"Reflect Ray|Mirror", self._handle_reflect_ray)
+        self.register_pattern(r"Nuclear Damage|Fission", self._handle_nuclear_damage)
+        self.register_pattern(r"Absorb All Damage|Void", self._handle_absorb_all)
+        self.register_pattern(r"Lead to Gold|Gold", self._handle_create_gold)
+        self.register_pattern(r"Disintegrate Matter|Unmake", self._handle_disintegrate_matter)
+        self.register_pattern(r"Indestructible", self._handle_indestructible)
+        self.register_pattern(r"Create Matter", self._handle_create_matter)
     
     def _handle_cost(self, match, ctx):
         amt = int(match.group(1))
@@ -1570,8 +1712,282 @@ class EffectRegistry:
             if "log" in ctx: ctx["log"].append(f"Headbutt! {target.name} takes {dmg} and pushed!")
 
     # ============================================
-    # SCHOOL OF OMEN HANDLERS (Luck/Fate Magic)
+    # SCHOOL OF NEXUS HANDLERS
     # ============================================
+
+    def _handle_fire_damage(self, match, ctx):
+        """Deal Fire Damage"""
+        ctx["damage_type"] = "Fire"
+        if "log" in ctx: ctx["log"].append("Damage Type: Fire")
+
+    def _handle_cold_damage(self, match, ctx):
+        """Deal Cold Damage"""
+        ctx["damage_type"] = "Cold"
+        # Chance to slow/freeze?
+        if "log" in ctx: ctx["log"].append("Damage Type: Cold")
+
+    def _handle_lightning_damage(self, match, ctx):
+        """Deal Lightning Damage"""
+        ctx["damage_type"] = "Lightning"
+        if "log" in ctx: ctx["log"].append("Damage Type: Lightning")
+
+    def _handle_acid_damage(self, match, ctx):
+        """Deal Acid Damage"""
+        ctx["damage_type"] = "Acid"
+        if "log" in ctx: ctx["log"].append("Damage Type: Acid")
+
+    def _handle_sonic_damage(self, match, ctx):
+        """Deal Sonic Damage"""
+        ctx["damage_type"] = "Sonic"
+        if "log" in ctx: ctx["log"].append("Damage Type: Sonic")
+
+    def _handle_force_damage(self, match, ctx):
+        """Deal Force Damage"""
+        ctx["damage_type"] = "Force"
+        if "log" in ctx: ctx["log"].append("Damage Type: Force")
+
+    def _handle_nuclear_damage(self, match, ctx):
+        """Deal Nuclear/Radiation Damage"""
+        ctx["damage_type"] = "Nuclear"
+        ctx["is_crit"] = True # Nukes hurt
+        if "log" in ctx: ctx["log"].append("NUCLEAR DAMAGE!")
+
+    def _handle_harden_skin(self, match, ctx):
+        """Bonus AC / Iron Skin"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            bonus = 2
+            if "Diamond" in match.group(0): bonus = 5
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("HardenedSkin", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s skin hardens! (+{bonus} AC)")
+
+    def _handle_resist_elements(self, match, ctx):
+        """Resist Elemental Damage"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.active_effects.append({"name": "ResistFire", "duration": 3})
+            target.active_effects.append({"name": "ResistCold", "duration": 3})
+            target.active_effects.append({"name": "ResistLightning", "duration": 3})
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Elemental Resistance.")
+
+    def _handle_absorb_shock(self, match, ctx):
+        """Absorb Lightning/Shock"""
+        if "log" in ctx: ctx["log"].append("Shock Absorption active.")
+
+    def _handle_extinguish(self, match, ctx):
+        """Put out fires"""
+        if "log" in ctx: ctx["log"].append("Fires extinguished.")
+
+    def _handle_bounce_physical(self, match, ctx):
+        """Reflect/Bounce physical attacks"""
+        ctx["reflect_physical"] = True
+        if "log" in ctx: ctx["log"].append("Rubber Skin! Physical attacks bounce off.")
+
+    def _handle_reflect_ray(self, match, ctx):
+        """Reflect Ray spells"""
+        ctx["reflect_rays"] = True
+        if "log" in ctx: ctx["log"].append("Mirror Shield! Rays reflected.")
+
+    def _handle_absorb_all(self, match, ctx):
+        """Absorb all damage types (Void)"""
+        ctx["damage_immunity"] = True
+        if "log" in ctx: ctx["log"].append("Void Form! All damage absorbed.")
+
+    def _handle_indestructible(self, match, ctx):
+        """Cannot be hurt"""
+        ctx["invulnerable"] = True
+        if "log" in ctx: ctx["log"].append("Indestructible!")
+
+    def _handle_mist_form(self, match, ctx):
+        """Turn to Gas/Mist"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_ethereal = True # Close enough
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("MistForm", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} turns into Mist!")
+
+    def _handle_shape_matter(self, match, ctx):
+        """Mold stone/wood"""
+        if "log" in ctx: ctx["log"].append("Matter shaped.")
+
+    def _handle_fuse_matter(self, match, ctx):
+        """Weld/Fuse"""
+        if "log" in ctx: ctx["log"].append("Materials fused.")
+
+    def _handle_rust(self, match, ctx):
+        """Rust metal"""
+        target = ctx.get("target")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s gear rusts!")
+
+    def _handle_repair(self, match, ctx):
+        """Repair item"""
+        if "log" in ctx: ctx["log"].append("Item repaired.")
+
+    def _handle_forge(self, match, ctx):
+        """Create weapon"""
+        if "log" in ctx: ctx["log"].append("Weapon forged from raw materials.")
+
+    def _handle_transmute(self, match, ctx):
+        """Change material"""
+        if "log" in ctx: ctx["log"].append("Material transmuted.")
+
+    def _handle_liquify(self, match, ctx):
+        """Turn solid to liquid"""
+        if "log" in ctx: ctx["log"].append("Solid liquified.")
+
+    def _handle_create_gold(self, match, ctx):
+        """Leaf into Gold"""
+        if "log" in ctx: ctx["log"].append("Gold created!")
+
+    def _handle_disintegrate_matter(self, match, ctx):
+        """Destroy object"""
+        if "log" in ctx: ctx["log"].append("Matter disintegrated.")
+
+    def _handle_create_matter(self, match, ctx):
+        """Create object from nothing"""
+        if "log" in ctx: ctx["log"].append("Matter created.")
+
+    def _handle_create_matter(self, match, ctx):
+        """Create object from nothing"""
+        if "log" in ctx: ctx["log"].append("Matter created.")
+
+    # ============================================
+    # SCHOOL OF ORDO HANDLERS
+    # ============================================
+
+    def _handle_halt_movement(self, match, ctx):
+        """Stop Movement"""
+        target = ctx.get("target")
+        if target:
+            target.movement_remaining = 0
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Halted", duration=1)
+            if "log" in ctx: ctx["log"].append(f"{target.name} Halted! (0 Move)")
+
+    def _handle_stand_up(self, match, ctx):
+        """Stand from Prone"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_prone = False
+            if "log" in ctx: ctx["log"].append(f"{target.name} Stands Up.")
+
+    def _handle_hold_door(self, match, ctx):
+        """Hold Door/Object"""
+        if "log" in ctx: ctx["log"].append("Door held shut.")
+
+    def _handle_trip(self, match, ctx):
+        """Trip target"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Tripped!")
+
+    def _handle_natural_armor_buff(self, match, ctx):
+        """Natural Armor Buff"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Natural Armor.")
+
+    def _handle_ignore_needs(self, match, ctx):
+        """Ignore Hunger/Fatigue"""
+        if "log" in ctx: ctx["log"].append("Needs ignored (Sustain).")
+
+    def _handle_create_wall(self, match, ctx):
+        """Create Wall/Cage/Barricade"""
+        if "log" in ctx: ctx["log"].append("Structure created (Wall/Cage).")
+
+    def _handle_anchor(self, match, ctx):
+        """Become Immovable"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Anchored (Immovable).")
+
+    def _handle_petrify(self, match, ctx):
+        """Turn to Stone"""
+        target = ctx.get("target")
+        if target:
+            target.is_petrified = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Petrified", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Petrified!")
+
+    def _handle_temp_hp_buff(self, match, ctx):
+        """Gain Temp HP"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            amt = random.randint(5, 10)
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains {amt} Temp HP.")
+
+    def _handle_absorb_damage(self, match, ctx):
+        """Take damage for ally"""
+        if "log" in ctx: ctx["log"].append("Damage absorbed for ally.")
+
+    def _handle_stasis(self, match, ctx):
+        """Freeze in time"""
+        target = ctx.get("target")
+        if target:
+            target.is_stunned = True # Closest mechanic
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Stasis", duration=1)
+            if "log" in ctx: ctx["log"].append(f"{target.name} in Stasis!")
+
+    def _handle_reflect_damage(self, match, ctx):
+        """Return damage"""
+        if "log" in ctx: ctx["log"].append("Damage reflected!")
+
+    def _handle_feign_death(self, match, ctx):
+        """Statue/Feign Death"""
+        if "log" in ctx: ctx["log"].append("Feigning Death.")
+
+    def _handle_stop_heart(self, match, ctx):
+        """Arrest/Stop Heart"""
+        target = ctx.get("target")
+        if target:
+            # Massive damage or save vs death
+            dmg = 20
+            target.hp = max(0, target.hp - dmg)
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s Heart Stopped! ({dmg} dmg)")
+
+    def _handle_invulnerability(self, match, ctx):
+        """Immunity/Invincible"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Invulnerable", duration=1)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Invulnerable!")
+
+    def _handle_infinite_stamina(self, match, ctx):
+        """Run forever"""
+        if "log" in ctx: ctx["log"].append("Infinite Stamina.")
+
+    def _handle_shatter(self, match, ctx):
+        """Crystallize/Shatter"""
+        target = ctx.get("target")
+        if target:
+            # Multiplier on next hit?
+            if "log" in ctx: ctx["log"].append(f"{target.name} Crystallized (Fragile)!")
+
+    def _handle_fortress(self, match, ctx):
+        """Create Fortress/Monolith"""
+        if "log" in ctx: ctx["log"].append("Fortress created.")
+
+    def _handle_time_stop(self, match, ctx):
+        """Stop Time (End Time)"""
+        if "log" in ctx: ctx["log"].append("TIME STOPPED!")
+
+    def _handle_immortality(self, match, ctx):
+        """Eternal/Cannot Die"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.cannot_die = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Eternal (Cannot Die)!")
+
+    def _handle_create_land(self, match, ctx):
+        """Create Land"""
+        if "log" in ctx: ctx["log"].append("Land created.")
     
     def _handle_jinx(self, match, ctx):
         """Apply -1d4 to target's next roll"""
@@ -1781,6 +2197,851 @@ class EffectRegistry:
         if "attack_roll" in ctx:
             ctx["attack_roll"] = forced
         if "log" in ctx: ctx["log"].append(f"Destiny! Next roll forced to {forced}!")
+
+    # ============================================
+    # SCHOOL OF MASS HANDLERS (Gravity/Force)
+    # ============================================
+
+    def _handle_push(self, match, ctx):
+        """Push target away"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            dx = target.x - attacker.x
+            dy = target.y - attacker.y
+            dist = 1
+            if "Launch" in match.group(0): dist = 6 # 30ft
+            
+            # Normalize direction
+            if dx != 0: dx = 1 if dx > 0 else -1
+            if dy != 0: dy = 1 if dy > 0 else -1
+            
+            target.x += dx * dist
+            target.y += dy * dist
+            if "log" in ctx: ctx["log"].append(f"{target.name} Pushed {dist*5}ft away!")
+
+    def _handle_pull(self, match, ctx):
+        """Pull target closer"""
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            dx = attacker.x - target.x
+            dy = attacker.y - target.y
+            # Move towards attacker 1 square
+            if dx != 0: dx = 1 if dx > 0 else -1
+            if dy != 0: dy = 1 if dy > 0 else -1
+            target.x += dx
+            target.y += dy
+            if "log" in ctx: ctx["log"].append(f"{target.name} Pulled closer!")
+
+    def _handle_levitate(self, match, ctx):
+        """Float/Levitate"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_flying = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} begins to Levitate.")
+
+    def _handle_fly(self, match, ctx):
+        """True Flight"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_fly_speed = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Flight!")
+
+    def _handle_jump_boost(self, match, ctx):
+        """Boost jump"""
+        if "log" in ctx: ctx["log"].append("Jump height/distance boosted.")
+
+    def _handle_climb(self, match, ctx):
+        """Spider Climb"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_climb_speed = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Spider Climb.")
+
+    def _handle_slow_fall(self, match, ctx):
+        """Feather Fall"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} falls slowly (Feather Fall).")
+
+    def _handle_slam(self, match, ctx):
+        """Knock Prone"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Slammed Prone!")
+
+    def _handle_burden(self, match, ctx):
+        """Increase weight / Slow"""
+        target = ctx.get("target")
+        if target:
+            target.movement //= 2
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Burdened (Half Speed).")
+
+    def _handle_crush(self, match, ctx):
+        """Constrict/Grapple"""
+        target = ctx.get("target")
+        if target:
+            target.is_grappled = True
+            dmg = random.randint(1, 6)
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"{target.name} Crushed for {dmg} damage!")
+
+    def _handle_flatten(self, match, ctx):
+        """Compress to 2D"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            target.is_restrained = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Flattened! (Prone + Restrained)")
+
+    def _handle_nullify_momentum(self, match, ctx):
+        """Stop momentum"""
+        target = ctx.get("target")
+        if target:
+            target.movement_remaining = 0
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s momentum Stopped!")
+
+    def _handle_antigravity(self, match, ctx):
+        """Anti-Gravity Field"""
+        if "log" in ctx: ctx["log"].append("Anti-Gravity Field active! Everyone floats.")
+
+    def _handle_flip_gravity(self, match, ctx):
+        """Reverse Gravity"""
+        if "log" in ctx: ctx["log"].append("Gravity Reversed! Falling up!")
+
+    def _handle_implode(self, match, ctx):
+        """Vacuum / Implosion"""
+        target = ctx.get("target")
+        if target:
+            dmg = 20 # Massive
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"Implosion! {target.name} takes {dmg} force damage!")
+
+    def _handle_meteor(self, match, ctx):
+        """Orbital Strike"""
+        ctx["damage_type"] = "Force"
+        ctx["aoe_shape"] = "radius"
+        ctx["aoe_size"] = 20
+        if "log" in ctx: ctx["log"].append("METEOR STRIKE! 20ft Radius.")
+
+    def _handle_black_hole(self, match, ctx):
+        """Consume light and matter"""
+        if "log" in ctx: ctx["log"].append("Black Hole created! Consuming area...")
+
+    def _handle_erase(self, match, ctx):
+        """Delete matter"""
+        target = ctx.get("target")
+        if target:
+            target.hp = 0
+            if "log" in ctx: ctx["log"].append(f"{target.name} Erased from existence!")
+
+    def _handle_breach(self, match, ctx):
+        """Destroy cover"""
+        if "log" in ctx: ctx["log"].append("Cover/Walls Breached!")
+
+    def _handle_brace(self, match, ctx):
+        """Ignore Knockback"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.immune_prone = True
+            target.immune_push = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Braced.")
+
+    def _handle_catch_projectile(self, match, ctx):
+        """Stop projectile"""
+        if "log" in ctx: ctx["log"].append("Projectile Caught/Stopped.")
+
+    def _handle_repel_projectiles(self, match, ctx):
+        """Deflect arrows"""
+        ctx["deflect_missiles"] = True
+        if "log" in ctx: ctx["log"].append("Repelling projectiles.")
+
+    def _handle_dense_skin(self, match, ctx):
+        """Reduce Physical Damage"""
+        ctx["damage_reduction_phys"] = 5
+        if "log" in ctx: ctx["log"].append("Dense Form: Physical DR 5.")
+
+    def _handle_orbit_shield(self, match, ctx):
+        """Debris Shield"""
+        if "log" in ctx: ctx["log"].append("Orbiting Debris Shield active (+AC).")
+
+    def _handle_event_horizon(self, match, ctx):
+        """Absorb magic projectiles"""
+        if "log" in ctx: ctx["log"].append("Event Horizon: Absorbing projectiles.")
+
+    def _handle_invincible(self, match, ctx):
+        """Infinite Mass"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.invulnerable = True
+            target.movement = 0 # Infinite mass cannot move?
+            if "log" in ctx: ctx["log"].append(f"{target.name} becomes Invincible (but Immobile)!")
+
+    # ============================================
+    # SCHOOL OF MOTUS HANDLERS (Motion/Speed)
+    # ============================================
+
+    def _handle_step(self, match, ctx):
+        """5ft Shift"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            # Logic handled in movement engine mostly, but could set a flag
+            if "log" in ctx: ctx["log"].append(f"{target.name} shifts 5ft (No OA).")
+
+    def _handle_dash(self, match, ctx):
+        """Bonus Move action"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.movement_remaining += target.speed
+            if "log" in ctx: ctx["log"].append(f"{target.name} Dashes! (+{target.speed}ft move)")
+
+    def _handle_teleport(self, match, ctx):
+        """Teleportation"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            # Actual teleport requires coordinates, for now just log/flag
+            if "log" in ctx: ctx["log"].append(f"{target.name} Teleports!")
+
+    def _handle_haste(self, match, ctx):
+        """Increase Speed"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Haste", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Hasted! (Double Speed)")
+
+    def _handle_portal(self, match, ctx):
+        """Create Portal"""
+        if "log" in ctx: ctx["log"].append("Portal opened.")
+
+    def _handle_weave(self, match, ctx):
+        """Move through enemies"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.can_move_through_enemies = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Weaves through enemies.")
+    
+    # Alias for squeeze
+    def _handle_squeeze(self, match, ctx):
+        self._handle_weave(match, ctx)
+
+    def _handle_snap_hit(self, match, ctx):
+        """Quick low damage hit"""
+        ctx["damage_bonus"] = -2 
+        ctx["attack_roll"] += 2 # Easier to hit, less damage?
+        if "log" in ctx: ctx["log"].append("Snap attack! (+Hit, -Dmg)")
+
+    def _handle_barrage(self, match, ctx):
+        """Multi-hit attack"""
+        # Multi-hit logic usually handled by engine checking specific flag or resolving multiple times
+        # Here we flag it
+        ctx["multi_hit_count"] = 3
+        if "log" in ctx: ctx["log"].append("Barrage! 3 strikes.")
+
+    def _handle_spin_attack(self, match, ctx):
+        """AOE around self"""
+        ctx["aoe_shape"] = "radius"
+        ctx["aoe_size"] = 5
+        if "log" in ctx: ctx["log"].append("Spin Attack! Hitting adjacent enemies.")
+
+    def _handle_blitz(self, match, ctx):
+        """Line Charge"""
+        ctx["is_charge"] = True
+        ctx["aoe_shape"] = "line"
+        ctx["aoe_size"] = 30 # 30ft line
+        if "log" in ctx: ctx["log"].append("Blitz Charge!")
+
+    def _handle_impact(self, match, ctx):
+        """Damage scales with Speed"""
+        attacker = ctx.get("attacker")
+        if attacker:
+            speed_dmg = attacker.speed // 5
+            if "incoming_damage" in ctx:
+                ctx["incoming_damage"] += speed_dmg
+            if "log" in ctx: ctx["log"].append(f"Impact! +{speed_dmg} damage from Speed.")
+
+    def _handle_infinite_attack(self, match, ctx):
+        """Attack every target"""
+        ctx["aoe_shape"] = "radius"
+        ctx["aoe_size"] = 100 # Hit everything
+        if "log" in ctx: ctx["log"].append("Infinite Strike! Hitting ALL targets.")
+
+    def _handle_duck(self, match, ctx):
+        """Reaction AC bonus"""
+        if "log" in ctx: ctx["log"].append("Duck! AC Bonus.")
+
+    def _handle_evasion(self, match, ctx):
+        """Dodge AOE"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_evasion = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Evasion.")
+
+    def _handle_afterimage(self, match, ctx):
+        """Decoy clones"""
+        if "log" in ctx: ctx["log"].append("Afterimages created (Disadvantage to be hit).")
+
+    def _handle_stutter(self, match, ctx):
+        """Phase out"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_ethereal = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Stutters out of reality.")
+
+    def _handle_gone(self, match, ctx):
+        """Non-existence"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_hidden = True
+            target.invulnerable = True
+            target.is_invisible = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Gone!")
+
+    def _handle_loop(self, match, ctx):
+        """Repeat last action"""
+        if "log" in ctx: ctx["log"].append("Time Loop! Action repeated.")
+
+    # _handle_aging already implemented in user edits
+
+    def _handle_rewind(self, match, ctx):
+        """Undo damage"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            # Complex to track exact recent damage, just heal significantly
+            heal = 20
+            target.hp = min(target.hp + heal, target.max_hp)
+            if "log" in ctx: ctx["log"].append(f"Rewind! {target.name} heals {heal} HP.")
+
+    def _handle_lag(self, match, ctx):
+        """Delay enemy"""
+        target = ctx.get("target")
+        if target:
+            target.initiative -= 5
+            if "log" in ctx: ctx["log"].append(f"{target.name} Lagged! Initiative dropped.")
+
+    def _handle_time_stop(self, match, ctx):
+        """Time Stop"""
+        if "log" in ctx: ctx["log"].append("TIME STOP! Extra turns taken.")
+
+    def _handle_paradox(self, match, ctx):
+        """Exist twice"""
+        if "log" in ctx: ctx["log"].append("Paradox! You exist twice (Double Actions).")
+
+    def _handle_reset_round(self, match, ctx):
+        """Restart round"""
+        if "log" in ctx: ctx["log"].append("Timeline Reset! Round restarts.")
+
+    def _handle_timeline(self, match, ctx):
+        """Predict future"""
+        if "log" in ctx: ctx["log"].append("Timeline viewed. Future known.")
+
+    # ============================================
+    # SCHOOL OF VITA HANDLERS
+    # ============================================
+
+    def _handle_regeneration(self, match, ctx):
+        """Heal HP every turn"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Regeneration", duration=5) # Default 5 rounds
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Regeneration!")
+
+    def _handle_minor_heal(self, match, ctx):
+        """Heal small amount"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            heal = random.randint(1, 8) + 2
+            target.hp = min(target.hp + heal, target.max_hp)
+            if "log" in ctx: ctx["log"].append(f"{target.name} heals {heal} HP (Minor)!")
+
+    def _handle_full_heal(self, match, ctx):
+        """Full HP recovery"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            healed = target.max_hp - target.hp
+            target.hp = target.max_hp
+            if "log" in ctx: ctx["log"].append(f"{target.name} fully healed ({healed} HP)!")
+
+    def _handle_stop_bleed(self, match, ctx):
+        """Cure bleeding"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_bleeding = False
+            # Remove effect if present in active_effects
+            if hasattr(target, "active_effects"):
+                target.active_effects = [e for e in target.active_effects if "bleed" not in e.get("name", "").lower()]
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s bleeding stops.")
+
+    def _handle_cure_disease(self, match, ctx):
+        """Cure disease/immunity"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_diseased = False
+            if hasattr(target, "active_effects"):
+                target.active_effects = [e for e in target.active_effects if "disease" not in e.get("name", "").lower()]
+            if "log" in ctx: ctx["log"].append(f"{target.name} cured of disease!")
+
+    def _handle_cure_poison(self, match, ctx):
+        """Cure poison"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_poisoned = False
+            if hasattr(target, "active_effects"):
+                target.active_effects = [e for e in target.active_effects if "poison" not in e.get("name", "").lower()]
+            if "log" in ctx: ctx["log"].append(f"{target.name} cured of poison!")
+
+    def _handle_lifesteal(self, match, ctx):
+        """Heal for damage dealt"""
+        dmg = ctx.get("incoming_damage", 0) 
+        attacker = ctx.get("attacker")
+        if attacker and dmg > 0:
+            heal = dmg // 2
+            attacker.hp = min(attacker.hp + heal, attacker.max_hp)
+            if "log" in ctx: ctx["log"].append(f"{attacker.name} drains {heal} HP!")
+
+    def _handle_life_bond(self, match, ctx):
+        """Split damage with ally"""
+        target = ctx.get("target")
+        if target and "log" in ctx: ctx["log"].append(f"{target.name} is Life Bonded (Splits Damage)!")
+
+    def _handle_auto_life(self, match, ctx):
+        """Auto-revive on death"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_auto_life = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Auto-Life!")
+
+    def _handle_resurrect(self, match, ctx):
+        """Bring back dead target"""
+        target = ctx.get("target")
+        if target and not target.is_alive():
+            target.hp = target.max_hp // 2
+            if "log" in ctx: ctx["log"].append(f"{target.name} Resurrected with {target.hp} HP!")
+        elif target and "log" in ctx:
+             ctx["log"].append(f"{target.name} is not dead!")
+
+    def _handle_consume_ally(self, match, ctx):
+        """Eat minion to heal"""
+        target = ctx.get("target") # The minion
+        attacker = ctx.get("attacker")
+        if target and attacker:
+            heal = target.hp
+            target.hp = 0 # Kill minion
+            attacker.hp = min(attacker.hp + heal, attacker.max_hp)
+            if "log" in ctx: ctx["log"].append(f"{attacker.name} consumes {target.name} to heal {heal} HP!")
+
+    def _handle_inflict_disease(self, match, ctx):
+        """Inflict disease debuff"""
+        target = ctx.get("target")
+        if target:
+            target.is_diseased = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} infected with Disease!")
+
+    def _handle_necrotic(self, match, ctx):
+        """Deal necrotic damage"""
+        if "log" in ctx: ctx["log"].append("Damage type: Necrotic")
+        ctx["damage_type"] = "Necrotic"
+
+    def _handle_stat_drain(self, match, ctx):
+        """Drain random stat"""
+        target = ctx.get("target")
+        if target:
+            stats = ["Might", "Reflexes", "Endurance"]
+            stat = random.choice(stats)
+            if stat in target.stats:
+                target.stats[stat] = max(0, target.stats[stat] - 2)
+                if "log" in ctx: ctx["log"].append(f"{target.name}'s {stat} drained by 2!")
+
+    def _handle_massive_dot(self, match, ctx):
+        """Strong DoT (Rot)"""
+        target = ctx.get("target")
+        if target:
+             if hasattr(target, "apply_effect"):
+                 target.apply_effect("Rot", duration=3)
+             target.is_rotting = True
+             if "log" in ctx: ctx["log"].append(f"{target.name} is Rotting! (High DoT)")
+
+    def _handle_contagion(self, match, ctx):
+        """Spreading infection"""
+        target = ctx.get("target")
+        if target:
+            target.is_contagious = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Contagious!")
+
+    def _handle_creature_bane(self, match, ctx):
+        """Bonus dmg vs creature type"""
+        if "log" in ctx: ctx["log"].append("Bane active (Bonus vs Type)")
+
+    def _handle_enlarge(self, match, ctx):
+        """Grow in size"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.size_category = "Large"
+            if "Might" in target.stats: target.stats["Might"] += 4
+            if "log" in ctx: ctx["log"].append(f"{target.name} Enlarges! (+4 Might)")
+
+    def _handle_grow_appendage(self, match, ctx):
+        """Grow wings/claws etc"""
+        target = ctx.get("target") or ctx.get("attacker")
+        part = "Appendage"
+        if match.group(0):
+             if "Wings" in match.group(0): part = "Wings"
+             elif "Claws" in match.group(0): part = "Claws"
+             elif "Gills" in match.group(0): part = "Gills"
+        if "log" in ctx: ctx["log"].append(f"{target.name} grows {part}!")
+
+    def _handle_natural_armor(self, match, ctx):
+        """Increase base AC/Natural armor"""
+        if "log" in ctx: ctx["log"].append("Natural Armor increased")
+
+    def _handle_swarm_form(self, match, ctx):
+        """Turn into bugs"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_swarm = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} transforms into a Swarm!")
+
+    def _handle_clone(self, match, ctx):
+        """Grow spare body"""
+        if "log" in ctx: ctx["log"].append("Spare body grown (Clone defined)")
+
+    def _handle_animate_plant(self, match, ctx):
+        """Animate plant ally"""
+        if "log" in ctx: ctx["log"].append("Plant Animated (Minion Spawned)")
+
+    def _handle_create_life(self, match, ctx):
+        """Create lifeform"""
+        if "log" in ctx: ctx["log"].append("Lifeform Created")
+
+    def _handle_detect_life(self, match, ctx):
+        """Detect Life Radar"""
+        if "log" in ctx: ctx["log"].append("Pulse: Life Detected in area")
+
+    def _handle_vines(self, match, ctx):
+        """Entangle with vines"""
+        target = ctx.get("target")
+        if target:
+            target.is_restrained = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} Entangled by Vines!")
+
+    # ============================================
+    # SCHOOL OF LUX HANDLERS
+    # ============================================
+
+    def _handle_laser(self, match, ctx):
+        """Laser damage (Radiant)"""
+        if "log" in ctx: ctx["log"].append("Laser Beam! (Radiant Damage)")
+        ctx["damage_type"] = "Radiant"
+
+    def _handle_nova(self, match, ctx):
+        """Massive Light Damage"""
+        if "log" in ctx: ctx["log"].append("NOVA ATTACK! Massive Radiant Damage!")
+        ctx["damage_type"] = "Radiant"
+        ctx["is_crit"] = True # Nova usually crits or hits hard
+
+    def _handle_split_beam(self, match, ctx):
+        """Split beam to hit multiple targets"""
+        if "log" in ctx: ctx["log"].append("Beam Splits! Hitting multiple targets.")
+
+    def _handle_burn_undead(self, match, ctx):
+        """Bonus damage vs Undead"""
+        target = ctx.get("target")
+        if target and hasattr(target, "species") and "Undead" in target.species:
+            if "incoming_damage" in ctx:
+                ctx["incoming_damage"] *= 2
+            if "log" in ctx: ctx["log"].append("Holy Light burns the Undead! (Double Damage)")
+
+    def _handle_light_explosion(self, match, ctx):
+        """Flashbang effect"""
+        target = ctx.get("target")
+        if target:
+            target.is_blinded = True
+            if "log" in ctx: ctx["log"].append("Flashbang! Target Blinded.")
+
+    def _handle_heat_metal(self, match, ctx):
+        """Heat Metal"""
+        target = ctx.get("target")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name}'s armor is searing hot! (Fire Damage)")
+
+    def _handle_see_invis(self, match, ctx):
+        """See Invisibility"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.can_see_invisible = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains True Seeing!")
+
+    def _handle_xray(self, match, ctx):
+        """See Through Walls"""
+        if "log" in ctx: ctx["log"].append("X-Ray Vision active!")
+
+    def _handle_darkvision(self, match, ctx):
+        """Darkvision"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.has_darkvision = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Darkvision.")
+
+    def _handle_gps(self, match, ctx):
+        """Know Location"""
+        if "log" in ctx: ctx["log"].append("Location Pinpointed (GPS).")
+
+    def _handle_postcognition(self, match, ctx):
+        """See the past"""
+        if "log" in ctx: ctx["log"].append("Vision within the past revealed...")
+
+    def _handle_scry(self, match, ctx):
+        """Remote Viewing"""
+        if "log" in ctx: ctx["log"].append("Scrying sensor active.")
+
+    def _handle_bonus_perception(self, match, ctx):
+        """Bonus to Perception"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} gains Enhanced Vision (+Perception).")
+
+    def _handle_blindness(self, match, ctx):
+        """Inflict Blindness"""
+        target = ctx.get("target")
+        if target:
+            target.is_blinded = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Blindness", duration=1)
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Blinded!")
+
+    def _handle_perm_blind(self, match, ctx):
+        """Permanent Blindness"""
+        target = ctx.get("target")
+        if target:
+            target.is_blinded = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Permanently Blinded!")
+
+    def _handle_dazzle(self, match, ctx):
+        """Dazzle (-1 to hit)"""
+        target = ctx.get("target")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Dazzled! (-1 to Hit)")
+
+    def _handle_block_sight(self, match, ctx):
+        """Block Sight Line"""
+        if "log" in ctx: ctx["log"].append("Sight line blocked (Smoke/Darkness).")
+
+    def _handle_invisibility(self, match, ctx):
+        """Turn Invisible"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_invisible = True
+            target.is_hidden = True
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Invisibility", duration=3)
+            if "log" in ctx: ctx["log"].append(f"{target.name} turns Invisible!")
+
+    def _handle_disguise(self, match, ctx):
+        """Alter Self"""
+        if "log" in ctx: ctx["log"].append("Appearance altered (Disguise).")
+
+    def _handle_camo(self, match, ctx):
+        """Camouflage"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if "log" in ctx: ctx["log"].append(f"{target.name} blends with surroundings (Camo).")
+
+    def _handle_illusion(self, match, ctx):
+        """Create Illusion/Hologram"""
+        if "log" in ctx: ctx["log"].append("Illusion created.")
+
+    def _handle_major_image(self, match, ctx):
+        """Major Image / Fake Terrain"""
+        if "log" in ctx: ctx["log"].append("Major Illusion generated (Fake Terrain).")
+
+    def _handle_hidden_reality(self, match, ctx):
+        """Hidden from Reality (Dimensional stealth)"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_invisible = True
+            target.is_ethereal = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Hidden from Reality!")
+
+    # ============================================
+    # SPECIES SKILL HANDLERS
+    # ============================================
+
+    def _handle_gore_charge(self, match, ctx):
+        """Charge attack bonus (+1d6 damage, etc)"""
+        if "log" in ctx: ctx["log"].append("Charge: +1d6 Damage if moved 20ft.")
+        if "damage_bonus" in ctx: ctx["damage_bonus"] = ctx.get("damage_bonus", 0) + random.randint(1, 6)
+
+    def _handle_lunge_reach(self, match, ctx):
+        """Increase melee reach"""
+        attacker = ctx.get("attacker")
+        if attacker:
+            # Mechanically handled in attack_target check if pattern matches
+            if "log" in ctx: ctx["log"].append("Lunge: Reach increased!")
+
+    def _handle_venom_injection(self, match, ctx):
+        """Inject poison on hit"""
+        target = ctx.get("target")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Poisoned", duration=3)
+            else:
+                target.is_poisoned = True
+            # Deal initial poison damage?
+            dmg = random.randint(1, 6)
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"Venom injected! {target.name} takes {dmg} Poison damage + Poisoned status.")
+
+    def _handle_trample(self, match, ctx):
+        """Knockdown + Damage"""
+        target = ctx.get("target")
+        if target:
+            target.is_prone = True
+            dmg = random.randint(1, 6) + 2
+            target.hp -= dmg
+            if "log" in ctx: ctx["log"].append(f"Trampled! {target.name} takes {dmg} dmg and falls Prone.")
+
+    def _handle_wall_walk(self, match, ctx):
+        """Climb walls"""
+        user = ctx.get("attacker")
+        if user:
+            user.has_climb_speed = True
+            if "log" in ctx: ctx["log"].append("Wall Walker active.")
+
+    def _handle_tremorsense(self, match, ctx):
+        """Detect vibration"""
+        user = ctx.get("attacker")
+        if user:
+            user.has_tremorsense = True
+            if "log" in ctx: ctx["log"].append("Tremorsense active.")
+
+    def _handle_grapple_bonus(self, match, ctx):
+        """Advantage on grapple"""
+        if "log" in ctx: ctx["log"].append("Grapple Advantage active.")
+
+    def _handle_cone_attack(self, match, ctx):
+        """Generic Cone Attack"""
+        # Parse range from match if possible, else default 15
+        range_ft = 15
+        if match.group(0) and "10" in match.group(0): range_ft = 10
+        if "log" in ctx: ctx["log"].append(f"Cone Attack ({range_ft}ft)! Dex save for half.")
+
+    def _handle_bleed_dot(self, match, ctx):
+        """Apply Bleed DoT"""
+        target = ctx.get("target")
+        if target:
+             if hasattr(target, "apply_effect"):
+                 target.apply_effect("Bleeding", duration=3)
+             target.is_bleeding = True
+             if "log" in ctx: ctx["log"].append(f"{target.name} is Bleeding!")
+
+    def _handle_ignore_cover(self, match, ctx):
+        """Ignore cover penalties"""
+        if "log" in ctx: ctx["log"].append("Attacker ignores cover.")
+
+    def _handle_auto_grapple(self, match, ctx):
+        """Grapple on hit"""
+        target = ctx.get("target")
+        if target:
+            target.is_grappled = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Grappled!")
+
+    def _handle_burrow_speed(self, match, ctx):
+        """Burrow speed"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            user.has_burrow_speed = True
+            if "log" in ctx: ctx["log"].append("Gained Burrow Speed!")
+
+    def _handle_squeeze(self, match, ctx):
+        """Squeeze through tight spaces"""
+        if "log" in ctx: ctx["log"].append("Can squeeze through small spaces.")
+
+    def _handle_biosense(self, match, ctx):
+        """Detect Life/Heartbeat"""
+        if "log" in ctx: ctx["log"].append("Bio-Sense active: Detecting heartbeats.")
+
+    def _handle_thermal_sight(self, match, ctx):
+        """Thermal Vision"""
+        if "log" in ctx: ctx["log"].append("Thermal Sight active: Detecting heat signatures.")
+
+    def _handle_omnivision(self, match, ctx):
+        """Cannot be Flanked"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.cannot_be_flanked = True
+            if "log" in ctx: ctx["log"].append("Omni-Vision: Cannot be Flanked.")
+
+    def _handle_enhanced_hearing(self, match, ctx):
+        """Eavesdrop"""
+        if "log" in ctx: ctx["log"].append("Enhanced Hearing active.")
+
+    def _handle_immovable(self, match, ctx):
+        """Cannot be moved/shoved"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.is_immovable = True
+            if "log" in ctx: ctx["log"].append("Anchored: Cannot be moved.")
+
+    def _handle_slippery(self, match, ctx):
+        """Advantage to escape grapple"""
+        if "log" in ctx: ctx["log"].append("Slippery: Advantage to escape Grapple.")
+
+    def _handle_withdraw(self, match, ctx):
+        """ Withdraw into shell (+AC) """
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if hasattr(target, "apply_effect"):
+                target.apply_effect("Withdraw", duration=1) # High AC buff
+            if "log" in ctx: ctx["log"].append("Withdrawn into Shell (+AC).")
+
+    def _handle_web_shot(self, match, ctx):
+        """Fire Web (Restrain)"""
+        target = ctx.get("target")
+        if target:
+            target.is_restrained = True
+            if "log" in ctx: ctx["log"].append(f"{target.name} is Restrained by Web!")
+
+    def _handle_spore_cloud(self, match, ctx):
+        """Poison Spore Cloud"""
+        if "log" in ctx: ctx["log"].append("Spore Cloud released! (Poison AOE)")
+
+    def _handle_tail_sweep(self, match, ctx):
+        """AOE Prone"""
+        if "log" in ctx: ctx["log"].append("Tail Sweep! Enemies knocked Prone.")
+
+    def _handle_gust(self, match, ctx):
+        """Wind Gust (Push)"""
+        if "log" in ctx: ctx["log"].append("Gust of Wind! Enemies pushed back.")
+
+    def _handle_solar_beam(self, match, ctx):
+        """Solar Beam (Blind + Dmg)"""
+        target = ctx.get("target")
+        if target:
+            target.is_blinded = True
+            ctx["damage_type"] = "Radiant"
+            if "log" in ctx: ctx["log"].append(f"Solar Beam! {target.name} is Blinded.")
+
+    def _handle_lockjaw(self, match, ctx):
+        """Grapple harder"""
+        if "log" in ctx: ctx["log"].append("Lockjaw: Target cannot escape grapple easily.")
+
+    def _handle_goodberry(self, match, ctx):
+        """Create Goodberry"""
+        if "log" in ctx: ctx["log"].append("Goodberry created (Heals HP).")
+
+    def _handle_mimicry(self, match, ctx):
+        """Mimic sound"""
+        if "log" in ctx: ctx["log"].append("Voice/Sound mimicked perfectly.")
+
+    def _handle_water_breathing(self, match, ctx):
+        """Breathe Underwater"""
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            target.can_breathe_water = True
+            if "log" in ctx: ctx["log"].append("Water Breathing active.")
 
 # Singleton instance for easy access
 registry = EffectRegistry()
