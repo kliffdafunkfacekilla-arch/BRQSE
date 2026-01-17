@@ -17,8 +17,10 @@ OFFSET_X, OFFSET_Y = 50, 50
 COLOR_BG = (20, 20, 30)
 COLOR_GRID = (60, 60, 70)
 COLOR_TILE_HOVER = (80, 80, 100)
-COLOR_P1 = (100, 200, 100)
-COLOR_P2 = (200, 100, 100)
+COLOR_P1 = (100, 200, 100) # Player/Empire
+COLOR_P2 = (200, 100, 100) # Enemy/Rebels
+COLOR_NEUTRAL = (200, 200, 200)
+COLOR_WALL = (100, 100, 100)
 COLOR_TURN = (255, 255, 100)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -280,10 +282,15 @@ class ArenaApp:
         self.screen.fill(COLOR_BG)
         
         if self.state == "COMBAT":
-            # 1. Draw Grid
+            # 1. Draw Grid & Terrain
             for y in range(GRID_ROWS):
                 for x in range(GRID_COLS):
                     rect = (OFFSET_X + x*TILE_SIZE, OFFSET_Y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                    
+                    # WALL CHECK
+                    if (x,y) in self.engine.walls:
+                        pygame.draw.rect(self.screen, COLOR_WALL, rect)
+                    
                     col = COLOR_GRID
                     if self.selected_tile == (x,y) and not self.engine.clash_active:
                         col = COLOR_TILE_HOVER
@@ -299,13 +306,27 @@ class ArenaApp:
                 if c == self.engine.get_active_char():
                     pygame.draw.rect(self.screen, COLOR_TURN, (cx+2, cy+2, TILE_SIZE-4, TILE_SIZE-4), 2)
                     
-                col = COLOR_P1 if c == self.fighter1 else COLOR_P2
+                # Team Color
+                col = COLOR_P1
+                if getattr(c, "team", "") in ["Enemy", "Rebels"]:
+                    col = COLOR_P2
+                elif getattr(c, "team", "") == "Neutral":
+                    col = COLOR_NEUTRAL
+                elif c != self.fighter1: # Fallback for minions of P1?
+                     # If summon, check master? For now, assume minion shares team logic via name or data
+                     if "Wolf" in c.name or "Construct" in c.name:
+                         # Assume minion matches summoner?
+                         # Simplified: If not P1, assume Enemy for now unless stated
+                         if c.name not in [self.fighter1.name]:
+                             col = COLOR_P2
+                
                 pygame.draw.circle(self.screen, col, (cx + TILE_SIZE//2, cy + TILE_SIZE//2), TILE_SIZE//3)
                 
                 # HP Bar
-                pct = c.hp / c.max_hp
-                pygame.draw.rect(self.screen, (255,0,0), (cx+5, cy-8, 40, 5))
-                pygame.draw.rect(self.screen, (0,255,0), (cx+5, cy-8, 40*pct, 5))
+                if c.max_hp > 0:
+                    pct = max(0, min(1, c.hp / c.max_hp))
+                    pygame.draw.rect(self.screen, (255,0,0), (cx+5, cy-8, 40, 5))
+                    pygame.draw.rect(self.screen, (0,255,0), (cx+5, cy-8, 40*pct, 5))
                 
                 # Status Effect Icons (compact text)
                 status_icons = []
