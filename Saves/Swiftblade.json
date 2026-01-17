@@ -1,0 +1,25 @@
+{
+    "Name": "Swiftblade",
+    "Species": "Elf",
+    "Stats": {
+        "Might": 1,
+        "Reflexes": 4,
+        "Vitality": 2,
+        "Knowledge": 1,
+        "Willpower": 1
+    },
+    "Derived": {
+        "HP": 15,
+        "Speed": 15
+    },
+    "BodyParts": [
+        "Head",
+        "Torso",
+        "Arms",
+        "Legs"
+    ],
+    "Skills": [
+        "Dagger",
+        "Dodge"
+    ]
+}

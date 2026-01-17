@@ -1,0 +1,7 @@
+Category Name,Stat,Skill,Examples,Trait,Effect
+THREATS,MIGHT,Intimidate,"Crowbar, Heavy Cane, Brass Knuckles, Hunting Knife",Shock,"Exploding Dice: If you roll max damage on the Composure die, roll again."
+FIDGETS,FINESSE,Repartee,"Coin (for flipping), Locket (snapping shut), Fan, Lighter",Wit,Crit 19-20: Distracting motions make your insults land harder.
+PROPS,FORTITUDE,Coercion,"Pocket Watch (checking time), Apple (eating slowly), Cigar",Corner,"Lock-In: On Hit, target is ""Cornered"" (Cannot leave conversation until they win a Clash)."
+PLANNING,LOGIC,Rhetoric,"Blueprint, Contract, Ledger, Map",Objection,Pierce: Ignores 2 points of target's Social Defense Bonus (DB).
+INTEL,AWARENESS,Insight,"Blackmail Letter, Stolen Diary, Surveillance Photo",Expose,Leverage: Deal +2 Damage if you reveal a secret or flaw.
+SCENTS,CHARM,Persuasion,"Perfume, Musk, Incense, Instrument",Allure,"Debilitate: Low Dmg, but applies Charmed status (Target cannot attack you next turn)."

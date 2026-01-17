@@ -1,0 +1,58 @@
+﻿Name,Type,Cost,Related_Skill,Description,Effect,Logic_Tags
+Greatsword,Weapon,50,The Breakers,Heavy two-handed blade.,Deal 2d6 Slashing damage.,DMG:2d6:Slash|PROP:Heavy|PROP:2H
+Maul,Weapon,45,The Breakers,Massive iron hammer.,Deal 2d6 Bludgeoning damage.,DMG:2d6:Bludgeon|PROP:Heavy|PROP:2H
+Warbow,Weapon,75,The Draw,Heavy draw-weight bow.,Deal 1d10 Piercing damage.,DMG:1d10:Pierce|RANGE:150/600|PROP:2H
+Arbalest,Weapon,100,The Draw,Portable ballista-style crossbow.,Deal 1d12 Piercing damage.,DMG:1d12:Pierce|RANGE:100/400|PROP:Loading
+Rapier,Weapon,25,The Blades,Elegant thrusting blade.,Deal 1d8 Piercing damage.,DMG:1d8:Pierce|PROP:Finesse
+Shiv,Weapon,2,The Blades,Concealable improvised blade.,Deal 1d4 Piercing damage.,DMG:1d4:Pierce|PROP:Light|PROP:Hidden
+Throwing Knife,Weapon,2,The Thrown,Balanced knife.,Deal 1d4 Piercing damage.,DMG:1d4:Pierce|RANGE:20/60|PROP:Thrown
+Hand Axe,Weapon,5,The Thrown,Small axe suitable for throwing.,Deal 1d6 Slashing damage.,DMG:1d6:Slash|RANGE:20/60|PROP:Thrown
+Cestus,Weapon,5,The Fist,Leather/Iron knuckle wrap.,Deal 1d4 Bludgeoning damage.,DMG:1d4:Bludgeon|PROP:Unarmed
+Tiger Claws,Weapon,10,The Fist,Metal claws attached to gloves.,Deal 1d6 Slashing damage.,DMG:1d6:Slash|PROP:Unarmed|PROP:Finesse
+Sling,Weapon,1,The Simple Shot,Simple leather strap.,Deal 1d4 Bludgeoning damage.,DMG:1d4:Bludgeon|RANGE:30/120
+Shortbow,Weapon,25,The Simple Shot,Compact bow for skirmishers.,Deal 1d6 Piercing damage.,DMG:1d6:Pierce|RANGE:80/320|PROP:2H
+Katana,Weapon,150,The Long Blade,Masterwork curved blade.,Deal 1d8 (1d10) Slashing damage.,DMG:1d8:Slash|PROP:Versatile
+Longsword,Weapon,15,The Long Blade,Standard knight's blade.,Deal 1d8 (1d10) Slashing damage.,DMG:1d8:Slash|PROP:Versatile
+Flintlock Pistol,Weapon,200,The Blast,Black powder firearm.,Deal 1d10 Piercing damage.,DMG:1d10:Pierce|RANGE:30/90|PROP:Reload
+Blunderbuss,Weapon,250,The Blast,Short-range scatter gun.,Deal 2d6 Piercing damage (Cone).,DMG:2d6:Pierce|RANGE:15:Cone|PROP:Reload
+Halberd,Weapon,20,The Polearms,Axe head on a long pole.,Deal 1d10 Slashing damage.,DMG:1d10:Slash|PROP:Reach|PROP:2H
+Spear,Weapon,1,The Polearms,Simple pointed pole.,Deal 1d6 (1d8) Piercing damage.,DMG:1d6:Pierce|PROP:Reach|PROP:Versatile
+Sniper Crossbow,Weapon,200,The Long Shot,High-tension scoped crossbow.,Deal 1d10 Piercing damage.,DMG:1d10:Pierce|RANGE:200/800|PROP:Heavy
+Long Rifle,Weapon,300,The Long Shot,Precision barrel firearm.,Deal 1d12 Piercing damage.,DMG:1d12:Pierce|RANGE:100/400|PROP:Reload
+Chain Whip,Weapon,15,Melee Exotics,Segmented metal lash.,Deal 1d4 Slashing damage.,DMG:1d4:Slash|PROP:Reach|PROP:Finesse
+Nunchaku,Weapon,5,Melee Exotics,Connected wooden batons.,Deal 1d6 Bludgeoning damage.,DMG:1d6:Bludgeon|PROP:Light|PROP:Flashy
+Bola,Weapon,5,Ranged Exotics,Weighted cords.,Deal no damage; trips target.,EFFECT:Prone|RANGE:20/60|PROP:Thrown
+Blowgun,Weapon,10,Ranged Exotics,Silent dart tube.,Deal 1 Piercing damage.,DMG:1:Pierce|RANGE:25/100|PROP:Silent
+Full Plate,Armor,1500,Plate,Interlocking steel plates (Standard).,Immunity to Critical Hit extra damage.,IMMUNE:Crit_Dmg|PROP:Heavy|STEALTH:Disadv
+Juggernaut Suit,Armor,2000,Plate,Reinforced heavy plating.,Advantage on Saves vs Push/Prone.,BUFF:Advantage:Physics|PROP:Heavy
+Duelist Leathers,Armor,45,Leather,Fitted flexible leather.,Stand up from Prone as a Free Action.,BUFF:Free_Stand|PROP:Light
+Shadow Leathers,Armor,100,Leather,"Darkened, muffled leather.",Advantage on Stealth in Dim Light.,BUFF:Advantage:Stealth|COND:Dim_Light
+Bone Mesh,Armor,40,Bio,Armor made of polished bone.,Advantage on Intimidation checks.,BUFF:Advantage:Social|MAT:Bone
+Troll Hide,Armor,100,Bio,Cured regenerative hide.,Regenerate 1 HP per hour out of combat.,REGEN:1:Hourly|MAT:Hide
+Highborn Robes,Armor,200,Robes,Silk vestments of nobility.,Advantage on Etiquette/Persuasion.,BUFF:Advantage:Social|PROP:Fancy
+Warding Robes,Armor,150,Robes,Cloth inscribed with runes.,Resistance to Arcane Damage.,RESIST:Arcane|PROP:Magic
+Ghillie Suit,Armor,50,Rigs,Camouflage netting.,Invisible to Vision while stationary.,EFFECT:Invis|COND:Stationary
+Tactical Vest,Armor,100,Rigs,Vest with many pouches.,Hold 2 Consumables for Instant Use.,SLOTS:2|USE:Instant
+Mithral Chain,Armor,500,Mail,"Fine, lightweight chainmail.",Concealable under normal clothing.,PROP:Hidden|PROP:Light
+Dragon Scale,Armor,750,Mail,Scales of a beast.,Resistance to Fire/Cold (Choose 1).,RESIST:Elem|MAT:Scale
+Piston Hammer,Weapon,150,The Breakers,Hammer with clockwork piston.,Deal Max Damage vs Structures/Doors.,DMG:2d6:Bludgeon|EFFECT:Siege|PROP:Heavy
+Executioner's Blade,Weapon,100,The Breakers,Flat-tipped decapitation sword.,Auto-Critical vs Prone/Restrained targets.,DMG:1d12:Slash|CRIT:Auto:Prone|PROP:Heavy
+Compound Bow,Weapon,125,The Draw,Pulley-system bow.,Add Strength Mod to Damage rolls.,DMG:1d8:Pierce|MOD:Str|RANGE:150/600
+Main-Gauche,Weapon,20,The Blades,Large parrying dagger.,advantage if usefinesse in clash,DMG:1d4:Pierce|BUFF:clash advantage with finesse|PROP:Light
+Cane Sword,Weapon,50,The Blades,Hidden blade in walking stick.,Enemy is Surprised on first round of combat.,DMG:1d6:Pierce|EFFECT:Surprise|PROP:Hidden
+Chakram,Weapon,15,The Thrown,Circular throwing disc.,Returns to hand on a miss.,DMG:1d6:Slash|PROP:Return|RANGE:30/90
+Quarterstaff,Weapon,1,The Polearms,Simple iron-shod staff.,weighted hits adjacent person on crit,DMG:1d6:Bludgeon|PROP:hit 2nd adjacent target on crit|PROP:Versatile
+Mancatcher,Weapon,25,The Polearms,Pole with spring-loaded collar.,Grapples target on hit (Escape DC 13).,EFFECT:Grapple|PROP:Reach|PROP:2H
+Pneumatic Rifle,Weapon,400,The Long Shot,Air-pressure dart rifle.,Silent firing (No location reveal).,DMG:1d10:Pierce|PROP:Silent|PROP:Reload
+Hand Cannon,Weapon,300,The Blast,Large bore pistol.,Knocks target Prone on Critical Hit.,DMG:1d12:Pierce|CRIT:Prone|RANGE:20/60
+War Fan,Weapon,25,Melee Exotics,Reinforced steel fan., advantage if use charm in a clash,DMG:1d4:Slash|PROP:clash advantage with charm|PROP:Light
+Spiked Plate,Armor,1600,Plate,Armor covered in barbs.,Deal 1d4 damage to anyone grappling you.,DMG:1d4:Grapple|PROP:Heavy
+Ceramic Plate,Armor,1400,Plate,Heat-resistant tiling.,Resistance to Fire Damage.,RESIST:Fire|PROP:Heavy
+Mirror Shield,Armor,50,The Shield,Polished chrome shield.,Reaction: Impose Disadvantage on Light/Gaze attacks.,DEF:Gaze|PROP:Shield
+Lantern Shield,Armor,75,The Shield,Shield with built-in lamp and spikes.,Hands-free Light source + 1d4 Bash damage.,LIGHT:20ft|DMG:1d4:Bash|PROP:Shield
+Acrobat's Leathers,Armor,60,Leather,"Tight, grip-enhanced leather.",Gain Climbing Speed equal to Walking Speed.,SPEED:Climb|PROP:Light
+Chitin Carapace,Armor,80,Bio,Insectoid plating.,Resistance to Acid Damage.,RESIST:Acid|MAT:Chitin
+Fungal Raiment,Armor,60,Bio,Living moss and spores.,Immunity to Spore/Scent-based toxins.,IMMUNE:Inhaled|MAT:Plant
+Scholar's Robes,Armor,30,Robes,"Many deep, waterproof pockets.",Hold 4 Scrolls/Books safely (Waterproof).,CAP:Scrolls|PROP:Light
+Engineer's Rig,Armor,120,Rigs,Harness with tool loops.,Reduce time to craft/repair by 50%.,BUFF:Craft_Speed|PROP:Tech
+Gilded Mail,Armor,200,Mail,Gold-washed chainmail.,+2 Bonus to Insight checks (Look important).,BUFF:Insight+2|PROP:Flashy

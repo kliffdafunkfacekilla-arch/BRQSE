@@ -1,0 +1,361 @@
+School,Attribute,Tier,Type,Name,Damage_Type,Description
+Mass,Might,1,Offense,Push,Force,Shove target away (Knockback).
+Mass,Might,1,Defense,Brace,Force,Ignore Knockback or Prone effects.
+Mass,Might,1,Utility,Lift,Force,Reduce the weight of an object.
+Mass,Might,2,Offense,Pull,Force,Drag target closer to you.
+Mass,Might,2,Defense,Catch,Force,Stop a physical projectile mid-air.
+Mass,Might,2,Utility,Jump,Force,Boost jump height/distance significantly.
+Mass,Might,3,Offense,Slam,Force,Knock target Prone with heavy force.
+Mass,Might,3,Defense,Repel,Force,Deflect arrows/bolts aimed at you.
+Mass,Might,3,Utility,Burden,Force,Increase weight of target (Slow).
+Mass,Might,4,Offense,Crush,Force,Constrict/Squeeze target (Grapple).
+Mass,Might,4,Defense,Dense,Force,Reduce incoming Physical Damage.
+Mass,Might,4,Utility,Climb,Force,Spider Climb (Shift gravity).
+Mass,Might,5,Offense,Launch,Force,Fling enemy a long distance.
+Mass,Might,5,Defense,Orbit,Force,Shield of debris circles you.
+Mass,Might,5,Utility,Feather,Force,Slow Fall / No fall damage.
+Mass,Might,6,Offense,Breach,Force,Destroy cover or walls instantly.
+Mass,Might,6,Defense,Heavy,Force,You cannot be moved against your will.
+Mass,Might,6,Utility,Float,Force,Levitate self or object.
+Mass,Might,7,Offense,Flatten,Force,Compress target into 2D space.
+Mass,Might,7,Defense,Nullify,Force,Stop all momentum in an area.
+Mass,Might,7,Utility,Fly,Force,True Flight (Control Gravity).
+Mass,Might,8,Offense,Implode,Force,Create a vacuum (Massive Damage).
+Mass,Might,8,Defense,Field,Force,Anti-Gravity Aura (Enemies float).
+Mass,Might,8,Utility,Reverse,Force,Flip gravity (Ceiling is floor).
+Mass,Might,9,Offense,Meteor,Force,Orbital Strike from above.
+Mass,Might,9,Defense,Event Horizon,Force,Absorb incoming magical projectiles.
+Mass,Might,9,Utility,Well,Force,Create heavy Gravity Well.
+Mass,Might,10,Offense,Erase,Force,Delete matter from existence.
+Mass,Might,10,Defense,Invincible,Force,Infinite Mass (Cannot be hurt).
+Mass,Might,10,Utility,Black Hole,Force,Consume light and matter.
+Ordo,Endurance,1,Offense,Halt,Cold,Stop target movement completely.
+Ordo,Endurance,1,Defense,Stand,Cold,Stand up from Prone instantly.
+Ordo,Endurance,1,Utility,Hold,Cold,Keep a door or object shut.
+Ordo,Endurance,2,Offense,Trip,Cold,Create an obstacle to trip foes.
+Ordo,Endurance,2,Defense,Skin,Cold,Natural Armor bonus.
+Ordo,Endurance,2,Utility,Sustain,Cold,Ignore hunger/thirst/fatigue.
+Ordo,Endurance,3,Offense,Trap,Cold,Bind target's legs/wheels.
+Ordo,Endurance,3,Defense,Anchor,Cold,Become immovable.
+Ordo,Endurance,3,Utility,Bridge,Cold,Create a temporary structure.
+Ordo,Endurance,4,Offense,Cage,Cold,Create walls around target.
+Ordo,Endurance,4,Defense,Barricade,Cold,Create cover instantly.
+Ordo,Endurance,4,Utility,Preserve,Cold,Stop decay on object/body.
+Ordo,Endurance,5,Offense,Petrify,Cold,Turn target to stone (Save).
+Ordo,Endurance,5,Defense,Reinforce,Cold,Gain Temporary HP.
+Ordo,Endurance,5,Utility,Shelter,Cold,Create a safe hut/bunker.
+Ordo,Endurance,6,Offense,Entomb,Cold,Bury target under earth.
+Ordo,Endurance,6,Defense,Absorb,Cold,Take damage meant for an ally.
+Ordo,Endurance,6,Utility,Lock,Cold,Arcane Lock (Unopenable).
+Ordo,Endurance,7,Offense,Stasis,Cold,Freeze target in time/space.
+Ordo,Endurance,7,Defense,Reflect,Cold,Return damage to attacker.
+Ordo,Endurance,7,Utility,Statue,Cold,Feign Death (Indistinguishable).
+Ordo,Endurance,8,Offense,Arrest,Cold,Stop target's heart (Save).
+Ordo,Endurance,8,Defense,Immunity,Cold,Take 0 Damage for 1 round.
+Ordo,Endurance,8,Utility,Stamina,Cold,Run forever without tiring.
+Ordo,Endurance,9,Offense,Crystallize,Cold,Make target fragile (Shatter).
+Ordo,Endurance,9,Defense,Fortress,Cold,Invulnerable Structure.
+Ordo,Endurance,9,Utility,Monolith,Cold,Create permanent wall/tower.
+Ordo,Endurance,10,Offense,Stop,Cold,End Time for target.
+Ordo,Endurance,10,Defense,Eternal,Cold,Cannot die this round.
+Ordo,Endurance,10,Utility,Foundation,Cold,Create new land/island.
+Flux,Finesse,1,Offense,Pierce,Acid,Ignore Armor Rating (AR).
+Flux,Finesse,1,Defense,Dodge,Acid,Bonus to AC vs one attack.
+Flux,Finesse,1,Utility,Unlock,Acid,Open simple mechanism.
+Flux,Finesse,2,Offense,Trip,Acid,Precision hit to knock down.
+Flux,Finesse,2,Defense,Parry,Acid,Reduce incoming melee damage.
+Flux,Finesse,2,Utility,Untie,Acid,Escape bindings/grapple.
+Flux,Finesse,3,Offense,Disarm,Acid,Force drop of held item.
+Flux,Finesse,3,Defense,Catch,Acid,Grab weapon/item thrown at you.
+Flux,Finesse,3,Utility,Swap,Acid,Switch held items instantly.
+Flux,Finesse,4,Offense,Bleed,Acid,Deal Damage over Time.
+Flux,Finesse,4,Defense,Deflect,Acid,Redirect attack to adjacent.
+Flux,Finesse,4,Utility,Guide,Acid,Next attack is Auto-Hit.
+Flux,Finesse,5,Offense,Snatch,Acid,Steal equipped item.
+Flux,Finesse,5,Defense,Blur,Acid,Attacks have Disadvantage.
+Flux,Finesse,5,Utility,Filter,Acid,Clean poison/toxin from liquid.
+Flux,Finesse,6,Offense,Sever,Acid,Cut off a limb or appendage.
+Flux,Finesse,6,Defense,Flow,Acid,Move 5ft when hit (Reaction).
+Flux,Finesse,6,Utility,Phase,Acid,Walk through solid wall.
+Flux,Finesse,7,Offense,Needle,Acid,Line attack through enemies.
+Flux,Finesse,7,Defense,Ghost,Acid,Become Ethereal (No Phys Dmg).
+Flux,Finesse,7,Utility,Pass,Acid,Allow ally to phase.
+Flux,Finesse,8,Offense,Ricochet,Acid,Attack chains to new targets.
+Flux,Finesse,8,Defense,Displace,Acid,You appear 5ft from real spot.
+Flux,Finesse,8,Utility,Navigate,Acid,Find path to any location.
+Flux,Finesse,9,Offense,Atomize,Acid,Disintegrate target.
+Flux,Finesse,9,Defense,Liquid,Acid,Amorphous (Immune Crits/Grap).
+Flux,Finesse,9,Utility,Separate,Acid,Un-mix a potion/compound.
+Flux,Finesse,10,Offense,Perfect,Acid,Auto-Critical Hit.
+Flux,Finesse,10,Defense,Intangible,Acid,Permanent Phasing state.
+Flux,Finesse,10,Utility,Singularity,Acid,Compress space to a point.
+Motus,Reflexes,1,Offense,Snap,Sonic,Quick low-damage hit.
+Motus,Reflexes,1,Defense,Duck,Sonic,Reaction AC bonus.
+Motus,Reflexes,1,Utility,Step,Sonic,5ft Shift (No Opportunity).
+Motus,Reflexes,2,Offense,Barrage,Sonic,Multi-hit attack (Low Dmg).
+Motus,Reflexes,2,Defense,Weave,Sonic,Move through enemy space.
+Motus,Reflexes,2,Utility,Dash,Sonic,Bonus Move action.
+Motus,Reflexes,3,Offense,Spin,Sonic,AOE hit around self.
+Motus,Reflexes,3,Defense,Evasion,Sonic,Dodge AOE effects (Save).
+Motus,Reflexes,3,Utility,Leap,Sonic,Teleport 10ft.
+Motus,Reflexes,4,Offense,Vibrate,Sonic,Sonic Damage (Bypass Armor).
+Motus,Reflexes,4,Defense,Catch,Sonic,Snatch arrow/bolt from air.
+Motus,Reflexes,4,Utility,Haste,Sonic,Increase Speed buff.
+Motus,Reflexes,5,Offense,Blitz,Sonic,Line Charge attack.
+Motus,Reflexes,5,Defense,Blink,Sonic,Teleport Dodge (Reaction).
+Motus,Reflexes,5,Utility,Warp,Sonic,Teleport 60ft.
+Motus,Reflexes,6,Offense,Impact,Sonic,Damage scales with Speed.
+Motus,Reflexes,6,Defense,Afterimage,Sonic,Create decoy clones.
+Motus,Reflexes,6,Utility,Loop,Sonic,Repeat last action.
+Motus,Reflexes,7,Offense,Age,Sonic,Rapid aging attack.
+Motus,Reflexes,7,Defense,Rewind,Sonic,Undo recent damage taken.
+Motus,Reflexes,7,Utility,Portal,Sonic,Create travel gate.
+Motus,Reflexes,8,Offense,Lag,Sonic,Delay enemy turn/action.
+Motus,Reflexes,8,Defense,Stutter,Sonic,Phase out of reality briefly.
+Motus,Reflexes,8,Utility,Stop,Sonic,Time Stop (Short).
+Motus,Reflexes,9,Offense,Paradox,Sonic,Exist twice (Double turns).
+Motus,Reflexes,9,Defense,Reset,Sonic,Restart the combat round.
+Motus,Reflexes,9,Utility,Timeline,Sonic,Predict exact future.
+Motus,Reflexes,10,Offense,Infinite,Sonic,Attack every target instantly.
+Motus,Reflexes,10,Defense,Gone,Sonic,Non-Existence (Safe).
+Motus,Reflexes,10,Utility,Reality,Sonic,Reload Save / Retcon.
+Vita,Vitality,1,Offense,Sting,Poison,Minor Poison damage.
+Vita,Vitality,1,Defense,Clot,Poison,Stop Bleeding immediately.
+Vita,Vitality,1,Utility,Mend,Poison,Heal minor wounds.
+Vita,Vitality,2,Offense,Tangle,Poison,Vines restrict movement.
+Vita,Vitality,2,Defense,Bark,Poison,Natural Armor skin.
+Vita,Vitality,2,Utility,Purge,Poison,Cure Poison/Toxin.
+Vita,Vitality,3,Offense,Rot,Poison,Necrotic damage.
+Vita,Vitality,3,Defense,Resist,Poison,Resist Elemental damage.
+Vita,Vitality,3,Utility,Grow,Poison,Enlarge self or target.
+Vita,Vitality,4,Offense,Drain,Poison,Lifesteal (Heal for Dmg).
+Vita,Vitality,4,Defense,Adrenaline,Poison,Gain Temporary HP.
+Vita,Vitality,4,Utility,Adapt,Poison,Grow Gills/Claws/Wings.
+Vita,Vitality,5,Offense,Infect,Poison,Inflict Disease.
+Vita,Vitality,5,Defense,Regen,Poison,Heal HP every turn.
+Vita,Vitality,5,Utility,Sense,Poison,Detect Life (Radar).
+Vita,Vitality,6,Offense,Wither,Poison,Drain Stat (Str/Dex).
+Vita,Vitality,6,Defense,Carapace,Poison,Damage Reduction (Flat).
+Vita,Vitality,6,Utility,Awaken,Poison,Animate Plant/Tree.
+Vita,Vitality,7,Offense,Devour,Poison,Eat minion to heal full.
+Vita,Vitality,7,Defense,Immune,Poison,Cure Disease/Immunity.
+Vita,Vitality,7,Utility,Link,Poison,Life Bond (Share HP).
+Vita,Vitality,8,Offense,Plague,Poison,Spreading DoT infection.
+Vita,Vitality,8,Defense,Cocoon,Poison,Stasis Heal (Full recovery).
+Vita,Vitality,8,Utility,Revive,Poison,Resurrect dead.
+Vita,Vitality,9,Offense,Cancer,Poison,Massive Rapid DoT.
+Vita,Vitality,9,Defense,Swarm,Poison,Turn into bugs (Immune).
+Vita,Vitality,9,Utility,Clone,Poison,Grow spare body.
+Vita,Vitality,10,Offense,Extinct,Poison,Kill creature type.
+Vita,Vitality,10,Defense,Reborn,Poison,Auto-Life on death.
+Vita,Vitality,10,Utility,Genesis,Poison,Create new Lifeform.
+Nexus,Fortitude,1,Offense,Heat,Fire,Deal Fire Damage.
+Nexus,Fortitude,1,Defense,Harden,Fire,Bonus AC.
+Nexus,Fortitude,1,Utility,Shape,Fire,Mold clay/stone/wood.
+Nexus,Fortitude,2,Offense,Chill,Fire,Deal Cold Damage.
+Nexus,Fortitude,2,Defense,Insulate,Fire,Resist Elements.
+Nexus,Fortitude,2,Utility,Fuse,Fire,Weld metal/stone together.
+Nexus,Fortitude,3,Offense,Shock,Fire,Deal Lightning Damage.
+Nexus,Fortitude,3,Defense,Ground,Fire,Absorb Shock/Electricity.
+Nexus,Fortitude,3,Utility,Rust,Fire,Weaken metal item.
+Nexus,Fortitude,4,Offense,Burn,Fire,Ignite target (DoT).
+Nexus,Fortitude,4,Defense,Plate,Fire,Skin becomes Iron.
+Nexus,Fortitude,4,Utility,Repair,Fire,Fix broken item.
+Nexus,Fortitude,5,Offense,Melt,Fire,Deal Acid Damage.
+Nexus,Fortitude,5,Defense,Cool,Fire,Extinguish fires instantly.
+Nexus,Fortitude,5,Utility,Forge,Fire,Create weapon from raw mats.
+Nexus,Fortitude,6,Offense,Shatter,Fire,Deal Sonic Damage.
+Nexus,Fortitude,6,Defense,Diamond,Fire,Skin becomes Diamond (High AC).
+Nexus,Fortitude,6,Utility,Transmute,Fire,Change material type.
+Nexus,Fortitude,7,Offense,Explode,Fire,Deal Force Damage.
+Nexus,Fortitude,7,Defense,Rubber,Fire,Bounce Physical Damage.
+Nexus,Fortitude,7,Utility,Liquify,Fire,Turn solid to liquid.
+Nexus,Fortitude,8,Offense,Vaporize,Fire,Turn solid to gas (Cloud).
+Nexus,Fortitude,8,Defense,Mirror,Fire,Reflect Ray spells.
+Nexus,Fortitude,8,Utility,Gas,Fire,Turn self to Mist.
+Nexus,Fortitude,9,Offense,Fission,Fire,Nuclear Damage (Nuke).
+Nexus,Fortitude,9,Defense,Void,Fire,Absorb All Damage types.
+Nexus,Fortitude,9,Utility,Gold,Fire,Lead to Gold (Wealth).
+Nexus,Fortitude,10,Offense,Unmake,Fire,Disintegrate Matter.
+Nexus,Fortitude,10,Defense,Indestructible,Fire,God-like durability.
+Nexus,Fortitude,10,Utility,Matter,Fire,Create Matter from nothing.
+Anumis,Knowledge,1,Offense,Mark,Arcane,Prevent Stealth.
+Anumis,Knowledge,1,Defense,Shield,Arcane,Magic Armor (Temp AC).
+Anumis,Knowledge,1,Utility,Read,Arcane,Decipher text/runes.
+Anumis,Knowledge,2,Offense,Bolt,Arcane,Magic Missile (Auto hit).
+Anumis,Knowledge,2,Defense,Mask,Arcane,Nondetection (Anti-Scry).
+Anumis,Knowledge,2,Utility,Identify,Arcane,Learn item properties.
+Anumis,Knowledge,3,Offense,Bind,Arcane,Hold Person (Paralyze).
+Anumis,Knowledge,3,Defense,Circle,Arcane,Protect Area (Magic Circle).
+Anumis,Knowledge,3,Utility,Tongues,Arcane,Speak any language.
+Anumis,Knowledge,4,Offense,Silence,Arcane,Prevent Casting/Sound.
+Anumis,Knowledge,4,Defense,Dampen,Arcane,Resist Magic Damage.
+Anumis,Knowledge,4,Utility,Light,Arcane,Create Illusion (Visual).
+Anumis,Knowledge,5,Offense,Dispel,Arcane,End active spell.
+Anumis,Knowledge,5,Defense,Counter,Arcane,Stop spell being cast.
+Anumis,Knowledge,5,Utility,Summon,Arcane,Call Ally/Monster.
+Anumis,Knowledge,6,Offense,Banish,Arcane,Send to another plane.
+Anumis,Knowledge,6,Defense,Trap,Arcane,Explosive Rune defense.
+Anumis,Knowledge,6,Utility,Message,Arcane,Long range comms.
+Anumis,Knowledge,7,Offense,Anchor,Arcane,Block Teleportation.
+Anumis,Knowledge,7,Defense,Reflection,Arcane,Return Spell to caster.
+Anumis,Knowledge,7,Utility,Scry,Arcane,Spy on location.
+Anumis,Knowledge,8,Offense,Unbind,Arcane,Destroy Magic Item.
+Anumis,Knowledge,8,Defense,Prism,Arcane,Split incoming spell.
+Anumis,Knowledge,8,Utility,Gate,Arcane,Planar Travel.
+Anumis,Knowledge,9,Offense,Seal,Arcane,Permanent Binding.
+Anumis,Knowledge,9,Defense,Invulnerability,Arcane,Immune to Magic.
+Anumis,Knowledge,9,Utility,Memory,Arcane,Modify Memory.
+Anumis,Knowledge,10,Offense,Source,Arcane,Drain Magic slots.
+Anumis,Knowledge,10,Defense,Antimagic,Arcane,Create Dead Magic Zone.
+Anumis,Knowledge,10,Utility,Wish,Arcane,Alter Reality.
+Ratio,Logic,1,Offense,Angle,Shock,Ignore Cover penalty.
+Ratio,Logic,1,Defense,Predict,Shock,Small AC Bonus.
+Ratio,Logic,1,Utility,Count,Shock,Know exact number of items.
+Ratio,Logic,2,Offense,Target,Shock,True Strike (Bonus to Hit).
+Ratio,Logic,2,Defense,Calculate,Shock,Dodge action (Int based).
+Ratio,Logic,2,Utility,Scan,Shock,See Enemy Stats/HP.
+Ratio,Logic,3,Offense,Fracture,Shock,Hit Weak Point (Crit).
+Ratio,Logic,3,Defense,Pattern,Shock,Avoid Traps automatically.
+Ratio,Logic,3,Utility,Solve,Shock,Unlock Puzzle/Lock.
+Ratio,Logic,4,Offense,Deconstruct,Shock,Debuff Enemy Armor.
+Ratio,Logic,4,Defense,Vector,Shock,Deflect Ranged Attack.
+Ratio,Logic,4,Utility,Optimize,Shock,Max Damage Roll.
+Ratio,Logic,5,Offense,Grid,Shock,Create Difficult Terrain.
+Ratio,Logic,5,Defense,Correction,Shock,Bonus to Saving Throw.
+Ratio,Logic,5,Utility,Analyze,Shock,Learn Lore/History.
+Ratio,Logic,6,Offense,Algorithm,Shock,Auto-Damage (No Roll).
+Ratio,Logic,6,Defense,Loop,Shock,Trap enemy in logic loop.
+Ratio,Logic,6,Utility,Program,Shock,Set Triggered Spell.
+Ratio,Logic,7,Offense,Divide,Shock,Split Damage among foes.
+Ratio,Logic,7,Defense,Equilibrium,Shock,Flatten Damage curve.
+Ratio,Logic,7,Utility,Construct,Shock,Create Automaton.
+Ratio,Logic,8,Offense,Error,Shock,Psychic Stun.
+Ratio,Logic,8,Defense,Axiom,Shock,Impose Rule (No Flight).
+Ratio,Logic,8,Utility,Deduce,Shock,Reconstruct Scene.
+Ratio,Logic,9,Offense,Paradox,Shock,Brain Melt (Int Dmg).
+Ratio,Logic,9,Defense,Null,Shock,Negate Enemy Action.
+Ratio,Logic,9,Utility,Blueprint,Shock,Invent new device.
+Ratio,Logic,10,Offense,Zero,Shock,Delete Entity (Math).
+Ratio,Logic,10,Defense,Absolute,Shock,Cannot Fail rolls.
+Ratio,Logic,10,Utility,Rewrite,Shock,Change Physics Constant.
+Lux,Awareness,1,Offense,Flare,Radiant,Dazzle (-1 to Hit).
+Lux,Awareness,1,Defense,Blur,Radiant,Visual Noise (Def Bonus).
+Lux,Awareness,1,Utility,Spot,Radiant,Bonus Perception.
+Lux,Awareness,2,Offense,Beam,Radiant,Laser Damage.
+Lux,Awareness,2,Defense,Flash,Radiant,Blind foe (1 Round).
+Lux,Awareness,2,Utility,Darkvision,Radiant,See in Darkness.
+Lux,Awareness,3,Offense,Searing,Radiant,Burn Undead/Shadow.
+Lux,Awareness,3,Defense,Mirror,Radiant,Create Decoys.
+Lux,Awareness,3,Utility,Reveal,Radiant,See Invisible.
+Lux,Awareness,4,Offense,Focus,Radiant,Heat Metal (Burn).
+Lux,Awareness,4,Defense,Invis,Radiant,Turn Invisible.
+Lux,Awareness,4,Utility,X-Ray,Radiant,See Through Walls.
+Lux,Awareness,5,Offense,Prism,Radiant,Split Beam (Multi-hit).
+Lux,Awareness,5,Defense,Camouflage,Radiant,Blend with surroundings.
+Lux,Awareness,5,Utility,Project,Radiant,Hologram Illusion.
+Lux,Awareness,6,Offense,Radiate,Radiant,Aura Damage.
+Lux,Awareness,6,Defense,Disguise,Radiant,Alter Self Appearance.
+Lux,Awareness,6,Utility,True Sight,Radiant,Trueseeing (Perfect).
+Lux,Awareness,7,Offense,Sun,Radiant,Massive Light Damage.
+Lux,Awareness,7,Defense,Darkness,Radiant,Block Sight Line.
+Lux,Awareness,7,Utility,Zone,Radiant,Remote Viewing.
+Lux,Awareness,8,Offense,Blind,Radiant,Permanent Blindness.
+Lux,Awareness,8,Defense,Phantom,Radiant,Major Image (Real).
+Lux,Awareness,8,Utility,History,Radiant,Postcognition (See Past).
+Lux,Awareness,9,Offense,Nova,Radiant,Explosion of Light.
+Lux,Awareness,9,Defense,Mirage,Radiant,Fake Terrain.
+Lux,Awareness,9,Utility,Map,Radiant,Know Location (GPS).
+Lux,Awareness,10,Offense,Supernova,Radiant,Nuclear Light.
+Lux,Awareness,10,Defense,Nonexistence,Radiant,Hidden from Reality.
+Lux,Awareness,10,Utility,Omniscience,Radiant,Know Everything.
+Omen,Intuition,1,Offense,Jinx,Necrotic,-1d4 to Hit.
+Omen,Intuition,1,Defense,Bless,Necrotic,+1d4 to Hit.
+Omen,Intuition,1,Utility,Guess,Necrotic,Coin Flip (50/50).
+Omen,Intuition,2,Offense,Trip,Necrotic,Cause Prone (Bad Luck).
+Omen,Intuition,2,Defense,Miss,Necrotic,Force Reroll (Take Low).
+Omen,Intuition,2,Utility,Find,Necrotic,Locate Object.
+Omen,Intuition,3,Offense,Jam,Necrotic,Weapon Failure.
+Omen,Intuition,3,Defense,Dodge,Necrotic,Uncanny Dodge.
+Omen,Intuition,3,Utility,Hunch,Necrotic,Danger Sense.
+Omen,Intuition,4,Offense,Backfire,Necrotic,Enemy hits self.
+Omen,Intuition,4,Defense,Lucky,Necrotic,Reroll 1s.
+Omen,Intuition,4,Utility,Path,Necrotic,Best Route finding.
+Omen,Intuition,5,Offense,Curse,Necrotic,Disadvantage on Rolls.
+Omen,Intuition,5,Defense,Fate,Necrotic,Advantage on Rolls.
+Omen,Intuition,5,Utility,Gamble,Necrotic,Random Buff effect.
+Omen,Intuition,6,Offense,Fumble,Necrotic,Enemy drops item.
+Omen,Intuition,6,Defense,Serendipity,Necrotic,Find Loot/Potion.
+Omen,Intuition,6,Utility,Spirit,Necrotic,Talk to Dead.
+Omen,Intuition,7,Offense,Ricochet,Necrotic,Miss hits Ally.
+Omen,Intuition,7,Defense,Karma,Necrotic,Reflect Hit to attacker.
+Omen,Intuition,7,Utility,Augury,Necrotic,Hint of Future.
+Omen,Intuition,8,Offense,Calamity,Necrotic,Force Crit Fail.
+Omen,Intuition,8,Defense,Miracle,Necrotic,Survive with 1HP.
+Omen,Intuition,8,Utility,Destiny,Necrotic,Force specific Roll.
+Omen,Intuition,9,Offense,Doom,Necrotic,Instant Kill.
+Omen,Intuition,9,Defense,Divine,Necrotic,Auto-Save success.
+Omen,Intuition,9,Utility,Prophecy,Necrotic,Narrative Truth.
+Omen,Intuition,10,Offense,Ruin,Necrotic,Total Loss/Destruction.
+Omen,Intuition,10,Defense,Favor,Necrotic,Auto-Natural 20.
+Omen,Intuition,10,Utility,Weave,Necrotic,Retcon History.
+Aura,Charm,1,Offense,Mock,Spirit,Psychic Damage.
+Aura,Charm,1,Defense,Friend,Spirit,Sanctuary (No Attack).
+Aura,Charm,1,Utility,Chime,Spirit,Attract attention.
+Aura,Charm,2,Offense,Taunt,Spirit,Force Attack.
+Aura,Charm,2,Defense,Calm,Spirit,End Rage/Hostility.
+Aura,Charm,2,Utility,Bond,Spirit,Empathy Link.
+Aura,Charm,3,Offense,Fear,Spirit,Cause Fleeing.
+Aura,Charm,3,Defense,Trust,Spirit,Ally Help Action.
+Aura,Charm,3,Utility,Whisper,Spirit,Send Message.
+Aura,Charm,4,Offense,Doubt,Spirit,Hesitate (Skip Turn).
+Aura,Charm,4,Defense,Peace,Spirit,Stop Fight (Calm).
+Aura,Charm,4,Utility,Suggestion,Spirit,Implant Idea.
+Aura,Charm,5,Offense,Enrage,Spirit,Berserk (Attack All).
+Aura,Charm,5,Defense,Charm,Spirit,Befriend Target.
+Aura,Charm,5,Utility,Detect,Spirit,Read Mood/Intent.
+Aura,Charm,6,Offense,Despair,Spirit,Stun with Sadness.
+Aura,Charm,6,Defense,Heroism,Spirit,Buff HP/Morale.
+Aura,Charm,6,Utility,Inspire,Spirit,Buff Skill check.
+Aura,Charm,7,Offense,Terror,Spirit,Paralyze with Fear.
+Aura,Charm,7,Defense,Devotion,Spirit,Gain Bodyguard.
+Aura,Charm,7,Utility,Geas,Spirit,Magical Mission.
+Aura,Charm,8,Offense,Betray,Spirit,Attack own Ally.
+Aura,Charm,8,Defense,Love,Spirit,Permanent Thrall.
+Aura,Charm,8,Utility,Memory,Spirit,Modify Memory.
+Aura,Charm,9,Offense,Shatter,Spirit,Break Mind (Insanity).
+Aura,Charm,9,Defense,Sanctuary,Spirit,Zone of Peace.
+Aura,Charm,9,Utility,Dream,Spirit,Inception/Dreamwalk.
+Aura,Charm,10,Offense,Soul,Spirit,Kill Spirit (Husk).
+Aura,Charm,10,Defense,Worship,Spirit,Gain Followers.
+Aura,Charm,10,Utility,Identity,Spirit,Rewrite Personality.
+Lex,Willpower,1,Offense,Halt,Psychic,Stop movement.
+Lex,Willpower,1,Defense,Focus,Psychic,Save Bonus.
+Lex,Willpower,1,Utility,Open,Psychic,Unlock (Command).
+Lex,Willpower,2,Offense,Drop,Psychic,Disarm target.
+Lex,Willpower,2,Defense,Ignore,Psychic,Resist Pain/Wound.
+Lex,Willpower,2,Utility,Truth,Psychic,Prevent Lying.
+Lex,Willpower,3,Offense,Kneel,Psychic,Force Prone.
+Lex,Willpower,3,Defense,Deny,Psychic,Block Path (Mental).
+Lex,Willpower,3,Utility,Speak,Psychic,Force Speech.
+Lex,Willpower,4,Offense,Pain,Psychic,Psychic Damage.
+Lex,Willpower,4,Defense,Clear,Psychic,Remove Fear/Charm.
+Lex,Willpower,4,Utility,Oath,Psychic,Contract/Bond.
+Lex,Willpower,5,Offense,Obey,Psychic,Command 1 Action.
+Lex,Willpower,5,Defense,Forbid,Psychic,Block Action type.
+Lex,Willpower,5,Utility,Detect,Psychic,Know Alignment/Type.
+Lex,Willpower,6,Offense,Silence,Psychic,Prevent Sound.
+Lex,Willpower,6,Defense,Shield,Psychic,Mental Armor.
+Lex,Willpower,6,Utility,Zone,Psychic,Zone of Truth.
+Lex,Willpower,7,Offense,Dominate,Psychic,Mind Control.
+Lex,Willpower,7,Defense,Iron,Psychic,Immune Charm/Fear.
+Lex,Willpower,7,Utility,Decree,Psychic,Set Rule in area.
+Lex,Willpower,8,Offense,Exile,Psychic,Banishment.
+Lex,Willpower,8,Defense,Refuse,Psychic,Immune Magic.
+Lex,Willpower,8,Utility,Title,Psychic,Gain Rank/Status.
+Lex,Willpower,9,Offense,Kill,Psychic,Power Word Kill.
+Lex,Willpower,9,Defense,Unbreakable,Psychic,Immune to All.
+Lex,Willpower,9,Utility,Legend,Psychic,Mass Awe/Fear.
+Lex,Willpower,10,Offense,Unmake,Psychic,Erase from timeline.
+Lex,Willpower,10,Defense,Absolute,Psychic,God-like Will.
+Lex,Willpower,10,Utility,Law,Psychic,New Physics Law.

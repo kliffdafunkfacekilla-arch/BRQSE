@@ -1,0 +1,11 @@
+﻿Tier,Shape_Name,Range_Area,Cost_Modifier,Description
+1,Touch,Melee / Self,0,Affects you or target you touch.
+2,Bolt,60ft Range,1,Single target projectile.
+3,Line,30ft Line,2,Pierces through targets in a straight line.
+4,Cone,20ft Cone,2,Wide spray originating from you.
+5,Blast,20ft Radius,3,Explosion at a specific point within range.
+6,Aura,Self (15ft),4,Sustained field that moves with you.
+7,Wall,50ft Length,5,Static barrier or hazard line.
+8,Chain,3 Targets,6,"Hits primary, then jumps to 2 others."
+9,Storm,1 Mile Radius,8,Massive weather-like effect.
+10,World,Global,15,Affects the entire region or plane.

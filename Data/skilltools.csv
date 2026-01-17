@@ -1,0 +1,36 @@
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Ablative Paste,Consumable,25,Prep,Thick alchemical clay applied to armor.,Grants Resistance: Fire for 1 Hour.,RESIST:Fire
+Insulated Lining,Gear,50,Prep,Wool and rubber under-padding.,Grants Resistance: Cold/Shock for 1 Hour.,RESIST:Cold/Shock
+Tower Shield,Armor,30,Combat,Massive shield.,Action: Plant shield to provide Total Cover in one direction.,COVER:Total
+Phalanx Shield,Armor,20,Combat,Interlocking shield.,Reaction: Grant +2 AC to an adjacent ally when they are hit.,REACT:Ally_AC+2
+Spiked Buckler,Armor,15,Combat,Small shield with a spike.,Reaction: Deal 1d4 damage to an attacker that misses you in melee.,REACT:Dmg_1d4
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Bear Trap,Tool,10,Prep,Heavy steel jaws.,Set on ground (1 min). Trigger: 1d8 Dmg + Restrained.,TRAP:1d8
+Tripwire Alarm,Tool,5,Prep,Bell and wire.,Set perimeter (10 min). Trigger: Loud noise if crossed.,TRAP:Alarm
+Caltrop Bag,Consumable,5,Combat,Sharp spikes.,Reaction (on Dodge): Drop in 5ft square. Enemy takes 1 Dmg + Stop.,REACT:Drop
+Oil Flask,Consumable,2,Combat,Slick grease.,Action: Throw to create slick surface (Prone) or ignite (Fire Wall).,AREA:10ft
+Grapple Gun,Tool,100,Combat,Spring-loaded hook.,Bonus Action: Pull self to ledge or pull object to hand (30ft).,MOVE:30ft
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Ironbark Tonic,Consumable,50,Prep,"Thick, bitter syrup.",Gain 10 Temporary HP for 4 Hours.,BUFF:TempHP:10
+Night-Eye Drops,Consumable,25,Prep,Dilates pupils.,Gain Darkvision for 1 Hour. Light Sensitivity.,BUFF:Darkvision
+Smelling Salts,Consumable,10,Combat,Ammonia crystal.,Reaction (on Stun): Instantly remove Stunned/Unconscious condition.,CURE:Stun
+Quick-Clot Bandage,Consumable,15,Combat,Chemically treated gauze.,Reaction (on Hit): Reduce incoming Slashing/Piercing damage by 1d6.,REACT:Reduce_Dmg
+Flash Salve,Consumable,20,Combat,Cooling gel.,Reaction (on Burn): Cure Burning condition immediately.,CURE:Burn
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Mana Battery,Tool,100,Prep,Empty crystal.,Absorb a spell cast on it to store for later.,EFFECT:Store_Spell
+Focus Wand,Tool,50,Active,Conductive wood.,Passive: Reduces Resource Cost of Tier 1 Spells by 1.,BUFF:Cost_Reduct
+Snap-Rune (Fire),Consumable,30,Combat,Brittle clay tablet.,"Action: Snap to cast Burning Hands (Cone, No Roll, Half Dmg).",CAST:Burn_Hands
+Snap-Rune (Force),Consumable,30,Combat,Brittle glass tablet.,Action: Snap to cast Shield (+5 AC) until start of next turn.,CAST:Shield
+Thunder Stone,Consumable,25,Combat,Unstable rock.,Action: Throw. All in 10ft must Save vs Deafness/Push.,AREA:10ft
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Tarot Deck,Tool,10,Prep,Divination cards.,"10 min Ritual: Ask DM one ""Yes/No"" question about the future.",EFFECT:Augury
+Loaded Dice,Tool,20,Prep,Weighted bone dice.,Auto-succeed on a Gambling skill check.,EFFECT:Success
+Pocket Sand/Ash,Consumable,1,Combat,Pouch of grit.,Reaction (Melee): Attacker has Disadvantage on one hit.,DEBUFF:Disadv
+Flash Powder,Consumable,15,Combat,Magnesium dust.,Bonus Action: Blind adjacent enemies until end of turn.,COND:Blind
+Monkey Cymbal,Tool,25,Combat,Wind-up toy.,Action: Moves 15ft and makes noise. Enemies must Save or look at it.,EFFECT:Distract
+Name,Type,Cost,Mode,Description,Effect,Logic_Tags
+Battle Standard,Gear,50,Prep,Large flag on pole.,Allies within 30ft gain +1 to Saves vs Fear (Passive).,AURA:Courage
+Officer's Coat,Armor,75,Prep,Impressive uniform.,Advantage on Persuasion/Intimidation vs Soldiers.,BUFF:Advantage
+War Horn,Tool,25,Combat,Loud instrument.,Action: Enemies in 30ft must Save or become Frightened.,COND:Frightened
+Rally Whistle,Tool,5,Combat,Piercing sound.,Reaction (Ally Fall): Ally drops to 1 HP instead of 0. (Once/Battle).,HEAL:1HP
+Signet Ring,Gear,50,Combat,Symbol of authority.,"Action: Command one target to ""Halt"" or ""Drop"" (No magic, just authority).",EFFECT:Command

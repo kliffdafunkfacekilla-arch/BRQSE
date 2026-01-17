@@ -1,0 +1,51 @@
+Unnamed: 0,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5
+,,,,,
+,,,,,
+,,,,,
+Category,Option,Choice Name,Stat 1,Stat 2,Body Part
+ANCESTRY,Grazer,Seal,Endure,Fortitude,Blubber Layer
+ANCESTRY,Grazer,Coi,Fortitude,Logic,Blubber Layer
+ANCESTRY,Climber,Dolphin,Might,Reflex,Folded Legs
+ANCESTRY,Climber,Crab,Finesse,Fortitude,Folded Legs
+ANCESTRY,Scavenger,Catfish,Fortitude,Awareness,Suction Pad
+ANCESTRY,Scavenger,Seahorse,Reflex,Finesse,Suction Pad
+ANCESTRY,Predator,Shark,Might,Reflex,Dorsal Fin
+ANCESTRY,Predator,Squid,Reflex,Finesse,Dorsal Fin
+DEFENSE,Retreat,Ink,Fortitude,Finesse,Ink Sacs
+DEFENSE,Retreat,Slippery,Reflex,Finesse,Ink Sacs
+DEFENSE,Stealth,Deep,Finesse,Intuition,Color Change
+DEFENSE,Stealth,Sand,Logic,Finesse,Color Change
+DEFENSE,Intimidate,Gape,Charm,Might,Tooth Rows
+DEFENSE,Intimidate,Spine,Fortitude,Charm,Tooth Rows
+DEFENSE,Tough,Scale,Fortitude,Might,Heavy Scales
+DEFENSE,Tough,Jelly,Vitality,Fortitude,Heavy Scales
+OFFENSE,Claws,Pinch,Might,Fortitude,Crab Claw
+OFFENSE,Claws,Barb,Reflex,Finesse,Crab Claw
+OFFENSE,Strikes,Ram,Might,Endure,Tentacle
+OFFENSE,Strikes,Tentacle,Finesse,Reflex,Tentacle
+OFFENSE,Biological,Shock,Fortitude,Logic,Electric Nodes
+OFFENSE,Biological,Toxin,Fortitude,Vitality,Electric Nodes
+OFFENSE,Strength,Drag,Might,Will,Webbed Hands
+OFFENSE,Strength,Crush,Might,Fortitude,Webbed Hands
+SOCIAL,Ornate,Bright,Charm,Awareness,Angler Light
+SOCIAL,Ornate,Lure,Charm,Will,Angler Light
+SOCIAL,Pack,School,Will,Logic,Blowhole
+SOCIAL,Pack,Pod,Intuition,Charm,Blowhole
+SOCIAL,Vocal,Song,Knowledge,Charm,Throat Sac
+SOCIAL,Vocal,Click,Intuition,Logic,Throat Sac
+SOCIAL,Solitary,Deep,Will,Endure,Barnacles
+SOCIAL,Solitary,Ancient,Knowledge,Logic,Barnacles
+ENVIRON,Varied,Amphib,Endure,Vitality,Moist Skin
+ENVIRON,Varied,Current,Reflex,Logic,Moist Skin
+ENVIRON,Toxic,Filter,Fortitude,Will,Poision Sting
+ENVIRON,Toxic,Sump,Fortitude,Endure,Poision Sting
+ENVIRON,Safe,Navigator,Knowledge,Logic,Star Scales
+ENVIRON,Safe,Flow,Charm,Finesse,Star Scales
+ADAPT,Senses,Sonar,Awareness,Intuition,Ear Holes
+ADAPT,Senses,Lateral,Awareness,Reflex,Ear Holes
+ADAPT,Tactics,Fluid,Logic,Reflex,Jointless Limbs
+ADAPT,Tactics,Surge,Might,Reflex,Jointless Limbs
+ADAPT,Tool Use,Salvage,Knowledge,Finesse,Long Fingers
+ADAPT,Tool Use,Net,Logic,Finesse,Long Fingers
+ADAPT,Resistance,Regen,Fortitude,Vitality,Blue Skin
+,Resistance,Cold,Fortitude,Endure,Blue Skin

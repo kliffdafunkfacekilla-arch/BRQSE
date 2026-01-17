@@ -1,0 +1,17 @@
+{
+    "Name": "Ironclad",
+    "Species": "Human",
+    "Stats": {
+        "Might": 4,
+        "Reflexes": 1,
+        "Vitality": 3,
+        "Knowledge": 0,
+        "Willpower": 2
+    },
+    "Derived": {
+        "HP": 20,
+        "Speed": 10
+    },
+    "BodyParts": ["Head", "Torso", "Arms", "Legs"],
+    "Skills": ["Sword", "Guard"]
+}
