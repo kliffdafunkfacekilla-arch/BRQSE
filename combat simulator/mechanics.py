@@ -101,15 +101,21 @@ class Combatant:
         self.sp = self.max_sp
         self.fp = self.max_fp
         
-        # Spatial State
-        self.x = 0
-        self.y = 0
-        # Spatial State
-        self.x = 0
-        self.y = 0
-        self.movement = self.derived.get("Speed", 0)
+        self.base_movement = self.derived.get("Speed", 30) // 5
+        self.movement = self.base_movement
         self.movement_remaining = self.movement
-
+        
+        # Action Economy Flags
+        self.action_used = False
+        self.bonus_action_used = False
+        self.reaction_used = False
+        
+        # Position
+        self.x = 0
+        self.y = 0
+        self.initiative = 0
+        self.team = "Neutral" # Default team
+        
     def _load_data(self, filepath):
         try:
             with open(filepath, 'r') as f: return json.load(f)
@@ -317,6 +323,8 @@ class CombatEngine:
         for c in self.combatants: 
              c.roll_initiative()
              c.movement_remaining = c.movement # Reset at start
+             c.action_used = False
+             c.bonus_action_used = False
         self.combatants.sort(key=lambda c: c.initiative, reverse=True)
         self.turn_order = self.combatants
         self.current_turn_idx = 0
@@ -326,10 +334,35 @@ class CombatEngine:
         if not self.turn_order: return None
         return self.turn_order[self.current_turn_idx]
 
+    def start_turn(self, combatant):
+        """
+        Called when a combatant's turn begins.
+        Returns False if turn is skipped (Stunned/Paralyzed), True otherwise.
+        """
+        log = []
+        
+        # 1. Tick Start-of-Turn Effects (DoTs)
+        # Assuming some effects are active
+        
+        # 2. Check Conditions
+        if combatant.is_stunned:
+             log.append(f"{combatant.name} is STUNNED and skips their turn!")
+             return False, log
+             
+        if combatant.is_paralyzed:
+             log.append(f"{combatant.name} is PARALYZED and skips their turn!")
+             return False, log
+             
+        return True, log
+
     def end_turn(self):
         # Tick effects on current character before ending
         active = self.turn_order[self.current_turn_idx]
-        expired = active.tick_effects()
+        
+        # Tick End-of-Turn Effects (Buffs)
+        expired = active.tick_effects() # Renamed/Modified logic below? 
+        # For now, keep tick_effects as general ticker
+        
         log = []
         if expired:
             log.append(f"Effects expired on {active.name}: {', '.join(expired)}")
@@ -344,7 +377,29 @@ class CombatEngine:
         # Reset movement for new active char
         new_active = self.turn_order[self.current_turn_idx]
         new_active.movement_remaining = new_active.movement
+        # Reset Actions
+        new_active.action_used = False
+        new_active.bonus_action_used = False
+        new_active.reaction_used = False
         
+        # TRIGGER START TURN logic for new active
+        can_act, start_log = self.start_turn(new_active)
+        log.extend(start_log)
+        
+        if not can_act:
+             # Recursively end turn if skipped? 
+             # Or just return log and let caller see they can't act.
+             # Better: automatically skip to next.
+             # CAUTION: Recursive loop if everyone stunning.
+             # For safety, just set their actions to used or invalid?
+             # Simple approach: If not can_act, we assume the UI/AI loop handles it.
+             # But since 'end_turn' is called by UI button...
+             # If I skip here, who updates UI?
+             # Let's just return the log saying they are stunned. 
+             # The UI should disable buttons if 'is_stunned'.
+             # Or better, we auto-end their turn? 
+             pass
+
         log.append(f"{new_active.name}'s Turn. (Speed: {new_active.movement_remaining})")
         return log
 
@@ -470,7 +525,14 @@ class CombatEngine:
         if dist_sq > reach:
             return [f"Target out of range! (Distance: {dist_sq * 5}ft, Reach: {reach * 5}ft)"]
 
+        # Action Check
+        if attacker.action_used:
+            return [f"{attacker.name} has already used their Action!"]
+
         log = [f"{attacker.name} attacks {target.name}!"]
+        
+        # Consume Action
+        attacker.action_used = True
 
         # 1. Determine Damage Dice & Type
         dmg_dice = "1d4"

@@ -24,15 +24,21 @@ class DataLoader:
             return []
         
         data = []
-        try:
-            with open(path, 'r', encoding='utf-8-sig') as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    # Clean keys/values
-                    clean_row = {k.strip(): v.strip() for k, v in row.items() if k}
-                    data.append(clean_row)
-        except Exception as e:
-            print(f"[DataLoader] Error loading {filename}: {e}")
+        encodings = ['utf-8-sig', 'cp1252', 'latin-1']
+        for encoding in encodings:
+            try:
+                with open(path, 'r', encoding=encoding) as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        # Clean keys/values
+                        clean_row = {k.strip(): v.strip() for k, v in row.items() if k}
+                        data.append(clean_row)
+                break # Success
+            except UnicodeDecodeError:
+                continue # Try next encoding
+            except Exception as e:
+                print(f"[DataLoader] Error loading {filename} with {encoding}: {e}")
+                break
             
         return data
 

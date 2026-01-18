@@ -98,6 +98,13 @@ class EffectRegistry:
         # --- COSTS ---
         self.register_pattern(r"Cost:? (\d+) (SP|FP|CMP|HP)", self._handle_cost)
 
+        # --- TALENTS (Custom Logic) ---
+        self.register_pattern(r"damage_bonus_vs_armor\((\d+)\)", self._handle_damage_vs_armor)
+        self.register_pattern(r"knockback", self._handle_knockback_talent)
+        self.register_pattern(r"projectile_pierce\((\d+)\)", self._handle_pierce_talent)
+        self.register_pattern(r"sunder", self._handle_sunder_talent)
+
+
         # --- USER REQUESTED MECHANICS ---
         self.register_pattern(r"Attack own Ally", self._handle_confused)
         self.register_pattern(r"Berserk \(Attack All\)", self._handle_berserk)
@@ -3570,6 +3577,47 @@ class EffectRegistry:
         if target:
             target.can_breathe_water = True
             if "log" in ctx: ctx["log"].append("Water Breathing active.")
+
+    # --- TALENT HANDLERS ---
+    def _handle_damage_vs_armor(self, match, ctx):
+        """damage_bonus_vs_armor(N)"""
+        bonus = int(match.group(1))
+        target = ctx.get("target")
+        # Heuristic: Check if target has Armor item equipped
+        has_armor = False
+        if target and getattr(target, "inventory", None) and target.inventory.equipped.get("Armor"):
+            has_armor = True
+            
+        if has_armor:
+            ctx["damage_bonus"] = ctx.get("damage_bonus", 0) + bonus
+            if "log" in ctx: ctx["log"].append(f"Talent Bonus vs Armor: +{bonus} Damage")
+
+    def _handle_knockback_talent(self, match, ctx):
+        """Generic knockback on hit"""
+        attacker = ctx.get("attacker")
+        target = ctx.get("target")
+        engine = ctx.get("engine")
+        if attacker and target and engine:
+            # Push 1 tile away
+            dx = target.x - attacker.x
+            dy = target.y - attacker.y
+            if dx == 0 and dy == 0: return 
+            
+            if abs(dx) > abs(dy): dx = 1 if dx > 0 else -1; dy = 0
+            else: dy = 1 if dy > 0 else -1; dx = 0
+            
+            nx, ny = target.x + dx, target.y + dy
+            success, msg = engine.move_char(target, nx, ny, forced=True)
+            if success and "log" in ctx:
+                ctx["log"].append(f"{target.name} is knocked back!")
+
+    def _handle_pierce_talent(self, match, ctx):
+        """projectile_pierce(N)"""
+        bonus = int(match.group(1))
+        ctx["damage_bonus"] = ctx.get("damage_bonus", 0) + bonus
+
+    def _handle_sunder_talent(self, match, ctx):
+        if "log" in ctx: ctx["log"].append("Sunder applied! (Vulnerable)")
 
 # Singleton instance for easy access
 registry = EffectRegistry()

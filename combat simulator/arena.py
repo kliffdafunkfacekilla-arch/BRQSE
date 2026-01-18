@@ -3,10 +3,12 @@ import sys
 import os
 import mechanics
 import enemy_spawner
+import time # Input delay for AI visibility
 
 # Add parent path for AI module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from AI.enemy_ai import EnemyAI, Behavior
+# AI is now handled internally by Mechanics
+
 
 # Constants
 SCREEN_W, SCREEN_H = 1000, 700
@@ -164,7 +166,8 @@ class ArenaApp:
         self.engine.add_combatant(self.fighter2, 8, 8)
         
         # Initialize AI controller
-        self.ai = EnemyAI(self.engine)
+        # self.ai = EnemyAI(self.engine) # LEGACY REMOVED
+
         
         self.log_lines = self.engine.start_combat()
         self.state = "COMBAT"
@@ -184,25 +187,24 @@ class ArenaApp:
         # Check if new active char is AI-controlled
         active = self.engine.get_active_char()
         if active and active.data.get("AI"):
-            # Map AI template to Behavior
-            ai_template = active.data.get("AI", "Aggressive")
-            behavior_map = {
-                "Aggressive": Behavior.AGGRESSIVE,
-                "Defensive": Behavior.CAMPER,
-                "Ranged": Behavior.RANGED,
-                "Berserker": Behavior.AGGRESSIVE,
-                "Caster": Behavior.CASTER,
-                "Spellblade": Behavior.SPELLBLADE,
-            }
-            behavior = behavior_map.get(ai_template, Behavior.AGGRESSIVE)
+            # Delay for visibility
+            pygame.event.pump() # Keep window responsive
+            time.sleep(0.5)
             
-            # Execute AI turn using full EnemyAI module
-            ai_log = self.ai.take_turn(active, behavior)
-            self.log_lines.extend(ai_log)
-            
-            # Automatically end their turn
-            res = self.engine.end_turn()
-            self.log_lines.extend(res)
+            try:
+                # Execute AI turn
+                ai_log = self.engine.execute_ai_turn(active)
+                self.log_lines.extend(ai_log)
+                
+                # Small delay after action before ending turn
+                pygame.display.flip()
+                time.sleep(0.3)
+                
+                res = self.engine.end_turn()
+                self.log_lines.extend(res)
+            except Exception as e:
+                self.log_lines.append(f"AI ERROR: {e}")
+                print(f"AI Crash: {e}")
         
         self.scan_saves() # Refresh buttons
 
