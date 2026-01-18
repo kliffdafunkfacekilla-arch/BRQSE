@@ -73,7 +73,9 @@ class Combatant:
         self.is_confused = False
         self.is_berserk = False
         self.is_sanctuary = False
+        self.is_sanctuary = False
         self.taunted_by = None
+        self.charmed_by = None # Reference to the entity that charmed this combatant
         
         # FIX: Critical states
         self.is_dead = False          # True = permanently dead until revived
@@ -395,9 +397,22 @@ class CombatEngine:
              log.append(f"{combatant.name} is STUNNED and skips their turn!")
              return False, log
              
+        if combatant.is_stunned:
+             log.append(f"{combatant.name} is STUNNED and skips their turn!")
+             return False, log
+             
         if combatant.is_paralyzed:
              log.append(f"{combatant.name} is PARALYZED and skips their turn!")
              return False, log
+             
+        if combatant.is_confused:
+            # 50% chance to act normally
+            if random.random() < 0.5:
+                 log.append(f"{combatant.name} is CONFUSED but maintains focus!")
+            else:
+                 log.append(f"{combatant.name} moves wildly in CONFUSION!")
+                 # Logic for random action would go here. For now, skip turn (flail).
+                 return False, log
              
         return True, log
 
@@ -464,8 +479,20 @@ class CombatEngine:
         # Get AI template from data
         ai_template = ai_char.data.get("AI", "Aggressive")
         
+        # STATUS OVERRIDE: Berserk -> Force Aggressive + Attack Nearest (Friend or Foe)
+        if ai_char.is_berserk:
+             ai_template = "Berserk" # Handled below
+             
         # Find targets (other living combatants)
-        targets = [c for c in self.combatants if c.is_alive() and c != ai_char]
+        # Normal AI: Enemies only
+        # Berserk/Confused: Might target allies
+        targets = []
+        if ai_template == "Berserk":
+             targets = [c for c in self.combatants if c.is_alive() and c != ai_char] # Everyone is a target
+        else:
+             targets = [c for c in self.combatants if c.is_alive() and c != ai_char] # Simplified Team check later? 
+             # Currently no Teams. Everyone is enemy of everyone in deathmatch.
+             pass
         if not targets:
             log.append(f"[AI] No targets found.")
             return log
@@ -539,6 +566,18 @@ class CombatEngine:
         # Calculate distance
         dist = max(abs(char.x - tx), abs(char.y - ty)) * 5 # 5ft per square
         
+        # Check Status: Restrained/Grappled -> Speed 0
+        if char.is_restrained or char.is_grappled:
+            return False, "You are Restrained/Grappled and cannot move!"
+            
+        # Check Status: Prone -> Half Speed (Cost double?)
+        # For now, simplistic: If Prone, movement costs double?
+        # Or require "Stand Up" action?
+        # Simplest: Prone = -2 Movement or similar?
+        # Let's say Prone costs 2x movement.
+        if char.is_prone:
+            dist *= 2
+            
         if dist > char.movement_remaining:
             return False, f"Not enough movement! ({char.movement_remaining} left)"
         
@@ -571,6 +610,16 @@ class CombatEngine:
         if dist_sq > reach:
             return [f"Target out of range! (Distance: {dist_sq * 5}ft, Reach: {reach * 5}ft)"]
 
+        # Status Check: Charmed
+        if attacker.is_charmed and attacker.charmed_by == target.name:
+            return [f"{attacker.name} is Charmed by {target.name} and cannot attack!"]
+            
+        # Status Check: Frightened
+        # Disadvantage on attacks (-2)
+        # Status Check: Blinded
+        # Disadvantage on attacks (-5 presumably? or just fail?)
+        # Let's use Disadvantage = -4 (approx 2d20 keep low)
+
         # Action Check
         if attacker.action_used:
             return [f"{attacker.name} has already used their Action!"]
@@ -602,10 +651,42 @@ class CombatEngine:
             def_stat_name = target.inventory.get_defense_stat()
             
         # USE MODIFIERS
-        hit_mod = attacker.get_stat_modifier("Might") 
-        # TODO: Support Finesse weapons using Finesse/Agility?
+        attack_stat = "Might"
+        skill_rank = 0
         
+        if attacker.inventory:
+            attack_stat = attacker.inventory.get_weapon_main_stat()
+            # Get Skill Rank (e.g. "The Great Weapons")
+            wpn = attacker.inventory.equipped["Main Hand"]
+            if wpn and wpn.family:
+                 skill_rank = attacker.get_skill_rank(wpn.family)
+            if not wpn: # Unarmed
+                 skill_rank = attacker.get_skill_rank("The Fist")
+            
+        hit_mod = attacker.get_stat_modifier(attack_stat) + skill_rank
+        # Log details for clarity in debug
+        # log.append(f"(Roll: d20 + {attack_stat} {hit_mod-skill_rank} + Skill {skill_rank})")
+
         hit_score = hit_mod + random.randint(1, 20)
+        
+        # STATUS MODIFIERS (Attacker)
+        if attacker.is_prone: hit_score -= 2 # Prone attacking
+        if attacker.is_blinded: hit_score -= 4 
+        if attacker.is_restrained: hit_score -= 2
+        if attacker.is_frightened: hit_score -= 2
+        
+        if attacker.is_invisible: 
+             hit_score += 4 # Unseen attacker
+             attacker.is_invisible = False # Breaks invisibility
+             log.append(f"{attacker.name} appears from invisibility!")
+             
+        # STATUS MODIFIERS (Defender)
+        # Prone defender = Advantage for attacker (+4)
+        if target.is_prone: hit_score += 4 
+        # Blind defender = Advantage (+4)
+        if target.is_blinded: hit_score += 4
+        # Stunned/Paralyzed = Auto Crit? Or massive bonus.
+        if target.is_stunned or target.is_paralyzed: hit_score += 5
         
         # Defender uses AC (Base 10 + Dex/Armor Mod)
         # In D&D: AC = 10 + Mod. 
@@ -613,15 +694,18 @@ class CombatEngine:
         # For now, let's use: Def_Score = 10 + Def_Stat_Mod
         
         def_mod = target.get_stat_modifier(def_stat_name)
-        def_target = 10 + def_mod
         
-        # If armor provides bonus? 
-        # Currently Armor Item adds "Effects". 
-        # Let's assume Active Defense Roll for now (Opposed Roll) as implemented before?
+        # Add Defender Skill Rank (Armor)
+        def_skill_rank = 0
+        if target.inventory:
+             armor = target.inventory.equipped["Armor"]
+             if armor and armor.family:
+                  def_skill_rank = target.get_skill_rank(armor.family)
+        
         # User requested "Active Defense".
-        # So Defender Rolls: d20 + Mod
-        
-        def_roll = def_mod + random.randint(1, 20)
+        # So Defender Rolls: d20 + Mod + Skill
+        def_total_mod = def_mod + def_skill_rank
+        def_roll = def_total_mod + random.randint(1, 20)
         
         # LOGIC: Check Hit
         if hit_score >= def_roll:

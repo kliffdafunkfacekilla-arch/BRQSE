@@ -49,6 +49,45 @@ class Inventory:
             "Mail": "Willpower",
             "Rigs": "Intuition"
         }
+        self.skill_map = self._load_skills()
+        # Aliases for mismatched data (CSV vs CSV)
+        self.skill_aliases = {
+            "The Breakers": "MIGHT",
+            "The Draw": "MIGHT",
+             # The Blades, The Thrown match FINESSE in Skills
+             # The Fist, The Simple Shot match FORTITUDE
+             # The Long Blade, The Blast match LOGIC
+             # The Polearms, The Long Shot match AWARENESS (Note: CSV has 'The Long Shot' vs 'Long Shotl')
+             # Melee Exotics, Ranged Exotics match CHARM
+        }
+
+    def _load_skills(self):
+        """Loads Skills.csv to map Skill Name -> Attribute"""
+        s_map = {}
+        try:
+            # Try multiple paths similar to _load_db
+            paths = [
+                os.path.join(os.path.dirname(__file__), "../Data/Skills.csv"),
+                "C:/Users/krazy/Desktop/BRQSE/Data/Skills.csv"
+            ]
+            target_path = next((p for p in paths if os.path.exists(p)), None)
+            
+            if target_path:
+                with open(target_path, 'r', encoding='utf-8-sig') as f: # Handle SIG for BOM
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        # Map "Great Weapons" -> "MIGHT"
+                        s_name = row.get("Skill Name", "").strip()
+                        attr = row.get("Attribute", "").strip()
+                        if s_name and attr:
+                            s_map[s_name] = attr
+                            
+                            # Also handle "The X" variants just in case
+                            if not s_name.startswith("The ") and " " in s_name:
+                                s_map[f"The {s_name}"] = attr
+        except Exception as e:
+            print(f"[Inventory] Error loading Skills: {e}")
+        return s_map
 
     def _load_db(self):
         """Loads weapons_and_armor.csv"""
@@ -112,6 +151,27 @@ class Inventory:
         dtype = dmg_tag[1] if len(dmg_tag) > 1 else "Bludgeoning"
         
         return (dice, dtype, wpn.tags)
+
+    def get_weapon_main_stat(self):
+        """Returns the Attribute Name used for attacks (Might, Finesse, etc)."""
+        wpn = self.equipped["Main Hand"]
+        if not wpn: return "Might" # Default Unarmed? Or Fortitude if "The Fist"?
+        
+        # 1. Check direct aliases
+        skill = wpn.family.strip() # "Related_Skill" from CSV
+        
+        if skill in self.skill_aliases:
+            return self.skill_aliases[skill]
+            
+        # 2. Check loaded Skills.csv
+        if skill in self.skill_map:
+            return self.skill_map[skill]
+            
+        # 3. Fallback: Tag Check
+        if "Finesse" in wpn.tags: return "Finesse"
+        
+        # 4. Default
+        return "Might"
 
     def get_defense_stat(self):
         """Returns the Stat Name used for defense based on Armor."""
