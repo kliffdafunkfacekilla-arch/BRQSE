@@ -18,6 +18,11 @@ try:
     from inventory_engine import Inventory
 except ImportError:
     Inventory = None
+
+try:
+    from progression_engine import ProgressionEngine
+except ImportError:
+    ProgressionEngine = None
     print("[Mechanics] Warning: Could not import Inventory")
 
 # Ensure we can import abilities module if it's in a subfolder relative to this script
@@ -40,7 +45,14 @@ class Combatant:
         
         self.stats = self.data.get("Stats", {})
         self.derived = self.data.get("Derived", {})
-        self.skills = self.data.get("Skills", []) # List of strings "SkillName"
+        
+        # Skills: Normalize to Dict {Name: Rank}
+        raw_skills = self.data.get("Skills", [])
+        if isinstance(raw_skills, list):
+            self.skills = {s: 1 for s in raw_skills}
+        else:
+            self.skills = raw_skills # Assume dict
+            
         self.traits = self.data.get("Traits", []) # List of strings "TraitName"
         self.powers = self.data.get("Powers", []) # List of strings "PowerName"
         self.inventory = self.data.get("Inventory", [])
@@ -68,6 +80,15 @@ class Combatant:
         # INVENTORY SYSTEM
         self.inventory = Inventory() if Inventory else None
         self._init_loadout()
+        
+        # PROGRESSION SYSTEM (Auto-Unlock Talents)
+        if ProgressionEngine:
+            pe = ProgressionEngine()
+            new_traits = pe.check_unlocks(self)
+            if new_traits:
+                # Log or just accept? mechanics doesn't log on init easily.
+                # Just keeping them in self.traits is enough.
+                pass
         
     def _init_loadout(self):
         """Auto-equip items from data if Inventory exists"""
@@ -129,13 +150,18 @@ class Combatant:
         return self.initiative
 
     def get_stat(self, stat_name):
-        return self.stats.get(stat_name, 0)
+        return self.stats.get(stat_name, 10) # Default to 10 (Mod +0)
+
+    def get_stat_modifier(self, stat_name):
+        """
+        Returns D&D 5e style modifier: (Score - 10) // 2
+        e.g. 10 -> +0, 12 -> +1, 16 -> +3, 8 -> -1
+        """
+        score = self.get_stat(stat_name)
+        return (score - 10) // 2
 
     def get_skill_rank(self, skill_name):
-        # Simplified: If in list, Rank 1. Else 0.
-        for s in self.skills:
-            if skill_name in s: return 1 # Basic proficiency
-        return 0
+        return self.skills.get(skill_name, 0)
 
     def is_alive(self):
         # FIX: Also check is_dead flag
@@ -219,7 +245,7 @@ class Combatant:
         }
         stat = stat_map.get(save_type, save_type)
         nat_roll = random.randint(1, 20)
-        mod = self.get_stat(stat)
+        mod = self.get_stat_modifier(stat)
         return nat_roll + mod, nat_roll
 
     def apply_effect(self, effect_name, duration=1, on_expire=None):
@@ -552,13 +578,30 @@ class CombatEngine:
         # 2. To Hit Calculation (Resource Clash)
         # Attacker uses Might/Finesse vs Defender's Armor Stat
         def_stat_name = "Reflexes"
-        if target.inventory: # Changed from defender to target
+        if target.inventory: 
             def_stat_name = target.inventory.get_defense_stat()
             
-        hit_score = attacker.stats.get("Might", 0) + random.randint(1, 20)
-        def_score = target.stats.get(def_stat_name, 0) + 10 # Passive defense? Or roll? # Changed from defender to target
-        # Making it a roll for active combat
-        def_roll = target.stats.get(def_stat_name, 0) + random.randint(1, 20) # Changed from defender to target
+        # USE MODIFIERS
+        hit_mod = attacker.get_stat_modifier("Might") 
+        # TODO: Support Finesse weapons using Finesse/Agility?
+        
+        hit_score = hit_mod + random.randint(1, 20)
+        
+        # Defender uses AC (Base 10 + Dex/Armor Mod)
+        # In D&D: AC = 10 + Mod. 
+        # Here: Armor might provide base AC? 
+        # For now, let's use: Def_Score = 10 + Def_Stat_Mod
+        
+        def_mod = target.get_stat_modifier(def_stat_name)
+        def_target = 10 + def_mod
+        
+        # If armor provides bonus? 
+        # Currently Armor Item adds "Effects". 
+        # Let's assume Active Defense Roll for now (Opposed Roll) as implemented before?
+        # User requested "Active Defense".
+        # So Defender Rolls: d20 + Mod
+        
+        def_roll = def_mod + random.randint(1, 20)
         
         # LOGIC: Check Hit
         if hit_score >= def_roll:
@@ -611,9 +654,9 @@ class CombatEngine:
         
         log = [f"{caster.name} casts {power_name} on {target.name}!"]
         
-        # Caster rolls d20 + Power Stat
+        # Caster rolls d20 + Power Stat (Mod)
         caster_roll = random.randint(1, 20)
-        caster_mod = caster.get_stat(power_stat)
+        caster_mod = caster.get_stat_modifier(power_stat)
         caster_total = caster_roll + caster_mod
         log.append(f"Caster Roll: {caster_total} ({caster_roll}+{caster_mod} {power_stat})")
         
@@ -730,8 +773,9 @@ class CombatEngine:
         if not p1 or not p2: return ["Clash Error"]
         stat = self.clash_stat 
         
-        r1 = random.randint(1, 20) + p1.get_stat(stat)
-        r2 = random.randint(1, 20) + p2.get_stat(stat)
+        # USE MODIFIERS
+        r1 = random.randint(1, 20) + p1.get_stat_modifier(stat)
+        r2 = random.randint(1, 20) + p2.get_stat_modifier(stat)
         
         log = [f"CLASH ROLL ({choice}): {p1.name}({r1}) vs {p2.name}({r2})"]
         
