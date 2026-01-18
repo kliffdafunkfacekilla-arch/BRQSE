@@ -56,6 +56,7 @@ class Combatant:
         self.traits = self.data.get("Traits", []) # List of strings "TraitName"
         self.powers = self.data.get("Powers", []) # List of strings "PowerName"
         self.inventory = self.data.get("Inventory", [])
+        self.xp = self.data.get("XP", 0) # Load XP, default 0
         
         # Temp flags for status effects
         self.is_prone = False
@@ -141,6 +142,25 @@ class Combatant:
         try:
             with open(filepath, 'r') as f: return json.load(f)
         except: return {}
+
+    def save_state(self):
+        """Saves current stats/skills/xp back to the JSON file."""
+        if not self.filepath: return
+        
+        # Update internal data dict structure
+        self.data["Stats"] = self.stats
+        self.data["Skills"] = self.skills
+        self.data["Traits"] = self.traits
+        self.data["XP"] = self.xp
+        # Derived stats usually don't need saving if they are calc'd on load, 
+        # but if you have permanent modifiers, save them here.
+        
+        try:
+            with open(self.filepath, 'w') as f:
+                json.dump(self.data, f, indent=4)
+            print(f"Character saved: {self.filepath}")
+        except Exception as e:
+            print(f"Error saving character: {e}")
 
     def roll_initiative(self):
         # Speed + d20

@@ -97,7 +97,21 @@ class ArenaApp:
             # AI Template Selection
             y += 30
             self.buttons.append(Button((50, y, 180, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
+            self.buttons.append(Button((50, y, 180, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
             self.buttons.append(Button((250, y, 200, 40), "Spawn Enemy (P2)", self.spawn_enemy))
+            
+            # P2 Control Toggle
+            if self.fighter2:
+                ctrl_txt = f"P2: {self.fighter2.data.get('AI', 'Manual')}"
+                self.buttons.append(Button((250, y + 50, 200, 40), ctrl_txt, self.toggle_p2_ai))
+            
+            # Start and Train Buttons
+            if self.fighter1 and self.fighter2:
+                self.buttons.append(Button((500, y, 200, 50), "START MAP", self.start_combat))
+                
+                # Training Buttons
+                self.buttons.append(Button((720, y, 100, 50), "+100 XP", self.cheat_give_xp))
+                self.buttons.append(Button((830, y, 100, 50), "TRAIN SKILL", self.train_fighter))
             
             if self.fighter1 and self.fighter2:
                 self.buttons.append(Button((500, y, 200, 50), "START MAP", self.start_combat))
@@ -372,6 +386,45 @@ class ArenaApp:
         for b in self.buttons: b.draw(self.screen, self.font)
         
         pygame.display.flip()
+
+    def cheat_give_xp(self):
+        if self.fighter1:
+            self.fighter1.xp += 100
+            if hasattr(self.fighter1, 'save_state'):
+                self.fighter1.save_state()
+            self.log_lines.append(f"Granted 100 XP to {self.fighter1.name}. Total: {self.fighter1.xp}")
+            self.scan_saves() # Refresh UI
+
+    def train_fighter(self):
+        if not self.fighter1: return
+        
+        # Initialize Progression
+        if mechanics.ProgressionEngine:
+             pe = mechanics.ProgressionEngine()
+             # Example: Try to upgrade "The Great Weapons" (common check)
+             # Heuristic: Find first skill in dictionary to upgrade
+             if isinstance(self.fighter1.skills, dict) and self.fighter1.skills:
+                 skill = list(self.fighter1.skills.keys())[0] # Just pick first one for test
+             else:
+                 skill = "The Great Weapons" 
+                 
+             self.log_lines.append(f"Attempting to train: {skill}...")
+             success, msg = pe.buy_skill_rank(self.fighter1, skill)
+             self.log_lines.append(msg)
+             self.scan_saves()
+        else:
+             self.log_lines.append("Progression Engine not available.")
+
+    def toggle_p2_ai(self):
+        if not self.fighter2: return
+        current = self.fighter2.data.get("AI")
+        if current:
+            # Switch to Manual
+            del self.fighter2.data["AI"]
+        else:
+            # Switch to AI (Default Aggressive)
+            self.fighter2.data["AI"] = self.selected_ai_template
+        self.scan_saves()
 
 if __name__ == "__main__":
     ArenaApp().run()
