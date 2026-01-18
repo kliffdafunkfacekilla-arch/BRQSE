@@ -55,7 +55,18 @@ class Combatant:
             
         self.traits = self.data.get("Traits", []) # List of strings "TraitName"
         self.powers = self.data.get("Powers", []) # List of strings "PowerName"
-        self.inventory = self.data.get("Inventory", [])
+        
+        # Initialize Inventory Manager
+        # FIX: Ensure we use the class, not a raw list
+        if Inventory:
+            self.inventory = Inventory()
+            inv_data = self.data.get("Inventory", [])
+            if isinstance(inv_data, list):
+                for item_name in inv_data:
+                    self.inventory.equip(item_name)
+        else:
+            self.inventory = None
+            
         self.xp = self.data.get("XP", 0) # Load XP, default 0
         
         # Temp flags for status effects

@@ -2,15 +2,22 @@
     "Name": "Ironclad",
     "Species": "Human",
     "Stats": {
-        "Might": 4,
-        "Reflexes": 1,
-        "Vitality": 3,
-        "Knowledge": 0,
-        "Willpower": 2
+        "Might": 18,
+        "Reflexes": 10,
+        "Endurance": 16,
+        "Vitality": 14,
+        "Fortitude": 14,
+        "Knowledge": 10,
+        "Logic": 10,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 10,
+        "Willpower": 12,
+        "Finesse": 10
     },
     "Derived": {
-        "HP": 20,
-        "Speed": 10
+        "HP": 24,
+        "Speed": 6
     },
     "BodyParts": [
         "Head",
@@ -18,10 +25,11 @@
         "Arms",
         "Legs"
     ],
-    "Skills": [
-        "Sword",
-        "Guard"
-    ],
+    "Skills": {
+        "The Breakers": 3,
+        "Plate": 2,
+        "Great Weapons": 3
+    },
     "Traits": [
         "Second Wind",
         "Smite",
@@ -30,5 +38,6 @@
     "Inventory": [
         "Greatsword",
         "Full Plate"
-    ]
+    ],
+    "XP": 500
 }
