@@ -1,0 +1,30 @@
+{
+    "Name": "Enemy_188",
+    "Species": "Aquatic",
+    "Stats": {
+        "Might": 10,
+        "Reflexes": 10,
+        "Vitality": 10,
+        "Knowledge": 5,
+        "Willpower": 5
+    },
+    "Derived": {
+        "HP": 30,
+        "Speed": 30,
+        "SP": 10,
+        "FP": 10,
+        "CMP": 10
+    },
+    "Traits": [
+        "Perfect Strike",
+        "Sanctuary"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Guard"
+    ],
+    "Inventory": [
+        "Maul"
+    ],
+    "AI": "Aggressive"
+}

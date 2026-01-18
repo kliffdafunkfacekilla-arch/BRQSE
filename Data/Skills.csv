@@ -27,11 +27,11 @@ KNOWLEDGE,Armor,Robes,Mastery of runed cloth and woven wards that require academ
 KNOWLEDGE,Tool,Catalysts,"Mastery of items that channel magic, such as scrolls, wands, and staves."
 KNOWLEDGE,Social,Etiquette,"Using rank, protocol, and proper titles as a social shield."
 KNOWLEDGE,Utility,Academics,"Action: Researching libraries. Lore: History, languages, and heraldry."
-LOGIC,Weapon,The Long Blade,Mastery of technical swordsmanship like katanas and arming swords.
+LOGIC,Weapon,Medium Weapons,Mastery of technical swordsmanship like katanas and arming swords.
 LOGIC,Weapon,The Blast,"Mastery of chemical weapons, grenades, scatterguns, and fuse times."
 LOGIC,Social,Rhetoric,"Using facts, logic, and debate to dismantle arguments."
 LOGIC,Utility,Analysis,"Action: Solving puzzles, deduction. Lore: Math, engineering, and chemistry."
-AWARENESS,Weapon,The Polearms,Mastery of spears and halberds. Keeping enemies at exact range.
+AWARENESS,Weapon,Reach Weapons,Mastery of spears and halberds. Keeping enemies at exact range.
 AWARENESS,Weapon,The Long Shot,"Mastery of sniper rifles, crossbows, and flintlocks. Lining up the shot."
 AWARENESS,Social,Insight,Using cold reading to detect lies and expose secrets.
 AWARENESS,Utility,Scouting,"Action: Tracking, spotting danger. Lore: Forensics and investigation."

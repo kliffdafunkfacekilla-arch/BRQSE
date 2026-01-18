@@ -1,0 +1,30 @@
+{
+    "Name": "Enemy_513",
+    "Species": "Avian",
+    "Stats": {
+        "Might": 10,
+        "Reflexes": 10,
+        "Vitality": 10,
+        "Knowledge": 5,
+        "Willpower": 5
+    },
+    "Derived": {
+        "HP": 30,
+        "Speed": 30,
+        "SP": 10,
+        "FP": 10,
+        "CMP": 10
+    },
+    "Traits": [
+        "Roll With It",
+        "Colors"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Guard"
+    ],
+    "Inventory": [
+        "Blades"
+    ],
+    "AI": "Aggressive"
+}

@@ -126,17 +126,30 @@ class Combatant:
         self.active_effects = []
         
         # Resources
-        self.max_hp = self.derived.get("HP", 10)
-        self.max_cmp = self.derived.get("CMP", 10)
-        self.max_sp = self.derived.get("SP", 10)
-        self.max_fp = self.derived.get("FP", 10)
+        # Resources (Formula: Derived_Stats.csv)
+        def get_score(name): return self.data.get("Stats", {}).get(name, 10) # default to 10 if missing
         
-        self.hp = self.max_hp
+        self.max_hp = 10 + get_score("Might") + get_score("Reflexes") + get_score("Vitality")
+        self.max_cmp = 10 + get_score("Willpower") + get_score("Logic") + get_score("Awareness")
+        self.max_sp = get_score("Endurance") + get_score("Finesse") + get_score("Fortitude")
+        self.max_fp = get_score("Knowledge") + get_score("Charm") + get_score("Intuition")
+
+        # Override with JSON Derived if explicit override logic exists? 
+        # User requested "formulas for calculations", implying we should trust formula.
+        # But let's respect "Current" vs "Max". Max should be formula. 
+        # If JSON has higher/custom Max, that's tricky. For now, Formula is source of truth.
+        
+        self.hp = self.max_hp # Reset to max on load? Or load current?
+        # Typically we load current. But for this simulation, we reset.
+        
         self.cmp = self.max_cmp
         self.sp = self.max_sp
         self.fp = self.max_fp
         
-        self.base_movement = self.derived.get("Speed", 30) // 5
+        # Speed: Vitality + Willpower -> Round nearest 5
+        raw_speed = get_score("Vitality") + get_score("Willpower")
+        self.base_movement = int(5 * round(raw_speed / 5))
+        if self.base_movement < 5: self.base_movement = 5
         self.movement = self.base_movement
         self.movement_remaining = self.movement
         
@@ -176,10 +189,13 @@ class Combatant:
             print(f"Error saving character: {e}")
 
     def roll_initiative(self):
-        # Speed + d20
-        spd = self.derived.get("Speed", 0)
-        self.movement = spd # Ensure max movement is set
-        self.initiative = spd + random.randint(1, 20)
+        # Use Alertness (Intuition + Reflexes) from CSV
+        # We can recalc here since Stats are consistent
+        intuit = self.get_stat("Intuition")
+        reflex = self.get_stat("Reflexes")
+        alertness = intuit + reflex
+        
+        self.initiative = alertness + random.randint(1, 20)
         return self.initiative
 
     def get_stat(self, stat_name):
@@ -337,18 +353,22 @@ class Combatant:
         return expired
 
 class CombatEngine:
-    def __init__(self):
+    def __init__(self, cols=12, rows=12):
         self.combatants = []
+        self.turn_order = []
+        self.current_turn_index = 0
+        self.round_counter = 1
+        
+        # Map
+        self.cols = cols
+        self.rows = rows
+        self.walls = set() # (x, y) tuples
+        self.aoe_templates = []
         self.log = []
         self.clash_active = False
         self.clash_participants = (None, None) 
         self.clash_stat = None
         self.weapon_db = self._load_weapon_db()
-        self.turn_order = []
-        self.current_turn_idx = 0
-        self.log = []
-        self.walls = set() # (x,y) tuples
-        self.terrain = [] # Dictionaries {x,y,type,active}
         self.ai = AIDecisionEngine() if AIDecisionEngine else None
 
     def _load_weapon_db(self):
@@ -570,8 +590,8 @@ class CombatEngine:
         return log
 
     def move_char(self, char, tx, ty):
-        # Boundaries (Hardcoded 12x12 for now matching Arena)
-        if not (0 <= tx < 12 and 0 <= ty < 12):
+        # Boundaries
+        if not (0 <= tx < self.cols and 0 <= ty < self.rows):
             return False, "Out of Bounds!"
 
         # Calculate distance
@@ -719,6 +739,16 @@ class CombatEngine:
         def_roll = def_total_mod + random.randint(1, 20)
         
         # LOGIC: Check Hit
+        # CLASH CHECK (Equal rolls or within 1)
+        if abs(hit_score - def_roll) <= 1:
+            self.clash_active = True
+            # Store participants for resolution
+            self.clash_participants = (attacker, target)
+            self.clash_stat = attack_stat # Stat used for the clash
+            
+            log.append(f"CLASH TRIGGERED! ({hit_score} vs {def_roll})")
+            return log
+
         if hit_score >= def_roll:
             # HIT
              target.take_damage(damage) # Simplified for now, removed damage_type, attacker

@@ -50,6 +50,8 @@ class Button:
         if self.active and self.rect.collidepoint(pos):
             self.callback(*self.args)
 
+import builder_ui
+
 class ArenaApp:
     def __init__(self):
         pygame.init()
@@ -61,26 +63,176 @@ class ArenaApp:
         
         self.state = "SELECT"
         self.buttons = []
-        self.engine = mechanics.CombatEngine()
+        self.engine = mechanics.CombatEngine(GRID_COLS, GRID_ROWS)
         self.fighter1 = None
         self.fighter2 = None
         self.selected_tile = None
         self.log_lines = []
         self.pending_ability = None
         
+        # Builder
+        self.builder_ui = builder_ui.BuilderUI(self.screen)
+        self.active_slot = 1
+        
+        # Sidebar HUD State
+        self.show_actions_menu = False
+        self.context_menu = None
+        
         # Enemy Spawner
         self.ai_templates = enemy_spawner.get_ai_templates()
         self.selected_ai_template = self.ai_templates[0] if self.ai_templates else "Aggressive"
-        
-        # AI Controller (initialized when combat starts)
         self.ai = None
+
+    def start_builder(self, slot):
+        self.state = "BUILDER"
+        self.active_slot = slot
+        self.buttons = [] # Clear buttons
+
+    def scan_saves(self):
+        self.buttons = []
+        if self.state == "SELECT":
+            # Slot 1
+            lbl1 = f"P1: {self.fighter1.name}" if self.fighter1 else "P1: Empty"
+            self.buttons.append(Button((100, 100, 300, 50), lbl1, lambda: None))
+            self.buttons.append(Button((420, 100, 100, 50), "BUILD", self.start_builder, [1]))
+            
+            # Slot 2
+            lbl2 = f"P2: {self.fighter2.name}" if self.fighter2 else "P2: Empty"
+            self.buttons.append(Button((100, 200, 300, 50), lbl2, lambda: None))
+            self.buttons.append(Button((420, 200, 100, 50), "BUILD", self.start_builder, [2]))
+            
+            # AI & Spawn
+            self.buttons.append(Button((100, 300, 200, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
+            self.buttons.append(Button((320, 300, 200, 40), "Auto-Spawn Enemy (P2)", self.spawn_enemy))
+
+            # Start
+            if self.fighter1 and self.fighter2:
+                self.buttons.append(Button((100, 400, 420, 60), "START COMBAT", self.start_match))
         
+        elif self.state == "COMBAT":
+            base_y = 200
+            self.buttons.append(Button((710, base_y, 120, 40), "SHEET", self.open_sheet))
+            self.buttons.append(Button((850, base_y, 120, 40), "JRNL", lambda: None)) 
+            self.buttons.append(Button((710, base_y + 50, 260, 40), "ACTIONS >", self.toggle_actions_menu))
+            
+            if self.show_actions_menu:
+                 active_char = self.engine.get_active_char()
+                 skill_y = base_y + 100
+                 if active_char:
+                     all_abilities = list(active_char.powers) + list(active_char.traits)
+                     for ab in all_abilities:
+                         self.buttons.append(Button((710, skill_y, 260, 30), ab, self.activate_power_click, [active_char, ab]))
+                         skill_y += 35
+            
+            self.buttons.append(Button((710, 600, 200, 50), "END TURN", self.end_turn))
+            
+            if self.engine.clash_active:
+                 self.buttons = []
+                 self.buttons.append(Button((SCREEN_W//2 - 150, SCREEN_H//2, 100, 50), "PRESS", self.resolve_clash, ["PRESS"]))
+                 self.buttons.append(Button((SCREEN_W//2 + 50, SCREEN_H//2, 100, 50), "DEFEND", self.resolve_clash, ["DEFEND"]))
+
     def run(self):
         self.scan_saves()
         while True:
-            self.handle_input()
-            self.draw()
+            # Event Loop
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                
+                # Builder Handling
+                if self.state == "BUILDER":
+                    res = self.builder_ui.handle_event(event)
+                    if res:
+                        # Builder Finished
+                        c = mechanics.Combatant(data=res)
+                        if self.active_slot == 1: self.fighter1 = c
+                        else: self.fighter2 = c
+                        self.state = "SELECT"
+                        self.scan_saves()
+                
+                # Normal Handling
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        # Context Menu
+                        if self.context_menu and self.context_menu.active:
+                            self.context_menu.handle_click(event.pos)
+                            continue
+                            
+                        # Standard Buttons
+                        for b in self.buttons:
+                            if b.rect.collidepoint(event.pos):
+                                b.callback(*b.args)
+                                break
+                                
+                        # Grid Clicks
+                        if self.state == "COMBAT":
+                             # Convert mouse to grid
+                             mx, my = event.pos
+                             gx = (mx - OFFSET_X) // TILE_SIZE
+                             gy = (my - OFFSET_Y) // TILE_SIZE
+                             
+                             if 0 <= gx < GRID_COLS and 0 <= gy < GRID_ROWS:
+                                 self.handle_grid_click(gx, gy)
+                             else:
+                                 # Click off grid clears selection?
+                                 pass
+
+            # Update
+            self.update()
+            
+            # Draw
+            self.draw(self.screen, self.font)
+            pygame.display.flip()
             self.clock.tick(30)
+    
+    def update(self):
+        # 1. Clash Handling for AI
+        if self.state == "COMBAT" and self.engine.clash_active:
+             active = self.engine.get_active_char()
+             if active and active.data.get("AI"):
+                 # AI Auto-Resolve
+                 current_time = pygame.time.get_ticks()
+                 if not hasattr(self, 'clash_cooldown'): self.clash_cooldown = 0
+                 
+                 if current_time > self.clash_cooldown:
+                     print("AI resolving Clash...")
+                     self.resolve_clash("PRESS")
+                     self.clash_cooldown = current_time + 1000
+             return
+
+        # 2. Normal Turn Loop
+        if self.state == "COMBAT" and not self.engine.clash_active:
+             # Check if active char is AI
+             active = self.engine.get_active_char()
+             
+             if active and active.data.get("AI"):
+                 # AI Turn Logic
+                 # We need a timer or state to prevent instant execution every frame
+                 current_time = pygame.time.get_ticks()
+                 if not hasattr(self, 'ai_cooldown'): self.ai_cooldown = 0
+                 
+                 # print(f"DEBUG: Time={current_time}, CD={self.ai_cooldown}")
+                 
+                 if current_time > self.ai_cooldown:
+                     print(f"Executing AI Turn for {active.name}...")
+                     # Execute Turn
+                     try:
+                         # 1. Execute Logic
+                         ai_log = self.engine.execute_ai_turn(active)
+                         print(f"AI LOG: {ai_log}")
+                         self.log_lines.extend(ai_log)
+                         
+                         # 2. End Turn
+                         res = self.engine.end_turn()
+                         self.log_lines.extend(res)
+                         self.scan_saves()
+                         
+                         # 3. Set Cooldown (e.g. 1000ms)
+                         self.ai_cooldown = current_time + 1000
+                     except Exception as e:
+                         print(f"AI Error: {e}")
+                         self.ai_cooldown = current_time + 2000 # Retry slower
 
     def scan_saves(self):
         self.buttons = []
@@ -100,6 +252,11 @@ class ArenaApp:
             self.buttons.append(Button((50, y, 180, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
             self.buttons.append(Button((250, y, 200, 40), "Spawn Enemy (P2)", self.spawn_enemy))
             
+            # P1 Control Toggle
+            if self.fighter1:
+                p1_mode = self.fighter1.data.get("AI", "Manual")
+                self.buttons.append(Button((50, y + 50, 180, 40), f"P1: {p1_mode}", self.toggle_p1_ai))
+
             # P2 Control Toggle
             if self.fighter2:
                 ctrl_txt = f"P2: {self.fighter2.data.get('AI', 'Manual')}"
@@ -107,7 +264,8 @@ class ArenaApp:
             
             # Start and Train Buttons
             if self.fighter1 and self.fighter2:
-                self.buttons.append(Button((500, y, 200, 50), "START MAP", self.start_combat))
+                self.buttons.append(Button((500, y, 200, 50), "START MANUAL", self.start_combat))
+                self.buttons.append(Button((500, y+60, 200, 50), "START AUTO-PLAY", self.start_auto_combat))
                 
                 # Training Buttons
                 self.buttons.append(Button((720, y, 100, 50), "+100 XP", self.cheat_give_xp))
@@ -117,26 +275,43 @@ class ArenaApp:
                 self.buttons.append(Button((500, y, 200, 50), "START MAP", self.start_combat))
 
         elif self.state == "COMBAT":
-            self.buttons.append(Button((800, 50, 150, 40), "End Turn", self.end_turn))
-            self.buttons.append(Button((800, 100, 150, 40), "Reset", self.reset))
-
+            # Sidebar Layout (X: 700+)
+            # Bars are drawn in draw_sidebar_hud, buttons placed relative to them.
+            base_y = 200 # Below 4 bars (approx 4*30=120px + padding)
+            
+            # Nav Buttons (Row 1)
+            self.buttons.append(Button((710, base_y, 120, 40), "SHEET", self.open_sheet))
+            self.buttons.append(Button((850, base_y, 120, 40), "JRNL", lambda: None)) # Placeholder
+            
+            # Action Toggle (Row 2) - Full Width
+            self.buttons.append(Button((710, base_y + 50, 260, 40), "ACTIONS >", self.toggle_actions_menu))
+            
+            # Actions List (if open)
+            if self.show_actions_menu:
+                 active_char = self.engine.get_active_char()
+                 skill_y = base_y + 100
+                 if active_char:
+                     # 1. Standard Actions (Attack/Move are implicit, maybe add explicitly?)
+                     # self.buttons.append(Button((710, skill_y, 260, 30), "Standard Attack", ...))
+                     
+                     # 2. Powers & Traits
+                     all_abilities = list(active_char.powers) + list(active_char.traits)
+                     for ab in all_abilities:
+                         self.buttons.append(Button((710, skill_y, 260, 30), ab, self.activate_power_click, [active_char, ab]))
+                         skill_y += 35
+            
+            # End Turn (Bottom)
+            self.buttons.append(Button((710, 600, 200, 50), "END TURN", self.end_turn))
+            
+            # Clash Buttons (Overlay)
             if self.engine.clash_active:
+                 self.buttons = [] # Clear side buttons? Or keep them? Better to clear to force focus.
                  self.buttons.append(Button((SCREEN_W//2 - 150, SCREEN_H//2, 100, 50), "PRESS", self.resolve_clash, ["PRESS"]))
                  self.buttons.append(Button((SCREEN_W//2 + 50, SCREEN_H//2, 100, 50), "DEFEND", self.resolve_clash, ["DEFEND"]))
-            else:
-                 # Active Powers
-                 active_char = self.engine.get_active_char()
-                 if active_char:
-                     # Check Powers for "Active" keyword? Or just list all Powers?
-                     # Let's list all "Powers" for now.
-                     y_off = 200
-                     for p_name in active_char.powers:
-                         self.buttons.append(Button((800, y_off, 180, 40), p_name, self.activate_power_click, [active_char, p_name]))
-                         y_off += 50
-                     for t_name in active_char.traits:
-                         if "Active" in t_name: # Convention? Or just list?
-                             self.buttons.append(Button((800, y_off, 180, 40), t_name, self.activate_power_click, [active_char, t_name]))
-                             y_off += 50
+
+    def toggle_actions_menu(self):
+        self.show_actions_menu = not self.show_actions_menu
+        self.scan_saves()
 
     def activate_power_click(self, char, power_name):
          # Enter Targeting Mode
@@ -173,14 +348,21 @@ class ArenaApp:
         self.log_lines.append(f"Spawned: {c.name} (AI: {self.selected_ai_template})")
         self.scan_saves()
 
+    def start_auto_combat(self):
+        if self.fighter1:
+            self.fighter1.data["AI"] = "Aggressive"
+        self.start_combat()
+
     def start_combat(self):
         self.engine = mechanics.CombatEngine()
+        
+        # Assign Teams to ensure hostility
+        self.fighter1.team = "Player"
+        self.fighter2.team = "Enemy"
+        
         # Initial positions
         self.engine.add_combatant(self.fighter1, 3, 3)
         self.engine.add_combatant(self.fighter2, 8, 8)
-        
-        # Initialize AI controller
-        # self.ai = EnemyAI(self.engine) # LEGACY REMOVED
 
         
         self.log_lines = self.engine.start_combat()
@@ -197,30 +379,10 @@ class ArenaApp:
         if self.engine.clash_active: return
         res = self.engine.end_turn()
         self.log_lines.extend(res)
-        
-        # Check if new active char is AI-controlled
-        active = self.engine.get_active_char()
-        if active and active.data.get("AI"):
-            # Delay for visibility
-            pygame.event.pump() # Keep window responsive
-            time.sleep(0.5)
-            
-            try:
-                # Execute AI turn
-                ai_log = self.engine.execute_ai_turn(active)
-                self.log_lines.extend(ai_log)
-                
-                # Small delay after action before ending turn
-                pygame.display.flip()
-                time.sleep(0.3)
-                
-                res = self.engine.end_turn()
-                self.log_lines.extend(res)
-            except Exception as e:
-                self.log_lines.append(f"AI ERROR: {e}")
-                print(f"AI Crash: {e}")
+        self.scan_saves() # Refresh buttons
         
         self.scan_saves() # Refresh buttons
+        # Legacy AI Loop Removed (Handled in Update)
 
     def resolve_clash(self, choice):
         res = self.engine.resolve_clash(choice)
@@ -275,30 +437,96 @@ class ArenaApp:
             if event.type == pygame.QUIT: pygame.quit(); sys.exit()
             if event.type == pygame.MOUSEMOTION:
                 for b in self.buttons: b.hover = b.rect.collidepoint((mx, my))
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                # UI Buttons
-                clicked_btn = False
-                for b in self.buttons:
-                    if b.rect.collidepoint((mx, my)):
-                        b.check_click((mx, my))
-                        clicked_btn = True
-                        break
-                # Map Click
-                if not clicked_btn and self.selected_tile:
-                    self.handle_grid_click(*self.selected_tile)
                 
-                # Right Click to Cancel Targeting
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                if self.state == "TARGETING":
-                    self.state = "COMBAT"
-                    self.log_lines.append("Targeting Cancelled.")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # 1. Handle Context Menu Click
+                if self.context_menu and event.button == 1:
+                    # Check if clicked option
+                    opts = self.context_menu["options"]
+                    cx, cy = self.context_menu["pos"]
+                    clicked_opt = False
+                    for i, (label, cb, args) in enumerate(opts):
+                        rect = pygame.Rect(cx, cy + i*30, 150, 30)
+                        if rect.collidepoint((mx, my)):
+                            if cb: cb(*args)
+                            clicked_opt = True
+                            break
+                    self.context_menu = None # Close on any click
+                    if clicked_opt: return # Handled
+                elif self.context_menu:
+                     self.context_menu = None # Close if clicking outside
+                
+                # 2. Setup Context Menu (Right Click)
+                if event.button == 3:
+                     if self.state == "TARGETING":
+                         self.state = "COMBAT"
+                         self.log_lines.append("Targeting Cancelled.")
+                     elif self.state == "COMBAT" and self.selected_tile:
+                         self.open_context_menu(gx, gy, (mx, my))
+                     return
+
+                if event.button == 1:
+                    # UI Buttons
+                    clicked_btn = False
+                    for b in self.buttons:
+                        if b.rect.collidepoint((mx, my)):
+                            b.check_click((mx, my))
+                            clicked_btn = True
+                            break
+                    # Map Click
+                    if not clicked_btn and self.selected_tile and self.state == "COMBAT":
+                        self.handle_grid_click(*self.selected_tile)
+
+    def open_context_menu(self, gx, gy, screen_pos):
+        options = []
+        target = None
+        for c in self.engine.combatants:
+            if c.is_alive() and c.x == gx and c.y == gy:
+                target = c; break
+        
+        active = self.engine.get_active_char()
+        
+        if target:
+            options.append(("Inspect", self.open_sheet_target, [target]))
+            if active and target != active:
+                options.append(("Attack", self.engine_action_wrapper, ["attack", active, target]))
+        else:
+             if active:
+                 options.append(("Move Here", self.engine_action_wrapper, ["move", active, gx, gy]))
+        
+        if options:
+            self.context_menu = {"pos": screen_pos, "options": options}
+
+    def open_sheet_target(self, target):
+        self.sheet_target = target
+        self.state = "SHEET"
+        self.buttons = [Button((SCREEN_W-150, 10, 100, 40), "BACK", self.close_sheet)]
+
+    def engine_action_wrapper(self, action_type, *args):
+        if action_type == "move":
+            actor, gx, gy = args
+            _, msg = self.engine.move_char(actor, gx, gy)
+            self.log_lines.append(msg)
+        elif action_type == "attack":
+            actor, target = args
+            res = self.engine.attack_target(actor, target)
+            self.log_lines.extend(res)
+        self.scan_saves()
 
 
-    def draw(self):
+    def draw(self, screen, font):
         self.screen.fill(COLOR_BG)
+        
+        if self.state == "BUILDER":
+            self.builder_ui.draw()
+            return
         
         if self.state == "COMBAT":
             # 1. Draw Grid & Terrain
+            # Border
+            map_rect = (OFFSET_X-5, OFFSET_Y-5, GRID_COLS*TILE_SIZE+10, GRID_ROWS*TILE_SIZE+10)
+            pygame.draw.rect(self.screen, COLOR_WALL, map_rect, 5)
+
             for y in range(GRID_ROWS):
                 for x in range(GRID_COLS):
                     rect = (OFFSET_X + x*TILE_SIZE, OFFSET_Y + y*TILE_SIZE, TILE_SIZE, TILE_SIZE)
@@ -378,9 +606,157 @@ class ArenaApp:
                  s.fill((0,0,0,180))
                  self.screen.blit(s, (0,0))
                  self.screen.blit(self.header_font.render("CLASH TRIGGERED!", True, (255,50,50)), (400, 300))
+            
+            # Sidebar HUD Draw
+            self.draw_sidebar_hud()
+
+        if self.state == "SHEET":
+            self.draw_character_sheet()
 
         # Buttons
         if self.state == "SELECT":
+             self.screen.blit(self.header_font.render("Select Map Layout", True, (255,255,255)), (50, 20))
+        
+        elif self.state == "COMBAT":
+             pass
+
+        for b in self.buttons: b.draw(self.screen, self.font)
+        
+        # Draw Context Menu
+        if self.context_menu:
+            cx, cy = self.context_menu["pos"]
+            opts = self.context_menu["options"]
+            w, h = 150, len(opts) * 30
+            
+            # Shadow
+            s = pygame.Surface((w, h), pygame.SRCALPHA)
+            s.fill((0,0,0,100))
+            self.screen.blit(s, (cx+5, cy+5))
+            
+            # Bg
+            pygame.draw.rect(self.screen, (40, 40, 50), (cx, cy, w, h))
+            pygame.draw.rect(self.screen, (200, 200, 200), (cx, cy, w, h), 1)
+            
+            mx, my = pygame.mouse.get_pos()
+            
+            for i, (label, _, _) in enumerate(opts):
+                rect = pygame.Rect(cx, cy + i*30, w, 30)
+                col = (60, 60, 70)
+                if rect.collidepoint((mx, my)): col = (80, 80, 100)
+                
+                pygame.draw.rect(self.screen, col, rect)
+                pygame.draw.line(self.screen, (100, 100, 100), (cx, rect.bottom-1), (cx+w, rect.bottom-1))
+                
+                txt = self.font.render(label, True, (255, 255, 255))
+                self.screen.blit(txt, (cx + 10, cy + i*30 + 5))
+
+        pygame.display.flip()
+
+    def draw_sidebar_hud(self):
+        # Background
+        pygame.draw.rect(self.screen, (25, 25, 35), (700, 0, 300, 700))
+        pygame.draw.line(self.screen, (100, 100, 100), (700, 0), (700, 700), 2)
+        
+        c = self.engine.get_active_char()
+        if not c: return
+        
+        x = 710; y = 20
+        # Name
+        self.screen.blit(self.header_font.render(c.name, True, (255,255,255)), (x, y)); y+=30
+        
+        # Bars Helper
+        def draw_bar(label, cur, max_val, color, by):
+            # Label
+            self.screen.blit(self.font.render(label, True, (200,200,200)), (x, by))
+            # Bar Bg
+            pygame.draw.rect(self.screen, (50,50,50), (x+40, by, 200, 15))
+            # Bar Fill
+            pct = 0
+            if max_val > 0: pct = max(0, min(1, cur / max_val))
+            pygame.draw.rect(self.screen, color, (x+40, by, 200*pct, 15))
+            # Text
+            self.screen.blit(self.font.render(f"{cur}/{max_val}", True, (255,255,255)), (x+100, by-1))
+            return by + 25
+            
+        y = draw_bar("HP", c.hp, c.max_hp, (200,50,50), y)
+        y = draw_bar("SP", c.sp, c.max_sp, (50,200,50), y)
+        y = draw_bar("FP", c.fp, c.max_fp, (50,50,250), y)
+        y = draw_bar("CMP", c.cmp, c.max_cmp, (200,50,200), y)
+
+    def open_sheet(self):
+        active = self.engine.get_active_char()
+        if active:
+            self.sheet_target = active
+            self.state = "SHEET"
+            self.buttons = [Button((SCREEN_W-150, 10, 100, 40), "BACK", self.close_sheet)]
+
+    def close_sheet(self):
+        self.state = "COMBAT"
+        self.scan_saves() # Reload combat buttons
+
+    def draw_character_sheet(self):
+        c = self.sheet_target
+        if not c: return
+        
+        # Background
+        pygame.draw.rect(self.screen, (30,30,40), (50, 50, SCREEN_W-100, SCREEN_H-100))
+        pygame.draw.rect(self.screen, (200,200,200), (50, 50, SCREEN_W-100, SCREEN_H-100), 2)
+        
+        # Header
+        name_txt = self.header_font.render(f"{c.name} ({c.data.get('Species', 'Unknown')})", True, (255,255,255))
+        self.screen.blit(name_txt, (80, 80))
+        
+        # Stats Column
+        y = 130
+        self.screen.blit(self.header_font.render("ATTRIBUTES", True, (200,200,100)), (80, y)); y+=30
+        for stat in ["Might", "Reflexes", "Endurance", "Knowledge", "Willpower", "Intuition", "Logic", "Fortitude", "Charm", "Vitality"]:
+            score = c.get_stat(stat)
+            mod = c.get_stat_modifier(stat)
+            txt = f"{stat}: {score} ({'+' if mod>=0 else ''}{mod})"
+            self.screen.blit(self.font.render(txt, True, (220,220,220)), (80, y))
+            y += 25
+            
+        # Derived Column
+        y = 130; x = 350
+        self.screen.blit(self.header_font.render("STATUS", True, (200,200,100)), (x, y)); y+=30
+        self.screen.blit(self.font.render(f"HP: {c.hp}/{c.max_hp}", True, (255,100,100)), (x, y)); y+=25
+        self.screen.blit(self.font.render(f"SP: {c.sp}/{c.max_sp}", True, (100,255,100)), (x, y)); y+=25
+        self.screen.blit(self.font.render(f"FP: {c.fp}/{c.max_fp}", True, (100,100,255)), (x, y)); y+=25
+        self.screen.blit(self.font.render(f"CMP: {c.cmp}/{c.max_cmp}", True, (200,100,200)), (x, y)); y+=25
+        self.screen.blit(self.font.render(f"Move: {c.movement_remaining}/{c.movement}", True, (200,200,200)), (x, y)); y+=25
+        
+        # Status Effects
+        y += 20
+        self.screen.blit(self.header_font.render("ACTIVE EFFECTS", True, (200,200,100)), (x, y)); y+=30
+        if not c.active_effects:
+             self.screen.blit(self.font.render("None", True, (150,150,150)), (x, y))
+        else:
+             for eff in c.active_effects:
+                 self.screen.blit(self.font.render(f"- {eff['name']} ({eff['duration']} rds)", True, (255,200,100)), (x, y)); y+=20
+
+        # Gear Column
+        y = 130; x = 600
+        self.screen.blit(self.header_font.render("EQUIPMENT", True, (200,200,100)), (x, y)); y+=30
+        if c.inventory:
+            for slot, item in c.inventory.equipped.items():
+                if item:
+                    txt = f"{slot}: {item.name}"
+                    # Stats?
+                    stats = []
+                    if slot == "Main Hand": stats.append(f"{c.inventory.get_weapon_stats()[0]}")
+                    if slot == "Armor": stats.append(f"AC?")
+                    
+                    self.screen.blit(self.font.render(txt, True, (255,255,255)), (x, y)); y+=20
+                    self.screen.blit(self.font.render(f"   {', '.join(stats)}", True, (150,150,150)), (x, y)); y+=25
+                else:
+                    self.screen.blit(self.font.render(f"{slot}: (Empty)", True, (100,100,100)), (x, y)); y+=25
+                    
+        # Skills
+        y += 20
+        self.screen.blit(self.header_font.render("SKILLS", True, (200,200,100)), (x, y)); y+=30
+        skills = c.skills if isinstance(c.skills, dict) else {k: 0 for k in c.skills}
+        for s, rank in skills.items():
+             self.screen.blit(self.font.render(f"{s}: Rank {rank}", True, (200,220,255)), (x, y)); y+=20
              self.screen.blit(self.header_font.render("Select Map Layout", True, (255,255,255)), (50, 20))
 
         for b in self.buttons: b.draw(self.screen, self.font)
@@ -424,6 +800,17 @@ class ArenaApp:
         else:
             # Switch to AI (Default Aggressive)
             self.fighter2.data["AI"] = self.selected_ai_template
+        self.scan_saves()
+
+    def toggle_p1_ai(self):
+        if not self.fighter1: return
+        current = self.fighter1.data.get("AI")
+        if current:
+            # Switch to Manual
+            del self.fighter1.data["AI"]
+        else:
+            # Switch to AI
+            self.fighter1.data["AI"] = "Aggressive" # Default for P1
         self.scan_saves()
 
 if __name__ == "__main__":

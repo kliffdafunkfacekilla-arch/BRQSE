@@ -87,7 +87,12 @@ class EnemySpawner:
         # 4. Inventory (random weapon)
         inventory = []
         if self.weapon_groups:
-            wpn = random.choice(self.weapon_groups).get("Family Name", "Sword")
+            group = random.choice(self.weapon_groups)
+            # Parse 'Examples' column for valid item names
+            examples_raw = group.get("Examples", "Sword")
+            candidates = [x.strip() for x in examples_raw.split(',') if x.strip()]
+            
+            wpn = random.choice(candidates) if candidates else "Sword"
             inventory.append(wpn)
         
         # 5. AI Template

@@ -1,0 +1,30 @@
+{
+    "Name": "Enemy_183",
+    "Species": "Avian",
+    "Stats": {
+        "Might": 10,
+        "Reflexes": 10,
+        "Vitality": 10,
+        "Knowledge": 5,
+        "Willpower": 5
+    },
+    "Derived": {
+        "HP": 30,
+        "Speed": 30,
+        "SP": 10,
+        "FP": 10,
+        "CMP": 10
+    },
+    "Traits": [
+        "Faith",
+        "Martyr"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Guard"
+    ],
+    "Inventory": [
+        "Blast"
+    ],
+    "AI": "Ranged"
+}

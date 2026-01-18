@@ -2,15 +2,18 @@
     "Name": "Swiftblade",
     "Species": "Elf",
     "Stats": {
-        "Might": 1,
-        "Reflexes": 4,
-        "Vitality": 2,
-        "Knowledge": 1,
-        "Willpower": 1
-    },
-    "Derived": {
-        "HP": 15,
-        "Speed": 15
+        "Might": 10,
+        "Reflexes": 18,
+        "Endurance": 12,
+        "Vitality": 12,
+        "Fortitude": 10,
+        "Knowledge": 12,
+        "Logic": 12,
+        "Awareness": 14,
+        "Intuition": 14,
+        "Charm": 14,
+        "Willpower": 10,
+        "Finesse": 16
     },
     "BodyParts": [
         "Head",
@@ -19,11 +22,14 @@
         "Legs"
     ],
     "Skills": [
-        "Dagger",
-        "Dodge"
+        "Small Weapons",
+        "Motion",
+        "Rigs",
+        "Guile"
     ],
     "Inventory": [
         "Rapier",
-        "Duelist Leathers"
+        "Duelist Leathers",
+        "Dagger"
     ]
 }
