@@ -1,0 +1,44 @@
+{
+    "Name": "Frost",
+    "Species": "Reptile",
+    "Stats": {
+        "Might": 11,
+        "Reflexes": 11,
+        "Endurance": 11,
+        "Vitality": 11,
+        "Fortitude": 12,
+        "Knowledge": 10,
+        "Logic": 13,
+        "Awareness": 10,
+        "Intuition": 12,
+        "Charm": 11,
+        "Willpower": 10,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Heavy Shell",
+        "Webbed Claws",
+        "Curved Teeth",
+        "Throat Pouch",
+        "Back Fins",
+        "Glider Fins"
+    ],
+    "Skills": [
+        "Exotic Weapons",
+        "The Ballistics",
+        "Insight",
+        "Empathy",
+        "Robes",
+        "Command",
+        "Regalia",
+        "Hydrodynamics"
+    ],
+    "Powers": [
+        "Count",
+        "Heat"
+    ],
+    "Inventory": [
+        "Nunchaku",
+        "Scholar's Robes"
+    ]
+}

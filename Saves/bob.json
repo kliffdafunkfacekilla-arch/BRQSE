@@ -1,0 +1,44 @@
+{
+    "Name": "bob",
+    "Species": "Avian",
+    "Stats": {
+        "Might": 18,
+        "Reflexes": 12,
+        "Endurance": 10,
+        "Vitality": 11,
+        "Fortitude": 10,
+        "Knowledge": 11,
+        "Logic": 10,
+        "Awareness": 12,
+        "Intuition": 8,
+        "Charm": 10,
+        "Willpower": 10,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Hooked Beak",
+        "Wide Wings",
+        "Large Talons",
+        "Wide Eyes",
+        "Head Crest",
+        "Large Pupils"
+    ],
+    "Skills": [
+        "Large Weapons",
+        "The Ballistics",
+        "Intimidation",
+        "Stoicism",
+        "Light ",
+        "Athletics",
+        "Snares",
+        "Tear Flesh"
+    ],
+    "Powers": [
+        "Push",
+        "Lift"
+    ],
+    "Inventory": [
+        "Compound Bow",
+        "Acrobat's Leathers"
+    ]
+}

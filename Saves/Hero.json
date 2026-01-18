@@ -1,0 +1,41 @@
+{
+    "Name": "Hero",
+    "Species": "Mammal",
+    "Stats": {
+        "Might": 10,
+        "Reflexes": 10,
+        "Endurance": 12,
+        "Vitality": 10,
+        "Fortitude": 14,
+        "Knowledge": 12,
+        "Logic": 10,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 12,
+        "Willpower": 10,
+        "Finesse": 12
+    },
+    "Traits": [
+        "Long Arms",
+        "Spiked Fur",
+        "Square Jaw",
+        "Thick Throat",
+        "Silky Fur",
+        "Swivel Ears"
+    ],
+    "Skills": [
+        "Small Weapons",
+        "Bio",
+        "Performance",
+        "Tinctures",
+        "Quill Shot"
+    ],
+    "Powers": [
+        "Mark",
+        "Unlock"
+    ],
+    "Inventory": [
+        "Cane Sword",
+        "Troll Hide"
+    ]
+}

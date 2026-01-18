@@ -4,6 +4,7 @@ import os
 import mechanics
 import enemy_spawner
 import time # Input delay for AI visibility
+import json
 
 # Add parent path for AI module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -86,33 +87,55 @@ class ArenaApp:
     def start_builder(self, slot):
         self.state = "BUILDER"
         self.active_slot = slot
-        self.buttons = [] # Clear buttons
+        self.buttons = []
+
+    def start_loader(self, slot):
+        self.state = "LOADER"
+        self.active_slot = slot
+        self.scan_saves()
+
+    def cancel_load(self):
+        self.state = "SELECT"
+        self.scan_saves()
 
     def scan_saves(self):
         self.buttons = []
         if self.state == "SELECT":
             # Slot 1
             lbl1 = f"P1: {self.fighter1.name}" if self.fighter1 else "P1: Empty"
-            self.buttons.append(Button((100, 100, 300, 50), lbl1, lambda: None))
-            self.buttons.append(Button((420, 100, 100, 50), "BUILD", self.start_builder, [1]))
+            self.buttons.append(Button((50, 100, 300, 50), lbl1, lambda: None))
+            self.buttons.append(Button((360, 100, 100, 50), "BUILD", self.start_builder, [1]))
+            self.buttons.append(Button((470, 100, 100, 50), "LOAD", self.start_loader, [1]))
             
             # Slot 2
             lbl2 = f"P2: {self.fighter2.name}" if self.fighter2 else "P2: Empty"
-            self.buttons.append(Button((100, 200, 300, 50), lbl2, lambda: None))
-            self.buttons.append(Button((420, 200, 100, 50), "BUILD", self.start_builder, [2]))
+            self.buttons.append(Button((50, 200, 300, 50), lbl2, lambda: None))
+            self.buttons.append(Button((360, 200, 100, 50), "BUILD", self.start_builder, [2]))
+            self.buttons.append(Button((470, 200, 100, 50), "LOAD", self.start_loader, [2]))
             
             # AI & Spawn
-            self.buttons.append(Button((100, 300, 200, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
-            self.buttons.append(Button((320, 300, 200, 40), "Auto-Spawn Enemy (P2)", self.spawn_enemy))
+            self.buttons.append(Button((50, 300, 200, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
+            self.buttons.append(Button((270, 300, 200, 40), "Auto-Spawn Enemy (P2)", self.spawn_enemy))
 
             # Start
             if self.fighter1 and self.fighter2:
-                self.buttons.append(Button((100, 400, 420, 60), "START COMBAT", self.start_match))
+                self.buttons.append(Button((50, 400, 420, 60), "START COMBAT", self.start_combat))
         
+        elif self.state == "LOADER":
+            if not os.path.exists(SAVES_DIR): os.makedirs(SAVES_DIR)
+            files = [f for f in os.listdir(SAVES_DIR) if f.endswith(".json")]
+            self.buttons.append(Button((50, 50, 100, 40), "< CANCEL", self.cancel_load))
+            
+            y = 100
+            for f in files:
+                 path = os.path.join(SAVES_DIR, f)
+                 self.buttons.append(Button((50, y, 400, 40), f, self.select_fighter, [self.active_slot, path]))
+                 y += 50
+
         elif self.state == "COMBAT":
             base_y = 200
             self.buttons.append(Button((710, base_y, 120, 40), "SHEET", self.open_sheet))
-            self.buttons.append(Button((850, base_y, 120, 40), "JRNL", lambda: None)) 
+            self.buttons.append(Button((850, base_y, 120, 40), "INVENTORY", self.open_inventory))
             self.buttons.append(Button((710, base_y + 50, 260, 40), "ACTIONS >", self.toggle_actions_menu))
             
             if self.show_actions_menu:
@@ -125,6 +148,12 @@ class ArenaApp:
                          skill_y += 35
             
             self.buttons.append(Button((710, 600, 200, 50), "END TURN", self.end_turn))
+            
+            # AI Toggle Buttons
+            p1_ai_txt = "P1 AI: ON" if (self.fighter1 and self.fighter1.data.get("AI")) else "P1 AI: OFF"
+            p2_ai_txt = "P2 AI: ON" if (self.fighter2 and self.fighter2.data.get("AI")) else "P2 AI: OFF"
+            self.buttons.append(Button((710, 660, 120, 35), p1_ai_txt, self.toggle_p1_ai))
+            self.buttons.append(Button((850, 660, 120, 35), p2_ai_txt, self.toggle_p2_ai))
             
             if self.engine.clash_active:
                  self.buttons = []
@@ -144,12 +173,29 @@ class ArenaApp:
                 if self.state == "BUILDER":
                     res = self.builder_ui.handle_event(event)
                     if res:
-                        # Builder Finished
-                        c = mechanics.Combatant(data=res)
-                        if self.active_slot == 1: self.fighter1 = c
-                        else: self.fighter2 = c
-                        self.state = "SELECT"
-                        self.scan_saves()
+                        try:
+                            if res.get("CANCEL"):
+                                self.state = "SELECT"
+                                self.scan_saves()
+                            else:
+                                # Save Character
+                                fname = f"{res.get('Name', 'Unknown')}.json"
+                                if not os.path.exists(SAVES_DIR): os.makedirs(SAVES_DIR)
+                                fpath = os.path.join(SAVES_DIR, fname)
+                                with open(fpath, 'w') as f:
+                                    json.dump(res, f, indent=4)
+                                print(f"Saved character to {fpath}")
+                                
+                                # Load into Slot
+                                c = mechanics.Combatant(data=res)
+                                if self.active_slot == 1: self.fighter1 = c
+                                else: self.fighter2 = c
+                                self.state = "SELECT"
+                                self.scan_saves()
+                        except Exception as e:
+                            print(f"[Arena] Error saving/loading builder character: {e}")
+                            import traceback
+                            traceback.print_exc()
                 
                 # Normal Handling
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -234,80 +280,6 @@ class ArenaApp:
                          print(f"AI Error: {e}")
                          self.ai_cooldown = current_time + 2000 # Retry slower
 
-    def scan_saves(self):
-        self.buttons = []
-        if self.state == "SELECT":
-            if not os.path.exists(SAVES_DIR): os.makedirs(SAVES_DIR)
-            files = [f for f in os.listdir(SAVES_DIR) if f.endswith(".json")]
-            y = 100
-            for f in files:
-                path = os.path.join(SAVES_DIR, f)
-                self.buttons.append(Button((50, y, 300, 40), f"P1: {f}", self.select_fighter, [1, path]))
-                self.buttons.append(Button((400, y, 300, 40), f"P2: {f}", self.select_fighter, [2, path]))
-                y += 50
-            
-            # AI Template Selection
-            y += 30
-            self.buttons.append(Button((50, y, 180, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
-            self.buttons.append(Button((50, y, 180, 40), f"AI: {self.selected_ai_template}", self.cycle_ai_template))
-            self.buttons.append(Button((250, y, 200, 40), "Spawn Enemy (P2)", self.spawn_enemy))
-            
-            # P1 Control Toggle
-            if self.fighter1:
-                p1_mode = self.fighter1.data.get("AI", "Manual")
-                self.buttons.append(Button((50, y + 50, 180, 40), f"P1: {p1_mode}", self.toggle_p1_ai))
-
-            # P2 Control Toggle
-            if self.fighter2:
-                ctrl_txt = f"P2: {self.fighter2.data.get('AI', 'Manual')}"
-                self.buttons.append(Button((250, y + 50, 200, 40), ctrl_txt, self.toggle_p2_ai))
-            
-            # Start and Train Buttons
-            if self.fighter1 and self.fighter2:
-                self.buttons.append(Button((500, y, 200, 50), "START MANUAL", self.start_combat))
-                self.buttons.append(Button((500, y+60, 200, 50), "START AUTO-PLAY", self.start_auto_combat))
-                
-                # Training Buttons
-                self.buttons.append(Button((720, y, 100, 50), "+100 XP", self.cheat_give_xp))
-                self.buttons.append(Button((830, y, 100, 50), "TRAIN SKILL", self.train_fighter))
-            
-            if self.fighter1 and self.fighter2:
-                self.buttons.append(Button((500, y, 200, 50), "START MAP", self.start_combat))
-
-        elif self.state == "COMBAT":
-            # Sidebar Layout (X: 700+)
-            # Bars are drawn in draw_sidebar_hud, buttons placed relative to them.
-            base_y = 200 # Below 4 bars (approx 4*30=120px + padding)
-            
-            # Nav Buttons (Row 1)
-            self.buttons.append(Button((710, base_y, 120, 40), "SHEET", self.open_sheet))
-            self.buttons.append(Button((850, base_y, 120, 40), "JRNL", lambda: None)) # Placeholder
-            
-            # Action Toggle (Row 2) - Full Width
-            self.buttons.append(Button((710, base_y + 50, 260, 40), "ACTIONS >", self.toggle_actions_menu))
-            
-            # Actions List (if open)
-            if self.show_actions_menu:
-                 active_char = self.engine.get_active_char()
-                 skill_y = base_y + 100
-                 if active_char:
-                     # 1. Standard Actions (Attack/Move are implicit, maybe add explicitly?)
-                     # self.buttons.append(Button((710, skill_y, 260, 30), "Standard Attack", ...))
-                     
-                     # 2. Powers & Traits
-                     all_abilities = list(active_char.powers) + list(active_char.traits)
-                     for ab in all_abilities:
-                         self.buttons.append(Button((710, skill_y, 260, 30), ab, self.activate_power_click, [active_char, ab]))
-                         skill_y += 35
-            
-            # End Turn (Bottom)
-            self.buttons.append(Button((710, 600, 200, 50), "END TURN", self.end_turn))
-            
-            # Clash Buttons (Overlay)
-            if self.engine.clash_active:
-                 self.buttons = [] # Clear side buttons? Or keep them? Better to clear to force focus.
-                 self.buttons.append(Button((SCREEN_W//2 - 150, SCREEN_H//2, 100, 50), "PRESS", self.resolve_clash, ["PRESS"]))
-                 self.buttons.append(Button((SCREEN_W//2 + 50, SCREEN_H//2, 100, 50), "DEFEND", self.resolve_clash, ["DEFEND"]))
 
     def toggle_actions_menu(self):
         self.show_actions_menu = not self.show_actions_menu
@@ -521,6 +493,12 @@ class ArenaApp:
             self.builder_ui.draw()
             return
         
+        if self.state == "INVENTORY":
+            self.draw_inventory_screen()
+            for b in self.buttons: b.draw(self.screen, self.font)
+            pygame.display.flip()
+            return
+        
         if self.state == "COMBAT":
             # 1. Draw Grid & Terrain
             # Border
@@ -693,6 +671,51 @@ class ArenaApp:
     def close_sheet(self):
         self.state = "COMBAT"
         self.scan_saves() # Reload combat buttons
+
+    def open_inventory(self):
+        active = self.engine.get_active_char()
+        if active:
+            self.inv_target = active
+            self.state = "INVENTORY"
+            self.buttons = [Button((SCREEN_W-150, 10, 100, 40), "BACK", self.close_inventory)]
+
+    def close_inventory(self):
+        self.state = "COMBAT"
+        self.scan_saves()
+
+    def draw_inventory_screen(self):
+        c = self.inv_target
+        if not c: return
+        
+        self.screen.fill((30, 30, 40))
+        self.screen.blit(self.header_font.render(f"{c.name}'s INVENTORY", True, (255, 255, 255)), (50, 20))
+        
+        y = 80
+        # Equipped Items
+        self.screen.blit(self.header_font.render("EQUIPPED:", True, (200, 200, 100)), (50, y)); y += 35
+        if c.inventory:
+            for slot, item in c.inventory.equipped.items():
+                if item:
+                    txt = f"  {slot}: {item.name}"
+                    color = (100, 255, 100)
+                else:
+                    txt = f"  {slot}: (Empty)"
+                    color = (100, 100, 100)
+                self.screen.blit(self.font.render(txt, True, color), (50, y)); y += 25
+        else:
+            self.screen.blit(self.font.render("  No inventory system", True, (255, 100, 100)), (50, y)); y += 25
+        
+        y += 20
+        # All Items in Bag
+        self.screen.blit(self.header_font.render("BAG:", True, (200, 200, 100)), (50, y)); y += 35
+        if c.inventory and c.inventory.items:
+            for item_name in c.inventory.items:
+                self.screen.blit(self.font.render(f"  - {item_name}", True, (200, 200, 200)), (50, y)); y += 22
+        else:
+            self.screen.blit(self.font.render("  (Empty)", True, (100, 100, 100)), (50, y)); y += 25
+        
+        # Instructions
+        self.screen.blit(self.font.render("Weapons from Builder are auto-equipped to Main Hand.", True, (150, 150, 150)), (50, 550))
 
     def draw_character_sheet(self):
         c = self.sheet_target

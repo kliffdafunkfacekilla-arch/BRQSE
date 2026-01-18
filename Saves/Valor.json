@@ -1,0 +1,44 @@
+{
+    "Name": "Valor",
+    "Species": "Reptile",
+    "Stats": {
+        "Might": 12,
+        "Reflexes": 11,
+        "Endurance": 10,
+        "Vitality": 11,
+        "Fortitude": 13,
+        "Knowledge": 13,
+        "Logic": 12,
+        "Awareness": 8,
+        "Intuition": 11,
+        "Charm": 11,
+        "Willpower": 10,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Heavy Shell",
+        "Shifting Scales",
+        "Heavy Tail",
+        "Vertical Pupils",
+        "Heat Pits",
+        "Glider Fins"
+    ],
+    "Skills": [
+        "Medium Weapons",
+        "The Simple Shot",
+        "Repartee",
+        "Stoicism",
+        "Robes",
+        "Motion",
+        "Curios",
+        "Hypnotic Gaze"
+    ],
+    "Powers": [
+        "Harden",
+        "Heat"
+    ],
+    "Inventory": [
+        "Sling",
+        "Scholar's Robes"
+    ]
+}

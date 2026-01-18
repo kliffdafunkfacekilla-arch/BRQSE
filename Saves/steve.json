@@ -1,0 +1,44 @@
+{
+    "Name": "steve",
+    "Species": "Insect",
+    "Stats": {
+        "Might": 12,
+        "Reflexes": 10,
+        "Endurance": 8,
+        "Vitality": 10,
+        "Fortitude": 11,
+        "Knowledge": 10,
+        "Logic": 10,
+        "Awareness": 11,
+        "Intuition": 10,
+        "Charm": 18,
+        "Willpower": 12,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Jumping Legs",
+        "Thick Plates",
+        "Toxic Fangs",
+        "Needle Limbs",
+        "Spiracles",
+        "Spinnerets"
+    ],
+    "Skills": [
+        "Exotic Weapons",
+        "Ranged Exotics",
+        "Persuasion",
+        "Discipline",
+        "Mail",
+        "Command",
+        "Regalia",
+        "Web Shot"
+    ],
+    "Powers": [
+        "Friend",
+        "Mock"
+    ],
+    "Inventory": [
+        "Bola",
+        "Mithral Chain"
+    ]
+}
