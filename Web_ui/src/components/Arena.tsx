@@ -164,7 +164,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
 
     return (
         <div className="flex flex-col items-center bg-[#050505]">
-            <div className="w-full flex justify-between items-center p-2 bg-stone-900 border-b border-stone-800">
+            <div className="w-full flex justify-between items-center p-2 bg-stone-900 border-b border-stone-800 relative z-50">
                 <div className="text-[#00f2ff] font-mono text-xs">
                     SIMULATION STATUS: {playing ? "RUNNING" : "PAUSED"}
                 </div>

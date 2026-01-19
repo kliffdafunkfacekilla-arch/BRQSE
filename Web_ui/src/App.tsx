@@ -126,7 +126,7 @@ function App() {
 
           {/* Arena Container */}
           <div className="flex-1 flex items-center justify-center p-4 bg-grid-pattern relative">
-            <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-50" />
+
             <Arena onStatsUpdate={handleArenaUpdate} />
           </div>
 
