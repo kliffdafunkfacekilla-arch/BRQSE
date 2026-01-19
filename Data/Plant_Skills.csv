@@ -1,9 +1,9 @@
 Body Part,Skill Name,Type,Effect Description
 Mossy Skin,Photosynth,Short Rest,"If you rest in direct sunlight, you regain maximum Hit Points possible for your dice roll."
 Mossy Skin,Dampen,Passive,You are constantly moist. You have Resistance to Fire damage.
-Tendril Fingers,Entangle,Action,"Cast a vine to Grapple a target 10ft away. If successful, they are Restrained."
+Tendril Fingers,Entangle,Action,"Cast a vine to Entangle a target 30ft away. Deal 1d6 Bludgeoning damage. If successful, they are Restrained."
 Tendril Fingers,Climb,Passive,You gain a Climb Speed equal to your Walk Speed.
-Mushroom Cap,Spore Cloud,Action,Release a cloud adjacent to you. Enemies must save (Con) or be Poisoned for 1 minute.
+Mushroom Cap,Spore Cloud,Action,"Release a cloud adjacent to you. Enemies take 1d6 Poison damage and must save (Con) or be Poisoned for 1 minute."
 Mushroom Cap,Umbrella,Reaction,"Shield yourself or an adjacent ally from rain, falling debris, or overhead acid attacks."
 Sharp Thorns,Spike Armor,Passive,Creatures that hit you with unarmed strikes or Grapple you take 1d4 Piercing damage.
 Sharp Thorns,Latch,Reaction,Advantage on checks to maintain a Grapple (the thorns hook into the enemy).
@@ -15,7 +15,7 @@ Thorns,Deterrent,Passive,You have Advantage on Intimidation checks (you look pai
 Thorns,Barricade,Action,Lock your limbs together to create a wall of spikes. You provide Three-Quarters Cover to allies behind you.
 IronBark,Hardwood,Passive,Your base Armor Class is 14 + Dexterity modifier (max +2).
 IronBark,Rooted,Reaction,Advantage on saving throws to resist being Shoved or knocked Prone.
-Razor Leaves,Leaf Storm,Action,Fire a volley of sharp leaves in a 15ft cone. Deal Slashing damage (Dex save for half).
+Razor Leaves,Leaf Storm,Action,"Fire a volley of sharp leaves in a 15ft cone. Deal 3d6 Slashing damage (Dex save for half)."
 Razor Leaves,Serrated,Passive,Your unarmed strikes deal Slashing damage instead of Bludgeoning.
 Cactus Spines,Needle Burst,Reaction,"When hit by melee, explode spines outward. Attackers within 5ft take Piercing damage."
 Cactus Spines,Water Store,Passive,You can survive for 7 days without water.
@@ -24,7 +24,7 @@ Toxic Sap,Splatter,Reaction,"When you take Slashing damage, your blood sprays. A
 Wide Roots,Tremorsense,Passive,You can detect the location of moving creatures on the ground within 20ft.
 Wide Roots,Stability,Passive,You are immune to being pushed or pulled against your will while on soil.
 Flower Head,Allure,Action,Release a pleasant scent. Humanoids must save (Will) or be Charmed (Passive/Non-hostile) for 1 minute.
-Flower Head,Solar Beam,Action,Absorb light and fire a dazzling beam. Target must save or be Blinded.
+Flower Head,Solar Beam,Action,"Absorb light and fire a dazzling beam. Range 60ft. Deal 2d8 Radiant damage and Target must save or be Blinded."
 Root Ball,Earth Glide,Action,Sink into the earth and move through soil/dirt (Burrow speed 15ft).
 Root Ball,Bludgeon,Action,Use your heavy base to slam a prone enemy. Deal critical damage.
 Whistling Branches,Scream,Action,Let the wind pass through you to create a terrifying shriek. Enemies save vs Fear.

@@ -1,13 +1,17 @@
-import pygame
 import sys
 import os
+
+# Add parent path (Project Root) BEFORE importing mechanics
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
+
+import pygame
 import mechanics
 import enemy_spawner
 import time # Input delay for AI visibility
 import json
 
 # Add parent path for AI module
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 # AI is now handled internally by Mechanics
 
 

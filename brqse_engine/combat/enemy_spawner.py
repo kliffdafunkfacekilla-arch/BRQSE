@@ -5,8 +5,8 @@ import json
 
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "../Data")
-TEMP_DIR = os.path.join(BASE_DIR, "../Saves/temp")
+DATA_DIR = os.path.join(BASE_DIR, "../../Data")
+TEMP_DIR = os.path.join(BASE_DIR, "../../Saves/temp")
 
 # Ensure temp dir
 if not os.path.exists(TEMP_DIR): os.makedirs(TEMP_DIR)

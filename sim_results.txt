@@ -1,0 +1,3691 @@
+
+============================================================
+COMBAT SIMULATION - 50 Battles
+Available Fighters: Blaze, bob, Frost, Hero, Iron, Shadow, steve, Thunder, Valor
+============================================================
+
+
+--- Battle 1: Iron vs Shadow ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack HIT! (14 vs 5). Dealt 2 Pierce.
+  Attack HIT! (19 vs 3). Dealt 4 Pierce.
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (5 vs 14)
+  Attack HIT! (19 vs 11). Dealt 5 Pierce.
+  Attack MISSED. (4 vs 11)
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (5 vs 21)
+  Attack HIT! (18 vs 13). Dealt 4 Pierce.
+  Attack MISSED. (7 vs 12)
+  Attack HIT! (20 vs 8). Dealt 3 Pierce.
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(15) vs Shadow(2)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (1 vs 10)
+  Attack MISSED. (11 vs 19)
+  Attack HIT! (17 vs 10). Dealt 4 Pierce.
+  Attack HIT! (17 vs 9). Dealt 4 Pierce.
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (12 vs 17)
+  Attack MISSED. (6 vs 13)
+  Attack HIT! (16 vs 3). Dealt 1 Pierce.
+  Attack HIT! (4 vs 2). Dealt 1 Pierce.
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Iron(7)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (16 vs 20)
+  Attack MISSED. (2 vs 20)
+  Attack MISSED. (16 vs 19)
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (1 vs 13)
+  Attack MISSED. (7 vs 10)
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(3) vs Iron(15)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 19)
+  Attack HIT! (18 vs 7). Dealt 4 Pierce.
+  Attack MISSED. (7 vs 11)
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(10) vs Iron(1)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (13 vs 16)
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(13) vs Shadow(17)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (6 vs 18)
+  Attack MISSED. (1 vs 9)
+  Attack HIT! (14 vs 8). Dealt 4 Pierce.
+  Attack HIT! (13 vs 5). Dealt 2 Pierce.
+  Attack HIT! (8 vs 6). Dealt 2 Pierce.
+  CLASH TRIGGERED! (7 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(3) vs Shadow(3)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 18)
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (3 vs 14)
+  Attack MISSED. (3 vs 15)
+  CLASH TRIGGERED! (12 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(17) vs Shadow(9)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (14 vs 6). Dealt 5 Pierce.
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(20) vs Shadow(8)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 12)
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(1) vs Shadow(13)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (16 vs 21)
+  Attack MISSED. (2 vs 6)
+  Attack MISSED. (9 vs 21)
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(8) vs Shadow(8)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Iron 7HP | Shadow 31HP
+
+--- Battle 2: Valor vs Iron ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+
+  Attack HIT! (21 vs 12). Dealt 1 Bludgeon.
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (11 vs 17)
+  Attack HIT! (14 vs 10). Dealt 2 Pierce.
+  Attack HIT! (10 vs 8). Dealt 1 Bludgeon.
+  Attack MISSED. (1 vs 21)
+  Attack MISSED. (3 vs 9)
+  Attack MISSED. (3 vs 11)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(16) vs Iron(12)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (20 vs 5). Dealt 4 Pierce.
+  Attack HIT! (9 vs 7). Dealt 3 Bludgeon.
+  Attack HIT! (19 vs 15). Dealt 3 Pierce.
+  Attack MISSED. (10 vs 16)
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(11) vs Valor(6)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(8) vs Iron(18)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack MISSED. (8 vs 10)
+  Attack MISSED. (10 vs 21)
+  Attack MISSED. (16 vs 18)
+  Attack HIT! (17 vs 13). Dealt 4 Bludgeon.
+  Attack HIT! (20 vs 14). Dealt 2 Pierce.
+  Attack MISSED. (16 vs 22)
+  Attack MISSED. (6 vs 10)
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (4 vs 18)
+  Attack HIT! (13 vs 5). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(16) vs Valor(2)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (20 vs 7). Dealt 4 Bludgeon.
+  Attack MISSED. (3 vs 17)
+  Attack HIT! (17 vs 10). Dealt 1 Bludgeon.
+  Attack HIT! (17 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (11 vs 21)
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(14) vs Valor(12)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (7 vs 22)
+  Attack HIT! (11 vs 9). Dealt 2 Pierce.
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(15) vs Iron(7)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (12 vs 17)
+  Attack HIT! (10 vs 4). Dealt 1 Bludgeon.
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (9 vs 11)
+  Attack HIT! (21 vs 7). Dealt 2 Bludgeon.
+  Attack HIT! (14 vs 5). Dealt 2 Pierce.
+  Attack HIT! (17 vs 4). Dealt 4 Bludgeon.
+  Attack HIT! (17 vs 8). Dealt 3 Pierce.
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (6 vs 15)
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(1) vs Iron(14)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack MISSED. (2 vs 5)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs Iron(17)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack HIT! (11 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (6 vs 10)
+  Attack HIT! (20 vs 3). Dealt 1 Pierce.
+  Attack HIT! (18 vs 3). Dealt 2 Bludgeon.
+  Attack HIT! (18 vs 13). Dealt 2 Pierce.
+  Attack MISSED. (2 vs 16)
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(1) vs Valor(6)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 12)
+  Attack HIT! (17 vs 11). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 11)
+  Attack HIT! (12 vs 8). Dealt 4 Pierce.
+
+  >> Iron (HP) WINS in 30 turns!
+  Final: Valor 10HP | Iron 16HP
+
+--- Battle 3: Frost vs Shadow ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  CLASH TRIGGERED! (12 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(9) vs Shadow(9)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (11 vs 7). Dealt 4 Pierce.
+  Attack HIT! (7 vs 5). Dealt 6 Bludgeon.
+  Attack HIT! (12 vs 8). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 11)
+  Attack MISSED. (10 vs 20)
+  Attack MISSED. (8 vs 17)
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(17) vs Frost(17)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (14 vs 5). Dealt 5 Bludgeon.
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(3) vs Frost(20)
+  [CLASH RESULT] Frost WINS! Disarmed (Status Applied)
+  Attack MISSED. (9 vs 13)
+  Attack HIT! (10 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (19 vs 21)
+  Attack HIT! (19 vs 17). Dealt 1 Pierce.
+  Attack HIT! (15 vs 8). Dealt 3 Bludgeon.
+  Attack HIT! (17 vs 13). Dealt 2 Pierce.
+  Attack HIT! (16 vs 11). Dealt 5 Bludgeon.
+  Attack HIT! (11 vs 4). Dealt 2 Pierce.
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(11) vs Shadow(15)
+  [CLASH RESULT] Shadow WINS! Matador Feint
+  Attack HIT! (16 vs 8). Dealt 2 Pierce.
+  Attack HIT! (7 vs 4). Dealt 1 Bludgeon.
+  Attack MISSED. (1 vs 5)
+  Attack HIT! (11 vs 7). Dealt 4 Bludgeon.
+  Attack HIT! (18 vs 13). Dealt 4 Pierce.
+  Attack HIT! (13 vs 10). Dealt 1 Bludgeon.
+  Attack MISSED. (15 vs 20)
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(4) vs Shadow(1)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  CLASH TRIGGERED! (5 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(3) vs Frost(3)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (18 vs 11). Dealt 1 Bludgeon.
+  Attack MISSED. (11 vs 17)
+  Attack MISSED. (5 vs 9)
+  Attack HIT! (20 vs 3). Dealt 3 Pierce.
+  Attack MISSED. (1 vs 21)
+  Attack MISSED. (1 vs 14)
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (2 vs 20)
+  Attack MISSED. (1 vs 7)
+  Attack HIT! (8 vs 4). Dealt 3 Pierce.
+  Attack HIT! (17 vs 10). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 16)
+  Attack MISSED. (11 vs 13)
+  Attack HIT! (19 vs 14). Dealt 6 Pierce.
+  Attack HIT! (13 vs 4). Dealt 6 Bludgeon.
+  Attack HIT! (14 vs 10). Dealt 3 Pierce.
+  Attack MISSED. (14 vs 16)
+  Attack MISSED. (7 vs 13)
+  Attack HIT! (20 vs 4). Dealt 2 Bludgeon.
+  Attack HIT! (18 vs 4). Dealt 6 Pierce.
+
+  >> Shadow WINS in 24 turns!
+  Final: Frost 0HP | Shadow 7HP
+
+--- Battle 4: Thunder vs Hero ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(1) vs Thunder(11)
+  [CLASH RESULT] Thunder WINS! Disarmed (Status Applied)
+  Attack MISSED. (13 vs 16)
+  Attack HIT! (11 vs 9). Dealt 4 Pierce.
+  Attack MISSED. (7 vs 16)
+  Attack MISSED. (3 vs 19)
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (15 vs 11). Dealt 6 Pierce.
+  Attack HIT! (14 vs 5). Dealt 5 Slash.
+  Attack MISSED. (17 vs 19)
+  Attack MISSED. (3 vs 6)
+  Attack HIT! (13 vs 10). Dealt 6 Pierce.
+  Attack HIT! (17 vs 5). Dealt 7 Slash.
+  Attack HIT! (18 vs 7). Dealt 5 Pierce.
+  Attack HIT! (16 vs 7). Dealt 2 Slash.
+  Attack HIT! (19 vs 4). Dealt 4 Pierce.
+  Attack MISSED. (18 vs 21)
+  Attack MISSED. (7 vs 16)
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (19 vs 15). Dealt 6 Pierce.
+  Attack MISSED. (8 vs 15)
+  Attack MISSED. (3 vs 16)
+  Attack HIT! (11 vs 7). Dealt 5 Slash.
+  Attack HIT! (18 vs 10). Dealt 1 Pierce.
+  Attack MISSED. (1 vs 11)
+  Attack MISSED. (3 vs 11)
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(14) vs Hero(4)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(19) vs Thunder(12)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack HIT! (9 vs 2). Dealt 6 Slash.
+  Attack MISSED. (9 vs 22)
+  Attack HIT! (7 vs 5). Dealt 5 Slash.
+  Attack MISSED. (10 vs 12)
+  Attack MISSED. (1 vs 17)
+  Attack HIT! (9 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (7 vs 21)
+  Attack MISSED. (3 vs 9)
+  Attack MISSED. (9 vs 14)
+  Attack HIT! (11 vs 3). Dealt 6 Pierce.
+
+  >> Hero WINS in 19 turns!
+  Final: Thunder 0HP | Hero 10HP
+
+--- Battle 5: Iron vs Shadow ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack MISSED. (8 vs 19)
+  Attack HIT! (18 vs 3). Dealt 5 Pierce.
+  Attack MISSED. (1 vs 16)
+  Attack HIT! (7 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (2 vs 10)
+  Attack MISSED. (5 vs 22)
+  Attack HIT! (10 vs 5). Dealt 1 Pierce.
+  Attack HIT! (18 vs 13). Dealt 4 Pierce.
+  Attack MISSED. (10 vs 16)
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Iron(17)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (13 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (2 vs 8)
+  Attack MISSED. (1 vs 11)
+  Attack HIT! (19 vs 4). Dealt 4 Pierce.
+  Attack MISSED. (18 vs 22)
+  Attack MISSED. (7 vs 11)
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (1 vs 10)
+  Attack MISSED. (4 vs 9)
+  Attack HIT! (18 vs 16). Dealt 4 Pierce.
+  Attack HIT! (17 vs 5). Dealt 4 Pierce.
+  Attack HIT! (16 vs 14). Dealt 2 Pierce.
+  Attack MISSED. (4 vs 18)
+  Attack HIT! (20 vs 15). Dealt 3 Pierce.
+  Attack HIT! (14 vs 3). Dealt 2 Pierce.
+  Attack MISSED. (3 vs 7)
+  Attack HIT! (19 vs 3). Dealt 5 Pierce.
+  Attack HIT! (14 vs 9). Dealt 4 Pierce.
+  Attack HIT! (20 vs 8). Dealt 5 Pierce.
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (15 vs 10). Dealt 5 Pierce.
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (17 vs 15). Dealt 2 Pierce.
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (3 vs 5)
+  Attack MISSED. (12 vs 18)
+  Attack MISSED. (18 vs 20)
+  Attack HIT! (8 vs 2). Dealt 1 Pierce.
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(12) vs Iron(20)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (19 vs 17). Dealt 3 Pierce.
+  Attack MISSED. (5 vs 13)
+  Attack HIT! (13 vs 3). Dealt 1 Pierce.
+  Attack MISSED. (10 vs 12)
+  Attack HIT! (16 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (1 vs 7)
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (12 vs 14)
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (5 vs 16)
+  Attack MISSED. (1 vs 17)
+  Attack HIT! (16 vs 12). Dealt 4 Pierce.
+  Attack MISSED. (3 vs 5)
+  Attack HIT! (20 vs 14). Dealt 3 Pierce.
+
+  >> Shadow WINS in 27 turns!
+  Final: Iron 0HP | Shadow 14HP
+
+--- Battle 6: Frost vs steve ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+
+  Attack MISSED. (13 vs 18)
+  Attack MISSED. (7 vs 12)
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(6) vs steve(8)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (5 vs 8)
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (13 vs 16)
+  Attack MISSED. (10 vs 21)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (4 vs 18)
+  Attack HIT! (20 vs 8). Dealt 2 Bludgeoning.
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (4 vs 13)
+  CLASH TRIGGERED! (9 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(3) vs steve(20)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack HIT! (12 vs 10). Dealt 3 Bludgeoning.
+  Attack MISSED. (4 vs 19)
+  Attack HIT! (15 vs 3). Dealt 2 Bludgeoning.
+  Attack MISSED. (7 vs 16)
+  Attack MISSED. (2 vs 10)
+  Attack HIT! (19 vs 13). Dealt 4 Bludgeon.
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (18 vs 10). Dealt 2 Bludgeon.
+  Attack HIT! (21 vs 14). Dealt 3 Bludgeoning.
+  Attack HIT! (12 vs 4). Dealt 4 Bludgeon.
+  Attack MISSED. (10 vs 13)
+  Attack MISSED. (7 vs 22)
+  Attack HIT! (21 vs 7). Dealt 2 Bludgeoning.
+  Attack HIT! (19 vs 13). Dealt 5 Bludgeon.
+  Attack HIT! (19 vs 15). Dealt 1 Bludgeoning.
+  Attack HIT! (17 vs 14). Dealt 5 Bludgeon.
+  Attack HIT! (19 vs 12). Dealt 2 Bludgeoning.
+  Attack MISSED. (9 vs 16)
+  Attack HIT! (9 vs 5). Dealt 4 Bludgeoning.
+  Attack MISSED. (9 vs 22)
+  Attack MISSED. (15 vs 19)
+  CLASH TRIGGERED! (17 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(6) vs steve(3)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (2 vs 13)
+  Attack HIT! (15 vs 3). Dealt 4 Bludgeon.
+  Attack MISSED. (3 vs 15)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(5) vs steve(13)
+  [CLASH RESULT] steve WINS! Matador Feint
+  CLASH TRIGGERED! (21 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(13) vs Frost(16)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (10 vs 5). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(14) vs Frost(1)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (1 vs 22)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(19) vs Frost(11)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack HIT! (18 vs 13). Dealt 4 Bludgeon.
+  Attack HIT! (7 vs 4). Dealt 2 Bludgeoning.
+  Attack MISSED. (4 vs 21)
+  Attack MISSED. (6 vs 18)
+  Attack MISSED. (1 vs 8)
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (16 vs 22)
+  Attack MISSED. (9 vs 17)
+  Attack MISSED. (1 vs 21)
+  CLASH TRIGGERED! (19 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(10) vs Frost(3)
+  [CLASH RESULT] steve WINS! Matador Feint
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(14) vs steve(1)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (18 vs 12). Dealt 1 Bludgeoning.
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (20 vs 12). Dealt 1 Bludgeoning.
+  Attack MISSED. (3 vs 10)
+  Attack HIT! (19 vs 13). Dealt 3 Bludgeoning.
+
+  >> Frost (HP) WINS in 30 turns!
+  Final: Frost 17HP | steve 12HP
+
+--- Battle 7: Thunder vs Frost ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+
+  Attack HIT! (16 vs 8). Dealt 2 Slash.
+  Attack MISSED. (5 vs 11)
+  Attack HIT! (9 vs 7). Dealt 5 Slash.
+  Attack MISSED. (11 vs 15)
+  Attack MISSED. (14 vs 16)
+  Attack HIT! (12 vs 7). Dealt 5 Bludgeon.
+  Attack MISSED. (8 vs 17)
+  Attack MISSED. (1 vs 3)
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(17) vs Frost(6)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(3) vs Thunder(19)
+  [CLASH RESULT] Thunder WINS! Matador Feint
+  Attack HIT! (18 vs 14). Dealt 4 Slash.
+  Attack MISSED. (19 vs 21)
+  Attack HIT! (19 vs 14). Dealt 1 Slash.
+  Attack HIT! (8 vs 4). Dealt 4 Bludgeon.
+  Attack MISSED. (7 vs 14)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(13) vs Thunder(16)
+  [CLASH RESULT] Thunder WINS! Matador Feint
+
+  >> DRAW WINS in 30 turns!
+  Final: Thunder 31HP | Frost 31HP
+
+--- Battle 8: Iron vs Thunder ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Attack MISSED. (6 vs 9)
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(20) vs Iron(14)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(17) vs Thunder(16)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (17 vs 13). Dealt 5 Slash.
+  Attack MISSED. (14 vs 20)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(16) vs Iron(2)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack HIT! (15 vs 8). Dealt 4 Pierce.
+  Attack MISSED. (10 vs 20)
+  Attack HIT! (19 vs 15). Dealt 3 Pierce.
+  Attack HIT! (20 vs 6). Dealt 5 Slash.
+  Attack MISSED. (8 vs 22)
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(16) vs Iron(17)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (14 vs 21)
+  Attack HIT! (19 vs 10). Dealt 3 Slash.
+  Attack HIT! (13 vs 3). Dealt 3 Pierce.
+  Attack MISSED. (12 vs 16)
+  Attack MISSED. (13 vs 20)
+  Attack MISSED. (12 vs 20)
+  Attack HIT! (13 vs 10). Dealt 1 Pierce.
+  Attack MISSED. (12 vs 16)
+  Attack MISSED. (10 vs 16)
+  Attack MISSED. (1 vs 13)
+  Attack HIT! (18 vs 16). Dealt 3 Pierce.
+  Attack MISSED. (6 vs 11)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(10) vs Thunder(8)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (18 vs 8). Dealt 5 Slash.
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (6 vs 21)
+  Attack MISSED. (17 vs 19)
+  Attack MISSED. (1 vs 13)
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (20 vs 22)
+  Attack MISSED. (1 vs 11)
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (15 vs 22)
+  Attack HIT! (14 vs 3). Dealt 5 Slash.
+  Attack HIT! (12 vs 7). Dealt 1 Pierce.
+  Attack MISSED. (11 vs 14)
+  Attack HIT! (16 vs 8). Dealt 1 Pierce.
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(14) vs Iron(7)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (7 vs 20)
+  Attack HIT! (20 vs 17). Dealt 1 Slash.
+  Attack HIT! (16 vs 13). Dealt 1 Pierce.
+  Attack HIT! (19 vs 6). Dealt 8 Slash.
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (20 vs 3). Dealt 5 Slash.
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (4 vs 11)
+  Attack HIT! (8 vs 5). Dealt 1 Pierce.
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(17) vs Iron(2)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (3 vs 8)
+  Attack MISSED. (1 vs 12)
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(20) vs Iron(6)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (2 vs 18)
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(6) vs Iron(15)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (4 vs 12)
+  Attack HIT! (18 vs 6). Dealt 8 Slash.
+
+  >> Thunder WINS in 30 turns!
+  Final: Iron 0HP | Thunder 22HP
+
+--- Battle 9: Thunder vs Shadow ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack MISSED. (3 vs 8)
+  Attack HIT! (20 vs 7). Dealt 1 Pierce.
+  Attack HIT! (20 vs 18). Dealt 8 Slash.
+  Attack MISSED. (7 vs 15)
+  Attack HIT! (18 vs 13). Dealt 4 Slash.
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (18 vs 14). Dealt 2 Slash.
+  Attack MISSED. (10 vs 12)
+  Attack MISSED. (5 vs 12)
+  Attack MISSED. (4 vs 15)
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(10) vs Shadow(5)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (9 vs 18)
+  CLASH TRIGGERED! (17 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(17) vs Shadow(18)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  Attack MISSED. (7 vs 15)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(13) vs Shadow(18)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  Attack MISSED. (15 vs 17)
+  Attack HIT! (16 vs 12). Dealt 6 Slash.
+  Attack MISSED. (16 vs 20)
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(18) vs Shadow(19)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  Attack HIT! (13 vs 3). Dealt 4 Pierce.
+  Attack HIT! (18 vs 9). Dealt 8 Slash.
+  Attack MISSED. (9 vs 15)
+  Attack HIT! (8 vs 5). Dealt 5 Slash.
+  Attack HIT! (10 vs 6). Dealt 5 Pierce.
+  Attack HIT! (8 vs 6). Dealt 8 Slash.
+  Attack HIT! (14 vs 9). Dealt 1 Pierce.
+  Attack HIT! (13 vs 5). Dealt 2 Slash.
+
+  >> Thunder WINS in 14 turns!
+  Final: Thunder 29HP | Shadow 0HP
+
+--- Battle 10: Iron vs Thunder ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Attack MISSED. (9 vs 14)
+  Attack MISSED. (6 vs 21)
+  Attack HIT! (10 vs 8). Dealt 3 Slash.
+  Attack MISSED. (3 vs 17)
+  Attack MISSED. (7 vs 13)
+  Attack MISSED. (1 vs 14)
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(16) vs Iron(2)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (18 vs 22)
+  Attack MISSED. (7 vs 11)
+  Attack MISSED. (10 vs 16)
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(10) vs Iron(2)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(17) vs Thunder(3)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (2 vs 9)
+  Attack MISSED. (19 vs 22)
+  Attack MISSED. (7 vs 18)
+  Attack MISSED. (10 vs 14)
+  Attack MISSED. (5 vs 19)
+  Attack MISSED. (14 vs 22)
+  Attack HIT! (16 vs 4). Dealt 4 Pierce.
+  Attack MISSED. (7 vs 10)
+  Attack HIT! (17 vs 15). Dealt 3 Pierce.
+  Attack HIT! (14 vs 10). Dealt 6 Slash.
+  Attack MISSED. (6 vs 10)
+  Attack MISSED. (5 vs 7)
+  Attack MISSED. (13 vs 16)
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(15) vs Iron(20)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack HIT! (20 vs 6). Dealt 2 Pierce.
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (1 vs 21)
+  Attack HIT! (18 vs 11). Dealt 3 Slash.
+  Attack HIT! (9 vs 3). Dealt 2 Pierce.
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(9) vs Iron(15)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (13 vs 17)
+  Attack HIT! (16 vs 11). Dealt 4 Slash.
+  Attack HIT! (18 vs 12). Dealt 2 Pierce.
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(4) vs Iron(7)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (10 vs 16)
+  Attack HIT! (15 vs 5). Dealt 3 Slash.
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(4) vs Thunder(15)
+  [CLASH RESULT] Thunder WINS! Disarmed (Status Applied)
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (7 vs 12)
+  Attack MISSED. (1 vs 20)
+  Attack MISSED. (4 vs 14)
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(4) vs Iron(14)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack HIT! (13 vs 4). Dealt 2 Pierce.
+  Attack HIT! (20 vs 16). Dealt 5 Slash.
+  Attack MISSED. (1 vs 21)
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(16) vs Iron(1)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (6 vs 16)
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(20) vs Iron(1)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (18 vs 11). Dealt 5 Slash.
+  Attack MISSED. (2 vs 6)
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(2) vs Iron(10)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (7 vs 22)
+  Attack HIT! (18 vs 4). Dealt 6 Slash.
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (3 vs 5)
+  Attack HIT! (10 vs 7). Dealt 4 Pierce.
+
+  >> Thunder (HP) WINS in 30 turns!
+  Final: Iron 6HP | Thunder 21HP
+
+--- Battle 11: Shadow vs Blaze ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+
+  Attack MISSED. (6 vs 19)
+  Attack HIT! (11 vs 6). Dealt 1 Bludgeon.
+  Attack HIT! (16 vs 2). Dealt 4 Pierce.
+  Attack MISSED. (1 vs 15)
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(18) vs Blaze(16)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 14)
+  Attack MISSED. (3 vs 19)
+  Attack MISSED. (7 vs 10)
+  Attack MISSED. (5 vs 18)
+  Attack HIT! (20 vs 3). Dealt 3 Bludgeon.
+  Attack HIT! (17 vs 7). Dealt 3 Pierce.
+  Attack MISSED. (13 vs 21)
+  Attack MISSED. (1 vs 16)
+  Attack MISSED. (9 vs 19)
+  Attack MISSED. (17 vs 19)
+  Attack MISSED. (9 vs 15)
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(13) vs Blaze(11)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 13)
+  Attack HIT! (14 vs 5). Dealt 1 Pierce.
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(3) vs Shadow(18)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (17 vs 20)
+  Attack HIT! (20 vs 12). Dealt 2 Bludgeon.
+  Attack HIT! (19 vs 6). Dealt 6 Pierce.
+  Attack HIT! (20 vs 4). Dealt 1 Bludgeon.
+  Attack HIT! (15 vs 4). Dealt 2 Pierce.
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(19) vs Shadow(10)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (8 vs 5). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 8)
+  Attack HIT! (9 vs 4). Dealt 3 Pierce.
+  Attack HIT! (18 vs 14). Dealt 2 Bludgeon.
+  Attack MISSED. (1 vs 17)
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(13) vs Shadow(19)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (6 vs 14)
+  Attack HIT! (10 vs 8). Dealt 6 Pierce.
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(3) vs Shadow(12)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (9 vs 16)
+  Attack HIT! (17 vs 11). Dealt 3 Bludgeon.
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (1 vs 14)
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(15) vs Blaze(10)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (18 vs 12). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(10) vs Blaze(11)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 16)
+  Attack HIT! (8 vs 5). Dealt 2 Pierce.
+  Attack HIT! (17 vs 2). Dealt 2 Bludgeon.
+  Attack MISSED. (13 vs 21)
+  Attack MISSED. (4 vs 17)
+  Attack MISSED. (9 vs 19)
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (16 vs 18)
+  Attack HIT! (9 vs 2). Dealt 5 Pierce.
+  Attack HIT! (14 vs 8). Dealt 1 Bludgeon.
+  Attack HIT! (17 vs 15). Dealt 1 Pierce.
+  Attack HIT! (20 vs 13). Dealt 1 Bludgeon.
+  Attack MISSED. (6 vs 12)
+  Attack MISSED. (4 vs 15)
+  Attack HIT! (20 vs 13). Dealt 2 Pierce.
+  Attack HIT! (8 vs 6). Dealt 2 Bludgeon.
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Shadow 21HP | Blaze 5HP
+
+--- Battle 12: Thunder vs Shadow ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack HIT! (13 vs 9). Dealt 4 Pierce.
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(10) vs Shadow(5)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (1 vs 6)
+  CLASH TRIGGERED! (9 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(14) vs Shadow(8)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (8 vs 14)
+  Attack MISSED. (8 vs 15)
+  Attack MISSED. (4 vs 9)
+  Attack MISSED. (6 vs 11)
+  Attack MISSED. (11 vs 21)
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (6 vs 4). Dealt 3 Pierce.
+  Attack HIT! (16 vs 14). Dealt 7 Slash.
+  Attack HIT! (17 vs 11). Dealt 3 Pierce.
+  Attack HIT! (10 vs 8). Dealt 4 Slash.
+  Attack HIT! (10 vs 5). Dealt 3 Pierce.
+  Attack MISSED. (14 vs 16)
+  Attack MISSED. (5 vs 10)
+  Attack HIT! (19 vs 16). Dealt 1 Slash.
+  Attack HIT! (17 vs 12). Dealt 6 Pierce.
+  Attack MISSED. (8 vs 16)
+  Attack MISSED. (1 vs 18)
+  Attack MISSED. (5 vs 8)
+  Attack HIT! (12 vs 6). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 5)
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (7 vs 17)
+  Attack MISSED. (10 vs 18)
+  Attack MISSED. (2 vs 13)
+  Attack HIT! (17 vs 8). Dealt 4 Pierce.
+  Attack HIT! (14 vs 9). Dealt 7 Slash.
+  Attack MISSED. (6 vs 21)
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(15) vs Shadow(3)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (1 vs 20)
+  Attack HIT! (8 vs 5). Dealt 3 Slash.
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(13) vs Thunder(19)
+  [CLASH RESULT] Thunder WINS! Disarmed (Status Applied)
+  Attack HIT! (20 vs 18). Dealt 2 Slash.
+  Attack HIT! (12 vs 5). Dealt 3 Pierce.
+  Attack HIT! (10 vs 5). Dealt 8 Slash.
+  Attack MISSED. (4 vs 7)
+  Attack HIT! (10 vs 5). Dealt 4 Slash.
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (13 vs 16)
+  Attack MISSED. (5 vs 16)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(6) vs Shadow(10)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  Attack HIT! (8 vs 3). Dealt 5 Pierce.
+  Attack HIT! (15 vs 9). Dealt 1 Slash.
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(17) vs Thunder(19)
+  [CLASH RESULT] Thunder WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(20) vs Shadow(0)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack HIT! (12 vs 4). Dealt 3 Pierce.
+
+  >> Shadow WINS in 25 turns!
+  Final: Thunder 0HP | Shadow 5HP
+
+--- Battle 13: steve vs Blaze ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (13 vs 4). Dealt 3 Bludgeoning.
+  Attack MISSED. (5 vs 10)
+  Attack MISSED. (11 vs 15)
+  Attack HIT! (19 vs 13). Dealt 4 Bludgeon.
+  Attack HIT! (9 vs 3). Dealt 4 Bludgeoning.
+  Attack HIT! (18 vs 6). Dealt 4 Bludgeon.
+  Attack HIT! (16 vs 10). Dealt 1 Bludgeoning.
+  Attack HIT! (17 vs 7). Dealt 3 Bludgeon.
+  Attack HIT! (20 vs 5). Dealt 3 Bludgeoning.
+  Attack HIT! (10 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (6 vs 11)
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(8) vs steve(10)
+  [CLASH RESULT] steve WINS! Bulwark Shove
+  Attack HIT! (21 vs 14). Dealt 4 Bludgeoning.
+  Attack MISSED. (12 vs 20)
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(19) vs Blaze(20)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+  Attack HIT! (14 vs 3). Dealt 3 Bludgeon.
+  Attack MISSED. (16 vs 21)
+  Attack MISSED. (5 vs 18)
+  Attack HIT! (18 vs 11). Dealt 4 Bludgeoning.
+  Attack HIT! (18 vs 9). Dealt 4 Bludgeon.
+  Attack HIT! (18 vs 12). Dealt 3 Bludgeoning.
+  Attack MISSED. (3 vs 5)
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(5) vs Blaze(11)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+  Attack MISSED. (7 vs 14)
+  Attack HIT! (17 vs 7). Dealt 4 Bludgeoning.
+  Attack MISSED. (5 vs 17)
+  Attack MISSED. (11 vs 18)
+  Attack MISSED. (15 vs 17)
+  Attack MISSED. (8 vs 20)
+  Attack MISSED. (2 vs 15)
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (4 vs 18)
+  CLASH TRIGGERED! (19 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(5) vs Blaze(11)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (3 vs 7)
+  Attack MISSED. (7 vs 19)
+  Attack MISSED. (9 vs 21)
+  Attack MISSED. (2 vs 16)
+  Attack MISSED. (4 vs 15)
+  Attack HIT! (20 vs 12). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 17)
+  Attack MISSED. (8 vs 16)
+  Attack MISSED. (11 vs 13)
+  Attack MISSED. (6 vs 10)
+  Attack HIT! (20 vs 15). Dealt 2 Bludgeoning.
+  Attack MISSED. (15 vs 19)
+  CLASH TRIGGERED! (21 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(2) vs Blaze(17)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+
+  >> steve (HP) WINS in 30 turns!
+  Final: steve 21HP | Blaze 15HP
+
+--- Battle 14: Shadow vs Valor ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (20 vs 6). Dealt 5 Pierce.
+  Attack MISSED. (2 vs 14)
+  Attack HIT! (18 vs 16). Dealt 2 Pierce.
+  Attack MISSED. (8 vs 15)
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (7 vs 11)
+  Attack MISSED. (16 vs 21)
+  Attack MISSED. (8 vs 13)
+  Attack MISSED. (4 vs 8)
+  Attack MISSED. (2 vs 9)
+  Attack HIT! (11 vs 4). Dealt 6 Pierce.
+  Attack MISSED. (4 vs 14)
+  Attack MISSED. (1 vs 8)
+  Attack MISSED. (10 vs 21)
+  Attack HIT! (19 vs 12). Dealt 2 Pierce.
+  Attack MISSED. (11 vs 16)
+  Attack HIT! (20 vs 14). Dealt 5 Pierce.
+  Attack HIT! (8 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (15 vs 12). Dealt 3 Pierce.
+  Attack MISSED. (9 vs 19)
+  Attack MISSED. (4 vs 6)
+  Attack HIT! (6 vs 3). Dealt 3 Bludgeon.
+  Attack MISSED. (8 vs 21)
+  Attack HIT! (20 vs 16). Dealt 4 Bludgeon.
+  Attack MISSED. (5 vs 9)
+  Attack HIT! (8 vs 2). Dealt 3 Bludgeon.
+  Attack MISSED. (11 vs 21)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs Shadow(7)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  CLASH TRIGGERED! (17 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(8) vs Valor(1)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 18)
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (9 vs 21)
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (11 vs 13)
+  Attack HIT! (10 vs 6). Dealt 6 Pierce.
+  Attack MISSED. (7 vs 20)
+  Attack HIT! (20 vs 17). Dealt 1 Pierce.
+  Attack MISSED. (10 vs 12)
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(11) vs Valor(5)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 15)
+  Attack MISSED. (1 vs 6)
+  Attack MISSED. (5 vs 17)
+  Attack HIT! (18 vs 8). Dealt 1 Pierce.
+  Attack HIT! (17 vs 12). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(3) vs Valor(8)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  Attack MISSED. (15 vs 17)
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(8) vs Valor(17)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(13) vs Shadow(10)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (19 vs 11). Dealt 2 Pierce.
+  Attack MISSED. (10 vs 16)
+  Attack HIT! (19 vs 6). Dealt 4 Pierce.
+  Attack MISSED. (6 vs 11)
+  Attack HIT! (14 vs 4). Dealt 2 Pierce.
+  Attack HIT! (19 vs 2). Dealt 2 Bludgeon.
+  Attack HIT! (18 vs 15). Dealt 4 Pierce.
+  Attack HIT! (14 vs 8). Dealt 4 Bludgeon.
+  Attack MISSED. (11 vs 16)
+  Attack HIT! (15 vs 4). Dealt 4 Bludgeon.
+  Attack MISSED. (9 vs 14)
+  Attack HIT! (16 vs 8). Dealt 1 Bludgeon.
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Shadow 17HP | Valor 1HP
+
+--- Battle 15: Valor vs Shadow ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack MISSED. (7 vs 13)
+  Attack HIT! (15 vs 10). Dealt 6 Pierce.
+  Attack HIT! (20 vs 10). Dealt 4 Bludgeon.
+  Attack MISSED. (3 vs 7)
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(6) vs Shadow(10)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack HIT! (15 vs 13). Dealt 3 Pierce.
+  Attack MISSED. (8 vs 15)
+  Attack HIT! (14 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (2 vs 16)
+  Attack MISSED. (10 vs 13)
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (1 vs 22)
+  Attack MISSED. (14 vs 17)
+  Attack MISSED. (17 vs 19)
+  Attack HIT! (19 vs 7). Dealt 2 Bludgeon.
+  Attack HIT! (13 vs 7). Dealt 4 Pierce.
+  Attack HIT! (13 vs 3). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Valor(14)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (21 vs 17). Dealt 4 Bludgeon.
+  Attack HIT! (13 vs 7). Dealt 1 Pierce.
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(16) vs Shadow(20)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (8 vs 19)
+  Attack MISSED. (7 vs 20)
+  Attack HIT! (18 vs 13). Dealt 1 Pierce.
+  Attack MISSED. (9 vs 16)
+  Attack HIT! (19 vs 11). Dealt 3 Pierce.
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (11 vs 7). Dealt 1 Pierce.
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (19 vs 8). Dealt 1 Pierce.
+  Attack HIT! (16 vs 11). Dealt 2 Bludgeon.
+  Attack MISSED. (5 vs 13)
+  Attack HIT! (20 vs 14). Dealt 4 Bludgeon.
+  Attack MISSED. (11 vs 21)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(7) vs Shadow(8)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (20 vs 6). Dealt 4 Bludgeon.
+  Attack MISSED. (15 vs 17)
+  Attack HIT! (10 vs 6). Dealt 1 Bludgeon.
+  Attack MISSED. (19 vs 21)
+  Attack HIT! (19 vs 15). Dealt 4 Bludgeon.
+  Attack MISSED. (14 vs 22)
+  Attack MISSED. (5 vs 11)
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(3) vs Valor(11)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  Attack HIT! (16 vs 12). Dealt 3 Bludgeon.
+  Attack HIT! (12 vs 6). Dealt 5 Pierce.
+  Attack MISSED. (2 vs 9)
+  Attack MISSED. (1 vs 6)
+  Attack MISSED. (5 vs 8)
+  Attack MISSED. (12 vs 14)
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (17 vs 22)
+  Attack MISSED. (12 vs 16)
+  Attack HIT! (15 vs 10). Dealt 5 Pierce.
+  Attack HIT! (20 vs 3). Dealt 4 Bludgeon.
+  Attack HIT! (14 vs 9). Dealt 5 Pierce.
+  Attack MISSED. (11 vs 20)
+  Attack MISSED. (5 vs 20)
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Valor 5HP | Shadow 6HP
+
+--- Battle 16: steve vs Shadow ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack HIT! (13 vs 7). Dealt 6 Pierce.
+  Attack HIT! (20 vs 10). Dealt 4 Bludgeoning.
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (8 vs 17)
+  Attack HIT! (9 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 14)
+  Attack HIT! (18 vs 5). Dealt 5 Pierce.
+  Attack MISSED. (16 vs 19)
+  Attack MISSED. (12 vs 15)
+  Attack MISSED. (2 vs 4)
+  Attack MISSED. (3 vs 7)
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(6) vs Shadow(2)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (12 vs 15)
+  Attack MISSED. (4 vs 11)
+  Attack MISSED. (16 vs 19)
+  Attack MISSED. (13 vs 17)
+  Attack MISSED. (7 vs 20)
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(7) vs Shadow(7)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack HIT! (14 vs 4). Dealt 3 Pierce.
+  Attack HIT! (16 vs 5). Dealt 4 Bludgeoning.
+  Attack MISSED. (13 vs 21)
+  Attack HIT! (13 vs 4). Dealt 1 Bludgeoning.
+  Attack MISSED. (8 vs 10)
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (16 vs 9). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 13)
+  Attack HIT! (18 vs 16). Dealt 3 Pierce.
+  Attack MISSED. (10 vs 18)
+  Attack MISSED. (1 vs 7)
+  Attack HIT! (20 vs 7). Dealt 4 Bludgeoning.
+  Attack HIT! (20 vs 4). Dealt 2 Pierce.
+  Attack HIT! (13 vs 5). Dealt 3 Bludgeoning.
+  Attack HIT! (18 vs 10). Dealt 3 Pierce.
+  Attack MISSED. (4 vs 8)
+  Attack HIT! (15 vs 9). Dealt 3 Pierce.
+  Attack HIT! (9 vs 6). Dealt 1 Bludgeoning.
+  Attack HIT! (11 vs 3). Dealt 6 Pierce.
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(10) vs Shadow(19)
+  [CLASH RESULT] Shadow WINS! Matador Feint
+  Attack MISSED. (3 vs 14)
+  Attack HIT! (14 vs 9). Dealt 2 Bludgeoning.
+  Attack HIT! (19 vs 9). Dealt 2 Pierce.
+  Attack MISSED. (10 vs 15)
+  CLASH TRIGGERED! (12 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(14) vs steve(2)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (9 vs 7). Dealt 6 Pierce.
+
+  >> Shadow WINS in 23 turns!
+  Final: steve 0HP | Shadow 23HP
+
+--- Battle 17: bob vs Valor ---
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack MISSED. (4 vs 7)
+  Attack MISSED. (12 vs 15)
+  Attack HIT! (15 vs 11). Dealt 5 Pierce.
+  Attack HIT! (20 vs 6). Dealt 4 Bludgeon.
+  Attack HIT! (19 vs 14). Dealt 8 Pierce.
+  Attack HIT! (18 vs 6). Dealt 3 Bludgeon.
+  Attack MISSED. (5 vs 21)
+  Attack HIT! (20 vs 10). Dealt 4 Bludgeon.
+  Attack HIT! (17 vs 12). Dealt 2 Pierce.
+  Attack HIT! (21 vs 19). Dealt 4 Bludgeon.
+  Attack HIT! (13 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (17 vs 20)
+  Attack HIT! (13 vs 5). Dealt 5 Pierce.
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(10) vs bob(4)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (1 vs 17)
+  Attack HIT! (21 vs 10). Dealt 2 Bludgeon.
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (6 vs 17)
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(4) vs Valor(1)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (19 vs 21)
+  Attack MISSED. (7 vs 21)
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(8) vs bob(6)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (9 vs 15)
+  Attack HIT! (20 vs 17). Dealt 1 Bludgeon.
+  Attack HIT! (19 vs 12). Dealt 7 Pierce.
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(6) vs bob(20)
+  [CLASH RESULT] bob WINS! Bulwark Shove
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(10) vs Valor(9)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (7 vs 20)
+  Attack HIT! (19 vs 6). Dealt 2 Pierce.
+  Attack HIT! (16 vs 3). Dealt 1 Bludgeon.
+  Attack MISSED. (7 vs 19)
+  Attack HIT! (17 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (14 vs 8). Dealt 8 Pierce.
+  Attack MISSED. (7 vs 19)
+  Attack MISSED. (2 vs 22)
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (17 vs 3). Dealt 7 Pierce.
+
+  >> bob WINS in 19 turns!
+  Final: bob 31HP | Valor 0HP
+
+--- Battle 18: Frost vs Hero ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (14 vs 17)
+  Attack MISSED. (1 vs 20)
+  CLASH TRIGGERED! (17 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(2) vs Frost(8)
+  [CLASH RESULT] Frost WINS! Disarmed (Status Applied)
+  Attack HIT! (19 vs 15). Dealt 3 Bludgeon.
+  Attack HIT! (16 vs 5). Dealt 3 Pierce.
+  Attack HIT! (16 vs 14). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(13) vs Frost(18)
+  [CLASH RESULT] Frost WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 18)
+  Attack MISSED. (4 vs 19)
+  Attack MISSED. (11 vs 19)
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (13 vs 16)
+  Attack MISSED. (12 vs 18)
+  Attack MISSED. (12 vs 19)
+  Attack MISSED. (2 vs 14)
+  Attack MISSED. (1 vs 9)
+  Attack MISSED. (3 vs 9)
+  Attack MISSED. (3 vs 8)
+  Attack MISSED. (2 vs 7)
+  Attack HIT! (6 vs 3). Dealt 6 Bludgeon.
+  Attack HIT! (14 vs 7). Dealt 6 Pierce.
+  Attack MISSED. (3 vs 14)
+  Attack MISSED. (12 vs 20)
+  Attack HIT! (18 vs 7). Dealt 6 Bludgeon.
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (4 vs 20)
+  Attack MISSED. (6 vs 13)
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(13) vs Hero(3)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (6 vs 8)
+  Attack MISSED. (15 vs 21)
+  Attack MISSED. (8 vs 12)
+  Attack HIT! (14 vs 9). Dealt 2 Bludgeon.
+  Attack MISSED. (7 vs 12)
+  Attack MISSED. (2 vs 14)
+  Attack HIT! (17 vs 15). Dealt 6 Pierce.
+  Attack HIT! (16 vs 5). Dealt 4 Bludgeon.
+  Attack MISSED. (2 vs 10)
+  Attack MISSED. (1 vs 17)
+  Attack MISSED. (15 vs 18)
+  Attack HIT! (18 vs 2). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(11) vs Frost(17)
+  [CLASH RESULT] Frost WINS! Disarmed (Status Applied)
+  Attack HIT! (7 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (14 vs 19)
+  Attack MISSED. (15 vs 21)
+  Attack HIT! (10 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (12 vs 17)
+  Attack MISSED. (8 vs 14)
+  Attack MISSED. (11 vs 19)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(18) vs Frost(9)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack HIT! (17 vs 15). Dealt 5 Bludgeon.
+  Attack HIT! (11 vs 7). Dealt 5 Pierce.
+  Attack HIT! (14 vs 2). Dealt 5 Bludgeon.
+
+  >> Frost WINS in 27 turns!
+  Final: Frost 20HP | Hero 0HP
+
+--- Battle 19: Blaze vs Shadow ---
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack HIT! (10 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (1 vs 4)
+  Attack HIT! (12 vs 10). Dealt 5 Pierce.
+  Attack MISSED. (1 vs 9)
+  Attack MISSED. (8 vs 17)
+  Attack MISSED. (12 vs 16)
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (7 vs 17)
+  Attack HIT! (7 vs 5). Dealt 5 Pierce.
+  Attack HIT! (14 vs 6). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 21)
+  Attack MISSED. (1 vs 21)
+  Attack HIT! (12 vs 9). Dealt 3 Pierce.
+  Attack HIT! (7 vs 4). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (5 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(20) vs Blaze(10)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(19) vs Shadow(15)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack MISSED. (9 vs 18)
+  Attack MISSED. (14 vs 16)
+  Attack HIT! (10 vs 8). Dealt 3 Pierce.
+  Attack HIT! (20 vs 6). Dealt 3 Bludgeon.
+  Attack MISSED. (5 vs 16)
+  Attack MISSED. (13 vs 15)
+  Attack HIT! (19 vs 4). Dealt 2 Pierce.
+  Attack HIT! (19 vs 7). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(2) vs Blaze(20)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack HIT! (20 vs 15). Dealt 4 Bludgeon.
+  Attack MISSED. (2 vs 16)
+  Attack HIT! (18 vs 16). Dealt 4 Bludgeon.
+  Attack MISSED. (1 vs 21)
+  CLASH TRIGGERED! (11 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(16) vs Shadow(20)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack HIT! (14 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (12 vs 9). Dealt 5 Pierce.
+  Attack HIT! (20 vs 3). Dealt 4 Bludgeon.
+  Attack HIT! (11 vs 4). Dealt 5 Pierce.
+  Attack MISSED. (15 vs 21)
+  Attack MISSED. (1 vs 19)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(1) vs Shadow(9)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack HIT! (19 vs 15). Dealt 6 Pierce.
+  Attack HIT! (19 vs 12). Dealt 4 Bludgeon.
+  Attack MISSED. (10 vs 12)
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(2) vs Shadow(7)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (6 vs 8)
+  Attack MISSED. (1 vs 8)
+  Attack HIT! (19 vs 13). Dealt 4 Pierce.
+
+  >> Shadow WINS in 23 turns!
+  Final: Blaze 0HP | Shadow 15HP
+
+--- Battle 20: Valor vs bob ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+
+  CLASH TRIGGERED! (21 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs bob(15)
+  [CLASH RESULT] bob WINS! Bulwark Shove
+  Attack HIT! (11 vs 5). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (18 vs 9). Dealt 6 Pierce.
+  Attack HIT! (15 vs 2). Dealt 1 Bludgeon.
+  Attack MISSED. (6 vs 18)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(11) vs bob(9)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (10 vs 2). Dealt 4 Bludgeon.
+  Attack MISSED. (7 vs 19)
+  Attack MISSED. (13 vs 15)
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(14) vs Valor(19)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack MISSED. (6 vs 20)
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(5) vs Valor(4)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (13 vs 19)
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(3) vs Valor(5)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack MISSED. (3 vs 11)
+  Attack MISSED. (19 vs 22)
+  Attack MISSED. (2 vs 16)
+  Attack HIT! (20 vs 15). Dealt 8 Pierce.
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(9) vs bob(16)
+  [CLASH RESULT] bob WINS! Bulwark Shove
+  Attack HIT! (19 vs 9). Dealt 1 Pierce.
+  Attack HIT! (17 vs 13). Dealt 2 Bludgeon.
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (6 vs 18)
+  Attack MISSED. (2 vs 6)
+  Attack HIT! (11 vs 9). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(3) vs Valor(2)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack HIT! (19 vs 8). Dealt 2 Bludgeon.
+  Attack HIT! (14 vs 6). Dealt 1 Pierce.
+  Attack MISSED. (9 vs 11)
+  Attack MISSED. (1 vs 10)
+  Attack MISSED. (5 vs 19)
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(16) vs Valor(20)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (7 vs 22)
+  Attack MISSED. (8 vs 20)
+  Attack HIT! (5 vs 3). Dealt 4 Pierce.
+  Attack HIT! (19 vs 15). Dealt 2 Bludgeon.
+  Attack HIT! (16 vs 14). Dealt 4 Pierce.
+  Attack MISSED. (9 vs 14)
+  Attack MISSED. (5 vs 8)
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (18 vs 22)
+  Attack HIT! (20 vs 6). Dealt 4 Bludgeon.
+  Attack HIT! (18 vs 3). Dealt 1 Pierce.
+  Attack MISSED. (11 vs 21)
+  Attack MISSED. (9 vs 12)
+  Attack MISSED. (4 vs 19)
+  Attack MISSED. (8 vs 11)
+  Attack MISSED. (13 vs 18)
+  Attack HIT! (19 vs 5). Dealt 7 Pierce.
+  Attack MISSED. (5 vs 21)
+  Attack MISSED. (9 vs 13)
+  Attack HIT! (7 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (7 vs 10)
+  CLASH TRIGGERED! (7 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(13) vs bob(16)
+  [CLASH RESULT] bob WINS! Bulwark Shove
+  Attack MISSED. (12 vs 22)
+  Attack HIT! (19 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (20 vs 7). Dealt 4 Pierce.
+
+  >> bob (HP) WINS in 30 turns!
+  Final: Valor 2HP | bob 29HP
+
+--- Battle 21: Hero vs Thunder ---
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Attack HIT! (18 vs 9). Dealt 5 Slash.
+  Attack HIT! (15 vs 4). Dealt 3 Pierce.
+  CLASH TRIGGERED! (6 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(16) vs Hero(17)
+  [CLASH RESULT] Hero WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(15) vs Thunder(14)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(13) vs Hero(9)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (13 vs 15)
+  Attack HIT! (12 vs 9). Dealt 7 Slash.
+  Attack MISSED. (7 vs 20)
+  Attack HIT! (16 vs 5). Dealt 1 Slash.
+  Attack HIT! (19 vs 14). Dealt 6 Pierce.
+  Attack HIT! (8 vs 3). Dealt 7 Slash.
+  Attack MISSED. (18 vs 20)
+  Attack MISSED. (6 vs 11)
+  Attack MISSED. (4 vs 6)
+  Attack HIT! (20 vs 16). Dealt 2 Slash.
+  Attack MISSED. (4 vs 12)
+  Attack HIT! (19 vs 13). Dealt 6 Slash.
+  Attack MISSED. (1 vs 6)
+  Attack HIT! (12 vs 4). Dealt 7 Slash.
+  Attack MISSED. (5 vs 22)
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(1) vs Hero(1)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (4 vs 11)
+  Attack HIT! (17 vs 7). Dealt 5 Slash.
+
+  >> Thunder WINS in 12 turns!
+  Final: Hero 0HP | Thunder 31HP
+
+--- Battle 22: steve vs Frost ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+
+  Attack MISSED. (2 vs 7)
+  Attack MISSED. (6 vs 12)
+  Attack MISSED. (6 vs 21)
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (7 vs 11)
+  Attack MISSED. (3 vs 7)
+  CLASH TRIGGERED! (9 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(4) vs Frost(16)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(8) vs steve(18)
+  [CLASH RESULT] steve WINS! Matador Feint
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(16) vs Frost(16)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (6 vs 11)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(8) vs Frost(14)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (18 vs 7). Dealt 5 Bludgeon.
+  Attack MISSED. (2 vs 21)
+  Attack MISSED. (3 vs 16)
+  Attack HIT! (20 vs 3). Dealt 3 Bludgeoning.
+  Attack MISSED. (6 vs 17)
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(17) vs Frost(20)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (9 vs 21)
+  Attack HIT! (11 vs 5). Dealt 1 Bludgeoning.
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(20) vs steve(20)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (17 vs 8). Dealt 1 Bludgeoning.
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (7 vs 20)
+  Attack MISSED. (11 vs 17)
+  Attack HIT! (17 vs 12). Dealt 1 Bludgeoning.
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(3) vs steve(3)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (16 vs 19)
+  Attack HIT! (20 vs 10). Dealt 5 Bludgeon.
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (1 vs 19)
+  Attack HIT! (12 vs 3). Dealt 2 Bludgeoning.
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(20) vs steve(1)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (2 vs 8)
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(18) vs Frost(17)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (10 vs 22)
+  Attack HIT! (21 vs 13). Dealt 2 Bludgeoning.
+  Attack MISSED. (4 vs 12)
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(13) vs Frost(17)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (14 vs 10). Dealt 5 Bludgeon.
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (10 vs 14)
+  Attack MISSED. (18 vs 21)
+  Attack MISSED. (8 vs 18)
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(9) vs Frost(16)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (15 vs 20)
+  Attack HIT! (17 vs 10). Dealt 4 Bludgeoning.
+  Attack HIT! (17 vs 4). Dealt 1 Bludgeon.
+  Attack MISSED. (4 vs 16)
+  Attack HIT! (20 vs 6). Dealt 1 Bludgeon.
+  Attack HIT! (17 vs 3). Dealt 2 Bludgeoning.
+  Attack MISSED. (18 vs 22)
+  Attack HIT! (20 vs 5). Dealt 4 Bludgeoning.
+  Attack HIT! (12 vs 10). Dealt 6 Bludgeon.
+  Attack HIT! (17 vs 6). Dealt 1 Bludgeoning.
+  Attack HIT! (10 vs 5). Dealt 4 Bludgeon.
+  Attack HIT! (16 vs 5). Dealt 3 Bludgeoning.
+  Attack MISSED. (11 vs 19)
+  Attack HIT! (11 vs 9). Dealt 2 Bludgeoning.
+  Attack MISSED. (11 vs 18)
+
+  >> Frost (HP) WINS in 30 turns!
+  Final: steve 15HP | Frost 17HP
+
+--- Battle 23: Hero vs Valor ---
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (16 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (8 vs 15)
+  Attack HIT! (14 vs 11). Dealt 4 Pierce.
+  Attack HIT! (9 vs 2). Dealt 4 Bludgeon.
+  Attack HIT! (9 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (11 vs 20)
+  Attack MISSED. (7 vs 11)
+  Attack HIT! (13 vs 7). Dealt 4 Bludgeon.
+  Attack HIT! (11 vs 9). Dealt 3 Pierce.
+  Attack HIT! (9 vs 7). Dealt 1 Bludgeon.
+  Attack HIT! (13 vs 3). Dealt 1 Pierce.
+  Attack MISSED. (15 vs 20)
+  Attack HIT! (11 vs 5). Dealt 6 Pierce.
+  Attack MISSED. (12 vs 19)
+  Attack MISSED. (6 vs 21)
+  Attack HIT! (13 vs 10). Dealt 1 Bludgeon.
+  Attack HIT! (14 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (2 vs 17)
+  Attack HIT! (20 vs 17). Dealt 6 Pierce.
+  Attack HIT! (16 vs 3). Dealt 2 Bludgeon.
+  Attack MISSED. (12 vs 18)
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs Hero(7)
+  [CLASH RESULT] Hero WINS! Bulwark Shove
+  Attack HIT! (11 vs 6). Dealt 2 Pierce.
+  Attack HIT! (20 vs 2). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(20) vs Valor(9)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (13 vs 21)
+  Attack HIT! (14 vs 11). Dealt 4 Pierce.
+  Attack HIT! (20 vs 18). Dealt 2 Bludgeon.
+  Attack MISSED. (9 vs 18)
+  Attack HIT! (16 vs 9). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 9)
+  Attack MISSED. (10 vs 16)
+  Attack HIT! (19 vs 17). Dealt 6 Pierce.
+  Attack MISSED. (8 vs 20)
+  Attack MISSED. (3 vs 15)
+  Attack MISSED. (9 vs 17)
+  Attack HIT! (18 vs 11). Dealt 5 Pierce.
+
+  >> Hero WINS in 19 turns!
+  Final: Hero 22HP | Valor 0HP
+
+--- Battle 24: Shadow vs Valor ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (21 vs 12). Dealt 2 Bludgeon.
+  Attack HIT! (19 vs 15). Dealt 1 Pierce.
+  CLASH TRIGGERED! (18 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(14) vs Shadow(18)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (3 vs 5)
+  Attack MISSED. (2 vs 6)
+  Attack MISSED. (18 vs 22)
+  Attack HIT! (17 vs 7). Dealt 2 Bludgeon.
+  Attack HIT! (12 vs 7). Dealt 3 Pierce.
+  Attack MISSED. (16 vs 18)
+  Attack MISSED. (1 vs 6)
+  Attack HIT! (11 vs 5). Dealt 2 Bludgeon.
+  Attack MISSED. (3 vs 7)
+  Attack HIT! (18 vs 16). Dealt 4 Bludgeon.
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (9 vs 14)
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(18) vs Valor(4)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (19 vs 4). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(12) vs Valor(12)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 9)
+  Attack HIT! (18 vs 8). Dealt 3 Pierce.
+  Attack HIT! (12 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (20 vs 18). Dealt 4 Pierce.
+  Attack HIT! (7 vs 5). Dealt 2 Bludgeon.
+  Attack MISSED. (6 vs 11)
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(8) vs Shadow(11)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (5 vs 11)
+  Attack HIT! (17 vs 5). Dealt 4 Bludgeon.
+  Attack MISSED. (5 vs 15)
+  Attack MISSED. (7 vs 18)
+  Attack MISSED. (7 vs 22)
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(12) vs Shadow(7)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (15 vs 3). Dealt 6 Pierce.
+  Attack MISSED. (5 vs 19)
+  Attack MISSED. (1 vs 20)
+  Attack HIT! (11 vs 7). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Valor(19)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  Attack MISSED. (15 vs 20)
+  Attack MISSED. (17 vs 21)
+  Attack HIT! (19 vs 11). Dealt 2 Bludgeon.
+  Attack HIT! (11 vs 7). Dealt 3 Pierce.
+  Attack MISSED. (13 vs 20)
+  Attack MISSED. (13 vs 15)
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(2) vs Shadow(3)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (4 vs 17)
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(12) vs Shadow(4)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (4 vs 22)
+  Attack HIT! (21 vs 6). Dealt 3 Bludgeon.
+  Attack HIT! (19 vs 9). Dealt 5 Pierce.
+  Attack MISSED. (5 vs 16)
+  CLASH TRIGGERED! (13 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(14) vs Valor(10)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (16 vs 5). Dealt 2 Bludgeon.
+  Attack MISSED. (2 vs 10)
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(9) vs Shadow(19)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (1 vs 22)
+  Attack HIT! (18 vs 5). Dealt 1 Bludgeon.
+  Attack HIT! (8 vs 6). Dealt 2 Pierce.
+  Attack HIT! (15 vs 2). Dealt 2 Bludgeon.
+  Attack HIT! (14 vs 11). Dealt 5 Pierce.
+
+  >> Valor (HP) WINS in 30 turns!
+  Final: Shadow 11HP | Valor 12HP
+
+--- Battle 25: Blaze vs Iron ---
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+
+  Attack HIT! (11 vs 7). Dealt 3 Pierce.
+  Attack HIT! (9 vs 6). Dealt 2 Bludgeon.
+  Attack HIT! (13 vs 7). Dealt 1 Pierce.
+  Attack HIT! (13 vs 8). Dealt 2 Bludgeon.
+  Attack HIT! (13 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (2 vs 9)
+  CLASH TRIGGERED! (17 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(12) vs Blaze(18)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 22)
+  Attack HIT! (18 vs 7). Dealt 4 Pierce.
+  Attack HIT! (20 vs 11). Dealt 4 Bludgeon.
+  Attack HIT! (17 vs 13). Dealt 3 Pierce.
+  Attack HIT! (10 vs 5). Dealt 4 Bludgeon.
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (7 vs 9)
+  Attack HIT! (12 vs 6). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (12 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(2) vs Blaze(3)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack HIT! (15 vs 13). Dealt 1 Bludgeon.
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (5 vs 11)
+  Attack HIT! (20 vs 12). Dealt 2 Pierce.
+  Attack HIT! (13 vs 4). Dealt 3 Bludgeon.
+  Attack HIT! (17 vs 6). Dealt 4 Pierce.
+  Attack HIT! (18 vs 7). Dealt 1 Bludgeon.
+  Attack HIT! (20 vs 18). Dealt 4 Pierce.
+  Attack HIT! (14 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (1 vs 16)
+  Attack HIT! (15 vs 6). Dealt 4 Bludgeon.
+  Attack MISSED. (18 vs 20)
+  Attack HIT! (15 vs 8). Dealt 2 Bludgeon.
+  Attack MISSED. (5 vs 7)
+  Attack HIT! (20 vs 12). Dealt 1 Bludgeon.
+  Attack HIT! (11 vs 7). Dealt 2 Pierce.
+  Attack HIT! (7 vs 4). Dealt 1 Bludgeon.
+  Attack MISSED. (9 vs 13)
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(6) vs Iron(9)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack MISSED. (1 vs 9)
+  Attack MISSED. (7 vs 12)
+  Attack HIT! (11 vs 5). Dealt 3 Pierce.
+  Attack MISSED. (5 vs 14)
+  Attack HIT! (18 vs 2). Dealt 1 Pierce.
+  Attack MISSED. (12 vs 18)
+  Attack HIT! (14 vs 4). Dealt 2 Pierce.
+  Attack MISSED. (6 vs 21)
+  Attack MISSED. (10 vs 12)
+  Attack MISSED. (1 vs 16)
+  Attack MISSED. (5 vs 16)
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(7) vs Iron(10)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack HIT! (18 vs 12). Dealt 3 Pierce.
+  Attack MISSED. (15 vs 22)
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(18) vs Blaze(1)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 8)
+  Attack MISSED. (11 vs 16)
+  Attack HIT! (14 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (14 vs 21)
+  Attack HIT! (17 vs 13). Dealt 2 Bludgeon.
+  Attack HIT! (13 vs 6). Dealt 1 Pierce.
+  Attack HIT! (19 vs 17). Dealt 1 Bludgeon.
+  Attack MISSED. (10 vs 13)
+  Attack HIT! (18 vs 10). Dealt 4 Bludgeon.
+
+  >> Blaze WINS in 30 turns!
+  Final: Blaze 6HP | Iron 0HP
+
+--- Battle 26: Thunder vs Iron ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (12 vs 20)
+  Attack MISSED. (6 vs 16)
+  Attack HIT! (15 vs 7). Dealt 2 Pierce.
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (5 vs 13)
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(12) vs Iron(20)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack HIT! (19 vs 12). Dealt 1 Pierce.
+  Attack MISSED. (16 vs 20)
+  Attack HIT! (14 vs 7). Dealt 4 Pierce.
+  Attack MISSED. (4 vs 10)
+  Attack HIT! (14 vs 5). Dealt 3 Pierce.
+  Attack MISSED. (4 vs 11)
+  Attack MISSED. (18 vs 21)
+  Attack MISSED. (18 vs 20)
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (10 vs 21)
+  Attack HIT! (17 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (7 vs 13)
+  Attack MISSED. (2 vs 16)
+  Attack MISSED. (7 vs 17)
+  CLASH TRIGGERED! (19 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(8) vs Thunder(4)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (17 vs 22)
+  Attack MISSED. (1 vs 14)
+  Attack HIT! (19 vs 4). Dealt 7 Slash.
+  Attack HIT! (20 vs 3). Dealt 3 Pierce.
+  Attack HIT! (15 vs 7). Dealt 8 Slash.
+  Attack MISSED. (1 vs 18)
+  Attack HIT! (19 vs 9). Dealt 1 Slash.
+  Attack MISSED. (4 vs 21)
+  Attack HIT! (12 vs 7). Dealt 3 Slash.
+  Attack HIT! (16 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (8 vs 16)
+  Attack HIT! (9 vs 3). Dealt 4 Pierce.
+  Attack MISSED. (1 vs 13)
+  Attack HIT! (18 vs 10). Dealt 1 Pierce.
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (19 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (17 vs 12). Dealt 4 Pierce.
+  Attack MISSED. (12 vs 17)
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (12 vs 15)
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(1) vs Iron(9)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(9) vs Thunder(17)
+  [CLASH RESULT] Thunder WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 9)
+  Attack HIT! (11 vs 3). Dealt 4 Pierce.
+  Attack HIT! (13 vs 6). Dealt 3 Slash.
+  Attack MISSED. (7 vs 22)
+  Attack HIT! (5 vs 3). Dealt 7 Slash.
+  Attack MISSED. (8 vs 14)
+  Attack HIT! (19 vs 4). Dealt 7 Slash.
+  Attack HIT! (18 vs 13). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 7)
+  Attack MISSED. (8 vs 14)
+  Attack HIT! (10 vs 6). Dealt 2 Slash.
+  Attack HIT! (9 vs 7). Dealt 1 Pierce.
+  CLASH TRIGGERED! (17 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(13) vs Iron(13)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (4 vs 12)
+
+  >> Iron (HP) WINS in 30 turns!
+  Final: Thunder 2HP | Iron 3HP
+
+--- Battle 27: Shadow vs bob ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (18 vs 10). Dealt 3 Pierce.
+  Attack HIT! (19 vs 11). Dealt 3 Pierce.
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (6 vs 16)
+  Attack MISSED. (9 vs 18)
+  Attack HIT! (18 vs 15). Dealt 8 Pierce.
+  Attack MISSED. (7 vs 20)
+  Attack MISSED. (8 vs 13)
+  Attack HIT! (18 vs 3). Dealt 4 Pierce.
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(14) vs Shadow(13)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (5 vs 21)
+  Attack MISSED. (2 vs 5)
+  Attack MISSED. (13 vs 15)
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (1 vs 15)
+  Attack MISSED. (8 vs 10)
+  Attack MISSED. (9 vs 18)
+  Attack HIT! (18 vs 14). Dealt 4 Pierce.
+  Attack MISSED. (5 vs 18)
+  Attack HIT! (15 vs 9). Dealt 1 Pierce.
+  Attack HIT! (16 vs 12). Dealt 3 Pierce.
+  Attack HIT! (11 vs 6). Dealt 6 Pierce.
+  Attack MISSED. (10 vs 15)
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (18 vs 14). Dealt 3 Pierce.
+  Attack HIT! (20 vs 9). Dealt 7 Pierce.
+  Attack MISSED. (10 vs 15)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (15 vs 18)
+  Attack HIT! (7 vs 2). Dealt 4 Pierce.
+  Attack MISSED. (14 vs 19)
+  Attack HIT! (16 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (7 vs 12)
+  Attack MISSED. (2 vs 14)
+  Attack MISSED. (6 vs 17)
+  Attack MISSED. (11 vs 15)
+  Attack MISSED. (12 vs 15)
+  Attack MISSED. (19 vs 21)
+  Attack MISSED. (10 vs 13)
+  Attack MISSED. (7 vs 14)
+  Attack MISSED. (6 vs 10)
+  Attack HIT! (19 vs 9). Dealt 6 Pierce.
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(9) vs Shadow(2)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (9 vs 13)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(12) vs Shadow(14)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(10) vs bob(2)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (5 vs 15)
+  Attack MISSED. (3 vs 8)
+  Attack HIT! (7 vs 3). Dealt 2 Pierce.
+  Attack HIT! (9 vs 7). Dealt 8 Pierce.
+  Attack HIT! (15 vs 9). Dealt 6 Pierce.
+  Attack HIT! (15 vs 11). Dealt 2 Pierce.
+  Attack MISSED. (5 vs 14)
+  Attack HIT! (20 vs 17). Dealt 8 Pierce.
+
+  >> bob WINS in 29 turns!
+  Final: Shadow 0HP | bob 17HP
+
+--- Battle 28: Frost vs Thunder ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Attack HIT! (6 vs 4). Dealt 4 Bludgeon.
+  Attack HIT! (9 vs 3). Dealt 4 Slash.
+  Attack HIT! (20 vs 9). Dealt 5 Bludgeon.
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(17) vs Frost(10)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (10 vs 17)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(11) vs Frost(8)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(12) vs Thunder(2)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (3 vs 20)
+  Attack HIT! (12 vs 9). Dealt 5 Bludgeon.
+  Attack MISSED. (1 vs 5)
+  Attack MISSED. (4 vs 8)
+  Attack MISSED. (3 vs 8)
+  Attack MISSED. (2 vs 22)
+  Attack MISSED. (2 vs 13)
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (14 vs 18)
+  Attack HIT! (7 vs 5). Dealt 6 Bludgeon.
+  Attack MISSED. (11 vs 15)
+  Attack MISSED. (10 vs 12)
+  Attack MISSED. (7 vs 10)
+  Attack MISSED. (5 vs 8)
+  Attack HIT! (6 vs 4). Dealt 3 Slash.
+  Attack HIT! (7 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (14 vs 8). Dealt 8 Slash.
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(2) vs Thunder(16)
+  [CLASH RESULT] Thunder WINS! Matador Feint
+  Attack HIT! (18 vs 5). Dealt 8 Slash.
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(10) vs Thunder(19)
+  [CLASH RESULT] Thunder WINS! Matador Feint
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(20) vs Frost(16)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (5 vs 10)
+  Attack MISSED. (8 vs 14)
+  Attack HIT! (8 vs 3). Dealt 5 Bludgeon.
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(14) vs Frost(1)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack HIT! (20 vs 3). Dealt 5 Bludgeon.
+  Attack MISSED. (4 vs 7)
+  Attack HIT! (15 vs 9). Dealt 5 Bludgeon.
+  Attack MISSED. (8 vs 15)
+  Attack HIT! (20 vs 8). Dealt 4 Bludgeon.
+
+  >> Frost WINS in 19 turns!
+  Final: Frost 20HP | Thunder 0HP
+
+--- Battle 29: Hero vs steve ---
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+
+  Attack HIT! (13 vs 7). Dealt 2 Pierce.
+  Attack MISSED. (6 vs 10)
+  Attack HIT! (14 vs 9). Dealt 3 Pierce.
+  Attack HIT! (17 vs 14). Dealt 4 Bludgeoning.
+  Attack HIT! (13 vs 9). Dealt 3 Pierce.
+  Attack HIT! (14 vs 3). Dealt 4 Bludgeoning.
+  Attack MISSED. (7 vs 20)
+  Attack MISSED. (13 vs 18)
+  Attack HIT! (13 vs 4). Dealt 6 Pierce.
+  Attack HIT! (17 vs 10). Dealt 1 Bludgeoning.
+  Attack HIT! (12 vs 3). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 7)
+  Attack HIT! (15 vs 6). Dealt 4 Pierce.
+  Attack HIT! (7 vs 5). Dealt 4 Bludgeoning.
+  Attack MISSED. (17 vs 19)
+  Attack HIT! (18 vs 14). Dealt 4 Bludgeoning.
+  Attack MISSED. (10 vs 13)
+  Attack HIT! (15 vs 13). Dealt 4 Bludgeoning.
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (19 vs 2). Dealt 3 Bludgeoning.
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (21 vs 8). Dealt 4 Bludgeoning.
+  Attack HIT! (17 vs 10). Dealt 5 Pierce.
+  Attack MISSED. (3 vs 5)
+  Attack HIT! (20 vs 5). Dealt 3 Pierce.
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(4) vs Hero(1)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (8 vs 21)
+  Attack HIT! (13 vs 6). Dealt 3 Bludgeoning.
+  Attack HIT! (15 vs 4). Dealt 1 Pierce.
+  Attack MISSED. (7 vs 10)
+  Attack MISSED. (11 vs 17)
+  CLASH TRIGGERED! (2 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(2) vs Hero(8)
+  [CLASH RESULT] Hero WINS! Matador Feint
+  Attack MISSED. (3 vs 22)
+  Attack HIT! (21 vs 8). Dealt 2 Bludgeoning.
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (16 vs 3). Dealt 4 Bludgeoning.
+  Attack MISSED. (7 vs 10)
+  Attack MISSED. (11 vs 15)
+  Attack HIT! (18 vs 8). Dealt 5 Pierce.
+  Attack HIT! (16 vs 3). Dealt 3 Bludgeoning.
+
+  >> steve WINS in 20 turns!
+  Final: Hero 0HP | steve 4HP
+
+--- Battle 30: steve vs Hero ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+
+  Attack MISSED. (3 vs 16)
+  Attack HIT! (20 vs 11). Dealt 6 Pierce.
+  Attack MISSED. (6 vs 21)
+  Attack MISSED. (2 vs 13)
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (4 vs 6)
+  Attack HIT! (19 vs 12). Dealt 4 Bludgeoning.
+  Attack MISSED. (9 vs 22)
+  Attack HIT! (14 vs 9). Dealt 4 Bludgeoning.
+  Attack MISSED. (7 vs 9)
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(14) vs Hero(17)
+  [CLASH RESULT] Hero WINS! Matador Feint
+  Attack HIT! (17 vs 5). Dealt 5 Pierce.
+  Attack MISSED. (6 vs 14)
+  Attack MISSED. (2 vs 22)
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(6) vs Hero(18)
+  [CLASH RESULT] Hero WINS! Matador Feint
+  Attack MISSED. (11 vs 16)
+  Attack HIT! (15 vs 2). Dealt 1 Bludgeoning.
+  Attack HIT! (12 vs 4). Dealt 6 Pierce.
+  Attack MISSED. (12 vs 14)
+  Attack MISSED. (1 vs 4)
+  Attack MISSED. (3 vs 6)
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(16) vs steve(18)
+  [CLASH RESULT] steve WINS! Disarmed (Status Applied)
+  Attack MISSED. (8 vs 19)
+  Attack HIT! (9 vs 4). Dealt 5 Pierce.
+  Attack HIT! (18 vs 6). Dealt 1 Bludgeoning.
+  Attack MISSED. (5 vs 15)
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(4) vs Hero(12)
+  [CLASH RESULT] Hero WINS! Matador Feint
+  Attack HIT! (17 vs 4). Dealt 3 Pierce.
+  Attack HIT! (15 vs 9). Dealt 2 Bludgeoning.
+  Attack HIT! (8 vs 3). Dealt 2 Pierce.
+  Attack MISSED. (4 vs 20)
+  Attack MISSED. (1 vs 3)
+  Attack MISSED. (2 vs 10)
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(18) vs steve(17)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack HIT! (19 vs 16). Dealt 3 Bludgeoning.
+  Attack MISSED. (3 vs 10)
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(16) vs Hero(14)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (11 vs 18)
+  Attack HIT! (13 vs 6). Dealt 3 Bludgeoning.
+  Attack MISSED. (4 vs 7)
+  Attack HIT! (11 vs 7). Dealt 2 Bludgeoning.
+  Attack MISSED. (12 vs 14)
+  Attack HIT! (16 vs 3). Dealt 1 Bludgeoning.
+  Attack MISSED. (4 vs 16)
+  Attack HIT! (12 vs 8). Dealt 4 Bludgeoning.
+  Attack MISSED. (8 vs 12)
+  Attack HIT! (16 vs 12). Dealt 1 Bludgeoning.
+  Attack MISSED. (6 vs 16)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (1 vs 10)
+  Attack HIT! (19 vs 8). Dealt 3 Bludgeoning.
+  Attack MISSED. (4 vs 19)
+  Attack MISSED. (7 vs 16)
+  Attack HIT! (15 vs 7). Dealt 4 Pierce.
+  Attack HIT! (19 vs 10). Dealt 4 Bludgeoning.
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(10) vs steve(9)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (18 vs 11). Dealt 1 Pierce.
+  Attack MISSED. (18 vs 21)
+  Attack HIT! (18 vs 4). Dealt 5 Pierce.
+
+  >> Hero (HP) WINS in 30 turns!
+  Final: steve 5HP | Hero 7HP
+
+--- Battle 31: Thunder vs Valor ---
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (17 vs 14). Dealt 3 Bludgeon.
+  Attack HIT! (15 vs 7). Dealt 4 Slash.
+  Attack HIT! (18 vs 11). Dealt 1 Bludgeon.
+  Attack MISSED. (6 vs 14)
+  Attack MISSED. (3 vs 7)
+  Attack MISSED. (11 vs 22)
+  Attack HIT! (20 vs 6). Dealt 1 Bludgeon.
+  Attack MISSED. (13 vs 15)
+  Attack HIT! (21 vs 12). Dealt 3 Bludgeon.
+  Attack HIT! (15 vs 8). Dealt 2 Slash.
+  Attack MISSED. (5 vs 9)
+  Attack MISSED. (2 vs 18)
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (11 vs 9). Dealt 5 Slash.
+  Attack HIT! (18 vs 11). Dealt 3 Bludgeon.
+  Attack HIT! (19 vs 10). Dealt 2 Slash.
+  Attack HIT! (11 vs 8). Dealt 3 Bludgeon.
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (4 vs 22)
+  Attack MISSED. (11 vs 19)
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (6 vs 10)
+  Attack MISSED. (10 vs 18)
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (16 vs 18)
+  Attack HIT! (14 vs 11). Dealt 2 Slash.
+  Attack MISSED. (14 vs 17)
+  Attack HIT! (12 vs 8). Dealt 8 Slash.
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(15) vs Thunder(7)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (13 vs 5). Dealt 7 Slash.
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(12) vs Thunder(11)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(11) vs Valor(17)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack MISSED. (13 vs 19)
+  Attack HIT! (14 vs 6). Dealt 8 Slash.
+  Attack MISSED. (8 vs 12)
+  Attack HIT! (20 vs 17). Dealt 5 Slash.
+  Attack MISSED. (6 vs 19)
+  Attack MISSED. (10 vs 18)
+  Attack HIT! (8 vs 6). Dealt 4 Bludgeon.
+  Attack MISSED. (10 vs 21)
+  Attack MISSED. (2 vs 11)
+  Attack HIT! (19 vs 11). Dealt 4 Slash.
+
+  >> Thunder WINS in 21 turns!
+  Final: Thunder 22HP | Valor 0HP
+
+--- Battle 32: Valor vs Frost ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+
+  Attack HIT! (10 vs 2). Dealt 2 Bludgeon.
+  Attack HIT! (17 vs 6). Dealt 5 Bludgeon.
+  Attack MISSED. (6 vs 11)
+  Attack MISSED. (2 vs 22)
+  Attack HIT! (13 vs 2). Dealt 2 Bludgeon.
+  Attack HIT! (20 vs 7). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(6) vs Frost(12)
+  [CLASH RESULT] Frost WINS! Bulwark Shove
+  Attack HIT! (17 vs 3). Dealt 5 Bludgeon.
+  Attack HIT! (21 vs 9). Dealt 4 Bludgeon.
+  Attack MISSED. (1 vs 14)
+  Attack HIT! (17 vs 8). Dealt 3 Bludgeon.
+  Attack HIT! (20 vs 15). Dealt 1 Bludgeon.
+  Attack HIT! (12 vs 7). Dealt 1 Bludgeon.
+  Attack MISSED. (13 vs 16)
+  Attack MISSED. (5 vs 18)
+  Attack MISSED. (1 vs 22)
+  Attack HIT! (16 vs 4). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 11)
+  Attack HIT! (13 vs 11). Dealt 1 Bludgeon.
+  Attack HIT! (13 vs 9). Dealt 6 Bludgeon.
+  Attack MISSED. (8 vs 13)
+  Attack MISSED. (2 vs 22)
+  Attack HIT! (8 vs 4). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(11) vs Valor(5)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (10 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (16 vs 18)
+  Attack MISSED. (5 vs 7)
+  Attack MISSED. (8 vs 22)
+  Attack HIT! (21 vs 16). Dealt 3 Bludgeon.
+  Attack MISSED. (9 vs 21)
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (15 vs 22)
+  Attack HIT! (14 vs 8). Dealt 4 Bludgeon.
+  Attack HIT! (20 vs 7). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs Frost(9)
+  [CLASH RESULT] Frost WINS! Bulwark Shove
+  Attack MISSED. (7 vs 21)
+  Attack HIT! (16 vs 4). Dealt 2 Bludgeon.
+  Attack HIT! (18 vs 3). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(5) vs Frost(13)
+  [CLASH RESULT] Frost WINS! Bulwark Shove
+  Attack MISSED. (19 vs 22)
+  Attack HIT! (17 vs 12). Dealt 1 Bludgeon.
+  Attack HIT! (10 vs 3). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (11 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(16) vs Frost(13)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (2 vs 10)
+  Attack HIT! (21 vs 2). Dealt 1 Bludgeon.
+  Attack HIT! (18 vs 13). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(4) vs Frost(1)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (11 vs 6). Dealt 3 Bludgeon.
+  Attack MISSED. (8 vs 21)
+  Attack HIT! (19 vs 16). Dealt 5 Bludgeon.
+  Attack HIT! (8 vs 3). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 18)
+  Attack HIT! (7 vs 2). Dealt 3 Bludgeon.
+  Attack MISSED. (12 vs 14)
+  Attack MISSED. (10 vs 13)
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(5) vs Valor(7)
+  [CLASH RESULT] Valor WINS! Matador Feint
+  Attack MISSED. (7 vs 17)
+  Attack MISSED. (10 vs 18)
+  Attack HIT! (21 vs 17). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(9) vs Valor(7)
+  [CLASH RESULT] Frost WINS! Matador Feint
+
+  >> Valor (HP) WINS in 30 turns!
+  Final: Valor 8HP | Frost 1HP
+
+--- Battle 33: Blaze vs steve ---
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(14) vs steve(6)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (17 vs 9). Dealt 4 Bludgeoning.
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(19) vs steve(12)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (16 vs 5). Dealt 1 Bludgeoning.
+  Attack HIT! (20 vs 12). Dealt 1 Bludgeon.
+  Attack HIT! (21 vs 17). Dealt 3 Bludgeoning.
+  Attack MISSED. (5 vs 17)
+  Attack HIT! (16 vs 3). Dealt 4 Bludgeoning.
+  Attack HIT! (12 vs 9). Dealt 4 Bludgeon.
+  Attack HIT! (16 vs 10). Dealt 4 Bludgeoning.
+  Attack HIT! (15 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (4 vs 6)
+  Attack MISSED. (5 vs 15)
+  Attack MISSED. (2 vs 4)
+  Attack MISSED. (13 vs 19)
+  Attack HIT! (10 vs 8). Dealt 3 Bludgeoning.
+  Attack HIT! (20 vs 4). Dealt 3 Bludgeon.
+  Attack MISSED. (9 vs 14)
+  Attack MISSED. (2 vs 19)
+  Attack HIT! (14 vs 12). Dealt 2 Bludgeoning.
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (20 vs 12). Dealt 4 Bludgeoning.
+  Attack MISSED. (8 vs 22)
+  Attack HIT! (10 vs 2). Dealt 3 Bludgeoning.
+  Attack MISSED. (2 vs 5)
+  Attack MISSED. (19 vs 21)
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(2) vs steve(15)
+  [CLASH RESULT] steve WINS! Bulwark Shove
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (1 vs 9)
+  CLASH TRIGGERED! (6 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(15) vs Blaze(11)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (12 vs 19)
+  Attack MISSED. (6 vs 12)
+  Attack MISSED. (5 vs 16)
+  Attack MISSED. (4 vs 6)
+  Attack MISSED. (13 vs 15)
+  Attack HIT! (19 vs 8). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 13)
+  Attack MISSED. (3 vs 12)
+  Attack HIT! (17 vs 9). Dealt 1 Bludgeoning.
+  Attack MISSED. (12 vs 18)
+  Attack HIT! (10 vs 6). Dealt 1 Bludgeoning.
+  Attack MISSED. (2 vs 8)
+  Attack MISSED. (8 vs 11)
+  Attack HIT! (18 vs 7). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(11) vs Blaze(11)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack HIT! (17 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (12 vs 20)
+  Attack MISSED. (13 vs 17)
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (12 vs 4). Dealt 1 Bludgeoning.
+  Attack MISSED. (4 vs 9)
+  Attack HIT! (19 vs 10). Dealt 1 Bludgeoning.
+  Attack MISSED. (8 vs 22)
+  Attack HIT! (18 vs 9). Dealt 4 Bludgeoning.
+  Attack HIT! (10 vs 3). Dealt 1 Bludgeon.
+  Attack MISSED. (7 vs 12)
+
+  >> steve (HP) WINS in 30 turns!
+  Final: Blaze 7HP | steve 22HP
+
+--- Battle 34: Iron vs Valor ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (14 vs 4). Dealt 3 Pierce.
+  Attack HIT! (11 vs 9). Dealt 4 Bludgeon.
+  Attack HIT! (19 vs 8). Dealt 3 Pierce.
+  CLASH TRIGGERED! (8 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(11) vs Iron(11)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (18 vs 15). Dealt 1 Pierce.
+  Attack MISSED. (7 vs 12)
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (13 vs 3). Dealt 2 Bludgeon.
+  Attack HIT! (18 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (12 vs 20)
+  Attack HIT! (13 vs 10). Dealt 1 Pierce.
+  Attack HIT! (13 vs 3). Dealt 3 Bludgeon.
+  Attack MISSED. (13 vs 19)
+  Attack MISSED. (16 vs 20)
+  Attack HIT! (16 vs 6). Dealt 3 Pierce.
+  Attack HIT! (13 vs 8). Dealt 3 Bludgeon.
+  Attack MISSED. (4 vs 6)
+  Attack MISSED. (7 vs 13)
+  CLASH TRIGGERED! (18 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(18) vs Valor(5)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (21 vs 5). Dealt 1 Bludgeon.
+  Attack HIT! (19 vs 16). Dealt 4 Pierce.
+  Attack MISSED. (5 vs 17)
+  Attack HIT! (18 vs 16). Dealt 3 Pierce.
+  Attack HIT! (21 vs 8). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(3) vs Valor(1)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 15)
+  Attack MISSED. (10 vs 20)
+  Attack MISSED. (19 vs 21)
+  Attack MISSED. (3 vs 8)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (6 vs 16)
+  Attack HIT! (18 vs 10). Dealt 4 Bludgeon.
+  Attack HIT! (15 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (19 vs 21)
+  Attack MISSED. (1 vs 6)
+  Attack HIT! (19 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (17 vs 22)
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (13 vs 19)
+  Attack MISSED. (16 vs 19)
+  Attack HIT! (12 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (5 vs 15)
+  Attack MISSED. (11 vs 15)
+  Attack MISSED. (8 vs 15)
+  Attack HIT! (17 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (11 vs 14)
+  Attack MISSED. (5 vs 21)
+  Attack MISSED. (11 vs 15)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(15) vs Valor(7)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (4 vs 17)
+  Attack MISSED. (4 vs 13)
+  Attack MISSED. (11 vs 17)
+  Attack MISSED. (6 vs 17)
+  Attack HIT! (14 vs 5). Dealt 3 Pierce.
+  CLASH TRIGGERED! (6 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(14) vs Iron(14)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (3 vs 6)
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(20) vs Iron(17)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (3 vs 5)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(5) vs Iron(16)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+
+  >> Iron (HP) WINS in 30 turns!
+  Final: Iron 20HP | Valor 17HP
+
+--- Battle 35: Hero vs Thunder ---
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (8 vs 6). Dealt 6 Slash.
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (17 vs 13). Dealt 6 Slash.
+  Attack HIT! (15 vs 11). Dealt 1 Pierce.
+  Attack HIT! (7 vs 3). Dealt 4 Slash.
+  Attack HIT! (20 vs 10). Dealt 6 Pierce.
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (8 vs 14)
+  Attack HIT! (18 vs 14). Dealt 4 Slash.
+  Attack HIT! (12 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (7 vs 9)
+  Attack MISSED. (7 vs 14)
+  Attack MISSED. (2 vs 4)
+  Attack HIT! (6 vs 2). Dealt 7 Slash.
+  Attack MISSED. (13 vs 17)
+  Attack MISSED. (8 vs 20)
+  Attack MISSED. (3 vs 5)
+  Attack MISSED. (6 vs 14)
+  Attack HIT! (9 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (2 vs 21)
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(20) vs Thunder(14)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (13 vs 21)
+  Attack MISSED. (1 vs 22)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(6) vs Hero(7)
+  [CLASH RESULT] Hero WINS! Pushed Back & Follow Up
+  Attack HIT! (16 vs 8). Dealt 5 Pierce.
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(19) vs Hero(2)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (3 vs 22)
+  Attack MISSED. (8 vs 16)
+  Attack HIT! (13 vs 6). Dealt 2 Pierce.
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (1 vs 13)
+  Attack HIT! (20 vs 4). Dealt 6 Slash.
+  Attack HIT! (19 vs 8). Dealt 2 Pierce.
+  Attack MISSED. (3 vs 9)
+  Attack HIT! (14 vs 8). Dealt 1 Pierce.
+  Attack HIT! (20 vs 2). Dealt 4 Slash.
+  Attack MISSED. (10 vs 12)
+  Attack MISSED. (8 vs 19)
+  Attack MISSED. (1 vs 6)
+  Attack MISSED. (2 vs 17)
+  CLASH TRIGGERED! (8 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(20) vs Thunder(15)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (4 vs 16)
+  Attack HIT! (12 vs 10). Dealt 3 Slash.
+
+  >> Thunder WINS in 24 turns!
+  Final: Hero 0HP | Thunder 18HP
+
+--- Battle 36: Hero vs bob ---
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+
+  Attack HIT! (19 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (8 vs 16)
+  Attack HIT! (20 vs 15). Dealt 2 Pierce.
+  Attack HIT! (14 vs 6). Dealt 1 Pierce.
+  Attack MISSED. (10 vs 15)
+  Attack MISSED. (17 vs 19)
+  Attack HIT! (20 vs 13). Dealt 8 Pierce.
+  Attack HIT! (13 vs 10). Dealt 3 Pierce.
+  Attack MISSED. (6 vs 20)
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(11) vs bob(16)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack HIT! (15 vs 4). Dealt 5 Pierce.
+  Attack HIT! (10 vs 3). Dealt 1 Pierce.
+  Attack MISSED. (11 vs 13)
+  Attack MISSED. (10 vs 14)
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (3 vs 18)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(20) vs Hero(3)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack HIT! (20 vs 13). Dealt 2 Pierce.
+  Attack HIT! (18 vs 6). Dealt 3 Pierce.
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(1) vs bob(2)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(15) vs Hero(6)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (11 vs 15)
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(6) vs Hero(4)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (2 vs 7)
+  Attack HIT! (12 vs 8). Dealt 6 Pierce.
+  Attack MISSED. (9 vs 12)
+  Attack HIT! (12 vs 9). Dealt 2 Pierce.
+  Attack MISSED. (5 vs 13)
+  Attack MISSED. (10 vs 20)
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (1 vs 5)
+  Attack HIT! (19 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (17 vs 20)
+  Attack HIT! (20 vs 17). Dealt 4 Pierce.
+  Attack HIT! (19 vs 9). Dealt 5 Pierce.
+  Attack MISSED. (1 vs 18)
+  Attack MISSED. (6 vs 17)
+  Attack MISSED. (8 vs 15)
+  Attack MISSED. (1 vs 19)
+  Attack MISSED. (9 vs 13)
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (12 vs 19)
+  Attack HIT! (16 vs 13). Dealt 6 Pierce.
+  Attack MISSED. (4 vs 13)
+  Attack MISSED. (15 vs 20)
+  Attack HIT! (16 vs 3). Dealt 8 Pierce.
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (17 vs 9). Dealt 6 Pierce.
+
+  >> bob WINS in 25 turns!
+  Final: Hero 0HP | bob 29HP
+
+--- Battle 37: Iron vs Frost ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+
+  Attack MISSED. (1 vs 8)
+  Attack HIT! (15 vs 10). Dealt 1 Pierce.
+  Attack MISSED. (18 vs 21)
+  Attack MISSED. (2 vs 16)
+  Attack HIT! (15 vs 3). Dealt 2 Bludgeon.
+  Attack MISSED. (3 vs 15)
+  CLASH TRIGGERED! (13 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(19) vs Iron(7)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (3 vs 16)
+  Attack HIT! (17 vs 13). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(7) vs Frost(9)
+  [CLASH RESULT] Frost WINS! Disarmed (Status Applied)
+  Attack HIT! (16 vs 11). Dealt 1 Bludgeon.
+  Attack HIT! (17 vs 4). Dealt 3 Pierce.
+  Attack MISSED. (12 vs 14)
+  Attack HIT! (17 vs 7). Dealt 1 Pierce.
+  Attack MISSED. (13 vs 17)
+  Attack HIT! (20 vs 16). Dealt 3 Pierce.
+  Attack HIT! (19 vs 17). Dealt 3 Bludgeon.
+  Attack HIT! (18 vs 10). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 21)
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (9 vs 19)
+  Attack HIT! (19 vs 14). Dealt 6 Bludgeon.
+  Attack MISSED. (5 vs 19)
+  Attack HIT! (20 vs 15). Dealt 1 Bludgeon.
+  Attack HIT! (11 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (5 vs 22)
+  Attack HIT! (19 vs 7). Dealt 3 Pierce.
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(20) vs Iron(1)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (15 vs 5). Dealt 2 Pierce.
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(8) vs Iron(5)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (17 vs 5). Dealt 4 Pierce.
+  Attack MISSED. (6 vs 9)
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (16 vs 14). Dealt 5 Bludgeon.
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (15 vs 22)
+  Attack MISSED. (3 vs 15)
+  Attack MISSED. (3 vs 7)
+  Attack HIT! (11 vs 9). Dealt 1 Pierce.
+  Attack HIT! (14 vs 7). Dealt 1 Bludgeon.
+  Attack HIT! (17 vs 10). Dealt 1 Pierce.
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(8) vs Iron(11)
+  [CLASH RESULT] Iron WINS! Matador Feint
+  Attack HIT! (12 vs 9). Dealt 2 Pierce.
+  Attack HIT! (11 vs 8). Dealt 4 Bludgeon.
+  Attack MISSED. (15 vs 18)
+  Attack HIT! (20 vs 6). Dealt 5 Bludgeon.
+  Attack MISSED. (4 vs 17)
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (4 vs 6)
+  Attack HIT! (16 vs 5). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 21)
+  Attack MISSED. (6 vs 22)
+  Attack MISSED. (3 vs 10)
+  Attack HIT! (16 vs 3). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(18) vs Frost(4)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack HIT! (18 vs 10). Dealt 6 Bludgeon.
+
+  >> Frost WINS in 29 turns!
+  Final: Iron 0HP | Frost 18HP
+
+--- Battle 38: bob vs Frost ---
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+
+  Attack MISSED. (3 vs 19)
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(12) vs bob(7)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (14 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (11 vs 13)
+  Attack HIT! (5 vs 3). Dealt 6 Pierce.
+  Attack MISSED. (1 vs 15)
+  Attack MISSED. (17 vs 19)
+  Attack MISSED. (5 vs 11)
+  Attack MISSED. (18 vs 21)
+  Attack HIT! (10 vs 6). Dealt 4 Bludgeon.
+  Attack MISSED. (3 vs 7)
+  Attack MISSED. (4 vs 16)
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (3 vs 14)
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(8) vs Frost(9)
+  [CLASH RESULT] Frost WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(7) vs bob(6)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack MISSED. (3 vs 11)
+  Attack HIT! (14 vs 10). Dealt 6 Bludgeon.
+  Attack MISSED. (6 vs 18)
+  Attack HIT! (11 vs 5). Dealt 6 Bludgeon.
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (7 vs 18)
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(2) vs Frost(13)
+  [CLASH RESULT] Frost WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(12) vs bob(13)
+  [CLASH RESULT] bob WINS! Matador Feint
+  Attack MISSED. (10 vs 17)
+  Attack HIT! (8 vs 2). Dealt 1 Bludgeon.
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (10 vs 5). Dealt 3 Bludgeon.
+  Attack MISSED. (7 vs 18)
+  Attack MISSED. (6 vs 9)
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (19 vs 3). Dealt 4 Bludgeon.
+  Attack MISSED. (5 vs 15)
+  Attack HIT! (19 vs 8). Dealt 5 Bludgeon.
+  Attack HIT! (20 vs 12). Dealt 3 Pierce.
+  Attack MISSED. (5 vs 7)
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(7) vs Frost(11)
+  [CLASH RESULT] Frost WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(3) vs bob(20)
+  [CLASH RESULT] bob WINS! Matador Feint
+  Attack MISSED. (1 vs 16)
+  Attack MISSED. (7 vs 19)
+  Attack MISSED. (10 vs 17)
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Frost(17) vs bob(17)
+  [CLASH RESULT] Frost WINS! Matador Feint
+  Attack HIT! (17 vs 11). Dealt 1 Pierce.
+  Attack HIT! (14 vs 4). Dealt 1 Bludgeon.
+  Attack HIT! (11 vs 4). Dealt 6 Pierce.
+  Attack HIT! (13 vs 10). Dealt 2 Bludgeon.
+  Attack MISSED. (2 vs 11)
+  Attack HIT! (14 vs 8). Dealt 3 Bludgeon.
+  Attack HIT! (11 vs 7). Dealt 7 Pierce.
+  Attack MISSED. (3 vs 18)
+  Attack MISSED. (10 vs 18)
+  Attack HIT! (13 vs 9). Dealt 2 Bludgeon.
+  Attack HIT! (20 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (14 vs 17)
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (19 vs 3). Dealt 3 Bludgeon.
+  Attack HIT! (19 vs 14). Dealt 6 Pierce.
+  Attack HIT! (14 vs 4). Dealt 4 Bludgeon.
+  Attack HIT! (11 vs 8). Dealt 7 Pierce.
+  Attack HIT! (13 vs 7). Dealt 5 Bludgeon.
+
+  >> Frost (HP) WINS in 30 turns!
+  Final: bob 2HP | Frost 4HP
+
+--- Battle 39: Shadow vs steve ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+
+  Attack HIT! (15 vs 13). Dealt 4 Pierce.
+  Attack HIT! (12 vs 9). Dealt 3 Bludgeoning.
+  Attack HIT! (12 vs 5). Dealt 1 Pierce.
+  Attack HIT! (17 vs 15). Dealt 2 Bludgeoning.
+  Attack MISSED. (13 vs 21)
+  Attack HIT! (11 vs 9). Dealt 4 Bludgeoning.
+  Attack MISSED. (4 vs 17)
+  Attack MISSED. (8 vs 20)
+  Attack MISSED. (10 vs 18)
+  Attack MISSED. (14 vs 19)
+  Attack MISSED. (17 vs 19)
+  Attack HIT! (18 vs 7). Dealt 4 Bludgeoning.
+  Attack MISSED. (8 vs 10)
+  Attack HIT! (19 vs 12). Dealt 2 Bludgeoning.
+  Attack MISSED. (3 vs 22)
+  Attack HIT! (14 vs 11). Dealt 3 Bludgeoning.
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (11 vs 3). Dealt 4 Bludgeoning.
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(5) vs steve(6)
+  [CLASH RESULT] steve WINS! Disarmed (Status Applied)
+  Attack MISSED. (14 vs 20)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(19) vs steve(4)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (7 vs 15)
+  Attack MISSED. (8 vs 17)
+  Attack HIT! (14 vs 10). Dealt 1 Bludgeoning.
+  Attack MISSED. (1 vs 15)
+  Attack MISSED. (6 vs 15)
+  Attack MISSED. (1 vs 14)
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(11) vs Shadow(18)
+  [CLASH RESULT] Shadow WINS! Matador Feint
+  Attack HIT! (16 vs 3). Dealt 2 Pierce.
+  Attack HIT! (19 vs 7). Dealt 4 Bludgeoning.
+  Attack HIT! (18 vs 8). Dealt 2 Pierce.
+  Attack MISSED. (14 vs 20)
+  Attack HIT! (14 vs 12). Dealt 5 Pierce.
+  Attack MISSED. (7 vs 21)
+  Attack MISSED. (1 vs 8)
+  Attack HIT! (17 vs 4). Dealt 1 Bludgeoning.
+  Attack HIT! (20 vs 10). Dealt 6 Pierce.
+  Attack HIT! (12 vs 9). Dealt 2 Bludgeoning.
+  Attack HIT! (12 vs 5). Dealt 3 Pierce.
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(20) vs Shadow(20)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack MISSED. (8 vs 13)
+  Attack MISSED. (6 vs 15)
+  Attack HIT! (19 vs 13). Dealt 3 Pierce.
+  Attack MISSED. (6 vs 13)
+  Attack HIT! (14 vs 9). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 11)
+  Attack MISSED. (11 vs 18)
+  Attack MISSED. (6 vs 11)
+  Attack MISSED. (4 vs 11)
+  Attack MISSED. (8 vs 21)
+  Attack HIT! (17 vs 11). Dealt 1 Pierce.
+  Attack HIT! (8 vs 3). Dealt 4 Bludgeoning.
+  Attack HIT! (18 vs 8). Dealt 2 Pierce.
+  Attack MISSED. (2 vs 5)
+  Attack HIT! (19 vs 8). Dealt 5 Pierce.
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (2 vs 22)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(17) vs Shadow(7)
+  [CLASH RESULT] steve WINS! Matador Feint
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(8) vs steve(18)
+  [CLASH RESULT] steve WINS! Disarmed (Status Applied)
+  Attack HIT! (11 vs 2). Dealt 2 Bludgeoning.
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Shadow 6HP | steve 2HP
+
+--- Battle 40: steve vs Blaze ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+
+  CLASH TRIGGERED! (5 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(19) vs Blaze(8)
+  [CLASH RESULT] steve WINS! Matador Feint
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(17) vs steve(5)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (21 vs 7). Dealt 3 Bludgeoning.
+  Attack MISSED. (7 vs 13)
+  Attack HIT! (7 vs 5). Dealt 2 Bludgeoning.
+  Attack HIT! (19 vs 11). Dealt 2 Bludgeon.
+  Attack HIT! (20 vs 9). Dealt 1 Bludgeoning.
+  Attack HIT! (11 vs 5). Dealt 1 Bludgeon.
+  Attack HIT! (11 vs 6). Dealt 1 Bludgeoning.
+  Attack MISSED. (15 vs 19)
+  Attack MISSED. (13 vs 20)
+  Attack HIT! (17 vs 10). Dealt 4 Bludgeon.
+  Attack MISSED. (3 vs 9)
+  Attack HIT! (14 vs 3). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 10)
+  Attack MISSED. (18 vs 20)
+  Attack MISSED. (4 vs 18)
+  Attack MISSED. (1 vs 10)
+  Attack MISSED. (14 vs 17)
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(20) vs steve(17)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (13 vs 11). Dealt 4 Bludgeoning.
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (15 vs 4). Dealt 3 Bludgeon.
+  Attack MISSED. (2 vs 14)
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(9) vs steve(14)
+  [CLASH RESULT] steve WINS! Bulwark Shove
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(11) vs Blaze(19)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+  Attack MISSED. (8 vs 20)
+  Attack HIT! (21 vs 2). Dealt 4 Bludgeoning.
+  Attack HIT! (14 vs 11). Dealt 3 Bludgeon.
+  Attack HIT! (16 vs 12). Dealt 3 Bludgeoning.
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(9) vs steve(14)
+  [CLASH RESULT] steve WINS! Bulwark Shove
+  Attack MISSED. (6 vs 14)
+  Attack HIT! (17 vs 15). Dealt 3 Bludgeon.
+  Attack HIT! (17 vs 15). Dealt 2 Bludgeoning.
+  Attack MISSED. (2 vs 7)
+  CLASH TRIGGERED! (17 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(9) vs Blaze(15)
+  [CLASH RESULT] Blaze WINS! Matador Feint
+  Attack MISSED. (5 vs 12)
+  Attack HIT! (12 vs 8). Dealt 1 Bludgeoning.
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (17 vs 5). Dealt 4 Bludgeoning.
+  Attack MISSED. (5 vs 14)
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(14) vs Blaze(5)
+  [CLASH RESULT] steve WINS! Matador Feint
+  Attack HIT! (19 vs 9). Dealt 2 Bludgeon.
+  Attack HIT! (16 vs 3). Dealt 4 Bludgeoning.
+  Attack MISSED. (8 vs 11)
+  Attack MISSED. (2 vs 4)
+  Attack MISSED. (5 vs 10)
+  Attack MISSED. (4 vs 11)
+  Attack MISSED. (2 vs 4)
+  Attack MISSED. (2 vs 8)
+  Attack HIT! (16 vs 11). Dealt 1 Bludgeon.
+  Attack MISSED. (4 vs 8)
+  Attack MISSED. (3 vs 10)
+  Attack HIT! (12 vs 10). Dealt 3 Bludgeoning.
+  Attack MISSED. (13 vs 18)
+  Attack HIT! (21 vs 5). Dealt 3 Bludgeoning.
+  Attack MISSED. (1 vs 9)
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (5 vs 16)
+
+  >> steve (HP) WINS in 30 turns!
+  Final: steve 20HP | Blaze 8HP
+
+--- Battle 41: Iron vs Valor ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack MISSED. (11 vs 19)
+  CLASH TRIGGERED! (21 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(10) vs Iron(4)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (5 vs 9)
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(4) vs Iron(19)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack HIT! (14 vs 8). Dealt 1 Pierce.
+  Attack HIT! (19 vs 12). Dealt 1 Bludgeon.
+  Attack HIT! (7 vs 3). Dealt 4 Pierce.
+  Attack HIT! (21 vs 19). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(15) vs Valor(2)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (17 vs 21)
+  Attack MISSED. (5 vs 8)
+  Attack HIT! (17 vs 11). Dealt 3 Bludgeon.
+  CLASH TRIGGERED! (8 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(3) vs Valor(2)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 22)
+  Attack HIT! (15 vs 5). Dealt 4 Pierce.
+  Attack HIT! (11 vs 3). Dealt 2 Bludgeon.
+  Attack MISSED. (9 vs 17)
+  Attack HIT! (15 vs 13). Dealt 3 Bludgeon.
+  Attack MISSED. (13 vs 21)
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs Iron(17)
+  [CLASH RESULT] Iron WINS! Bulwark Shove
+  Attack MISSED. (6 vs 17)
+  Attack MISSED. (4 vs 6)
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(14) vs Valor(6)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(5) vs Iron(5)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(13) vs Valor(5)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 14)
+  Attack HIT! (13 vs 4). Dealt 4 Pierce.
+  Attack MISSED. (2 vs 6)
+  Attack MISSED. (5 vs 12)
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (6 vs 11)
+  Attack HIT! (20 vs 17). Dealt 2 Bludgeon.
+  Attack MISSED. (12 vs 16)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(20) vs Iron(6)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(8) vs Valor(4)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 10)
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (4 vs 15)
+  Attack MISSED. (2 vs 14)
+  Attack MISSED. (3 vs 14)
+  Attack HIT! (20 vs 15). Dealt 4 Pierce.
+  Attack HIT! (10 vs 3). Dealt 3 Bludgeon.
+  Attack HIT! (7 vs 3). Dealt 2 Pierce.
+  Attack MISSED. (5 vs 7)
+  Attack HIT! (14 vs 12). Dealt 3 Pierce.
+  Attack MISSED. (17 vs 21)
+  Attack HIT! (10 vs 4). Dealt 2 Pierce.
+  Attack MISSED. (15 vs 19)
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(2) vs Valor(13)
+  [CLASH RESULT] Valor WINS! Disarmed (Status Applied)
+  Attack MISSED. (16 vs 20)
+  Attack HIT! (8 vs 4). Dealt 1 Pierce.
+  Attack HIT! (19 vs 7). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 21)
+  Attack HIT! (9 vs 7). Dealt 4 Bludgeon.
+  Attack MISSED. (1 vs 19)
+  Attack MISSED. (2 vs 4)
+  Attack MISSED. (4 vs 18)
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (9 vs 12)
+  Attack MISSED. (16 vs 21)
+
+  >> Iron (HP) WINS in 30 turns!
+  Final: Iron 20HP | Valor 19HP
+
+--- Battle 42: Valor vs Thunder ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(10) vs Valor(10)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack MISSED. (14 vs 17)
+  Attack MISSED. (18 vs 22)
+  Attack MISSED. (2 vs 16)
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(14) vs Valor(17)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack MISSED. (14 vs 18)
+  Attack MISSED. (10 vs 16)
+  Attack MISSED. (5 vs 9)
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(2) vs Valor(13)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack HIT! (6 vs 3). Dealt 4 Bludgeon.
+  Attack HIT! (17 vs 5). Dealt 7 Slash.
+  Attack HIT! (17 vs 13). Dealt 1 Bludgeon.
+  Attack HIT! (19 vs 9). Dealt 5 Slash.
+  Attack MISSED. (16 vs 18)
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (3 vs 21)
+  CLASH TRIGGERED! (15 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(10) vs Valor(18)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(5) vs Thunder(7)
+  [CLASH RESULT] Thunder WINS! Bulwark Shove
+  Attack HIT! (19 vs 6). Dealt 7 Slash.
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (15 vs 17)
+  Attack MISSED. (4 vs 19)
+  Attack MISSED. (4 vs 16)
+  Attack MISSED. (13 vs 18)
+  Attack HIT! (12 vs 3). Dealt 6 Slash.
+  CLASH TRIGGERED! (17 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(12) vs Thunder(9)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (2 vs 15)
+  Attack MISSED. (7 vs 16)
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (15 vs 22)
+  Attack MISSED. (7 vs 17)
+  Attack MISSED. (11 vs 14)
+  Attack HIT! (19 vs 6). Dealt 6 Slash.
+  Attack HIT! (18 vs 15). Dealt 2 Bludgeon.
+  Attack MISSED. (1 vs 13)
+  Attack MISSED. (6 vs 9)
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Thunder(17) vs Valor(10)
+  [CLASH RESULT] Thunder WINS! Pushed Back & Follow Up
+  Attack HIT! (12 vs 7). Dealt 2 Bludgeon.
+  Attack MISSED. (1 vs 10)
+  Attack HIT! (20 vs 8). Dealt 4 Bludgeon.
+  Attack MISSED. (13 vs 20)
+  Attack MISSED. (4 vs 19)
+  Attack HIT! (13 vs 7). Dealt 8 Slash.
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(20) vs Thunder(1)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (15 vs 3). Dealt 2 Slash.
+  Attack MISSED. (2 vs 10)
+  Attack MISSED. (10 vs 22)
+  Attack HIT! (21 vs 5). Dealt 2 Bludgeon.
+  Attack HIT! (16 vs 4). Dealt 6 Slash.
+
+  >> Thunder WINS in 25 turns!
+  Final: Valor 0HP | Thunder 25HP
+
+--- Battle 43: Blaze vs Shadow ---
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack MISSED. (2 vs 4)
+  Attack HIT! (13 vs 9). Dealt 2 Pierce.
+  Attack MISSED. (5 vs 8)
+  Attack HIT! (19 vs 2). Dealt 5 Pierce.
+  Attack MISSED. (10 vs 15)
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (2 vs 5)
+  Attack MISSED. (16 vs 19)
+  Attack HIT! (14 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (1 vs 17)
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(1) vs Blaze(19)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(12) vs Shadow(2)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Blaze(11)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(7) vs Shadow(11)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (5 vs 18)
+  Attack HIT! (12 vs 7). Dealt 4 Bludgeon.
+  Attack MISSED. (8 vs 10)
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (4 vs 8)
+  Attack HIT! (4 vs 2). Dealt 2 Bludgeon.
+  Attack MISSED. (5 vs 17)
+  Attack HIT! (16 vs 13). Dealt 1 Bludgeon.
+  Attack HIT! (18 vs 10). Dealt 4 Pierce.
+  Attack HIT! (17 vs 5). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(20) vs Blaze(16)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(8) vs Shadow(8)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack MISSED. (3 vs 19)
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(12) vs Shadow(11)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (10 vs 6). Dealt 6 Pierce.
+  Attack HIT! (15 vs 9). Dealt 2 Bludgeon.
+  Attack MISSED. (3 vs 21)
+  Attack HIT! (13 vs 8). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(6) vs Blaze(9)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack HIT! (6 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (3 vs 10)
+  Attack MISSED. (9 vs 19)
+  Attack HIT! (15 vs 13). Dealt 6 Pierce.
+  Attack MISSED. (11 vs 17)
+  Attack HIT! (13 vs 9). Dealt 5 Pierce.
+  Attack MISSED. (11 vs 19)
+  Attack MISSED. (3 vs 17)
+  Attack HIT! (19 vs 14). Dealt 1 Bludgeon.
+  Attack HIT! (16 vs 4). Dealt 1 Pierce.
+  Attack MISSED. (3 vs 12)
+  Attack MISSED. (14 vs 21)
+  Attack HIT! (9 vs 7). Dealt 1 Bludgeon.
+  Attack HIT! (14 vs 3). Dealt 1 Pierce.
+  Attack MISSED. (18 vs 20)
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (13 vs 17)
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(8) vs Blaze(12)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack HIT! (13 vs 2). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(1) vs Blaze(5)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 13)
+  Attack MISSED. (8 vs 19)
+  Attack HIT! (20 vs 3). Dealt 3 Bludgeon.
+  Attack MISSED. (11 vs 21)
+  Attack HIT! (14 vs 4). Dealt 1 Bludgeon.
+  Attack MISSED. (5 vs 20)
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Blaze 13HP | Shadow 18HP
+
+--- Battle 44: steve vs Valor ---
+steve: HP 42/42 | Powers: ['Bolt', 'Freeze']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (14 vs 8). Dealt 2 Bludgeon.
+  Attack HIT! (6 vs 3). Dealt 2 Bludgeoning.
+  Attack MISSED. (16 vs 21)
+  Attack MISSED. (3 vs 14)
+  Attack HIT! (21 vs 15). Dealt 1 Bludgeon.
+  Attack HIT! (21 vs 6). Dealt 1 Bludgeoning.
+  Attack MISSED. (5 vs 10)
+  Attack MISSED. (10 vs 18)
+  Attack MISSED. (14 vs 22)
+  Attack HIT! (18 vs 9). Dealt 1 Bludgeoning.
+  Attack MISSED. (11 vs 21)
+  Attack MISSED. (7 vs 15)
+  Attack MISSED. (7 vs 15)
+  Attack MISSED. (5 vs 22)
+  Attack HIT! (20 vs 7). Dealt 4 Bludgeon.
+  Attack HIT! (13 vs 8). Dealt 4 Bludgeoning.
+  Attack HIT! (21 vs 13). Dealt 3 Bludgeon.
+  Attack HIT! (20 vs 12). Dealt 2 Bludgeoning.
+  Attack MISSED. (6 vs 13)
+  Attack MISSED. (9 vs 21)
+  Attack MISSED. (5 vs 18)
+  Attack MISSED. (3 vs 18)
+  Attack HIT! (14 vs 7). Dealt 4 Bludgeon.
+  Attack MISSED. (5 vs 11)
+  Attack MISSED. (7 vs 16)
+  Attack HIT! (19 vs 15). Dealt 3 Bludgeoning.
+  Attack MISSED. (18 vs 22)
+  Attack MISSED. (5 vs 11)
+  Attack MISSED. (13 vs 18)
+  Attack HIT! (21 vs 8). Dealt 4 Bludgeoning.
+  Attack MISSED. (7 vs 21)
+  Attack MISSED. (6 vs 12)
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(4) vs steve(8)
+  [CLASH RESULT] steve WINS! Bulwark Shove
+  Attack HIT! (19 vs 9). Dealt 2 Bludgeoning.
+  Attack MISSED. (5 vs 14)
+  Attack HIT! (20 vs 16). Dealt 4 Bludgeoning.
+  Attack MISSED. (4 vs 6)
+  Attack HIT! (18 vs 13). Dealt 1 Bludgeoning.
+  Attack MISSED. (16 vs 22)
+  Attack MISSED. (3 vs 14)
+  Attack HIT! (15 vs 12). Dealt 4 Bludgeon.
+  Attack MISSED. (14 vs 20)
+  Attack HIT! (8 vs 6). Dealt 4 Bludgeon.
+  Attack HIT! (19 vs 4). Dealt 3 Bludgeoning.
+  Attack MISSED. (4 vs 13)
+  Attack MISSED. (15 vs 18)
+  Attack MISSED. (7 vs 16)
+  Attack MISSED. (8 vs 16)
+  Attack HIT! (14 vs 9). Dealt 2 Bludgeon.
+  Attack MISSED. (14 vs 20)
+  Attack MISSED. (17 vs 20)
+  Attack MISSED. (8 vs 18)
+  Attack HIT! (17 vs 10). Dealt 1 Bludgeon.
+  Attack HIT! (10 vs 3). Dealt 1 Bludgeoning.
+  Attack MISSED. (6 vs 21)
+  Attack MISSED. (10 vs 16)
+  Attack HIT! (20 vs 12). Dealt 1 Bludgeon.
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): steve(11) vs Valor(13)
+  [CLASH RESULT] Valor WINS! Matador Feint
+  Attack HIT! (20 vs 11). Dealt 4 Bludgeon.
+  Attack MISSED. (9 vs 12)
+
+  >> Valor (HP) WINS in 30 turns!
+  Final: steve 12HP | Valor 16HP
+
+--- Battle 45: Iron vs bob ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+
+  Attack MISSED. (9 vs 11)
+  Attack MISSED. (17 vs 19)
+  Attack HIT! (16 vs 6). Dealt 3 Pierce.
+  Attack MISSED. (11 vs 13)
+  Attack MISSED. (7 vs 11)
+  Attack MISSED. (10 vs 15)
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(1) vs bob(3)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 16)
+  Attack MISSED. (14 vs 19)
+  Attack HIT! (13 vs 3). Dealt 4 Pierce.
+  Attack MISSED. (9 vs 19)
+  Attack MISSED. (15 vs 21)
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(15) vs bob(14)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 22)
+  Attack HIT! (19 vs 11). Dealt 2 Pierce.
+  Attack HIT! (18 vs 14). Dealt 3 Pierce.
+  Attack HIT! (20 vs 11). Dealt 4 Pierce.
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(6) vs Iron(11)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack MISSED. (13 vs 18)
+  Attack MISSED. (12 vs 17)
+  Attack HIT! (17 vs 8). Dealt 3 Pierce.
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(10) vs Iron(5)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack HIT! (11 vs 9). Dealt 4 Pierce.
+  Attack HIT! (20 vs 10). Dealt 8 Pierce.
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(19) vs bob(2)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (11 vs 17)
+  Attack MISSED. (5 vs 17)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (10 vs 12)
+  Attack HIT! (18 vs 8). Dealt 8 Pierce.
+  Attack HIT! (7 vs 5). Dealt 1 Pierce.
+  Attack MISSED. (2 vs 21)
+  Attack MISSED. (1 vs 18)
+  Attack MISSED. (11 vs 16)
+  Attack MISSED. (6 vs 20)
+  Attack MISSED. (11 vs 13)
+  Attack HIT! (13 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (1 vs 11)
+  Attack MISSED. (3 vs 11)
+  Attack HIT! (20 vs 17). Dealt 3 Pierce.
+  Attack MISSED. (4 vs 16)
+  Attack HIT! (11 vs 7). Dealt 2 Pierce.
+  Attack MISSED. (6 vs 9)
+  Attack MISSED. (8 vs 11)
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (5 vs 18)
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(2) vs Iron(15)
+  [CLASH RESULT] Iron WINS! Pushed Back & Follow Up
+  Attack HIT! (15 vs 7). Dealt 2 Pierce.
+  Attack MISSED. (13 vs 22)
+  Attack MISSED. (8 vs 10)
+  Attack MISSED. (2 vs 13)
+  Attack MISSED. (10 vs 20)
+  Attack MISSED. (18 vs 20)
+  Attack HIT! (8 vs 4). Dealt 3 Pierce.
+  Attack HIT! (17 vs 14). Dealt 8 Pierce.
+  Attack MISSED. (5 vs 16)
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(14) vs Iron(8)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (18 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(4) vs bob(16)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (7 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(13) vs Iron(7)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+
+  >> bob (HP) WINS in 30 turns!
+  Final: Iron 10HP | bob 23HP
+
+--- Battle 46: bob vs Shadow ---
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack HIT! (17 vs 3). Dealt 3 Pierce.
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(5) vs Shadow(10)
+  [CLASH RESULT] Shadow WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (17 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(5) vs bob(17)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack HIT! (15 vs 8). Dealt 4 Pierce.
+  Attack MISSED. (16 vs 19)
+  Attack MISSED. (7 vs 12)
+  Attack HIT! (10 vs 7). Dealt 5 Pierce.
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(7) vs Shadow(4)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (8 vs 14)
+  CLASH TRIGGERED! (19 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(15) vs Shadow(2)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack HIT! (14 vs 9). Dealt 4 Pierce.
+  CLASH TRIGGERED! (2 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(20) vs Shadow(10)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (15 vs 21)
+  Attack HIT! (10 vs 7). Dealt 1 Pierce.
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(9) vs bob(13)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack MISSED. (10 vs 18)
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(6) vs bob(9)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack HIT! (20 vs 4). Dealt 7 Pierce.
+  Attack HIT! (11 vs 2). Dealt 1 Pierce.
+  Attack MISSED. (10 vs 15)
+  Attack HIT! (17 vs 3). Dealt 2 Pierce.
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(20) vs Shadow(11)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (5 vs 14)
+  Attack HIT! (15 vs 10). Dealt 8 Pierce.
+  Attack HIT! (17 vs 5). Dealt 3 Pierce.
+  Attack HIT! (11 vs 5). Dealt 2 Pierce.
+  Attack HIT! (15 vs 13). Dealt 2 Pierce.
+  Attack MISSED. (4 vs 7)
+  Attack MISSED. (11 vs 16)
+  Attack MISSED. (8 vs 13)
+  Attack HIT! (14 vs 11). Dealt 1 Pierce.
+  Attack MISSED. (2 vs 7)
+  Attack MISSED. (10 vs 17)
+  Attack MISSED. (5 vs 17)
+  Attack MISSED. (7 vs 15)
+  Attack MISSED. (2 vs 16)
+  CLASH TRIGGERED! (6 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(14) vs bob(16)
+  [CLASH RESULT] bob WINS! Disarmed (Status Applied)
+  Attack HIT! (18 vs 7). Dealt 8 Pierce.
+  Attack MISSED. (1 vs 13)
+  Attack MISSED. (3 vs 7)
+  Attack HIT! (17 vs 3). Dealt 5 Pierce.
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (17 vs 3). Dealt 5 Pierce.
+  Attack HIT! (20 vs 18). Dealt 5 Pierce.
+  Attack MISSED. (2 vs 7)
+  Attack HIT! (17 vs 15). Dealt 3 Pierce.
+  Attack HIT! (20 vs 6). Dealt 6 Pierce.
+  Attack MISSED. (8 vs 17)
+  Attack MISSED. (1 vs 19)
+  Attack HIT! (13 vs 3). Dealt 6 Pierce.
+
+  >> bob WINS in 25 turns!
+  Final: bob 14HP | Shadow 0HP
+
+--- Battle 47: Iron vs Shadow ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Attack MISSED. (1 vs 14)
+  Attack HIT! (11 vs 4). Dealt 1 Pierce.
+  Attack MISSED. (5 vs 17)
+  Attack MISSED. (8 vs 21)
+  Attack MISSED. (1 vs 8)
+  Attack HIT! (16 vs 13). Dealt 6 Pierce.
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(6) vs Shadow(11)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (16 vs 20)
+  CLASH TRIGGERED! (20 vs 21)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(8) vs Shadow(16)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 17)
+  Attack MISSED. (2 vs 18)
+  Attack MISSED. (8 vs 21)
+  Attack HIT! (20 vs 9). Dealt 1 Pierce.
+  CLASH TRIGGERED! (12 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(15) vs Iron(3)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 20)
+  Attack HIT! (10 vs 5). Dealt 6 Pierce.
+  Attack MISSED. (4 vs 12)
+  Attack HIT! (18 vs 14). Dealt 2 Pierce.
+  Attack MISSED. (12 vs 18)
+  Attack HIT! (15 vs 11). Dealt 4 Pierce.
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(8) vs Shadow(7)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 20)
+  Attack HIT! (19 vs 14). Dealt 4 Pierce.
+  Attack MISSED. (10 vs 20)
+  Attack HIT! (14 vs 10). Dealt 2 Pierce.
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(19) vs Iron(15)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (12 vs 10). Dealt 2 Pierce.
+  Attack HIT! (13 vs 4). Dealt 6 Pierce.
+  Attack MISSED. (3 vs 6)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(10) vs Iron(14)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 21)
+  Attack MISSED. (3 vs 8)
+  Attack HIT! (15 vs 13). Dealt 3 Pierce.
+  Attack HIT! (20 vs 10). Dealt 1 Pierce.
+  Attack MISSED. (7 vs 20)
+  Attack MISSED. (3 vs 15)
+  Attack HIT! (12 vs 5). Dealt 2 Pierce.
+  Attack MISSED. (8 vs 13)
+  Attack HIT! (17 vs 11). Dealt 3 Pierce.
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(18) vs Iron(2)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (12 vs 10). Dealt 2 Pierce.
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(17) vs Iron(12)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (5 vs 7)
+  CLASH TRIGGERED! (19 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(19) vs Iron(12)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 18)
+  Attack MISSED. (18 vs 22)
+  Attack MISSED. (4 vs 16)
+  Attack MISSED. (8 vs 19)
+  Attack MISSED. (9 vs 16)
+  Attack MISSED. (11 vs 22)
+  Attack MISSED. (8 vs 17)
+  Attack HIT! (7 vs 4). Dealt 5 Pierce.
+  Attack MISSED. (6 vs 8)
+  Attack HIT! (14 vs 6). Dealt 1 Pierce.
+  CLASH TRIGGERED! (13 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Iron(16) vs Shadow(15)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 13)
+  Attack MISSED. (1 vs 15)
+  Attack MISSED. (11 vs 16)
+  Attack HIT! (18 vs 13). Dealt 4 Pierce.
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(19) vs Iron(20)
+  [CLASH RESULT] Iron WINS! Disarmed (Status Applied)
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Iron 9HP | Shadow 19HP
+
+--- Battle 48: Shadow vs Hero ---
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+Hero: HP 40/40 | Powers: ['Bolt', 'Push']
+
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(5) vs Hero(11)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 7)
+  CLASH TRIGGERED! (12 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(4) vs Hero(12)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack HIT! (15 vs 2). Dealt 6 Pierce.
+  Attack HIT! (17 vs 11). Dealt 4 Pierce.
+  Attack MISSED. (7 vs 18)
+  Attack HIT! (16 vs 4). Dealt 5 Pierce.
+  Attack MISSED. (3 vs 6)
+  Attack HIT! (20 vs 5). Dealt 3 Pierce.
+  Attack MISSED. (3 vs 16)
+  Attack MISSED. (9 vs 20)
+  Attack MISSED. (8 vs 12)
+  Attack MISSED. (9 vs 15)
+  Attack MISSED. (10 vs 19)
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(13) vs Hero(5)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(3) vs Shadow(12)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 14)
+  Attack HIT! (10 vs 3). Dealt 5 Pierce.
+  Attack HIT! (17 vs 12). Dealt 2 Pierce.
+  Attack MISSED. (3 vs 12)
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(9) vs Hero(11)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (7 vs 17)
+  Attack MISSED. (5 vs 8)
+  Attack MISSED. (10 vs 14)
+  Attack HIT! (16 vs 14). Dealt 4 Pierce.
+  Attack MISSED. (1 vs 7)
+  Attack MISSED. (12 vs 16)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(6) vs Shadow(16)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (11 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Hero(12)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(15) vs Shadow(12)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack MISSED. (4 vs 17)
+  Attack HIT! (20 vs 17). Dealt 6 Pierce.
+  Attack MISSED. (9 vs 14)
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(11) vs Shadow(15)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (12 vs 20)
+  Attack HIT! (9 vs 5). Dealt 5 Pierce.
+  Attack HIT! (19 vs 7). Dealt 1 Pierce.
+  Attack HIT! (16 vs 4). Dealt 2 Pierce.
+  Attack MISSED. (4 vs 20)
+  Attack HIT! (18 vs 8). Dealt 2 Pierce.
+  Attack HIT! (18 vs 15). Dealt 6 Pierce.
+  Attack HIT! (19 vs 12). Dealt 2 Pierce.
+  Attack HIT! (14 vs 9). Dealt 2 Pierce.
+  Attack HIT! (17 vs 9). Dealt 3 Pierce.
+  Attack MISSED. (2 vs 13)
+  Attack HIT! (9 vs 3). Dealt 3 Pierce.
+  Attack HIT! (9 vs 6). Dealt 3 Pierce.
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Hero(1) vs Shadow(1)
+  [CLASH RESULT] Hero WINS! Disarmed (Status Applied)
+  Attack HIT! (19 vs 3). Dealt 2 Pierce.
+  Attack HIT! (19 vs 2). Dealt 3 Pierce.
+  Attack HIT! (18 vs 6). Dealt 2 Pierce.
+  Attack HIT! (9 vs 4). Dealt 5 Pierce.
+
+  >> Hero WINS in 26 turns!
+  Final: Shadow 0HP | Hero 6HP
+
+--- Battle 49: Blaze vs Shadow ---
+Blaze: HP 43/43 | Powers: ['Burn', 'Chill']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(4) vs Blaze(3)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (5 vs 14)
+  Attack MISSED. (9 vs 20)
+  Attack HIT! (6 vs 3). Dealt 2 Bludgeon.
+  Attack HIT! (16 vs 10). Dealt 6 Pierce.
+  Attack HIT! (18 vs 15). Dealt 1 Bludgeon.
+  Attack MISSED. (3 vs 16)
+  Attack HIT! (8 vs 4). Dealt 3 Bludgeon.
+  Attack HIT! (9 vs 2). Dealt 4 Pierce.
+  Attack HIT! (9 vs 4). Dealt 3 Bludgeon.
+  Attack HIT! (20 vs 11). Dealt 4 Pierce.
+  Attack MISSED. (4 vs 21)
+  Attack HIT! (14 vs 8). Dealt 1 Pierce.
+  Attack MISSED. (16 vs 18)
+  Attack HIT! (18 vs 13). Dealt 1 Pierce.
+  Attack HIT! (17 vs 11). Dealt 1 Bludgeon.
+  Attack MISSED. (6 vs 13)
+  Attack HIT! (18 vs 4). Dealt 3 Bludgeon.
+  Attack MISSED. (12 vs 18)
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(20) vs Shadow(17)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack MISSED. (13 vs 21)
+  Attack MISSED. (13 vs 16)
+  Attack HIT! (19 vs 13). Dealt 6 Pierce.
+  Attack HIT! (18 vs 8). Dealt 4 Bludgeon.
+  Attack MISSED. (8 vs 10)
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(20) vs Shadow(14)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(14) vs Blaze(17)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack HIT! (13 vs 6). Dealt 3 Bludgeon.
+  Attack MISSED. (1 vs 3)
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(4) vs Shadow(16)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (14 vs 16)
+  Attack HIT! (13 vs 4). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(9) vs Blaze(4)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack MISSED. (2 vs 14)
+  Attack MISSED. (5 vs 16)
+  Attack MISSED. (6 vs 19)
+  Attack HIT! (20 vs 18). Dealt 6 Pierce.
+  Attack MISSED. (14 vs 21)
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(16) vs Blaze(4)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(19) vs Shadow(16)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (18 vs 15). Dealt 4 Pierce.
+  Attack HIT! (8 vs 2). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (20 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(12) vs Blaze(1)
+  [CLASH RESULT] Shadow WINS! Disarmed (Status Applied)
+  Attack HIT! (17 vs 8). Dealt 3 Bludgeon.
+  Attack MISSED. (7 vs 11)
+  Attack HIT! (13 vs 7). Dealt 1 Bludgeon.
+  Attack MISSED. (3 vs 20)
+  Attack MISSED. (4 vs 12)
+  Attack MISSED. (8 vs 16)
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(11) vs Shadow(16)
+  [CLASH RESULT] Shadow WINS! Bulwark Shove
+  Attack MISSED. (10 vs 20)
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(15) vs Shadow(1)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack HIT! (17 vs 8). Dealt 3 Pierce.
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Blaze(15) vs Shadow(6)
+  [CLASH RESULT] Blaze WINS! Bulwark Shove
+  Attack MISSED. (10 vs 15)
+  Attack HIT! (16 vs 8). Dealt 2 Bludgeon.
+  Attack MISSED. (1 vs 19)
+  Attack MISSED. (4 vs 9)
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Shadow(1) vs Blaze(20)
+  [CLASH RESULT] Blaze WINS! Disarmed (Status Applied)
+  Attack MISSED. (3 vs 5)
+
+  >> Shadow (HP) WINS in 30 turns!
+  Final: Blaze 8HP | Shadow 10HP
+
+--- Battle 50: bob vs Valor ---
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Attack HIT! (19 vs 3). Dealt 1 Bludgeon.
+  Attack HIT! (16 vs 6). Dealt 6 Pierce.
+  Attack MISSED. (2 vs 16)
+  Attack HIT! (13 vs 8). Dealt 7 Pierce.
+  Attack HIT! (19 vs 17). Dealt 3 Bludgeon.
+  Attack MISSED. (5 vs 17)
+  Attack HIT! (21 vs 4). Dealt 2 Bludgeon.
+  Attack MISSED. (4 vs 9)
+  Attack HIT! (14 vs 8). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(3) vs Valor(8)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(6) vs bob(17)
+  [CLASH RESULT] bob WINS! Bulwark Shove
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(8) vs Valor(9)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack HIT! (13 vs 4). Dealt 4 Bludgeon.
+  CLASH TRIGGERED! (7 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(13) vs Valor(18)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(3) vs bob(3)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack MISSED. (1 vs 3)
+  Attack HIT! (11 vs 8). Dealt 3 Bludgeon.
+  Attack MISSED. (16 vs 21)
+  Attack HIT! (18 vs 4). Dealt 4 Bludgeon.
+  Attack MISSED. (10 vs 14)
+  Attack MISSED. (5 vs 9)
+  Attack HIT! (18 vs 16). Dealt 8 Pierce.
+  Attack HIT! (5 vs 2). Dealt 1 Bludgeon.
+  Attack HIT! (19 vs 17). Dealt 5 Pierce.
+  Attack HIT! (9 vs 5). Dealt 3 Bludgeon.
+  Attack HIT! (17 vs 9). Dealt 1 Pierce.
+  Attack MISSED. (18 vs 21)
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(17) vs Valor(9)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack MISSED. (4 vs 17)
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(7) vs Valor(20)
+  [CLASH RESULT] Valor WINS! Pushed Back & Follow Up
+  Attack HIT! (21 vs 9). Dealt 3 Bludgeon.
+  Attack HIT! (18 vs 16). Dealt 3 Pierce.
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): Valor(19) vs bob(3)
+  [CLASH RESULT] Valor WINS! Bulwark Shove
+  Attack HIT! (19 vs 12). Dealt 7 Pierce.
+  Attack HIT! (16 vs 8). Dealt 2 Bludgeon.
+  CLASH TRIGGERED! (11 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): bob(19) vs Valor(5)
+  [CLASH RESULT] bob WINS! Pushed Back & Follow Up
+  Attack HIT! (19 vs 16). Dealt 4 Bludgeon.
+  Attack HIT! (19 vs 6). Dealt 8 Pierce.
+
+  >> bob WINS in 19 turns!
+  Final: bob 17HP | Valor 0HP
+
+============================================================
+RESULTS SUMMARY
+============================================================
+Total Battles: 50
+Avg Turns: 26.7
+
+Win Rates:
+  Thunder: 6 wins
+  Shadow: 5 wins
+  bob: 5 wins
+  Frost: 3 wins
+  Hero: 3 wins
+  steve: 1 wins
+  Blaze: 1 wins
+============================================================
+

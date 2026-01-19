@@ -1,0 +1,41 @@
+{
+    "Name": "buggy",
+    "Species": "Insect",
+    "Stats": {
+        "Might": 18,
+        "Reflexes": 11,
+        "Endurance": 10,
+        "Vitality": 12,
+        "Fortitude": 11,
+        "Knowledge": 9,
+        "Logic": 10,
+        "Awareness": 11,
+        "Intuition": 10,
+        "Charm": 8,
+        "Willpower": 12,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Extra Limbs",
+        "Thick Plates",
+        "Bladed Arms",
+        "Antennae",
+        "Waxy Shell",
+        "Resisting Chitin"
+    ],
+    "Skills": [
+        "Large Weapons",
+        "The Blast",
+        "Repartee",
+        "Poise",
+        "Plate"
+    ],
+    "Powers": [
+        "Push",
+        "Mend"
+    ],
+    "Inventory": [
+        "Executioner's Blade",
+        "Spiked Plate"
+    ]
+}

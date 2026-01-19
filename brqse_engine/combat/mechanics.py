@@ -90,6 +90,8 @@ class Combatant:
         # INVENTORY SYSTEM
         self.inventory = Inventory() if Inventory else None
         self._init_loadout()
+
+        self.ai = None # Placeholder for AI Logic
         
         # PROGRESSION SYSTEM (Auto-Unlock Talents)
         if ProgressionEngine:
@@ -207,6 +209,31 @@ class Combatant:
         
         self.initiative = alertness + roll + bonus
         return self.initiative
+
+    def get_attack_range(self):
+        """
+        Calculates range based on equipped weapon + tags.
+        """
+        base_range = 5 # Default melee
+        
+        # Check equipped weapon tags (assuming you have an 'equipped_weapon' dict or object)
+        # If your system is simple, maybe it's just in self.weapon_data
+        
+        # Mock weapon data access if not present
+        wep = getattr(self, "weapon_data", {})
+        tags = wep.get("tags", set())
+        
+        # Handle "Reach"
+        if "Reach" in tags:
+            base_range += 5
+            
+        # Handle "Thrown" (if we are throwing it)
+        # For simplicity, if it has 'Thrown', we use the thrown range provided in data
+        # or default to 30ft.
+        if "Thrown" in tags:
+            base_range = max(base_range, 30) 
+            
+        return base_range
 
     def get_stat(self, stat_name):
         return self.stats.get(stat_name, 10) # Default to 10 (Mod +0)
@@ -431,9 +458,39 @@ class CombatEngine:
         # Map
         self.cols = cols
         self.rows = rows
-        self.walls = set() # (x, y) tuples
+        self.walls = set()
+        self.hazards = [] # <--- BURT'S UPDATE: Add this list!
         self.aoe_templates = []
-        self.log = []
+        
+        self.ai = None # Placeholder for AI Engine
+        self.log_callback = None
+        
+        # Clash State
+        self.clash_active = False
+        self.clash_participants = (None, None)
+        self.clash_stat = None
+        
+    def create_wall(self, x, y):
+        """Creates a wall at the specified coordinates."""
+        if 0 <= x < self.cols and 0 <= y < self.rows:
+            self.walls.add((x, y))
+            
+    def tick_hazards(self):
+        """
+        Call this at end of round to clean up expired zones.
+        """
+        active = []
+        for h in self.hazards:
+            h["duration"] -= 1
+            if h["duration"] > 0:
+                active.append(h)
+        self.hazards = active
+
+    def log(self, message):
+        """Logs a message using the callback if available."""
+        if self.log_callback:
+            self.log_callback(message)
+        
         self.clash_active = False
         self.clash_participants = (None, None) 
         self.clash_stat = None
@@ -462,6 +519,45 @@ class CombatEngine:
                     db[name] = dice
         except: pass
         return db
+
+    def attack_target(self, attacker, target):
+        # 1. Check Range
+        r_dist = max(abs(attacker.x - target.x), abs(attacker.y - target.y)) * 5
+        max_reach = attacker.get_attack_range()
+        
+        if r_dist > max_reach:
+            return f"Out of Range! (Target: {r_dist}ft, Reach: {max_reach}ft)"
+
+        # 2. Resolve Finesse (Stat Swapping)
+        # Check for Finesse tag
+        wep = getattr(attacker, "weapon_data", {})
+        tags = wep.get("tags", set())
+        
+        stat_used = "Might" # Default
+        if "Finesse" in tags:
+            # Use better of Might vs Reflexes
+            might = attacker.get_stat("Might")
+            ref = attacker.get_stat("Reflexes")
+            if ref > might:
+                stat_used = "Reflexes"
+        
+        # Calculate Chance to Hit
+        # 1d20 + Stat + Tier vs Target Reflex
+        # Tier logic? Assume Tier 1 for now or get from weapon (TODO)
+        roll = random.randint(1, 20)
+        bonus = attacker.get_stat(stat_used)
+        total = roll + bonus
+        
+        defense = target.get_stat("Reflexes") + 10 # Base AC
+        
+        hit = total >= defense
+        
+        if hit:
+            dmg = random.randint(1, 6) + bonus # Base D6
+            target.hp -= dmg
+            return f"Hit! Dealt {dmg} damage."
+        else:
+            return "Miss!"
 
     def add_combatant(self, combatant, x, y):
         combatant.x = x
@@ -510,10 +606,6 @@ class CombatEngine:
              log.append(f"{combatant.name} is STUNNED and skips their turn!")
              return False, log
              
-        if combatant.is_stunned:
-             log.append(f"{combatant.name} is STUNNED and skips their turn!")
-             return False, log
-             
         if combatant.is_paralyzed:
              log.append(f"{combatant.name} is PARALYZED and skips their turn!")
              return False, log
@@ -542,6 +634,13 @@ class CombatEngine:
             log.append(f"Effects expired on {active.name}: {', '.join(expired)}")
         
         self.current_turn_idx = (self.current_turn_idx + 1) % len(self.turn_order)
+    
+        # Check Round Cycle
+        if self.current_turn_idx == 0:
+            self.round_counter += 1
+            self.tick_hazards()
+            if self.log_callback: self.log_callback(f"--- Round {self.round_counter} ---")
+
         # Skip dead
         start = self.current_turn_idx
         while not self.turn_order[self.current_turn_idx].is_alive():
@@ -648,13 +747,69 @@ class CombatEngine:
                 log.append(f"[AI] Waiting (Defensive)")
                 
         elif ai_template == "Ranged":
-            # Stay at distance, attack (assuming ranged attack)
-            if dist_sq <= 1:
-                # Move away
+            # Strategy: Maintain Distance (Range 3-5) and Attack/Cast
+            ideal_range = 4
+            
+            # 1. MOVEMENT (Kiting)
+            # If too close (<= 2), run away
+            if dist_sq <= 2:
+                # Move AWAY from target
                 move_x = ai_char.x - (1 if target.x > ai_char.x else (-1 if target.x < ai_char.x else 0))
                 move_y = ai_char.y - (1 if target.y > ai_char.y else (-1 if target.y < ai_char.y else 0))
-                self.move_char(ai_char, move_x, move_y)
-            log.append(f"[AI] Ranged Attack (Not fully impl)")
+                ok, msg = self.move_char(ai_char, move_x, move_y)
+                log.append(f"[AI] Kiting: {msg}")
+            
+            # If too far (> 5), move closer
+            elif dist_sq > 5:
+                move_x = ai_char.x + (1 if target.x > ai_char.x else (-1 if target.x < ai_char.x else 0))
+                move_y = ai_char.y + (1 if target.y > ai_char.y else (-1 if target.y < ai_char.y else 0))
+                ok, msg = self.move_char(ai_char, move_x, move_y)
+                log.append(f"[AI] Closing: {msg}")
+                
+            # 2. ACTION (Cast or Attack)
+            # Recalculate distance after move
+            dx = abs(ai_char.x - target.x)
+            dy = abs(ai_char.y - target.y)
+            new_dist = max(dx, dy)
+            
+            # Try Casting Spell first (if available)
+            casted = False
+            # Try Casting Spell first (if available)
+            casted = False
+            # Fix: Check SP or FP (since we don't know which stat uses which yet, assume 2 is min cost)
+            if ai_char.powers and (ai_char.sp >= 2 or ai_char.fp >= 2):
+                 import random
+                 # Priority: Control if target free, then Damage
+                 control_spells = [p for p in ai_char.powers if "Entangle" in p or "Sleep" in p or "Stun" in p]
+                 damage_spells = [p for p in ai_char.powers if p not in control_spells]
+                 
+                 chosen_spell = None
+                 # Check status (assuming properties exist, or check active_effects list)
+                 is_controlled = target.is_restrained or target.is_stunned or target.is_grappled
+                 
+                 # Mix up strategy: 70% focus on control, 30% just blast 'em
+                 wants_control = (not is_controlled and control_spells and random.random() < 0.7)
+                 
+                 if wants_control:
+                     chosen_spell = random.choice(control_spells)
+                     log.append(f"[AI] Prioritizing Control: {chosen_spell}")
+                 elif damage_spells:
+                     chosen_spell = random.choice(damage_spells)
+                     msg = "Prioritizing Damage" if is_controlled else "Mixing it up (Damage)"
+                     log.append(f"[AI] {msg}: {chosen_spell}")
+                 
+                 if chosen_spell:
+                     res = self.activate_ability(ai_char, chosen_spell, target)
+                     log.extend(res)
+                     casted = True
+                 
+            if not casted:
+                # Fallback to Attack if in range
+                rng = ai_char.get_attack_range()
+                if new_dist <= rng:
+                    log.extend(self.attack_target(ai_char, target))
+                else:
+                    log.append(f"[AI] Target out of range ({new_dist} > {rng}).")
             
         elif ai_template == "Berserker":
             # Random movement + attack
@@ -707,7 +862,9 @@ class CombatEngine:
                     pass
         
         if (tx, ty) in self.walls:
-            return False, "Blocked by Wall!"
+            # Talent Check: Phase Walking / Ghost
+            if not getattr(char, "can_phase_walk", False):
+                return False, "Blocked by Wall!"
                 
         char.x = tx
         char.y = ty

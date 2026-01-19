@@ -15,7 +15,7 @@ COLOR_BTN_HOVER = (80, 80, 100)
 COLOR_HIGHLIGHT = (255, 200, 50)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "../Data")
+DATA_DIR = os.path.join(BASE_DIR, "../../Data")
 
 class DataManager:
     def __init__(self):

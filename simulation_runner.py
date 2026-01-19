@@ -13,8 +13,9 @@ def run_simulation(battles=10, verbose=True):
     """Run combat simulations with random fighters from Saves folder."""
     
     # Get all available saves
-    saves_dir = "Saves"
-    saves = [f for f in os.listdir(saves_dir) if f.endswith('.json')]
+    saves_dir = "brqse_engine/Saves"
+    # saves = [f for f in os.listdir(saves_dir) if f.endswith('.json')]
+    saves = ["buggy.json", "flower.json"] # User Request
     
     if len(saves) < 2:
         print("Need at least 2 saved characters!")
@@ -80,7 +81,10 @@ def run_simulation(battles=10, verbose=True):
                 combatant.movement_remaining = combatant.movement
                 
                 # Execute AI turn
-                can_act = engine.start_turn(combatant)
+                can_act, start_log = engine.start_turn(combatant) # Capture the start log too!
+                if verbose and start_log:
+                    for entry in start_log: print(f"  {entry}")
+
                 if can_act:
                     ai_log = engine.execute_ai_turn(combatant)
                     
@@ -89,6 +93,18 @@ def run_simulation(battles=10, verbose=True):
                         for entry in ai_log:
                             if any(kw in entry for kw in ['HIT', 'MISS', 'CLASH', 'uses', 'Consumed', 'Dealt', 'knocked', 'damage']):
                                 print(f"  {entry}")
+                    
+                    # --- BURT'S CLASH FIX ---
+                    if engine.clash_active:
+                        # AI doesn't have a brain to choose "Push" or "Swap", so we random it
+                        # Or better, we pass a dummy choice since mechanics.resolve_clash 
+                        # currently calculates effects based on the STAT used, not the choice!
+                        # (Your current resolve_clash ignores the 'choice' arg mostly)
+                        clash_log = engine.resolve_clash("Aggressive") 
+                        if verbose:
+                            for entry in clash_log:
+                                print(f"  [CLASH RESULT] {entry}")
+                    # ------------------------
                 
                 engine.end_turn()
                 

@@ -1,0 +1,46 @@
+{
+    "Name": "flower",
+    "Species": "Plant",
+    "AI": "Ranged",
+    "Stats": {
+        "Might": 11,
+        "Reflexes": 8,
+        "Endurance": 10,
+        "Vitality": 18,
+        "Fortitude": 10,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Awareness": 16,
+        "Intuition": 9,
+        "Charm": 12,
+        "Willpower": 11,
+        "Finesse": 9
+    },
+    "Traits": [
+        "Mossy Skin",
+        "Closing Foliage",
+        "Wide Roots",
+        "Flower Head",
+        "Fluff Blooms",
+        "Fruit Blooms"
+    ],
+    "Skills": [
+        "Reach Weapons",
+        "The Long Shot",
+        "Rhetoric",
+        "Discipline",
+        "Robes",
+        "Academics",
+        "Catalysts"
+    ],
+    "Powers": [
+        "Solar Beam",
+        "Entangle",
+        "Spore Cloud",
+        "Leaf Storm"
+    ],
+    "Inventory": [
+        "Shortbow",
+        "Warding Robes"
+    ]
+}

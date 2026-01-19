@@ -1,0 +1,3195 @@
+
+============================================================
+COMBAT SIMULATION - 50 Battles
+Available Fighters: buggy, flower
+============================================================
+
+
+--- Battle 1: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (13 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (6 vs 2). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 2). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 4). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 5)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 3). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 16). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 8). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 12). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 2). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 6). Dealt 2 Slash.
+
+  >> buggy WINS in 17 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 2: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (6 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 2). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(17)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(10)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 3). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 7). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(5)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 3)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 15). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(5)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 4). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+
+  >> buggy (HP) WINS in 30 turns!
+  Final: buggy 51HP | flower 14HP
+
+--- Battle 3: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (20 vs 7). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 1). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 1). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 5). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 7). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 10). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (4 vs 1). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(17) vs flower(5)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 5). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 3). Dealt 8 Slash.
+
+  >> buggy WINS in 18 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 4: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (2 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 5). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 9). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 1). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 11). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 5)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (2 vs 1)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(15) vs flower(16)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 2). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (19 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 5). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (1 vs 1)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 7). Dealt 12 Slash.
+
+  >> buggy WINS in 19 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 5: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (10 vs 7). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 11). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 7). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 11). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 8). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (9 vs 1). Dealt 11 Slash.
+
+  >> buggy WINS in 9 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 6: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (6 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 6). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 3). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 5)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 11). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (1 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 8). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 8). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 8). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (10 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 7). Dealt 6 Slash.
+
+  >> buggy WINS in 14 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 7: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 12). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 14). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 4). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 6). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 8). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 2). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (14 vs 14)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(2)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 5)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 1). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 10). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 13). Dealt 8 Slash.
+
+  >> buggy WINS in 17 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 8: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (10 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(15) vs flower(17)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (6 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(7) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 11). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 4). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 14). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 4). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (13 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 9). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 7). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 4). Dealt 11 Slash.
+
+  >> buggy WINS in 20 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 9: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (6 vs 3). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 2). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 3). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 13). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (9 vs 2). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 2). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 7). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 7). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 2). Dealt 4 Slash.
+
+  >> buggy WINS in 15 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 10: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (14 vs 10). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 4). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 16). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 1). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 12). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (4 vs 2). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 7). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 1). Dealt 5 Slash.
+
+  >> buggy WINS in 10 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 11: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (1 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 1). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (7 vs 3). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 9). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 5). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 3). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 12). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 3). Dealt 2 Slash.
+
+  >> buggy WINS in 14 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 12: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (19 vs 17). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 6). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (7 vs 5). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 3). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 3). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (11 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(10) vs flower(2)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(1) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 9). Dealt 12 Slash.
+
+  >> buggy WINS in 11 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 13: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (12 vs 6). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 10). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 4). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 6)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 3). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (14 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 12). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (7 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(17) vs flower(20)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 8). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 4)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (9 vs 3). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 18). Dealt 11 Slash.
+
+  >> buggy WINS in 19 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 14: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (3 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 6)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 8). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 10). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 1). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 6). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 1). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (16 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 4). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 12). Dealt 10 Slash.
+
+  >> buggy WINS in 15 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 15: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (18 vs 10). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 1). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (17 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(15)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 11). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (9 vs 6). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(3) vs flower(14)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (14 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(20) vs flower(10)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(19)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 4). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 6). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(10) vs flower(1)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 7). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 6). Dealt 6 Slash.
+
+  >> buggy WINS in 24 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 16: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (13 vs 2). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 17). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (9 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(19)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 6). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (7 vs 3). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(5) vs flower(20)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 12). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (12 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(17)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 5). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(20)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (3 vs 1). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (2 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(17) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(17) vs flower(17)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (18 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(4) vs flower(12)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 1). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 1). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 11). Dealt 3 Slash.
+
+  >> buggy WINS in 25 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 17: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (7 vs 2). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (6 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(3) vs flower(2)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (7 vs 3). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 4). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 5). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 5)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 5). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 9). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 1). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (4 vs 2). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(10) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 5). Dealt 6 Slash.
+
+  >> buggy WINS in 23 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 18: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (1 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (5 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 15). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 2). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 5). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 3). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 1). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 12). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 10). Dealt 5 Slash.
+
+  >> buggy WINS in 10 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 19: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 6). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 7). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (16 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 4). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 18). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 2). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 9). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 10). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(1) vs flower(3)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 3). Dealt 12 Slash.
+
+  >> buggy WINS in 21 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 20: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (6 vs 1). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 11). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 4). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(2)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 16). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 5). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 3). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (5 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(2) vs flower(3)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 11). Dealt 9 Slash.
+
+  >> buggy WINS in 16 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 21: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 7). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(5)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 5)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 2). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 7). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (5 vs 1). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 7). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 1). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 1). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 2). Dealt 12 Slash.
+
+  >> buggy WINS in 15 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 22: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (17 vs 10). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 12). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 4)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 9). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 8). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 15). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 3). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (1 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(11)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (5 vs 6)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 13). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (17 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 10). Dealt 6 Slash.
+
+  >> buggy WINS in 13 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 23: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (10 vs 8). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (3 vs 1). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 5). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 15). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 9). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 15). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 4). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (7 vs 5). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 4)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 3). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 1). Dealt 9 Slash.
+
+  >> buggy WINS in 21 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 24: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (1 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 4). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 10). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 6). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 5). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 3). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 10). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 1). Dealt 8 Slash.
+
+  >> buggy WINS in 11 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 25: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (6 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 9). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(5)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (16 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(4) vs flower(11)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 12). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (2 vs 1)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(15) vs flower(14)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 10). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 8). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 6). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(2) vs flower(19)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 2). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (8 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(15)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 1). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 2). Dealt 11 Slash.
+
+  >> buggy WINS in 27 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 26: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (14 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 1). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 2). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 1). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 5)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (7 vs 2). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 8). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (15 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 3). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (14 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 1). Dealt 12 Slash.
+
+  >> buggy WINS in 14 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 27: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (20 vs 12). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 13). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 6). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (4 vs 1). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (19 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(1) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 6). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 4). Dealt 9 Slash.
+
+  >> buggy WINS in 10 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 28: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (17 vs 15). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 11). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (16 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 4). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 4). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (6 vs 3). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (4 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(11)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 2). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 11). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(8)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 16). Dealt 7 Slash.
+
+  >> buggy WINS in 15 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 29: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (10 vs 5). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 9). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 3). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 7). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (3 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(3) vs flower(19)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 2). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 7). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (13 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 8). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 11). Dealt 10 Slash.
+
+  >> buggy WINS in 16 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 30: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(4) vs flower(15)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(1)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 7). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 17). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 12). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(2)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 1). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 3). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (14 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 16). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 5). Dealt 11 Slash.
+
+  >> buggy WINS in 17 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 31: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (9 vs 2). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(14)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 7). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 1). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 14). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (9 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 2). Dealt 11 Slash.
+
+  >> buggy WINS in 16 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 32: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (1 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 1). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 9). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 9). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 7). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (15 vs 16)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(7) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(15)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 2). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 7). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 9). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 4). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(1) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 3). Dealt 11 Slash.
+
+  >> buggy WINS in 23 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 33: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 3). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(12)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 5). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (15 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 5). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(5) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 3). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 1). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (12 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(19) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 1). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (12 vs 11)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(20) vs flower(1)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 8). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 9). Dealt 9 Slash.
+
+  >> buggy WINS in 17 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 34: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 5). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 9). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 2). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 11). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 2). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 13). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (7 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(8) vs flower(7)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 9). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (5 vs 5)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(20)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 6). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (5 vs 2). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 3). Dealt 3 Slash.
+
+  >> buggy WINS in 21 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 35: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (5 vs 11)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 8). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 3). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 3). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 4). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 11)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 8). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 6). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 18). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (2 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 1). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (14 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 15)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 2). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 4)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 8). Dealt 7 Slash.
+
+  >> buggy WINS in 22 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 36: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (8 vs 4). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (12 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 9). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (10 vs 10)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(5) vs flower(12)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 6). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 9)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 2). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 9). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 14). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 12). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 11). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(7) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (9 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(2) vs flower(4)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (18 vs 19)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(1)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 12). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 14). Dealt 9 Slash.
+
+  >> buggy WINS in 28 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 37: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (9 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 5). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 1). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 8). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 6). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 8). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 6). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 2). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(4) vs flower(19)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 13). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 6)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 4). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 3). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 7)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 13). Dealt 8 Slash.
+
+  >> buggy WINS in 27 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 38: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(20) vs flower(20)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (9 vs 9)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(20) vs flower(11)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (13 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (13 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 7). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 4)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 6). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 1). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 6). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (15 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 8). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 7). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (11 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 4). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 6). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (5 vs 2). Dealt 2 Slash.
+
+  >> buggy WINS in 26 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 39: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (10 vs 8). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 7). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (8 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(5) vs flower(11)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(1) vs flower(15)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 2). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (18 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(20)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (20 vs 20)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(9) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 1). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (1 vs 1)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(15) vs flower(1)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 9). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 5). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 6). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (18 vs 18)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(13)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 9). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (15 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(8) vs flower(12)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(7)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 4)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 3). Dealt 6 Slash.
+
+  >> buggy WINS in 22 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 40: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (14 vs 5). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (15 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 10). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 8). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 3)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(17)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 5). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (11 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(12)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 2). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 13). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 2). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (15 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 1). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 5). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 10). Dealt 10 Slash.
+
+  >> buggy WINS in 20 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 41: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (18 vs 11). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 6)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (3 vs 2)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(12)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (6 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 9). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 11)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 7). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 13)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 7)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (12 vs 3). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (4 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (14 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 7). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 4). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 1). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 15). Dealt 5 Slash.
+
+  >> buggy WINS in 21 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 42: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 14). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (16 vs 10). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 9). Dealt 8 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 16). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(10) vs flower(11)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 12)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 7). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 6). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 5). Dealt 7 Slash.
+
+  >> buggy WINS in 10 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 43: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (3 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (7 vs 2). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (14 vs 9). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (13 vs 12)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(14) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (10 vs 7). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (4 vs 1). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(12) vs flower(4)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 9). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 13). Dealt 8 Slash.
+
+  >> buggy WINS in 14 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 44: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack MISSED. (7 vs 14)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 6). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 5). Dealt 5 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 6). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 17)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 12). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (3 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(3)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 11)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 3). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (2 vs 12)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 5). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (13 vs 13)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(9)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 6). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (9 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(18)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 1). Dealt 10 Slash.
+
+  >> buggy WINS in 21 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 45: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (12 vs 9). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 6). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 5). Dealt 4 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 6). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (9 vs 2). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 5). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (7 vs 5). Dealt 8 Slash.
+
+  >> buggy WINS in 8 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 46: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (9 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 4)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (10 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 8)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (10 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 1). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 6)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (9 vs 2). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (6 vs 7)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(6) vs flower(9)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (12 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (15 vs 4). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 10). Dealt 6 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (16 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (1 vs 10)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (11 vs 14)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (12 vs 1). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (5 vs 18)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (17 vs 17)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(13) vs flower(6)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 2). Dealt 3 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (10 vs 5). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (5 vs 1). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 15)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (20 vs 1). Dealt 9 Slash.
+
+  >> buggy WINS in 27 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 47: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack HIT! (20 vs 10). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (15 vs 8). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (11 vs 5). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (18 vs 8). Dealt 2 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 18)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 3). Dealt 11 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (6 vs 20)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 11)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 10)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (8 vs 4). Dealt 12 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 9). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (17 vs 2). Dealt 7 Slash.
+
+  >> buggy WINS in 13 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 48: buggy vs flower ---
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+
+  Attack HIT! (8 vs 1). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (6 vs 3). Dealt 5 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (14 vs 19)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 16)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 1). Dealt 9 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 5). Dealt 8 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 17). Dealt 2 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (7 vs 20)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 6). Dealt 6 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 12). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 5). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (8 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 7). Dealt 4 Slash.
+
+  >> buggy WINS in 14 turns!
+  Final: buggy 51HP | flower 0HP
+
+--- Battle 49: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  Attack MISSED. (13 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 3). Dealt 12 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (8 vs 8)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(4) vs flower(8)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (9 vs 13)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (18 vs 12). Dealt 7 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 19)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 8). Dealt 9 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (19 vs 14). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (16 vs 13). Dealt 3 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (17 vs 4). Dealt 1 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (20 vs 4). Dealt 12 Slash.
+
+  >> buggy WINS in 11 turns!
+  Final: flower 0HP | buggy 51HP
+
+--- Battle 50: flower vs buggy ---
+flower: HP 47/47 | Powers: ['Flare', 'Sting']
+buggy: HP 51/51 | Powers: ['Push', 'Mend']
+
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (14 vs 4). Dealt 11 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (3 vs 8)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (4 vs 6)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  CLASH TRIGGERED! (4 vs 4)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(2) vs flower(15)
+  [CLASH RESULT] flower WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (5 vs 16)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (19 vs 1). Dealt 4 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 9)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (11 vs 9). Dealt 1 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (16 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(18) vs flower(17)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (6 vs 2). Dealt 10 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (8 vs 6). Dealt 7 Slash.
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack MISSED. (7 vs 17)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  CLASH TRIGGERED! (14 vs 15)
+  [CLASH RESULT] CLASH ROLL (Aggressive): buggy(16) vs flower(3)
+  [CLASH RESULT] buggy WINS! Pushed Back & Follow Up
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (3 vs 6)
+  flower uses Flare on buggy!
+  Consumed 1 FP
+  Attack HIT! (13 vs 2). Dealt 10 Slash.
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack MISSED. (1 vs 5)
+  flower uses Sting on buggy!
+  Consumed 1 SP
+  Attack HIT! (13 vs 10). Dealt 11 Slash.
+
+  >> buggy WINS in 17 turns!
+  Final: flower 0HP | buggy 51HP
+
+============================================================
+RESULTS SUMMARY
+============================================================
+Total Battles: 50
+Avg Turns: 17.7
+
+Win Rates:
+  buggy: 49 wins
+============================================================
+
