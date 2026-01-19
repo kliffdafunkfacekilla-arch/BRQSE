@@ -1,0 +1,44 @@
+{
+    "Name": "Shadow",
+    "Species": "Avian",
+    "Stats": {
+        "Might": 8,
+        "Reflexes": 13,
+        "Endurance": 10,
+        "Vitality": 11,
+        "Fortitude": 12,
+        "Knowledge": 13,
+        "Logic": 9,
+        "Awareness": 13,
+        "Intuition": 9,
+        "Charm": 10,
+        "Willpower": 11,
+        "Finesse": 13
+    },
+    "Traits": [
+        "Hooked Beak",
+        "Wide Wings",
+        "Large Talons",
+        "Tail Fan",
+        "Webbed Feet",
+        "Foot Talons"
+    ],
+    "Skills": [
+        "Small Weapons",
+        "The Long Shot",
+        "Coercion",
+        "Poise",
+        "Bio",
+        "Mechanism",
+        "Tinctures",
+        "Surface Dash"
+    ],
+    "Powers": [
+        "Strike",
+        "Shock"
+    ],
+    "Inventory": [
+        "Cane Sword",
+        "Bone Mesh"
+    ]
+}

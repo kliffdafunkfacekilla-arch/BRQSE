@@ -1,0 +1,344 @@
+
+============================================================
+COMBAT SIMULATION - 5 Battles
+Available Fighters: Blaze, bob, Frost, Hero, Iron, Shadow, steve, Thunder, Valor
+============================================================
+
+
+--- Battle 1: Frost vs Iron ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  5 Fire damage to Iron!
+  CLASH TRIGGERED! (8 vs 8)
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  5 Lightning damage to Frost!
+  Attack MISSED. (13 vs 17)
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  4 Fire damage to Iron!
+  Attack HIT! (16 vs 7). Dealt 2 Bludgeon.
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  5 Lightning damage to Frost!
+  Attack MISSED. (4 vs 15)
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  1 Fire damage to Iron!
+  Attack HIT! (12 vs 4). Dealt 4 Bludgeon.
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  7 Lightning damage to Frost!
+  Attack MISSED. (8 vs 20)
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  6 Fire damage to Iron!
+  Attack HIT! (18 vs 15). Dealt 6 Bludgeon.
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  3 Lightning damage to Frost!
+  Attack MISSED. (11 vs 19)
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  1 Fire damage to Iron!
+  Attack HIT! (12 vs 5). Dealt 2 Bludgeon.
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  10 Lightning damage to Frost!
+  Attack HIT! (17 vs 12). Dealt 2 Pierce.
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  4 Fire damage to Iron!
+  Attack HIT! (15 vs 3). Dealt 3 Bludgeon.
+  Iron uses Shock on Frost!
+  Consumed 3 SP
+  3 Lightning damage to Frost!
+  Attack HIT! (9 vs 7). Dealt 3 Pierce.
+  Frost uses Heat on Iron!
+  Consumed 1 SP
+  4 Fire damage to Iron!
+  Attack MISSED. (1 vs 21)
+
+  >> Frost WINS in 7 turns!
+  Final: Frost 5HP | Iron 0HP
+
+--- Battle 2: bob vs Valor ---
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+
+  Valor uses Push on bob!
+  Consumed 1 SP
+  bob is knocked back!
+  Attack HIT! (11 vs 5). Dealt 1 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (8 vs 15)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  bob is knocked back!
+  Attack MISSED. (2 vs 7)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (10 vs 20)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  bob is knocked back!
+  Attack HIT! (18 vs 9). Dealt 4 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack HIT! (7 vs 3). Dealt 7 Pierce.
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack HIT! (17 vs 5). Dealt 4 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (10 vs 20)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 8)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack HIT! (20 vs 5). Dealt 7 Pierce.
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 19)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (1 vs 3)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  CLASH TRIGGERED! (7 vs 6)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack HIT! (17 vs 5). Dealt 2 Pierce.
+  Valor uses Push on bob!
+  Consumed 1 SP
+  CLASH TRIGGERED! (6 vs 7)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (4 vs 20)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack MISSED. (2 vs 15)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (1 vs 7)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack HIT! (19 vs 17). Dealt 4 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (8 vs 18)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 11)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (16 vs 22)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  CLASH TRIGGERED! (4 vs 5)
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  CLASH TRIGGERED! (6 vs 7)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack HIT! (4 vs 2). Dealt 2 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack HIT! (20 vs 7). Dealt 6 Pierce.
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack HIT! (16 vs 11). Dealt 1 Bludgeon.
+  bob uses Bolt on Valor!
+  Consumed 2 FP
+  Attack MISSED. (16 vs 21)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack MISSED. (8 vs 17)
+  bob uses Shock on Valor!
+  Consumed 3 SP
+  10 Lightning damage to Valor!
+  Attack MISSED. (2 vs 5)
+  Valor uses Push on bob!
+  Consumed 1 SP
+  Attack HIT! (19 vs 3). Dealt 2 Bludgeon.
+  bob uses Shock on Valor!
+  Consumed 3 SP
+  14 Lightning damage to Valor!
+  Attack MISSED. (6 vs 13)
+
+  >> bob WINS in 16 turns!
+  Final: bob 33HP | Valor 0HP
+
+--- Battle 3: Frost vs Shadow ---
+Frost: HP 43/43 | Powers: ['Heat', 'Shock']
+Shadow: HP 42/42 | Powers: ['Strike', 'Shock']
+
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  7 Lightning damage to Frost!
+  Attack MISSED. (5 vs 14)
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  6 Fire damage to Shadow!
+  Attack HIT! (13 vs 2). Dealt 3 Bludgeon.
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  7 Lightning damage to Frost!
+  Attack HIT! (16 vs 5). Dealt 6 Pierce.
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  4 Fire damage to Shadow!
+  Attack MISSED. (7 vs 21)
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  2 Lightning damage to Frost!
+  Attack MISSED. (3 vs 19)
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  3 Fire damage to Shadow!
+  Attack HIT! (14 vs 9). Dealt 1 Bludgeon.
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  6 Lightning damage to Frost!
+  Attack MISSED. (2 vs 5)
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  1 Fire damage to Shadow!
+  Attack HIT! (6 vs 2). Dealt 5 Bludgeon.
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  7 Lightning damage to Frost!
+  Attack MISSED. (7 vs 19)
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  3 Fire damage to Shadow!
+  Attack MISSED. (6 vs 19)
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  6 Lightning damage to Frost!
+  CLASH TRIGGERED! (17 vs 18)
+  Frost uses Heat on Shadow!
+  Consumed 1 SP
+  2 Fire damage to Shadow!
+  Attack MISSED. (3 vs 15)
+  Shadow uses Shock on Frost!
+  Consumed 3 SP
+  6 Lightning damage to Frost!
+  Attack MISSED. (10 vs 14)
+
+  >> Shadow WINS in 7 turns!
+  Final: Frost 0HP | Shadow 14HP
+
+--- Battle 4: Valor vs Thunder ---
+Valor: HP 44/44 | Powers: ['Push', 'Heat']
+Thunder: HP 40/40 | Powers: ['Shock', 'Chill']
+
+  Valor uses Push on Thunder!
+  Consumed 1 SP
+  Thunder is knocked back!
+  Attack MISSED. (6 vs 9)
+  Thunder uses Shock on Valor!
+  Consumed 3 SP
+  11 Lightning damage to Valor!
+  Valor uses Push on Thunder!
+  Consumed 1 SP
+  Thunder is knocked back!
+  Attack MISSED. (11 vs 15)
+  Thunder uses Shock on Valor!
+  Consumed 3 SP
+  7 Lightning damage to Valor!
+  Attack HIT! (20 vs 18). Dealt 3 Slash.
+  Valor uses Push on Thunder!
+  Consumed 1 SP
+  Thunder is knocked back!
+  Attack MISSED. (6 vs 14)
+  Thunder uses Shock on Valor!
+  Consumed 3 SP
+  8 Lightning damage to Valor!
+  CLASH TRIGGERED! (5 vs 6)
+  Valor uses Push on Thunder!
+  Consumed 1 SP
+  Thunder is knocked back!
+  CLASH TRIGGERED! (16 vs 16)
+  Thunder uses Shock on Valor!
+  Consumed 3 SP
+  8 Lightning damage to Valor!
+  Attack MISSED. (4 vs 13)
+  Valor uses Push on Thunder!
+  Consumed 1 SP
+  Thunder is knocked back!
+  CLASH TRIGGERED! (13 vs 13)
+  Thunder uses Shock on Valor!
+  Consumed 3 SP
+  8 Lightning damage to Valor!
+  Attack HIT! (17 vs 13). Dealt 1 Slash.
+
+  >> Thunder WINS in 5 turns!
+  Final: Valor 0HP | Thunder 40HP
+
+--- Battle 5: Iron vs bob ---
+Iron: HP 41/41 | Powers: ['Shock', 'Bolt']
+bob: HP 51/51 | Powers: ['Bolt', 'Shock']
+
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  8 Lightning damage to bob!
+  Attack HIT! (12 vs 6). Dealt 2 Pierce.
+  bob uses Bolt on Iron!
+  Consumed 2 FP
+  Attack HIT! (10 vs 6). Dealt 5 Pierce.
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  10 Lightning damage to bob!
+  Attack MISSED. (1 vs 8)
+  bob uses Bolt on Iron!
+  Consumed 2 FP
+  Attack MISSED. (4 vs 8)
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  6 Lightning damage to bob!
+  Attack HIT! (19 vs 6). Dealt 4 Pierce.
+  bob uses Bolt on Iron!
+  Consumed 2 FP
+  Attack MISSED. (3 vs 7)
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  9 Lightning damage to bob!
+  Attack HIT! (20 vs 6). Dealt 2 Pierce.
+  bob uses Bolt on Iron!
+  Consumed 2 FP
+  Attack MISSED. (10 vs 12)
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  5 Lightning damage to bob!
+  Attack MISSED. (4 vs 9)
+  bob uses Bolt on Iron!
+  Consumed 2 FP
+  Attack MISSED. (16 vs 20)
+  Iron uses Shock on bob!
+  Consumed 3 SP
+  7 Lightning damage to bob!
+  Attack MISSED. (2 vs 12)
+
+  >> Iron WINS in 6 turns!
+  Final: Iron 36HP | bob 0HP
+
+============================================================
+RESULTS SUMMARY
+============================================================
+Total Battles: 5
+Avg Turns: 8.2
+
+Win Rates:
+  Frost: 1 wins
+  Iron: 1 wins
+  bob: 1 wins
+  Shadow: 1 wins
+  Thunder: 1 wins
+============================================================
+

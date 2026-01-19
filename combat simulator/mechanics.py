@@ -110,7 +110,7 @@ class Combatant:
         
         # Check 'Gear' or 'Weapons' list in data
         # Assuming simple list of strings for now
-        gear = self.data.get("Gear", []) + self.data.get("Weapons", []) + self.data.get("Armor", [])
+        gear = self.data.get("Inventory", []) + self.data.get("Gear", []) + self.data.get("Weapons", []) + self.data.get("Armor", [])
         
         for item_name in gear:
             # Simple heuristic: try to equip everything
@@ -626,20 +626,35 @@ class CombatEngine:
         return True, f"Moved to {tx},{ty}. ({char.movement_remaining} left)"
 
     def attack_target(self, attacker, target):
-        # FIX #4: Proper Range Check
+        # Range Check - supports both melee and ranged
         dx = abs(attacker.x - target.x)
         dy = abs(attacker.y - target.y)
         dist_sq = max(dx, dy)  # Chebyshev distance in squares
         
-        # Default melee reach is 1 square (5ft)
-        # Check for reach-extending effects
-        reach = 1
-        for eff in attacker.active_effects:
-            if "reach" in eff["name"].lower():
-                reach = 2  # 10ft reach
+        # Check if weapon is ranged
+        is_ranged = False
+        max_range = 1  # Default melee reach
         
-        if dist_sq > reach:
-            return [f"Target out of range! (Distance: {dist_sq * 5}ft, Reach: {reach * 5}ft)"]
+        if attacker.inventory:
+            wpn = attacker.inventory.equipped.get("Main Hand")
+            if wpn:
+                # Check for ranged weapon
+                if hasattr(wpn, "range_short") and wpn.range_short:
+                    is_ranged = True
+                    max_range = wpn.range_short  # In tiles (squares)
+                elif hasattr(wpn, "tags") and "RANGE" in getattr(wpn, "tags", {}):
+                    is_ranged = True
+                    max_range = 6  # Default ranged = 6 tiles (30ft)
+        
+        # Check for reach-extending effects (melee only)
+        if not is_ranged:
+            for eff in attacker.active_effects:
+                if "reach" in eff["name"].lower():
+                    max_range = 2  # 10ft reach
+        
+        if dist_sq > max_range:
+            range_type = "Range" if is_ranged else "Reach"
+            return [f"Target out of range! (Distance: {dist_sq * 5}ft, {range_type}: {max_range * 5}ft)"]
 
         # Status Check: Charmed
         if attacker.is_charmed and attacker.charmed_by == target.name:
@@ -846,40 +861,51 @@ class CombatEngine:
             "attacker": char,
             "engine": self,
             "log": [],
-            "target": target # Now optionally passed in
+            "target": target,
+            "tier": 1  # Default tier, updated below
         }
         
         try:
             # Lookup Data
             data_item = engine_hooks.get_ability_data(ability_name)
             
+            # Get tier for damage scaling
+            if data_item and data_item.get("Tier"):
+                try:
+                    ctx["tier"] = int(data_item.get("Tier"))
+                except:
+                    pass
+            
             if data_item:
-                # 1. Check Cost
-                cost_str = data_item.get("Cost")
-                if cost_str:
-                    # Parse "5 SP", "10 FP" etc
-                    # Simple split
-                    parts = cost_str.split()
-                    if len(parts) >= 2:
-                        val = int(parts[0])
-                        res = parts[1].upper()
-                        
-                        curr = 0
-                        if res == "SP": curr = char.sp
-                        elif res == "FP": curr = char.fp
-                        elif res == "CMP": curr = char.cmp
-                        elif res == "HP": curr = char.hp
-                        
-                        if curr < val:
-                            log.append(f"Not enough {res}! Need {val}.")
-                            return log
-                            
-                        # Consume
-                        if res == "SP": char.sp -= val
-                        elif res == "FP": char.fp -= val
-                        elif res == "CMP": char.cmp -= val
-                        elif res == "HP": char.hp -= val
-                        log.append(f"Consumed {val} {res}")
+                # 1. Determine Cost and Resource Type
+                physical_stats = ['Might', 'Reflexes', 'Finesse', 'Endurance', 'Vitality', 'Fortitude']
+                attr = data_item.get('Attribute', '')
+                
+                # Physical stats use SP, Mental stats use FP
+                res = 'SP' if attr in physical_stats else 'FP'
+                
+                # Cost = Tier for School abilities, else 2
+                tier = data_item.get('Tier')
+                if tier:
+                    try:
+                        val = int(tier)
+                    except:
+                        val = 2
+                else:
+                    val = 2
+                
+                # Check affordability
+                curr = char.sp if res == 'SP' else char.fp
+                if curr < val:
+                    log.append(f'Not enough {res}! Need {val}, have {curr}.')
+                    return log
+                    
+                # Consume resource
+                if res == 'SP': 
+                    char.sp -= val
+                else: 
+                    char.fp -= val
+                log.append(f'Consumed {val} {res}')
 
                 # 2. Resolve Effect
                 effect_str = data_item.get("Effect") or data_item.get("Description")

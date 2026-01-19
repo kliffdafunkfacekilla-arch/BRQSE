@@ -1,0 +1,44 @@
+{
+    "Name": "Blaze",
+    "Species": "Plant",
+    "Stats": {
+        "Might": 11,
+        "Reflexes": 9,
+        "Endurance": 11,
+        "Vitality": 13,
+        "Fortitude": 13,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Awareness": 11,
+        "Intuition": 11,
+        "Charm": 12,
+        "Willpower": 13,
+        "Finesse": 10
+    },
+    "Traits": [
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
+    ],
+    "Skills": [
+        "Fist Weapons",
+        "Ranged Exotics",
+        "Insight",
+        "Stoicism",
+        "Plate",
+        "Mechanism",
+        "Catalysts",
+        "Signal"
+    ],
+    "Powers": [
+        "Burn",
+        "Chill"
+    ],
+    "Inventory": [
+        "Cestus",
+        "Ceramic Plate"
+    ]
+}

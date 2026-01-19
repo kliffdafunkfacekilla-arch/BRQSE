@@ -34,8 +34,8 @@
         "Hydrodynamics"
     ],
     "Powers": [
-        "Count",
-        "Heat"
+        "Heat",
+        "Shock"
     ],
     "Inventory": [
         "Nunchaku",

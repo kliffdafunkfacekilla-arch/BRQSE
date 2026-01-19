@@ -1,0 +1,44 @@
+{
+    "Name": "Thunder",
+    "Species": "Aquatic",
+    "Stats": {
+        "Might": 10,
+        "Reflexes": 11,
+        "Endurance": 13,
+        "Vitality": 9,
+        "Fortitude": 13,
+        "Knowledge": 11,
+        "Logic": 12,
+        "Awareness": 10,
+        "Intuition": 13,
+        "Charm": 10,
+        "Willpower": 9,
+        "Finesse": 11
+    },
+    "Traits": [
+        "Blubber Layer",
+        "Heavy Scales",
+        "Electric Nodes",
+        "Throat Sac",
+        "Moist Skin",
+        "Long Fingers"
+    ],
+    "Skills": [
+        "Medium Weapons",
+        "The Simple Shot",
+        "Persuasion",
+        "Etiquette",
+        "Plate",
+        "Analysis",
+        "Tinctures",
+        "Impact Absorb"
+    ],
+    "Powers": [
+        "Shock",
+        "Chill"
+    ],
+    "Inventory": [
+        "Longsword",
+        "Full Plate"
+    ]
+}

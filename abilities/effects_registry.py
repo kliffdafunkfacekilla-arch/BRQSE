@@ -1286,29 +1286,53 @@ class EffectRegistry:
         if "log" in ctx: ctx["log"].append(f"Damage Reduced by {dr}")
         
     def _handle_deal_damage(self, match, ctx):
-        # Ex: Deal 1d6 Fire Damage
-        amt_str = match.group(1) or "1" # Default count
-        die_str = match.group(2) or "1" # Default sides/flat
+        # Ex: Deal 1d6 Fire Damage OR Deal Fire Damage (no dice = use tier scaling)
+        # Uses Power_Power.csv for tier-based damage scaling
+        amt_str = match.group(1)
+        die_str = match.group(2)
         dmg_type = match.group(3)
         
-        # This usually triggers in an ON_HIT context or ACTIVE context
         target = ctx.get("target")
         attacker = ctx.get("attacker")
         
         if target and attacker:
-            # Calculate logic
             dmg = 0
-            if match.group(2): # It was dice (XdY)
+            
+            if amt_str and die_str:  # Explicit dice like "2d6"
                 num = int(amt_str)
                 sides = int(die_str)
                 dmg = sum(random.randint(1, sides) for _ in range(num))
-            else: # It was flat? roughly
-                dmg = int(amt_str) if amt_str else 0
+            elif amt_str:  # Flat damage like "5"
+                dmg = int(amt_str)
+            else:
+                # No dice specified - use tier scaling from Power_Power.csv
+                tier = ctx.get("tier", 1)
                 
-            # Apply
-            if "log" in ctx: ctx["log"].append(f"Effect ({dmg_type}): {dmg} damage to {target.name}!")
-            else: ctx['engine'].log.append(f"Effect ({dmg_type}): {dmg} damage to {target.name}!")
+                # Get damage dice from DataLoader
+                from .data_loader import DataLoader
+                loader = DataLoader()
+                dice_str = loader.get_tier_damage(tier)  # e.g. "2d6"
+                
+                # Parse and roll dice
+                if "d" in dice_str:
+                    parts = dice_str.lower().split("d")
+                    num = int(parts[0]) if parts[0] else 1
+                    sides = int(parts[1]) if len(parts) > 1 else 6
+                    dmg = sum(random.randint(1, sides) for _ in range(num))
+                else:
+                    dmg = int(dice_str) if dice_str.isdigit() else 1
+                
+                # Add stat modifier
+                stat_val = attacker.data.get("Stats", {}).get("Might", 10)
+                mod = (stat_val - 10) // 2
+                dmg += mod
+                
+            dmg = max(1, dmg)  # Minimum 1 damage
+            
+            # Apply damage directly to target HP
             target.hp -= dmg
+            if "log" in ctx: 
+                ctx["log"].append(f"{dmg} {dmg_type} damage to {target.name}!")
             
     def _handle_simple_damage(self, match, ctx):
         # Ex: "Fire Damage" (e.g. "Your attack deals Fire Damage")
@@ -3607,9 +3631,17 @@ class EffectRegistry:
             else: dy = 1 if dy > 0 else -1; dx = 0
             
             nx, ny = target.x + dx, target.y + dy
-            success, msg = engine.move_char(target, nx, ny, forced=True)
-            if success and "log" in ctx:
-                ctx["log"].append(f"{target.name} is knocked back!")
+            # Forced movement: bypass move_char, just check bounds and collisions
+            if 0 <= nx < engine.cols and 0 <= ny < engine.rows:
+                blocked = False
+                for c in engine.combatants:
+                    if c.is_alive() and c != target and c.x == nx and c.y == ny:
+                        blocked = True
+                        break
+                if not blocked and (nx, ny) not in engine.walls:
+                    target.x = nx
+                    target.y = ny
+                    if "log" in ctx: ctx["log"].append(f"{target.name} is knocked back!")
 
     def _handle_pierce_talent(self, match, ctx):
         """projectile_pierce(N)"""

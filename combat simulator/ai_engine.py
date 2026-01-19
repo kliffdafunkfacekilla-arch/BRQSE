@@ -5,9 +5,11 @@ import math
 class AIDecisionEngine:
     """
     Handles tactical decision making for AI combatants.
+    Enhanced with ranged attacks, skill/ability usage, and resource management.
     """
     def __init__(self):
-        pass
+        # Track which abilities we've already tried this combat to avoid spam
+        self.tried_abilities = {}
 
     def evaluate_turn(self, combatant, engine):
         """
@@ -35,9 +37,6 @@ class AIDecisionEngine:
         enemies = []
         allies = []
         
-        # Simple Faction logic: If I am "Enemy", players are enemies.
-        # Ideally combatants have a 'team' attribute. 
-        # For now assuming: me.team != other.team
         my_team = getattr(me, "team", "Enemy") 
         
         for c in engine.combatants:
@@ -54,8 +53,7 @@ class AIDecisionEngine:
             else:
                 enemies.append(info)
                 
-        # Find Clusters (simplified: count enemies within 2 tiles of each other)
-        # This is n^2 but n is small.
+        # Find Clusters
         clusters = []
         for e in enemies:
             count = 0
@@ -69,137 +67,201 @@ class AIDecisionEngine:
         clusters.sort(key=lambda x: x["count"], reverse=True)
         
         return {
-            "enemies": sorted(enemies, key=lambda x: x["dist"]), # Closest first
-            "allies": sorted(allies, key=lambda x: x["hp_pct"]), # Lowest HP first
+            "enemies": sorted(enemies, key=lambda x: x["dist"]),
+            "allies": sorted(allies, key=lambda x: x["hp_pct"]),
             "clusters": clusters,
             "my_hp_pct": me.hp / me.max_hp
         }
 
-    def select_action(self, me, ctx, template, engine):
+    # ==================== WEAPON DETECTION ====================
+    
+    def _get_weapon_info(self, me):
         """
-        Executes the best action based on template priorities.
+        Returns weapon info: (is_ranged, range_tiles, has_melee_backup)
         """
-        log = []
+        if not me.inventory:
+            return (False, 1, False)  # Unarmed = melee
+            
+        main_hand = me.inventory.equipped.get("Main Hand")
+        off_hand = me.inventory.equipped.get("Off Hand")
         
-        # --- BEHAVIOR: CASTER ---
-        if template == "Caster":
-            # Priority 1: Survival (Self Heal)
-            if ctx["my_hp_pct"] < 0.3:
-                if self._try_cast_heal(me, me, engine, log): return log
-                # Or Flee?
+        is_ranged = False
+        range_tiles = 1
+        has_melee_backup = False
+        
+        if main_hand:
+            # Check for RANGE tag in weapon
+            tags = getattr(main_hand, "tags", {})
+            if "RANGE" in tags or hasattr(main_hand, "range_short"):
+                is_ranged = True
+                range_tiles = getattr(main_hand, "range_short", 6)
+        
+        if off_hand and not getattr(off_hand, "range_short", None):
+            has_melee_backup = True
             
-            # Priority 2: Support (Heal Ally)
-            for ally in ctx["allies"]:
-                if ally["hp_pct"] < 0.5:
-                    if self._try_cast_heal(me, ally["obj"], engine, log): return log
+        return (is_ranged, range_tiles, has_melee_backup)
 
-            # Priority 3: Crowd Control (Clusters)
-            if ctx["clusters"] and ctx["clusters"][0]["count"] >= 2:
-                target = ctx["clusters"][0]["center"]
-                if self._try_cast_aoe(me, target, engine, log): return log
+    # ==================== ABILITY USAGE ====================
+    
+    def _has_resources(self, me):
+        return me.fp >= 2 or me.sp >= 2
 
-            # Priority 4: Attack Closest
-            if ctx["enemies"]:
-                target = ctx["enemies"][0]["obj"]
-                self._basic_attack_routine(me, target, engine, log)
-                return log
-
-        # --- BEHAVIOR: BRUTE / TACTICAL ---
-        elif template == "Tactical":
-            # Priority 1: Charge/Engage
-            # TODO: Implement Skills check (Dash, Charge)
+    def _is_offensive_ability(self, ability_name, engine):
+        """
+        Check if ability is Offense type (worth using in combat).
+        """
+        try:
+            from abilities import engine_hooks
+            data = engine_hooks.get_ability_data(ability_name)
+            if data:
+                ability_type = data.get("Type", "").lower()
+                return ability_type == "offense"
+        except:
             pass
-            
-        # --- FALLBACK: AGGRESSIVE ---
-        # Default behavior for "Aggressive" or fallback
-        if ctx["enemies"]:
-            target = ctx["enemies"][0]["obj"] # Closest
-            self._basic_attack_routine(me, target, engine, log)
-        else:
-            log.append("[AI] No targets visible.")
-            
-        return log
+        return False  # Default: don't use if we can't verify
 
-    def _basic_attack_routine(self, me, target, engine, log):
-        """Standard Move & Attack logic"""
+    def _try_use_ability(self, me, target, engine, log, template):
+        """
+        Attempts to use an OFFENSIVE ability from powers list.
+        Only tries offensive abilities, skips utility/defense.
+        Returns True if ability was SUCCESSFULLY used.
+        """
+        if template == "Opportunist":
+            if me.hp / me.max_hp > 0.5:
+                return False
+        
+        if not self._has_resources(me):
+            return False
+        
+        # Try each power - but only OFFENSIVE ones
+        for power in me.powers:
+            # Skip non-offensive abilities
+            if not self._is_offensive_ability(power, engine):
+                continue
+            
+            # Check range
+            dist = max(abs(me.x - target.x), abs(me.y - target.y))
+            if dist > 6:
+                continue
+            
+            try:
+                result = engine.activate_ability(me, power, target)
+                if result:
+                    result_str = " ".join(str(r) for r in result)
+                    
+                    if "Not enough" in result_str:
+                        continue
+                    if "No effect resolved" in result_str:
+                        continue
+                    if "data not found" in result_str:
+                        continue
+                    
+                    log.extend(result if isinstance(result, list) else [str(result)])
+                    log.append(f"[AI] Used {power}!")
+                    return True
+            except Exception as e:
+                pass
+        
+        return False
+
+    # ==================== MOVEMENT & KITING ====================
+    
+    def _move_away_from(self, me, target, engine, log):
+        dx = me.x - target.x
+        dy = me.y - target.y
+        
+        step_x = 1 if dx > 0 else -1 if dx < 0 else 0
+        step_y = 1 if dy > 0 else -1 if dy < 0 else 0
+        
+        new_x, new_y = me.x + step_x, me.y + step_y
+        new_x = max(0, min(engine.cols - 1, new_x))
+        new_y = max(0, min(engine.rows - 1, new_y))
+        
+        success, msg = engine.move_char(me, new_x, new_y)
+        if success:
+            log.append(f"[AI] Kiting: {msg}")
+        return success
+
+    # ==================== ATTACK ROUTINES ====================
+    
+    def _ranged_attack_routine(self, me, target, engine, log, max_range, has_melee):
         dist = max(abs(me.x - target.x), abs(me.y - target.y))
         
-        # Move if needed
-        if dist > 1:
-            # Simple pathfinding toward target
+        if dist <= 1 and not has_melee:
+            log.append(f"[AI] Target too close, kiting...")
+            self._move_away_from(me, target, engine, log)
+            dist = max(abs(me.x - target.x), abs(me.y - target.y))
+        
+        if dist <= 1 and has_melee:
+            log.append(f"[AI] Switching to melee!")
+            log.extend(engine.attack_target(me, target))
+            return
+        
+        if dist <= max_range:
+            log.append(f"[AI] Ranged attack from {dist * 5}ft!")
+            log.extend(engine.attack_target(me, target))
+        else:
             dx, dy = target.x - me.x, target.y - me.y
             step_x = 1 if dx > 0 else -1 if dx < 0 else 0
             step_y = 1 if dy > 0 else -1 if dy < 0 else 0
             
-            # Try to move adjacent
-            # TODO: Better pathfinding around walls
             new_x, new_y = me.x + step_x, me.y + step_y
-            
             success, msg = engine.move_char(me, new_x, new_y)
-            log.append(f"[AI] Move: {msg}")
+            log.append(f"[AI] Closing range: {msg}")
             
-            # Re-eval distance
+            dist = max(abs(me.x - target.x), abs(me.y - target.y))
+            if dist <= max_range:
+                log.extend(engine.attack_target(me, target))
+
+    def _melee_attack_routine(self, me, target, engine, log):
+        dist = max(abs(me.x - target.x), abs(me.y - target.y))
+        
+        while dist > 1 and me.movement_remaining >= 5:
+            dx, dy = target.x - me.x, target.y - me.y
+            step_x = 1 if dx > 0 else -1 if dx < 0 else 0
+            step_y = 1 if dy > 0 else -1 if dy < 0 else 0
+            
+            new_x, new_y = me.x + step_x, me.y + step_y
+            success, msg = engine.move_char(me, new_x, new_y)
+            if not success:
+                break
+            log.append(f"[AI] Move: {msg}")
             dist = max(abs(me.x - target.x), abs(me.y - target.y))
 
-        # Attack if possible
         if dist <= 1:
-             # Melee
-             log.extend(engine.attack_target(me, target))
+            log.extend(engine.attack_target(me, target))
         else:
-             # TODO: Ranged check
-             log.append(f"[AI] Closing distance to {target.name}")
+            log.append(f"[AI] Closing distance to {target.name}")
 
-    def _try_cast_heal(self, me, target, engine, log):
-        """
-        Attempts to find and cast a healing spell.
-        Returns True if successful.
-        """
-        # Look for "Heal" keyword in powers/spells (assuming string list for now)
-        # In full system, this checks Ability objects with tags.
-        # Simulating a check:
-        # For now, we can inject a "Heal" spell if Species/Class allows, or check existing.
+    def _basic_attack_routine(self, me, target, engine, log):
+        is_ranged, max_range, has_melee = self._get_weapon_info(me)
         
-        # Stub: If 'Heal' is in known powers/actions
-        # For prototype, let's assume 'Caster' has 'Heal'
-        if "Heal" in me.powers or "Heal" in me.skills or me.data.get("Class") == "Cleric":
-             # Execute Heal logic via Registry Resolve?
-             # Or engine.use_ability?
-             # Let's assume we invoke the effect registry pattern "Heal 1d8 HP"
-             
-             dist = max(abs(me.x - target.x), abs(me.y - target.y))
-             if dist > 5: # Range check
-                 log.append(f"[AI] Ally {target.name} too far to heal.")
-                 return False
-                 
-             # MECHANIC: Resolve "Heal 1d8 HP" on target
-             ctx = {"engine": engine, "attacker": me, "target": target, "log": log}
-             from abilities.effects_registry import registry
-             registry.resolve("Heal 2d6 HP", ctx) # Hardcoded spell for AI test
-             log.append(f"[AI] Cast [Heal] on {target.name}!")
-             return True
-             
-        return False
+        if is_ranged:
+            self._ranged_attack_routine(me, target, engine, log, max_range, has_melee)
+        else:
+            self._melee_attack_routine(me, target, engine, log)
 
-    def _try_cast_aoe(self, me, center_target, engine, log):
+    # ==================== ACTION SELECTION ====================
+
+    def select_action(self, me, ctx, template, engine):
         """
-        Attempts to cast AoE (Fireball/Spore Cloud)
+        Executes the best action based on template priorities.
+        Now: Try ONE offensive ability, then ALWAYS do basic attack.
         """
-        # Stub check
-        # Assuming "Fireball" or "Spore Cloud"
+        log = []
         
-        dist = max(abs(me.x - center_target.x), abs(me.y - center_target.y))
-        if dist > 10: return False # Out of range
+        if not ctx["enemies"]:
+            log.append("[AI] No targets visible.")
+            return log
+            
+        target = ctx["enemies"][0]["obj"]
         
-        # Resolve Spore Cloud as test
-        ctx = {"engine": engine, "attacker": me, "target": center_target, "log": log}
-        from abilities.effects_registry import registry
+        # Step 1: Try ONE offensive ability (bonus action style)
+        if template != "Opportunist":
+            self._try_use_ability(me, target, engine, log, template)
+            # Don't return - continue to basic attack!
         
-        # If Plant -> Spore Cloud
-        if me.data.get("Species") == "Plant" or "Spore Cloud" in me.powers:
-             registry.resolve("Release spores", ctx)
-             return True
-        elif "Fireball" in me.powers:
-             # registry.resolve("Fireball", ctx) # Need fireball handler
-             pass
-             
-        return False
+        # Step 2: ALWAYS do basic attack routine
+        self._basic_attack_routine(me, target, engine, log)
+            
+        return log

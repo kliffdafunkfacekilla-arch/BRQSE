@@ -1,0 +1,44 @@
+{
+    "Name": "Iron",
+    "Species": "Aquatic",
+    "Stats": {
+        "Might": 11,
+        "Reflexes": 11,
+        "Endurance": 14,
+        "Vitality": 9,
+        "Fortitude": 10,
+        "Knowledge": 12,
+        "Logic": 12,
+        "Awareness": 10,
+        "Intuition": 12,
+        "Charm": 9,
+        "Willpower": 9,
+        "Finesse": 13
+    },
+    "Traits": [
+        "Blubber Layer",
+        "Tooth Rows",
+        "Crab Claw",
+        "Barnacles",
+        "Moist Skin",
+        "Jointless Limbs"
+    ],
+    "Skills": [
+        "Small Weapons",
+        "The Ballistics",
+        "Intimidation",
+        "Guile",
+        "Robes",
+        "Labor",
+        "Catalysts",
+        "Regrow"
+    ],
+    "Powers": [
+        "Shock",
+        "Bolt"
+    ],
+    "Inventory": [
+        "Main-Gauche",
+        "Warding Robes"
+    ]
+}
