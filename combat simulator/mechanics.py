@@ -83,6 +83,10 @@ class Combatant:
         self.is_invisible = False
         self.is_confused = False
         self.is_berserk = False
+        self.is_staggered = False
+        self.is_burning = False  # DoT
+        self.is_bleeding = False # DoT
+        self.is_frozen = False   # CC
         self.is_sanctuary = False
         self.is_sanctuary = False
         self.taunted_by = None
@@ -421,9 +425,21 @@ class CombatEngine:
         log = []
         
         # 1. Tick Start-of-Turn Effects (DoTs)
-        # Assuming some effects are active
-        
+        if hasattr(combatant, 'is_burning') and combatant.is_burning:
+            dmg = random.randint(1, 4)
+            combatant.take_damage(dmg)
+            log.append(f"{combatant.name} takes {dmg} Fire damage from Burning!")
+            
+        if hasattr(combatant, 'is_bleeding') and combatant.is_bleeding:
+            dmg = 1
+            combatant.take_damage(dmg)
+            log.append(f"{combatant.name} takes {dmg} Bleed damage!")
+
         # 2. Check Conditions
+        if hasattr(combatant, 'is_frozen') and combatant.is_frozen:
+             log.append(f"{combatant.name} is FROZEN solid and skips their turn!")
+             return False, log
+
         if combatant.is_stunned:
              log.append(f"{combatant.name} is STUNNED and skips their turn!")
              return False, log

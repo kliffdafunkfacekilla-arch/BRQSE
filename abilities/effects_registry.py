@@ -47,6 +47,16 @@ class EffectRegistry:
         self.register_pattern(r"\+(\d+) to Hit", self._handle_to_hit_bonus)
         self.register_pattern(r"-(\d+) to Hit", self._handle_to_hit_penalty)
         self.register_pattern(r"Auto-Hit", self._handle_auto_hit)
+        self.register_pattern(r"Magic Missile", self._handle_magic_missile)
+        
+        # Status Effects
+        self.register_pattern(r"\(Burn\)", self._handle_apply_burning)
+        self.register_pattern(r"Apply Burning", self._handle_apply_burning)
+        self.register_pattern(r"Freeze", self._handle_apply_frozen)
+        self.register_pattern(r"Apply Frozen", self._handle_apply_frozen)
+        self.register_pattern(r"Stagger", self._handle_apply_staggered)
+        self.register_pattern(r"Apply Staggered", self._handle_apply_staggered)
+        self.register_pattern(r"Apply Bleeding", self._handle_apply_bleeding)
         self.register_pattern(r"Auto-Crit", self._handle_auto_crit)
         self.register_pattern(r"Disadvantage", self._handle_disadvantage)
         self.register_pattern(r"Advantage", self._handle_advantage)
@@ -1357,6 +1367,68 @@ class EffectRegistry:
         ctx["auto_hit"] = True
         ctx["log"].append("Effect: Auto-Hit!")
 
+    def _handle_apply_burning(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            # Set flag and apply timed effect to clear it
+            ctx["target"].is_burning = True
+            ctx["target"].apply_effect("Burning", duration=3, on_expire="is_burning")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is BURNING!")
+
+    def _handle_apply_frozen(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_frozen = True
+            ctx["target"].apply_effect("Frozen", duration=1, on_expire="is_frozen")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is FROZEN!")
+
+    def _handle_apply_staggered(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_staggered = True
+            ctx["target"].apply_effect("Staggered", duration=1, on_expire="is_staggered")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is STAGGERED!")
+
+    def _handle_apply_bleeding(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_bleeding = True
+            ctx["target"].apply_effect("Bleeding", duration=3, on_expire="is_bleeding")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is BLEEDING!")
+
+    def _handle_magic_missile(self, match, ctx):
+        """
+        Magic Missile - auto-hit arcane damage spell.
+        Deals tier-based damage automatically without attack roll.
+        """
+        target = ctx.get("target")
+        attacker = ctx.get("attacker")
+        
+        if target and attacker:
+            import random
+            tier = ctx.get("tier", 2)  # Default tier 2 for Bolt
+            
+            # Get damage from Power_Power.csv
+            from .data_loader import DataLoader
+            loader = DataLoader()
+            dice_str = loader.get_tier_damage(tier)
+            
+            # Parse and roll dice
+            dmg = 0
+            if "d" in dice_str.lower():
+                parts = dice_str.lower().split("d")
+                num = int(parts[0]) if parts[0] else 1
+                sides = int(parts[1]) if len(parts) > 1 else 6
+                dmg = sum(random.randint(1, sides) for _ in range(num))
+            else:
+                dmg = int(dice_str) if dice_str.isdigit() else 2
+            
+            # Add stat modifier (Knowledge for arcane)
+            stat_val = attacker.data.get("Stats", {}).get("Knowledge", 10)
+            mod = (stat_val - 10) // 2
+            dmg = max(1, dmg + mod)
+            
+            # Apply damage - auto hit, no attack roll needed
+            target.hp -= dmg
+            if "log" in ctx:
+                ctx["log"].append(f"{dmg} Arcane damage to {target.name}! (Auto-hit)")
+
     def _handle_auto_crit(self, match, ctx):
         ctx["is_crit"] = True
         ctx["log"].append("Effect: Critical Hit!")
@@ -2175,6 +2247,31 @@ class EffectRegistry:
     # ============================================
     # SCHOOL OF ANUMIS HANDLERS (Arcane)
     # ============================================
+
+    def _handle_apply_burning(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            # Set flag and apply timed effect to clear it
+            ctx["target"].is_burning = True
+            ctx["target"].apply_effect("Burning", duration=3, on_expire="is_burning")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is BURNING!")
+
+    def _handle_apply_frozen(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_frozen = True
+            ctx["target"].apply_effect("Frozen", duration=1, on_expire="is_frozen")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is FROZEN!")
+
+    def _handle_apply_staggered(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_staggered = True
+            ctx["target"].apply_effect("Staggered", duration=1, on_expire="is_staggered")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is STAGGERED!")
+
+    def _handle_apply_bleeding(self, match, ctx):
+        if "target" in ctx and ctx["target"]:
+            ctx["target"].is_bleeding = True
+            ctx["target"].apply_effect("Bleeding", duration=3, on_expire="is_bleeding")
+            if "log" in ctx: ctx["log"].append(f"{ctx['target'].name} is BLEEDING!")
 
     def _handle_magic_missile(self, match, ctx):
         """Bolt/Auto-Hit"""

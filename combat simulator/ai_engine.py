@@ -160,6 +160,9 @@ class AIDecisionEngine:
                     log.append(f"[AI] Used {power}!")
                     return True
             except Exception as e:
+                print(f"AI ERROR: {e}")
+                import traceback
+                traceback.print_exc()
                 pass
         
         return False
@@ -256,10 +259,11 @@ class AIDecisionEngine:
             
         target = ctx["enemies"][0]["obj"]
         
-        # Step 1: Try ONE offensive ability (bonus action style)
+        # Step 1: Try ONE offensive ability
         if template != "Opportunist":
-            self._try_use_ability(me, target, engine, log, template)
-            # Don't return - continue to basic attack!
+            if self._try_use_ability(me, target, engine, log, template):
+                return log
+            # If no ability used, fall through to basic attack
         
         # Step 2: ALWAYS do basic attack routine
         self._basic_attack_routine(me, target, engine, log)
