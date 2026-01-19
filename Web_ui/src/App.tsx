@@ -123,40 +123,51 @@ function App() {
           </div>
         </aside>
 
-        {/* CENTER STAGE (Arena) */}
-        <main className="flex-1 relative bg-grid-pattern flex items-center justify-center p-8 bg-[#050508]">
-          <div className="absolute inset-0 pointer-events-none bg-radial-gradient" />
+        {/* CENTER STAGE (Arena + Chat) */}
+        <main className="flex-1 flex flex-col relative bg-[#050508]">
+          <div className="flex-1 relative bg-grid-pattern flex items-center justify-center p-8">
+            <div className="absolute inset-0 pointer-events-none bg-radial-gradient" />
 
-          {/* The Arena Component */}
-          <div className="z-10 shadow-2xl border border-stone-800 rounded-lg overflow-hidden bg-black/80">
-            <Arena onStatsUpdate={handleArenaUpdate} />
+            {/* The Arena Component */}
+            <div className="z-10 shadow-2xl border border-stone-800 rounded-lg overflow-hidden bg-black/80">
+              <Arena onStatsUpdate={handleArenaUpdate} />
+            </div>
+          </div>
+
+          {/* BOTTOM CHAT / COMM LOG */}
+          <div className="h-48 bg-[#111116] border-t border-stone-800 flex flex-col z-20">
+            <div className="flex items-center justify-between px-4 py-2 bg-stone-900/50 border-b border-stone-800">
+              <span className="font-bold text-xs uppercase tracking-wider text-stone-400">Comm Log</span>
+              <div className="flex gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] font-mono text-stone-500">LIVE FEED</span>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-1 font-mono text-xs">
+              {chatMessages.map((msg) => (
+                <div key={msg.id} className="animate-fade-in flex gap-2">
+                  <span className="text-stone-600 block min-w-[60px]">{msg.timestamp.toLocaleTimeString()}</span>
+                  <span className={`font-bold ${msg.user === 'SYSTEM' ? 'text-[#00f2ff]' : 'text-yellow-500'}`}>
+                    [{msg.user}]
+                  </span>
+                  <span className="text-stone-300">{msg.message}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-2 border-t border-stone-800 bg-[#0a0a0f]">
+              <div className="flex gap-2 items-center">
+                <span className="text-[#00f2ff] font-bold">&gt;</span>
+                <input
+                  type="text"
+                  placeholder="Enter command..."
+                  className="flex-1 bg-transparent text-sm text-white focus:outline-none font-mono"
+                />
+              </div>
+            </div>
           </div>
         </main>
-
-        {/* RIGHT SIDEBAR (Chat/Log) */}
-        <aside className="w-72 bg-[#111116] border-l border-stone-800 flex flex-col z-10">
-          <div className="p-3 border-b border-stone-800 font-bold text-xs uppercase tracking-wider text-stone-400 bg-stone-900/50">
-            Comm Log
-          </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
-            {chatMessages.map((msg) => (
-              <div key={msg.id} className="animate-fade-in">
-                <span className="text-stone-500 block mb-1 text-[10px]">{msg.timestamp.toLocaleTimeString()}</span>
-                <span className={`font-bold mr-2 ${msg.user === 'SYSTEM' ? 'text-[#00f2ff]' : 'text-yellow-500'}`}>
-                  [{msg.user}]
-                </span>
-                <span className="text-stone-300">{msg.message}</span>
-              </div>
-            ))}
-          </div>
-          <div className="p-3 border-t border-stone-800">
-            <input
-              type="text"
-              placeholder="Enter command..."
-              className="w-full bg-black border border-stone-700 rounded p-2 text-xs text-white focus:border-[#00f2ff] outline-none"
-            />
-          </div>
-        </aside>
 
       </div>
     </div>
