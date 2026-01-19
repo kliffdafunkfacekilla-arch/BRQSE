@@ -6,9 +6,9 @@ class DataLoader:
         if data_dir:
             self.data_dir = data_dir
         else:
-            # Default to ../Data relative to this file
+            # Default to ../../Data relative to this file (brqse_engine/abilities/data_loader.py)
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            self.data_dir = os.path.join(base_dir, "../Data")
+            self.data_dir = os.path.join(base_dir, "../../Data")
         
         self.talents = []
         self.schools = []

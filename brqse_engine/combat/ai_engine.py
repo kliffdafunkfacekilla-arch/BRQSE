@@ -111,7 +111,7 @@ class AIDecisionEngine:
         Check if ability is Offense type (worth using in combat).
         """
         try:
-            from abilities import engine_hooks
+            from brqse_engine.abilities import engine_hooks
             data = engine_hooks.get_ability_data(ability_name)
             if data:
                 ability_type = data.get("Type", "").lower()

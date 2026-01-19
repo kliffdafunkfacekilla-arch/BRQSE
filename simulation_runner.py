@@ -7,8 +7,7 @@ import os
 import random
 import time
 
-sys.path.append('combat simulator')
-import mechanics
+from brqse_engine.combat.mechanics import CombatEngine, Combatant
 
 def run_simulation(battles=10, verbose=True):
     """Run combat simulations with random fighters from Saves folder."""
@@ -36,15 +35,15 @@ def run_simulation(battles=10, verbose=True):
         f2_path = os.path.join(saves_dir, f2_file)
         
         # Load fighters
-        f1 = mechanics.Combatant(filepath=f1_path)
-        f2 = mechanics.Combatant(filepath=f2_path)
+        f1 = Combatant(filepath=f1_path)
+        f2 = Combatant(filepath=f2_path)
         
         # Initialize win tracking
         if f1.name not in wins: wins[f1.name] = 0
         if f2.name not in wins: wins[f2.name] = 0
         
         # Setup engine
-        engine = mechanics.CombatEngine()
+        engine = CombatEngine()
         
         # Place fighters on opposite sides
         engine.add_combatant(f1, 3, 5)

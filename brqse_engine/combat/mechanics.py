@@ -10,24 +10,30 @@ sys.path.append(os.path.dirname(__file__))
 
 # Try to import Engines
 try:
-    from ai_engine import AIDecisionEngine
+    from .ai_engine import AIDecisionEngine
 except ImportError:
     AIDecisionEngine = None
     
 try:
-    from inventory_engine import Inventory
+    from brqse_engine.systems.inventory import Inventory
 except ImportError:
     Inventory = None
 
 try:
-    from progression_engine import ProgressionEngine
+    from brqse_engine.systems.progression import ProgressionEngine
 except ImportError:
     ProgressionEngine = None
     print("[Mechanics] Warning: Could not import Inventory")
 
 # Ensure we can import abilities module if it's in a subfolder relative to this script
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from abilities import engine_hooks
+# sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from brqse_engine.abilities import engine_hooks
+
+try:
+    from brqse_engine.core.constants import Stats, Conditions
+    from brqse_engine.core.status_manager import StatusManager
+except ImportError as e:
+    print(f"[Mechanics] Warning: Could not import Constants/StatusManager: {e}")
 
 # --- CONSTANTS ---
 STAT_BLOCK = ["Might", "Reflexes", "Endurance", "Vitality", "Fortitude", "Knowledge", "Logic", "Awareness", "Intuition", "Charm", "Willpower", "Finesse"]
@@ -69,26 +75,12 @@ class Combatant:
             
         self.xp = self.data.get("XP", 0) # Load XP, default 0
         
-        # Temp flags for status effects
-        self.is_prone = False
-        self.is_grappled = False
-        self.is_blinded = False
-        self.is_restrained = False
-        self.is_stunned = False
-        self.is_paralyzed = False
-        self.is_poisoned = False
-        self.is_frightened = False
-        self.is_charmed = False
-        self.is_deafened = False
-        self.is_invisible = False
-        self.is_confused = False
-        self.is_berserk = False
-        self.is_staggered = False
-        self.is_burning = False  # DoT
-        self.is_bleeding = False # DoT
-        self.is_frozen = False   # CC
-        self.is_sanctuary = False
-        self.is_sanctuary = False
+        # STATUS MANAGER
+        if 'StatusManager' in globals():
+            self.status = StatusManager(self)
+        else:
+            self.status = None
+            
         self.taunted_by = None
         self.charmed_by = None # Reference to the entity that charmed this combatant
         
@@ -194,12 +186,26 @@ class Combatant:
 
     def roll_initiative(self):
         # Use Alertness (Intuition + Reflexes) from CSV
-        # We can recalc here since Stats are consistent
+        from brqse_engine.core.constants import Stats # Local import if needed or use existing
+        
+        # We assume self.get_stat handles strings or constants if mapped.
+        # But mechanics.py uses strings primarily.
         intuit = self.get_stat("Intuition")
         reflex = self.get_stat("Reflexes")
         alertness = intuit + reflex
         
-        self.initiative = alertness + random.randint(1, 20)
+        # BURT'S UPDATE: Check for Talent Flags
+        roll1 = random.randint(1, 20)
+        roll2 = random.randint(1, 20)
+        
+        if getattr(self, "initiative_advantage", False):
+            roll = max(roll1, roll2)
+        else:
+            roll = roll1
+            
+        bonus = getattr(self, "initiative_bonus", 0)
+        
+        self.initiative = alertness + roll + bonus
         return self.initiative
 
     def get_stat(self, stat_name):
@@ -301,60 +307,119 @@ class Combatant:
         mod = self.get_stat_modifier(stat)
         return nat_roll + mod, nat_roll
 
+    # --- PROPERTIES FOR BACKWARD COMPATIBILITY ---
+    def _get_status(self, condition):
+        return self.status.has(condition) if self.status else False
+    def _set_status(self, condition, val):
+        if self.status:
+            if val: self.status.add_condition(condition)
+            else: self.status.remove_condition(condition)
+
+    @property
+    def is_prone(self): return self._get_status(Conditions.PRONE)
+    @is_prone.setter
+    def is_prone(self, val): self._set_status(Conditions.PRONE, val)
+
+    @property
+    def is_grappled(self): return self._get_status(Conditions.GRAPPLED)
+    @is_grappled.setter
+    def is_grappled(self, val): self._set_status(Conditions.GRAPPLED, val)
+
+    @property
+    def is_blinded(self): return self._get_status(Conditions.BLINDED)
+    @is_blinded.setter
+    def is_blinded(self, val): self._set_status(Conditions.BLINDED, val)
+
+    @property
+    def is_restrained(self): return self._get_status(Conditions.RESTRAINED)
+    @is_restrained.setter
+    def is_restrained(self, val): self._set_status(Conditions.RESTRAINED, val)
+
+    @property
+    def is_stunned(self): return self._get_status(Conditions.STUNNED)
+    @is_stunned.setter
+    def is_stunned(self, val): self._set_status(Conditions.STUNNED, val)
+
+    @property
+    def is_paralyzed(self): return self._get_status(Conditions.PARALYZED)
+    @is_paralyzed.setter
+    def is_paralyzed(self, val): self._set_status(Conditions.PARALYZED, val)
+
+    @property
+    def is_poisoned(self): return self._get_status(Conditions.POISONED)
+    @is_poisoned.setter
+    def is_poisoned(self, val): self._set_status(Conditions.POISONED, val)
+
+    @property
+    def is_frightened(self): return self._get_status(Conditions.FRIGHTENED)
+    @is_frightened.setter
+    def is_frightened(self, val): self._set_status(Conditions.FRIGHTENED, val)
+
+    @property
+    def is_charmed(self): return self._get_status(Conditions.CHARMED)
+    @is_charmed.setter
+    def is_charmed(self, val): self._set_status(Conditions.CHARMED, val)
+
+    @property
+    def is_deafened(self): return self._get_status(Conditions.DEAFENED)
+    @is_deafened.setter
+    def is_deafened(self, val): self._set_status(Conditions.DEAFENED, val)
+
+    @property
+    def is_invisible(self): return self._get_status(Conditions.INVISIBLE)
+    @is_invisible.setter
+    def is_invisible(self, val): self._set_status(Conditions.INVISIBLE, val)
+
+    @property
+    def is_confused(self): return self._get_status(Conditions.CONFUSED)
+    @is_confused.setter
+    def is_confused(self, val): self._set_status(Conditions.CONFUSED, val)
+
+    @property
+    def is_berserk(self): return self._get_status(Conditions.BERSERK)
+    @is_berserk.setter
+    def is_berserk(self, val): self._set_status(Conditions.BERSERK, val)
+    
+    @property
+    def is_staggered(self): return self._get_status(Conditions.STAGGERED)
+    @is_staggered.setter
+    def is_staggered(self, val): self._set_status(Conditions.STAGGERED, val)
+
+    @property
+    def is_burning(self): return self._get_status(Conditions.BURNING)
+    @is_burning.setter
+    def is_burning(self, val): self._set_status(Conditions.BURNING, val)
+
+    @property
+    def is_bleeding(self): return self._get_status(Conditions.BLEEDING)
+    @is_bleeding.setter
+    def is_bleeding(self, val): self._set_status(Conditions.BLEEDING, val)
+
+    @property
+    def is_frozen(self): return self._get_status(Conditions.FROZEN)
+    @is_frozen.setter
+    def is_frozen(self, val): self._set_status(Conditions.FROZEN, val)
+
+    @property
+    def is_sanctuary(self): return self._get_status(Conditions.SANCTUARY)
+    @is_sanctuary.setter
+    def is_sanctuary(self, val): self._set_status(Conditions.SANCTUARY, val)
+
+
     def apply_effect(self, effect_name, duration=1, on_expire=None):
         """
-        Apply a timed effect.
-        effect_name: e.g. 'Frightened', 'Poisoned'
-        duration: rounds (-1 = permanent)
-        on_expire: optional callback or flag name to clear
-        
-        FIX: Now refreshes duration if effect already exists (no stacking).
+        Apply a timed effect via StatusManager.
         """
-        flag = f"is_{effect_name.lower()}"
-        on_exp = on_expire or flag
-        
-        # Check if effect already exists - refresh duration instead of stacking
-        for eff in self.active_effects:
-            if eff["name"] == effect_name:
-                # Refresh: take the longer duration
-                eff["duration"] = max(eff["duration"], duration)
-                return
-        
-        # New effect
-        self.active_effects.append({
-            "name": effect_name,
-            "duration": duration,
-            "on_expire": on_exp
-        })
-        # Also set the flag immediately
-        if hasattr(self, flag):
-            setattr(self, flag, True)
+        if self.status:
+            self.status.add_timed_effect(effect_name, duration, on_expire)
 
     def tick_effects(self):
         """
-        Called at start/end of turn. Decrements durations and clears expired.
-        Returns list of expired effect names.
+        Delegates to StatusManager.tick()
         """
-        expired = []
-        remaining = []
-        
-        for eff in self.active_effects:
-            if eff["duration"] == -1:
-                remaining.append(eff) # Permanent
-                continue
-                
-            eff["duration"] -= 1
-            if eff["duration"] <= 0:
-                # Expired - clear the flag
-                flag = eff.get("on_expire")
-                if flag and hasattr(self, flag):
-                    setattr(self, flag, False)
-                expired.append(eff["name"])
-            else:
-                remaining.append(eff)
-        
-        self.active_effects = remaining
-        return expired
+        if self.status:
+            return self.status.tick()
+        return []
 
 class CombatEngine:
     def __init__(self, cols=12, rows=12):
@@ -377,7 +442,8 @@ class CombatEngine:
 
     def _load_weapon_db(self):
         db = {}
-        csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Data/weapons_and_armor.csv")
+        # Path relative to brqse_engine/combat/mechanics.py -> ../../Data
+        csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../Data/weapons_and_armor.csv")
         try:
             with open(csv_path, 'r', encoding='utf-8') as f:
                 header = f.readline()
@@ -631,7 +697,14 @@ class CombatEngine:
         # Check collision
         for c in self.combatants:
             if c.is_alive() and c != char and c.x == tx and c.y == ty:
-                return False, "Blocked!"
+                # BURT'S UPDATE: Collision Check with Talent Exception
+                can_pass = getattr(char, "can_move_through_enemies", False)
+                if not can_pass:
+                    return False, "Blocked!"
+                else:
+                    # Logic for "Sharing Space" mechanics?
+                    # For now we allow them to enter the square.
+                    pass
         
         if (tx, ty) in self.walls:
             return False, "Blocked by Wall!"
