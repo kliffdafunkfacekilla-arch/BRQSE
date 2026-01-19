@@ -1,0 +1,370 @@
+[
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "Moss",
+    "Stat 1": "Endure",
+    "Stat 2": "Fortitude",
+    "Body Part": "Mossy Skin"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "Fern",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Mossy Skin"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "Vine",
+    "Stat 1": "Finesse",
+    "Stat 2": "Might",
+    "Body Part": "Tendril Fingers"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "Shrub",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Tendril Fingers"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "Fungi",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Knowledge",
+    "Body Part": "Mushroom Cap"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "Flower",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Mushroom Cap"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "Tree",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Sharp Thorns"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "Fly Trap",
+    "Stat 1": "Might",
+    "Stat 2": "Finesse",
+    "Body Part": "Sharp Thorns"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "Curl",
+    "Stat 1": "Logic",
+    "Stat 2": "Finesse",
+    "Body Part": "Closing Foliage"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "Drop",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Closing Foliage"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "Mimic",
+    "Stat 1": "Finesse",
+    "Stat 2": "Logic",
+    "Body Part": "Adaptive Leaves"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "Burrow",
+    "Stat 1": "Endure",
+    "Stat 2": "Fortitude",
+    "Body Part": "Adaptive Leaves"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Thorns",
+    "Stat 1": "Charm",
+    "Stat 2": "Might",
+    "Body Part": "Thorns"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Size",
+    "Stat 1": "Might",
+    "Stat 2": "Will",
+    "Body Part": "Thorns"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Bark",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Will",
+    "Body Part": "IronBark"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Sap",
+    "Stat 1": "Vitality",
+    "Stat 2": "Fortitude",
+    "Body Part": "IronBark"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Branch",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Razor Leaves"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Whip",
+    "Stat 1": "Finesse",
+    "Stat 2": "Reflex",
+    "Body Part": "Razor Leaves"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Needle",
+    "Stat 1": "Reflex",
+    "Stat 2": "Awareness",
+    "Body Part": "Cactus Spines"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Spore",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Cactus Spines"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Pollen",
+    "Stat 1": "Vitality",
+    "Stat 2": "Charm",
+    "Body Part": "Toxic Sap"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Acid",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Toxic Sap"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Root",
+    "Stat 1": "Might",
+    "Stat 2": "Endure",
+    "Body Part": "Wide Roots"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Crush",
+    "Stat 1": "Might",
+    "Stat 2": "Vitality",
+    "Body Part": "Wide Roots"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Flower",
+    "Stat 1": "Charm",
+    "Stat 2": "Will",
+    "Body Part": "Flower Head"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Fruit",
+    "Stat 1": "Charm",
+    "Stat 2": "Vitality",
+    "Body Part": "Flower Head"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "Grove",
+    "Stat 1": "Intuition",
+    "Stat 2": "Logic",
+    "Body Part": "Root Ball"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "Tangle",
+    "Stat 1": "Endure",
+    "Stat 2": "Might",
+    "Body Part": "Root Ball"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Rustle",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Awareness",
+    "Body Part": "Whistling Branches"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Scream",
+    "Stat 1": "Charm",
+    "Stat 2": "Fortitude",
+    "Body Part": "Whistling Branches"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Oak",
+    "Stat 1": "Will",
+    "Stat 2": "Fortitude",
+    "Body Part": "Gnarled Face"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Cactus",
+    "Stat 1": "Endure",
+    "Stat 2": "Fortitude",
+    "Body Part": "Gnarled Face"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Hardy",
+    "Stat 1": "Endure",
+    "Stat 2": "Vitality",
+    "Body Part": "Fluff Blooms"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Aquatic",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Fluff Blooms"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Purify",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Irritating Sap"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Filter",
+    "Stat 1": "Vitality",
+    "Stat 2": "Endure",
+    "Body Part": "Irritating Sap"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Symbiosis",
+    "Stat 1": "Will",
+    "Stat 2": "Intuition",
+    "Body Part": "Long Stem"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Garden",
+    "Stat 1": "Charm",
+    "Stat 2": "Knowledge",
+    "Body Part": "Long Stem"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Tremor",
+    "Stat 1": "Awareness",
+    "Stat 2": "Might",
+    "Body Part": "Stalk Hairs"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Sun",
+    "Stat 1": "Awareness",
+    "Stat 2": "Intuition",
+    "Body Part": "Stalk Hairs"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Barrier",
+    "Stat 1": "Logic",
+    "Stat 2": "Might",
+    "Body Part": "Pine Needles"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Encircle",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Pine Needles"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Growth",
+    "Stat 1": "Finesse",
+    "Stat 2": "Knowledge",
+    "Body Part": "Fruit Blooms"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Potion",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Logic",
+    "Body Part": "Fruit Blooms"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Resistance",
+    "Choice Name": "Fire",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Fortitude",
+    "Body Part": "Pine Cones"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Resistance",
+    "Choice Name": "Magic",
+    "Stat 1": "Will",
+    "Stat 2": "Knowledge",
+    "Body Part": "Pine Cones"
+  }
+]

@@ -4,7 +4,7 @@ import json
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "Data")
-OUT_DIR = os.path.join(BASE_DIR, "WebCharacterCreator", "public", "data")
+OUT_DIR = os.path.join(BASE_DIR, "Web_ui", "public", "data")
 
 def convert_csv_to_json(filename):
     csv_path = os.path.join(DATA_DIR, filename)

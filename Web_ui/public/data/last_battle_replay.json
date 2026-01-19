@@ -1,35 +1,98 @@
 {
   "combatants": [
     {
-      "name": "buggy (Blue)",
-      "species": "Insect",
+      "name": "buggy",
       "max_hp": 51,
       "team": "blue"
     },
     {
-      "name": "flower (Red)",
-      "species": "Plant",
-      "max_hp": 47,
+      "name": "Flower Knight",
+      "max_hp": 40,
       "team": "red"
     }
   ],
   "log": [
     {
       "type": "move",
-      "actor": "buggy (Blue)",
+      "actor": "buggy",
       "from": [
         2,
         5
       ],
       "to": [
-        3,
-        5
+        2,
+        6
       ],
-      "timestamp": 1768807662.246366
+      "timestamp": 1768809385.6354887
     },
     {
       "type": "move",
-      "actor": "buggy (Blue)",
+      "actor": "Flower Knight",
+      "from": [
+        7,
+        5
+      ],
+      "to": [
+        7,
+        4
+      ],
+      "timestamp": 1768809385.6355045
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        2,
+        6
+      ],
+      "to": [
+        2,
+        6
+      ],
+      "timestamp": 1768809385.6355116
+    },
+    {
+      "type": "move",
+      "actor": "Flower Knight",
+      "from": [
+        7,
+        4
+      ],
+      "to": [
+        6,
+        4
+      ],
+      "timestamp": 1768809385.6355333
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        2,
+        6
+      ],
+      "to": [
+        3,
+        5
+      ],
+      "timestamp": 1768809385.635537
+    },
+    {
+      "type": "move",
+      "actor": "Flower Knight",
+      "from": [
+        6,
+        4
+      ],
+      "to": [
+        5,
+        4
+      ],
+      "timestamp": 1768809385.6355407
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
       "from": [
         3,
         5
@@ -38,198 +101,40 @@
         4,
         5
       ],
-      "timestamp": 1768807662.2463744
+      "timestamp": 1768809385.6355438
+    },
+    {
+      "type": "attack",
+      "actor": "buggy",
+      "target": "Flower Knight",
+      "result": "miss",
+      "damage": 0
     },
     {
       "type": "move",
-      "actor": "buggy (Blue)",
+      "actor": "Flower Knight",
+      "from": [
+        5,
+        4
+      ],
+      "to": [
+        6,
+        4
+      ],
+      "timestamp": 1768809385.6355772
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
       "from": [
         4,
         5
       ],
       "to": [
-        5,
+        4,
         5
       ],
-      "timestamp": 1768807662.246379
-    },
-    {
-      "type": "move",
-      "actor": "buggy (Blue)",
-      "from": [
-        5,
-        5
-      ],
-      "to": [
-        6,
-        5
-      ],
-      "timestamp": 1768807662.246382
-    },
-    {
-      "type": "move",
-      "actor": "flower (Red)",
-      "from": [
-        6,
-        5
-      ],
-      "to": [
-        7,
-        5
-      ],
-      "timestamp": 1768807662.2464359
-    },
-    {
-      "type": "move",
-      "actor": "buggy (Blue)",
-      "from": [
-        5,
-        5
-      ],
-      "to": [
-        6,
-        5
-      ],
-      "timestamp": 1768807662.2478435
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 42
-    },
-    {
-      "type": "move",
-      "actor": "flower (Red)",
-      "from": [
-        7,
-        5
-      ],
-      "to": [
-        8,
-        5
-      ],
-      "timestamp": 1768807662.2478878
-    },
-    {
-      "type": "move",
-      "actor": "buggy (Blue)",
-      "from": [
-        6,
-        5
-      ],
-      "to": [
-        7,
-        5
-      ],
-      "timestamp": 1768807662.248051
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "move",
-      "actor": "flower (Red)",
-      "from": [
-        8,
-        5
-      ],
-      "to": [
-        9,
-        5
-      ],
-      "timestamp": 1768807662.2480779
-    },
-    {
-      "type": "move",
-      "actor": "buggy (Blue)",
-      "from": [
-        7,
-        5
-      ],
-      "to": [
-        8,
-        5
-      ],
-      "timestamp": 1768807662.2482002
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 11,
-      "target_hp": 31
-    },
-    {
-      "type": "move",
-      "actor": "flower (Red)",
-      "from": [
-        8,
-        5
-      ],
-      "to": [
-        9,
-        5
-      ],
-      "timestamp": 1768807662.2482908
-    },
-    {
-      "type": "move",
-      "actor": "buggy (Blue)",
-      "from": [
-        7,
-        5
-      ],
-      "to": [
-        8,
-        5
-      ],
-      "timestamp": 1768807662.2484002
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 3,
-      "target_hp": 28
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 26
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 24
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "miss",
-      "damage": 0
+      "timestamp": 1768809385.635581
     }
   ]
 }

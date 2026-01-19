@@ -1,0 +1,370 @@
+[
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "Seal",
+    "Stat 1": "Endure",
+    "Stat 2": "Fortitude",
+    "Body Part": "Blubber Layer"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Grazer",
+    "Choice Name": "Coi",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Blubber Layer"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "Dolphin",
+    "Stat 1": "Might",
+    "Stat 2": "Reflex",
+    "Body Part": "Folded Legs"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Climber",
+    "Choice Name": "Crab",
+    "Stat 1": "Finesse",
+    "Stat 2": "Fortitude",
+    "Body Part": "Folded Legs"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "Catfish",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Awareness",
+    "Body Part": "Suction Pad"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Scavenger",
+    "Choice Name": "Seahorse",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Suction Pad"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "Shark",
+    "Stat 1": "Might",
+    "Stat 2": "Reflex",
+    "Body Part": "Dorsal Fin"
+  },
+  {
+    "Category": "ANCESTRY",
+    "Option": "Predator",
+    "Choice Name": "Squid",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Dorsal Fin"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "Ink",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Finesse",
+    "Body Part": "Ink Sacs"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Retreat",
+    "Choice Name": "Slippery",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Ink Sacs"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "Deep",
+    "Stat 1": "Finesse",
+    "Stat 2": "Intuition",
+    "Body Part": "Color Change"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Stealth",
+    "Choice Name": "Sand",
+    "Stat 1": "Logic",
+    "Stat 2": "Finesse",
+    "Body Part": "Color Change"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Gape",
+    "Stat 1": "Charm",
+    "Stat 2": "Might",
+    "Body Part": "Tooth Rows"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Intimidate",
+    "Choice Name": "Spine",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Charm",
+    "Body Part": "Tooth Rows"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Scale",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Might",
+    "Body Part": "Heavy Scales"
+  },
+  {
+    "Category": "DEFENSE",
+    "Option": "Tough",
+    "Choice Name": "Jelly",
+    "Stat 1": "Vitality",
+    "Stat 2": "Fortitude",
+    "Body Part": "Heavy Scales"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Pinch",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Crab Claw"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Claws",
+    "Choice Name": "Barb",
+    "Stat 1": "Reflex",
+    "Stat 2": "Finesse",
+    "Body Part": "Crab Claw"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Ram",
+    "Stat 1": "Might",
+    "Stat 2": "Endure",
+    "Body Part": "Tentacle"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strikes",
+    "Choice Name": "Tentacle",
+    "Stat 1": "Finesse",
+    "Stat 2": "Reflex",
+    "Body Part": "Tentacle"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Shock",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Logic",
+    "Body Part": "Electric Nodes"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Biological",
+    "Choice Name": "Toxin",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Electric Nodes"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Drag",
+    "Stat 1": "Might",
+    "Stat 2": "Will",
+    "Body Part": "Webbed Hands"
+  },
+  {
+    "Category": "OFFENSE",
+    "Option": "Strength",
+    "Choice Name": "Crush",
+    "Stat 1": "Might",
+    "Stat 2": "Fortitude",
+    "Body Part": "Webbed Hands"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Bright",
+    "Stat 1": "Charm",
+    "Stat 2": "Awareness",
+    "Body Part": "Angler Light"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Ornate",
+    "Choice Name": "Lure",
+    "Stat 1": "Charm",
+    "Stat 2": "Will",
+    "Body Part": "Angler Light"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "School",
+    "Stat 1": "Will",
+    "Stat 2": "Logic",
+    "Body Part": "Blowhole"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Pack",
+    "Choice Name": "Pod",
+    "Stat 1": "Intuition",
+    "Stat 2": "Charm",
+    "Body Part": "Blowhole"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Song",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Charm",
+    "Body Part": "Throat Sac"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Vocal",
+    "Choice Name": "Click",
+    "Stat 1": "Intuition",
+    "Stat 2": "Logic",
+    "Body Part": "Throat Sac"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Deep",
+    "Stat 1": "Will",
+    "Stat 2": "Endure",
+    "Body Part": "Barnacles"
+  },
+  {
+    "Category": "SOCIAL",
+    "Option": "Solitary",
+    "Choice Name": "Ancient",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Logic",
+    "Body Part": "Barnacles"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Amphib",
+    "Stat 1": "Endure",
+    "Stat 2": "Vitality",
+    "Body Part": "Moist Skin"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Varied",
+    "Choice Name": "Current",
+    "Stat 1": "Reflex",
+    "Stat 2": "Logic",
+    "Body Part": "Moist Skin"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Filter",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Will",
+    "Body Part": "Poision Sting"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Toxic",
+    "Choice Name": "Sump",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Endure",
+    "Body Part": "Poision Sting"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Navigator",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Logic",
+    "Body Part": "Star Scales"
+  },
+  {
+    "Category": "ENVIRON",
+    "Option": "Safe",
+    "Choice Name": "Flow",
+    "Stat 1": "Charm",
+    "Stat 2": "Finesse",
+    "Body Part": "Star Scales"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Sonar",
+    "Stat 1": "Awareness",
+    "Stat 2": "Intuition",
+    "Body Part": "Ear Holes"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Senses",
+    "Choice Name": "Lateral",
+    "Stat 1": "Awareness",
+    "Stat 2": "Reflex",
+    "Body Part": "Ear Holes"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Fluid",
+    "Stat 1": "Logic",
+    "Stat 2": "Reflex",
+    "Body Part": "Jointless Limbs"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tactics",
+    "Choice Name": "Surge",
+    "Stat 1": "Might",
+    "Stat 2": "Reflex",
+    "Body Part": "Jointless Limbs"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Salvage",
+    "Stat 1": "Knowledge",
+    "Stat 2": "Finesse",
+    "Body Part": "Long Fingers"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Tool Use",
+    "Choice Name": "Net",
+    "Stat 1": "Logic",
+    "Stat 2": "Finesse",
+    "Body Part": "Long Fingers"
+  },
+  {
+    "Category": "ADAPT",
+    "Option": "Resistance",
+    "Choice Name": "Regen",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Vitality",
+    "Body Part": "Blue Skin"
+  },
+  {
+    "Category": "",
+    "Option": "Resistance",
+    "Choice Name": "Cold",
+    "Stat 1": "Fortitude",
+    "Stat 2": "Endure",
+    "Body Part": "Blue Skin"
+  }
+]

@@ -4,94 +4,125 @@ import json
 import random
 import time
 
-# Ensure project root is in path
-sys.path.append(os.getcwd())
+# Ensure we can find the engine modules
+# We need to add the PROJECT ROOT to sys.path so we can do 'from brqse_engine...'
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from brqse_engine.combat import mechanics
+try:
+    from brqse_engine.combat import mechanics
+except ImportError:
+    # Fallback/Debug
+    print("Could not import brqse_engine. check your paths.")
+    sys.exit(1)
 
 def generate_visual_battle():
+    # --- BURT'S TARGET LOCK ---
+    # We are targeting the NEW Web_ui folder
+    output_path = os.path.join("Web_ui", "public", "data", "last_battle_replay.json")
+    
     # Setup paths
     saves_dir = "brqse_engine/Saves"
-    # BURT NOTE: This dumps the "Network Packet" directly to your web folder
-    output_path = "Web_ui/public/data/last_battle_replay.json"
     
     if not os.path.exists(saves_dir):
         print(f"Error: Saves directory not found at {saves_dir}")
+        print("Current working directory:", os.getcwd())
         return
 
-    saves = [f for f in os.listdir(saves_dir) if f.endswith('.json')]
-    if len(saves) < 2: 
-        print(f"Not enough fighters in {saves_dir}.")
-        return
+    # Load characters (Simulating "Selection")
+    def load_char(filename):
+        try:
+            with open(os.path.join(saves_dir, filename), 'r') as f:
+                data = json.load(f)
+                # Ensure name exists, or default it
+                if "name" not in data:
+                    data["name"] = f"Unknown Entity ({filename})"
+                return data
+        except (FileNotFoundError, json.JSONDecodeError):
+            return None
 
-    # Pick Fighters
-    # Ensure bug or flower are in there if possible for fun
-    preferred = [f for f in saves if "buggy" in f.lower() or "flower" in f.lower()]
-    others = [f for f in saves if f not in preferred]
-    
-    if len(preferred) >= 2:
-        f1_file, f2_file = random.sample(preferred, 2)
-    elif len(preferred) == 1 and others:
-        f1_file = preferred[0]
-        f2_file = random.choice(others)
-    else:
-        f1_file, f2_file = random.sample(saves, 2)
-
-    print(f"Loading {f1_file} and {f2_file}...")
-    f1 = mechanics.Combatant(filepath=os.path.join(saves_dir, f1_file))
-    f2 = mechanics.Combatant(filepath=os.path.join(saves_dir, f2_file))
-    
-    # Tag them for the UI
-    f1.name = f1.name + " (Blue)"
-    f2.name = f2.name + " (Red)"
-    f1.team = "blue"
-    f2.team = "red"
-
-    # Setup Arena
-    engine = mechanics.CombatEngine(cols=10, rows=10)
-    engine.add_combatant(f1, 2, 5) # Left side
-    engine.add_combatant(f2, 7, 5) # Right side
-    engine.start_combat()
-
-    print(f"Simulating: {f1.name} vs {f2.name}...")
-
-    # Run Loop (Simplified for Data Generation)
-    turns = 0
-    while f1.is_alive() and f2.is_alive() and turns < 20:
-        turns += 1
-        # Simple round logic
-        # We need to manually cycle to mimic engine loop if we aren't using simulation_runner
-        # But mechanics.py doesn't have a 'play round' method, just turns.
-        
-        # We iterate turn_order
-        # Note: logic inside mechanics handles turn indexing
-        # Just call start_turn -> execute_ai -> end_turn
-        
-        active = engine.get_active_char()
-        if not active.is_alive(): 
-            engine.end_turn()
-            continue
-
-        engine.start_turn(active)
-        engine.execute_ai_turn(active)
-        if engine.clash_active: engine.resolve_clash("Aggressive")
-        engine.end_turn()
-
-    # The "Game State" Packet
-    battle_data = {
-        "combatants": [
-            {"name": f1.name, "species": f1.species, "max_hp": f1.max_hp, "team": "blue"},
-            {"name": f2.name, "species": f2.species, "max_hp": f2.max_hp, "team": "red"}
-        ],
-        "log": engine.replay_log # This is the sequence the frontend will render
+    # Try to load some test characters, or create dummies
+    char1_data = load_char("buggy.json") or {
+        "name": "Buggy the Clown", "stats": {"attributes": {"Might": 4, "Reflexes": 6, "Vitality": 5}},
+        "derived": {"hp": 30, "speed": 25}
+    }
+    char2_data = load_char("flower_knight.json") or {
+        "name": "Flower Knight", "stats": {"attributes": {"Might": 8, "Reflexes": 3, "Vitality": 8}},
+        "derived": {"hp": 45, "speed": 20}
     }
 
+    print(f"Loading {char1_data['name']} and {char2_data['name']}...")
+
+    # Initialize Engine
+    engine = mechanics.CombatEngine(cols=10, rows=10) # 10x10 Grid for the Arena
+
+    # Create Combatants
+    # Note: Combatant init is (filepath, data). 
+    # It reads "Name" (Capitalized) from data.
+    
+    # Capitalize keys for engine compatibility if needed
+    if "Name" not in char1_data and "name" in char1_data: char1_data["Name"] = char1_data["name"]
+    if "Name" not in char2_data and "name" in char2_data: char2_data["Name"] = char2_data["name"]
+
+    c1 = mechanics.Combatant(data=char1_data)
+    c2 = mechanics.Combatant(data=char2_data)
+
+    # Set properties manually since init doesn't take them
+    c1.team = "blue"
+    c2.team = "red" 
+    
+    # Ensure Max HP is set (Engine might calculate it, but let's be safe)
+    if not hasattr(c1, 'max_hp') or c1.max_hp == 0: c1.max_hp = c1.derived.get('hp', 30)
+    if not hasattr(c2, 'max_hp') or c2.max_hp == 0: c2.max_hp = c2.derived.get('hp', 30)
+    c1.hp = c1.max_hp
+    c2.hp = c2.max_hp
+
+    # Place allowed (and add to engine)
+    c1.x, c1.y = 2, 5
+    c2.x, c2.y = 7, 5
+    
+    engine.add_combatant(c1, c1.x, c1.y)
+    engine.add_combatant(c2, c2.x, c2.y)
+
+    # --- SIMULATE BATTLE ---
+    print("Simulating Battle...")
+    
+    # We will just run a few rounds to generate logs
+    for _ in range(5):
+        # We need to manually trigger turns if we aren't using the full game loop
+        # For this demo, let's just force some actions
+        
+        # 1. Move Blue
+        engine.move_char(c1, c1.x + random.choice([-1, 0, 1]), c1.y + random.choice([-1, 0, 1]))
+        
+        # 2. Blue Attacks Red
+        engine.attack_target(c1, c2)
+        
+        # 3. Move Red
+        engine.move_char(c2, c2.x + random.choice([-1, 0, 1]), c2.y + random.choice([-1, 0, 1]))
+        
+        # 4. Red Attacks Blue
+        engine.attack_target(c2, c1)
+
+    # --- EXPORT DATA ---
+    battle_data = {
+        "combatants": [
+            {"name": c1.name, "max_hp": c1.max_hp, "team": "blue"},
+            {"name": c2.name, "max_hp": c2.max_hp, "team": "red"}
+        ],
+        "log": engine.replay_log
+    }
+
+    # Verify we have data
+    print(f"Generated {len(engine.replay_log)} events.")
+
     # Save to Web Public Folder
+    # BURT NOTE: This path needs to be correct relative to where you run the script!
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(battle_data, f, indent=2)
-    
-    print(f"Battle Data saved to {output_path}! ({len(engine.replay_log)} events)")
+        
+    print(f"--> TACTICAL DATA DROP: {output_path}")
+    print("--> UI STATUS: READY FOR PLAYBACK")
 
 if __name__ == "__main__":
     generate_visual_battle()
