@@ -169,9 +169,9 @@ export default function WizardProp() {
                         className={`glass-panel p-6 cursor-pointer transition transform hover:scale-105 ${selectedSpecies?.Species === sp.Species ? 'border-[#00f2ff] shadow-[0_0_15px_rgba(0,242,255,0.4)]' : 'hover:border-white/30'}`}
                     >
                         <div className="h-40 bg-black/40 mb-4 rounded-lg flex items-center justify-center text-4xl">
-                            {sp.Species[0]}
+                            {sp.Species ? sp.Species[0] : "?"}
                         </div>
-                        <h3 className="text-xl font-bold text-white mb-2">{sp.Species}</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">{sp.Species || "Unknown Entity"}</h3>
                         <div className="text-sm text-gray-400 space-y-1">
                             <p><span className="text-[#00f2ff]">Might:</span> {sp.Might} | <span className="text-[#00f2ff]">Reflex:</span> {sp.Reflexes}</p>
                             <p><span className="text-[#00f2ff]">Endure:</span> {sp.Endurance}</p>

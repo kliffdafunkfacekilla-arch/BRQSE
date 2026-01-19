@@ -25,7 +25,7 @@
         3,
         5
       ],
-      "timestamp": 1768800858.355353
+      "timestamp": 1768807662.246366
     },
     {
       "type": "move",
@@ -38,7 +38,7 @@
         4,
         5
       ],
-      "timestamp": 1768800858.3553617
+      "timestamp": 1768807662.2463744
     },
     {
       "type": "move",
@@ -51,7 +51,7 @@
         5,
         5
       ],
-      "timestamp": 1768800858.3553667
+      "timestamp": 1768807662.246379
     },
     {
       "type": "move",
@@ -64,15 +64,41 @@
         6,
         5
       ],
-      "timestamp": 1768800858.3553705
+      "timestamp": 1768807662.246382
+    },
+    {
+      "type": "move",
+      "actor": "flower (Red)",
+      "from": [
+        6,
+        5
+      ],
+      "to": [
+        7,
+        5
+      ],
+      "timestamp": 1768807662.2464359
+    },
+    {
+      "type": "move",
+      "actor": "buggy (Blue)",
+      "from": [
+        5,
+        5
+      ],
+      "to": [
+        6,
+        5
+      ],
+      "timestamp": 1768807662.2478435
     },
     {
       "type": "attack",
       "actor": "buggy (Blue)",
       "target": "flower (Red)",
       "result": "hit",
-      "damage": 12,
-      "target_hp": 35
+      "damage": 5,
+      "target_hp": 42
     },
     {
       "type": "move",
@@ -85,7 +111,7 @@
         8,
         5
       ],
-      "timestamp": 1768800858.3554244
+      "timestamp": 1768807662.2478878
     },
     {
       "type": "move",
@@ -98,15 +124,14 @@
         7,
         5
       ],
-      "timestamp": 1768800858.3554847
+      "timestamp": 1768807662.248051
     },
     {
       "type": "attack",
       "actor": "buggy (Blue)",
       "target": "flower (Red)",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 30
+      "result": "miss",
+      "damage": 0
     },
     {
       "type": "move",
@@ -119,7 +144,7 @@
         9,
         5
       ],
-      "timestamp": 1768800858.3555186
+      "timestamp": 1768807662.2480779
     },
     {
       "type": "move",
@@ -132,15 +157,7 @@
         8,
         5
       ],
-      "timestamp": 1768800858.356484
-    },
-    {
-      "type": "attack",
-      "actor": "buggy (Blue)",
-      "target": "flower (Red)",
-      "result": "hit",
-      "damage": 12,
-      "target_hp": 18
+      "timestamp": 1768807662.2482002
     },
     {
       "type": "attack",
@@ -148,15 +165,71 @@
       "target": "flower (Red)",
       "result": "hit",
       "damage": 11,
-      "target_hp": 7
+      "target_hp": 31
+    },
+    {
+      "type": "move",
+      "actor": "flower (Red)",
+      "from": [
+        8,
+        5
+      ],
+      "to": [
+        9,
+        5
+      ],
+      "timestamp": 1768807662.2482908
+    },
+    {
+      "type": "move",
+      "actor": "buggy (Blue)",
+      "from": [
+        7,
+        5
+      ],
+      "to": [
+        8,
+        5
+      ],
+      "timestamp": 1768807662.2484002
     },
     {
       "type": "attack",
       "actor": "buggy (Blue)",
       "target": "flower (Red)",
       "result": "hit",
-      "damage": 9,
-      "target_hp": 0
+      "damage": 3,
+      "target_hp": 28
+    },
+    {
+      "type": "attack",
+      "actor": "buggy (Blue)",
+      "target": "flower (Red)",
+      "result": "hit",
+      "damage": 2,
+      "target_hp": 26
+    },
+    {
+      "type": "attack",
+      "actor": "buggy (Blue)",
+      "target": "flower (Red)",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "attack",
+      "actor": "buggy (Blue)",
+      "target": "flower (Red)",
+      "result": "hit",
+      "damage": 2,
+      "target_hp": 24
+    },
+    {
+      "type": "attack",
+      "actor": "buggy (Blue)",
+      "target": "flower (Red)",
+      "result": "miss",
+      "damage": 0
     }
   ]
 }

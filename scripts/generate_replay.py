@@ -13,7 +13,7 @@ def generate_visual_battle():
     # Setup paths
     saves_dir = "brqse_engine/Saves"
     # BURT NOTE: This dumps the "Network Packet" directly to your web folder
-    output_path = "web-character-creator/public/data/last_battle_replay.json"
+    output_path = "Web_ui/public/data/last_battle_replay.json"
     
     if not os.path.exists(saves_dir):
         print(f"Error: Saves directory not found at {saves_dir}")
