@@ -7,22 +7,25 @@
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0c0c10; 
+  background: #0c0c10;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #333; 
+  background: #333;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f2ff; 
+  background: #00f2ff;
 }
 
 /* Background Grids */
 .bg-grid-pattern {
   background-color: #050508;
   background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -35,6 +38,117 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- COMBAT ANIMATIONS --- */
+
+.animate-sim-shake {
+  animation: simShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes simShake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+    filter: drop-shadow(0 0 5px red);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+    filter: drop-shadow(0 0 5px red);
+  }
+}
+
+.animate-sim-lunge-up {
+  animation: simLungeUp 0.3s ease-in-out;
+}
+
+.animate-sim-lunge-down {
+  animation: simLungeDown 0.3s ease-in-out;
+}
+
+.animate-sim-lunge-left {
+  animation: simLungeLeft 0.3s ease-in-out;
+}
+
+.animate-sim-lunge-right {
+  animation: simLungeRight 0.3s ease-in-out;
+}
+
+@keyframes simLungeUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-30%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes simLungeDown {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(30%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes simLungeLeft {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateX(-30%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes simLungeRight {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateX(30%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
