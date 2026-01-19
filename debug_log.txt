@@ -1,7 +1,0 @@
-Tool[0] keys: ['Tool_Name', 'Attribute', 'Description']
-Step 12 Logic: SUCCESS
-
---- Testing Step 14: Schools ---
-Schools[0] keys: ['School', 'Attribute', 'Tier', 'Type', 'Name', 'Damage_Type', 'Description']
-Found 2 valid schools for mock stats.
-Step 14 Logic: SUCCESS

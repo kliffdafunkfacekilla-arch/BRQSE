@@ -4,6 +4,7 @@ import os
 import random
 import math
 import sys
+import time
 
 # Add local directory to path for imports
 sys.path.append(os.path.dirname(__file__))
@@ -461,6 +462,7 @@ class CombatEngine:
         self.walls = set()
         self.hazards = [] # <--- BURT'S UPDATE: Add this list!
         self.aoe_templates = []
+        self.replay_log = []  # <--- BURT'S PROTOCOL: The Event Stream
         
         self.ai = None # Placeholder for AI Engine
         self.log_callback = None
@@ -866,9 +868,21 @@ class CombatEngine:
             if not getattr(char, "can_phase_walk", False):
                 return False, "Blocked by Wall!"
                 
+        old_x, old_y = char.x, char.y
         char.x = tx
         char.y = ty
         char.movement_remaining -= dist
+        
+        # --- RECORD EVENT (PROTOCOL 1) ---
+        self.replay_log.append({
+            "type": "move",
+            "actor": char.name,
+            "from": [old_x, old_y],
+            "to": [tx, ty],
+            "timestamp": time.time()
+        })
+        # ---------------------------------
+        
         return True, f"Moved to {tx},{ty}. ({char.movement_remaining} left)"
 
     def attack_target(self, attacker, target):
@@ -1014,8 +1028,28 @@ class CombatEngine:
             # HIT
              target.take_damage(damage) # Simplified for now, removed damage_type, attacker
              log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
+             
+             # --- RECORD EVENT (PROTOCOL 2) ---
+             self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "result": "hit",
+                "damage": damage,
+                "target_hp": target.hp
+             })
+             # ---------------------------------
         else:
              log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
+             # --- RECORD EVENT (PROTOCOL 2) ---
+             self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "result": "miss",
+                "damage": 0
+             })
+             # ---------------------------------
              
         return log
 

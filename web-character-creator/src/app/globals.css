@@ -1,16 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* -- Premium Dark Sci-Fantasy Palette -- */
   --bg-deep: #050510;
   --bg-panel: rgba(20, 20, 40, 0.7);
   --bg-card: rgba(30, 30, 60, 0.5);
-  
-  --primary: #00f2ff; /* Cyan Neon */
-  --secondary: #bd00ff; /* Purple Neon */
-  --accent: #ffae00; /* Gold/Amber */
-  
+
+  --primary: #00f2ff;
+  /* Cyan Neon */
+  --secondary: #bd00ff;
+  /* Purple Neon */
+  --accent: #ffae00;
+  /* Gold/Amber */
+
   --text-main: #e0e0e0;
   --text-muted: #a0a0b0;
-  
+
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shine: rgba(255, 255, 255, 0.05);
 }
@@ -21,7 +28,8 @@
   margin: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
@@ -63,14 +71,29 @@ body {
 
 /* --- Animations --- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 5px var(--primary); }
-  50% { box-shadow: 0 0 20px var(--primary); }
-  100% { box-shadow: 0 0 5px var(--primary); }
+  0% {
+    box-shadow: 0 0 5px var(--primary);
+  }
+
+  50% {
+    box-shadow: 0 0 20px var(--primary);
+  }
+
+  100% {
+    box-shadow: 0 0 5px var(--primary);
+  }
 }
 
 .btn-primary {
@@ -96,13 +119,24 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-deep);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--glass-border);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  /* Matches GRID_SIZE calculation roughly if 500px / 10 = 50px */
 }
