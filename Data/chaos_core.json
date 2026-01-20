@@ -112,16 +112,16 @@
             "Skill Name": "Athletics",
             "Description": "Action: Swimming, climbing, breaking objects. Lore: War tactics and sieges."
         },
-        "Plate": {
+        "Heavy": {
             "Attribute": "ENDURANCE",
             "Type": "Armor",
-            "Skill Name": "Plate",
+            "Skill Name": "Heavy",
             "Description": "Mastery of full plate and heavy chitin armor. You are the anvil."
         },
-        "The Shield": {
+        "Shield": {
             "Attribute": "ENDURANCE",
             "Type": "Tool",
-            "Skill Name": "The Shield",
+            "Skill Name": "Shield",
             "Description": "Mastery of bucklers, heaters, and tower shields for active cover and bashing."
         },
         "Stoicism": {
@@ -136,16 +136,16 @@
             "Skill Name": "Labor",
             "Description": "Action: Sustained heavy work, carrying loads. Lore: Structure and masonry."
         },
-        "The Blades": {
+        "Small": {
             "Attribute": "FINESSE",
             "Type": "Weapon",
-            "Skill Name": "The Blades",
+            "Skill Name": "Small",
             "Description": "Mastery of precision weapons like rapiers, shivs, and stilettos."
         },
-        "The Thrown": {
+        "Thrown": {
             "Attribute": "FINESSE",
             "Type": "Weapon",
-            "Skill Name": "The Thrown",
+            "Skill Name": "Thrown",
             "Description": "Mastery of balanced throwing weapons like knives, axes, and kunai."
         },
         "Repartee": {
@@ -160,10 +160,10 @@
             "Skill Name": "Mechanism",
             "Description": "Action: Picking locks, disarming traps. Lore: Gears and complex devices."
         },
-        "Leather": {
+        "Light": {
             "Attribute": "REFLEXES",
             "Type": "Armor",
-            "Skill Name": "Leather",
+            "Skill Name": "Light",
             "Description": "Mastery of light hides and padded armor for maximum mobility."
         },
         "Snares": {
@@ -184,10 +184,10 @@
             "Skill Name": "Motion",
             "Description": "Action: Acrobatics, stealth, balancing. Lore: Ballistics and physics of speed."
         },
-        "Bio": {
+        "Natural": {
             "Attribute": "VITALITY",
             "Type": "Armor",
-            "Skill Name": "Bio",
+            "Skill Name": "Natural",
             "Description": "Mastery of armor made from once-living things (furs, bone, wood)."
         },
         "Tinctures": {
@@ -208,16 +208,16 @@
             "Skill Name": "Nature",
             "Description": "Action: Survival, handling animals. Lore: Biology, ecology, and healing."
         },
-        "The Fist": {
+        "Fist": {
             "Attribute": "FORTITUDE",
             "Type": "Weapon",
-            "Skill Name": "The Fist",
+            "Skill Name": "Fist",
             "Description": "Mastery of unarmed strikes, cestus, and claws. Clinch fighting."
         },
-        "The Simple Shot": {
+        "Simple": {
             "Attribute": "FORTITUDE",
             "Type": "Weapon",
-            "Skill Name": "The Simple Shot",
+            "Skill Name": "Simple",
             "Description": "Mastery of simple kinetic weapons like slings and shortbows."
         },
         "Coercion": {
@@ -232,10 +232,10 @@
             "Skill Name": "Craft",
             "Description": "Action: Repairing gear, smithing, hardening. Lore: Physiology and metallurgy."
         },
-        "Robes": {
+        "Cloth": {
             "Attribute": "KNOWLEDGE",
             "Type": "Armor",
-            "Skill Name": "Robes",
+            "Skill Name": "Cloth",
             "Description": "Mastery of runed cloth and woven wards that require academic understanding."
         },
         "Catalysts": {
@@ -256,16 +256,16 @@
             "Skill Name": "Academics",
             "Description": "Action: Researching libraries. Lore: History, languages, and heraldry."
         },
-        "The Long Blade": {
+        "Medium": {
             "Attribute": "LOGIC",
             "Type": "Weapon",
-            "Skill Name": "The Long Blade",
+            "Skill Name": "Medium",
             "Description": "Mastery of technical swordsmanship like katanas and arming swords."
         },
-        "The Blast": {
+        "Blast": {
             "Attribute": "LOGIC",
             "Type": "Weapon",
-            "Skill Name": "The Blast",
+            "Skill Name": "Blast",
             "Description": "Mastery of chemical weapons, grenades, scatterguns, and fuse times."
         },
         "Rhetoric": {
@@ -280,16 +280,16 @@
             "Skill Name": "Analysis",
             "Description": "Action: Solving puzzles, deduction. Lore: Math, engineering, and chemistry."
         },
-        "The Polearms": {
+        "Large": {
             "Attribute": "AWARENESS",
             "Type": "Weapon",
-            "Skill Name": "The Polearms",
+            "Skill Name": "Large",
             "Description": "Mastery of spears and halberds. Keeping enemies at exact range."
         },
-        "The Long Shot": {
+        "Long Shot": {
             "Attribute": "AWARENESS",
             "Type": "Weapon",
-            "Skill Name": "The Long Shot",
+            "Skill Name": "Long Shot",
             "Description": "Mastery of sniper rifles, crossbows, and flintlocks. Lining up the shot."
         },
         "Insight": {
@@ -304,10 +304,10 @@
             "Skill Name": "Scouting",
             "Description": "Action: Tracking, spotting danger. Lore: Forensics and investigation."
         },
-        "Rigs": {
+        "Utility": {
             "Attribute": "INTUITION",
             "Type": "Armor",
-            "Skill Name": "Rigs",
+            "Skill Name": "Utility",
             "Description": "Mastery of utility vests, ghillie suits, and \"deep pockets\" preparation."
         },
         "Curios": {
@@ -328,16 +328,16 @@
             "Skill Name": "Mysticism",
             "Description": "Action: Gut-feeling pathfinding. Lore: Folklore, spirits, and omens."
         },
-        "Melee Exotics": {
+        "Exotic Melee": {
             "Attribute": "CHARM",
             "Type": "Weapon",
-            "Skill Name": "Melee Exotics",
+            "Skill Name": "Exotic Melee",
             "Description": "Mastery of performance weapons like whips and nunchaku. Flow and style."
         },
-        "Ranged Exotics": {
+        "Exotic Ranged": {
             "Attribute": "CHARM",
             "Type": "Weapon",
-            "Skill Name": "Ranged Exotics",
+            "Skill Name": "Exotic Ranged",
             "Description": "Mastery of tricky tools like bolas and blowguns."
         },
         "Persuasion": {
@@ -352,10 +352,10 @@
             "Skill Name": "Performance",
             "Description": "Action: Acting, disguise. Lore: Art, culture, and high fashion."
         },
-        "Mail": {
+        "Medium": {
             "Attribute": "WILLPOWER",
             "Type": "Armor",
-            "Skill Name": "Mail",
+            "Skill Name": "Medium",
             "Description": "Mastery of chain and scale. Relying on reliability and faith."
         },
         "Regalia": {
@@ -397,19 +397,19 @@
             "Description": "Critical hits knock targets prone or fling them backwards."
         },
         "Heavy Pull": {
-            "Requirement_ID": "The Draw",
+            "Requirement_ID": "Ballistics",
             "Requirement_Value": "3",
             "Effect_Logic": "stat_swap(damage, might)",
             "Description": "You can use your Might stat for damage instead of Reflex/Finesse."
         },
         "Skewering Shot": {
-            "Requirement_ID": "The Draw",
+            "Requirement_ID": "Ballistics",
             "Requirement_Value": "6",
             "Effect_Logic": "projectile_pierce(1)",
             "Description": "Your shots can pass through one enemy to hit a second one behind them."
         },
         "Artillery": {
-            "Requirement_ID": "The Draw",
+            "Requirement_ID": "Ballistics",
             "Requirement_Value": "10",
             "Effect_Logic": "ignore_range_penalty; penetrate_cover",
             "Description": "Ignore range penalties. Your arrows punch through cover."
@@ -451,37 +451,37 @@
             "Description": "Your lifting/carrying capacity is doubled. You can swim/climb at full running speed."
         },
         "Second Skin": {
-            "Requirement_ID": "Plate",
+            "Requirement_ID": "Heavy",
             "Requirement_Value": "3",
             "Effect_Logic": "ignore_fatigue(armor_sleep)",
             "Description": "Sleeping in heavy armor causes no fatigue penalty."
         },
         "Glancing Blows": {
-            "Requirement_ID": "Plate",
+            "Requirement_ID": "Heavy",
             "Requirement_Value": "6",
             "Effect_Logic": "crit_defense_mult(0.5)",
             "Description": "Reduces Critical Hit damage taken by half."
         },
         "Juggernaut": {
-            "Requirement_ID": "Plate",
+            "Requirement_ID": "Heavy",
             "Requirement_Value": "10",
             "Effect_Logic": "immunity(prone, push)",
             "Description": "You cannot be knocked prone or pushed against your will while armored."
         },
         "Shield Wall": {
-            "Requirement_ID": "The Shield",
+            "Requirement_ID": "Shield",
             "Requirement_Value": "3",
             "Effect_Logic": "aura(adjacent_allies, heavy_cover)",
             "Description": "You provide heavy cover to adjacent allies."
         },
         "Bash": {
-            "Requirement_ID": "The Shield",
+            "Requirement_ID": "Shield",
             "Requirement_Value": "6",
             "Effect_Logic": "attack_bonus_action(stun)",
             "Description": "You can make an off-hand attack with your shield to stun enemies."
         },
         "Interpose": {
-            "Requirement_ID": "The Shield",
+            "Requirement_ID": "Shield",
             "Requirement_Value": "10",
             "Effect_Logic": "redirect_damage(ally, self)",
             "Description": "Once per round, you can take a hit meant for an adjacent ally."
@@ -523,37 +523,37 @@
             "Description": "For one turn, you can hold an impossible weight (e.g., a falling portcullis)."
         },
         "Quick Draw": {
-            "Requirement_ID": "The Blades",
+            "Requirement_ID": "Small",
             "Requirement_Value": "3",
             "Effect_Logic": "equip_speed(instant)",
             "Description": "Drawing a hidden weapon is a free action."
         },
         "Bleed Out": {
-            "Requirement_ID": "The Blades",
+            "Requirement_ID": "Small",
             "Requirement_Value": "6",
             "Effect_Logic": "crit_effect(bleed)",
             "Description": "Critical hits cause ongoing damage over time."
         },
         "Vital Point": {
-            "Requirement_ID": "The Blades",
+            "Requirement_ID": "Small",
             "Requirement_Value": "10",
             "Effect_Logic": "ignore_armor(condition:unaware)",
             "Description": "You ignore armor rating on targets that are unaware of you."
         },
         "Juggler": {
-            "Requirement_ID": "The Thrown",
+            "Requirement_ID": "Thrown",
             "Requirement_Value": "3",
             "Effect_Logic": "multi_attack(thrown, 2)",
             "Description": "You can draw and throw two small weapons in a single action."
         },
         "Ricochet": {
-            "Requirement_ID": "The Thrown",
+            "Requirement_ID": "Thrown",
             "Requirement_Value": "6",
             "Effect_Logic": "ignore_cover(bounce)",
             "Description": "You can bounce thrown weapons off walls to hit enemies behind cover."
         },
         "Perfect Arc": {
-            "Requirement_ID": "The Thrown",
+            "Requirement_ID": "Thrown",
             "Requirement_Value": "10",
             "Effect_Logic": "range_penalty(0)",
             "Description": "Range penalties for thrown weapons are removed."
@@ -667,19 +667,19 @@
             "Description": "You leave no footprints and make no sound, even when running."
         },
         "Blend": {
-            "Requirement_ID": "Bio",
+            "Requirement_ID": "Natural",
             "Requirement_Value": "3",
             "Effect_Logic": "conditional_bonus(stealth, biome_match)",
             "Description": "+2 to Stealth in natural environments matching your armor."
         },
         "Regrowth": {
-            "Requirement_ID": "Bio",
+            "Requirement_ID": "Natural",
             "Requirement_Value": "6",
             "Effect_Logic": "rest_regen_bonus",
             "Description": "While resting in Bio armor, you heal faster than normal."
         },
         "Adaptation": {
-            "Requirement_ID": "Bio",
+            "Requirement_ID": "Natural",
             "Requirement_Value": "10",
             "Effect_Logic": "immunity(weather_extreme)",
             "Description": "You are immune to extreme weather (heat/cold) while wearing this armor."
@@ -739,37 +739,37 @@
             "Description": "You can track enemies over water or stone where no tracks should exist."
         },
         "Iron Knuckle": {
-            "Requirement_ID": "The Fist",
+            "Requirement_ID": "Fist",
             "Requirement_Value": "3",
             "Effect_Logic": "unarmed_damage_type(lethal)",
             "Description": "Your unarmed strikes do lethal damage instead of subdual."
         },
         "Clinch": {
-            "Requirement_ID": "The Fist",
+            "Requirement_ID": "Fist",
             "Requirement_Value": "6",
             "Effect_Logic": "bonus(grapple)",
             "Description": "You gain a bonus to grapple or hold enemies in place."
         },
         "Quivering Palm": {
-            "Requirement_ID": "The Fist",
+            "Requirement_ID": "Fist",
             "Requirement_Value": "10",
             "Effect_Logic": "status_effect(stun)",
             "Description": "You can stun an enemy with a precise unarmed strike."
         },
         "Mobile Fire": {
-            "Requirement_ID": "The Simple Shot",
+            "Requirement_ID": "Simple",
             "Requirement_Value": "3",
             "Effect_Logic": "ignore_penalty(move_shoot)",
             "Description": "You do not suffer penalties for shooting while moving."
         },
         "Rapid Reload": {
-            "Requirement_ID": "The Simple Shot",
+            "Requirement_ID": "Simple",
             "Requirement_Value": "6",
             "Effect_Logic": "reload_speed(instant)",
             "Description": "Reloading a sling/shortbow is a free action."
         },
         "Trick Shot": {
-            "Requirement_ID": "Ranged Exotics",
+            "Requirement_ID": "Exotic Ranged",
             "Requirement_Value": "10",
             "Effect_Logic": "interact_ranged",
             "Description": "You can hit buttons/levers remotely with impossible angles."
@@ -811,19 +811,19 @@
             "Description": "You can eat spoiled food or drink mild poisons without effect."
         },
         "Warded": {
-            "Requirement_ID": "Robes",
+            "Requirement_ID": "Cloth",
             "Requirement_Value": "3",
             "Effect_Logic": "damage_resist(elemental)",
             "Description": "You gain a small magical shield against elemental damage."
         },
         "Deep Pockets": {
-            "Requirement_ID": "Robes",
+            "Requirement_ID": "Cloth",
             "Requirement_Value": "6",
             "Effect_Logic": "inventory_weight_mult(0.5)",
             "Description": "Your robes can store items in a pocket dimension (reduced weight)."
         },
         "Reflection": {
-            "Requirement_ID": "Robes",
+            "Requirement_ID": "Cloth",
             "Requirement_Value": "10",
             "Effect_Logic": "spell_reflect(1_per_day)",
             "Description": "Once per day, you can reflect a hostile spell back at the caster."
@@ -883,37 +883,37 @@
             "Description": "You perfectly recall anything you have ever read or seen."
         },
         "Parry": {
-            "Requirement_ID": "The Long Blade",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "3",
             "Effect_Logic": "ac_bonus(reaction)",
             "Description": "You can use your reaction to increase your Armor Rating against one hit."
         },
         "Riposte": {
-            "Requirement_ID": "The Long Blade",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "6",
             "Effect_Logic": "counter_attack(on_miss)",
             "Description": "If an enemy misses you, you get a free counter-attack."
         },
         "Disarm": {
-            "Requirement_ID": "The Long Blade",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "10",
             "Effect_Logic": "crit_effect(disarm)",
             "Description": "On a Critical Hit, you fling the opponent's weapon away."
         },
         "Demolitionist": {
-            "Requirement_ID": "The Blast",
+            "Requirement_ID": "Blast",
             "Requirement_Value": "3",
             "Effect_Logic": "damage_mult_struct(2.0)",
             "Description": "You deal double damage to structures with explosives."
         },
         "Shaped Charge": {
-            "Requirement_ID": "The Blast",
+            "Requirement_ID": "Blast",
             "Requirement_Value": "6",
             "Effect_Logic": "aoe_safe(allies)",
             "Description": "Your explosives do not deal friendly-fire damage to allies."
         },
         "Pyrotechnics": {
-            "Requirement_ID": "The Blast",
+            "Requirement_ID": "Blast",
             "Requirement_Value": "10",
             "Effect_Logic": "craft_item(flashbang)",
             "Description": "You can craft explosives that blind or deafen instead of killing."
@@ -955,37 +955,37 @@
             "Description": "You can invent new unique blueprints for devices never seen before."
         },
         "Brace": {
-            "Requirement_ID": "The Polearms",
+            "Requirement_ID": "Large",
             "Requirement_Value": "3",
             "Effect_Logic": "damage_bonus(vs_charge)",
             "Description": "You deal double damage against charging enemies."
         },
         "Sweep": {
-            "Requirement_ID": "The Polearms",
+            "Requirement_ID": "Large",
             "Requirement_Value": "6",
             "Effect_Logic": "aoe_attack(cone_trip)",
             "Description": "You can trip or knock back multiple enemies in a cone."
         },
         "Zone of Control": {
-            "Requirement_ID": "The Polearms",
+            "Requirement_ID": "Large",
             "Requirement_Value": "10",
             "Effect_Logic": "opportunity_attack(on_enter)",
             "Description": "Enemies provoke attacks just by entering your reach."
         },
         "Steady Aim": {
-            "Requirement_ID": "The Long Shot",
+            "Requirement_ID": "Long Shot",
             "Requirement_Value": "3",
             "Effect_Logic": "stationary_bonus(range)",
             "Description": "If you don't move, range penalties are halved."
         },
         "Sniper": {
-            "Requirement_ID": "The Long Shot",
+            "Requirement_ID": "Long Shot",
             "Requirement_Value": "6",
             "Effect_Logic": "stealth_maintain(on_attack)",
             "Description": "If you are hidden, your shot does not reveal your exact location."
         },
         "Kill Shot": {
-            "Requirement_ID": "The Long Shot",
+            "Requirement_ID": "Long Shot",
             "Requirement_Value": "10",
             "Effect_Logic": "damage_scale(distance)",
             "Description": "Bonus Critical damage on targets who are at maximum range."
@@ -1027,19 +1027,19 @@
             "Description": "Visibility penalties from fog, rain, or dim light are ignored."
         },
         "Quick Change": {
-            "Requirement_ID": "Rigs",
+            "Requirement_ID": "Utility",
             "Requirement_Value": "3",
             "Effect_Logic": "equip_speed(instant)",
             "Description": "You can don or doff this armor/clothing in seconds."
         },
         "Prepared": {
-            "Requirement_ID": "Rigs",
+            "Requirement_ID": "Utility",
             "Requirement_Value": "6",
             "Effect_Logic": "spawn_item(mundane_utility)",
             "Description": "You have a utility slot that produces any small mundane item you need."
         },
         "Vanish": {
-            "Requirement_ID": "Rigs",
+            "Requirement_ID": "Utility",
             "Requirement_Value": "10",
             "Effect_Logic": "invisibility(stationary)",
             "Description": "While stationary in a Ghillie suit, you are effectively invisible."
@@ -1099,31 +1099,31 @@
             "Description": "You can declare a single fact about the future; the DM tries to make it true."
         },
         "Entangle": {
-            "Requirement_ID": "Melee Exotics",
+            "Requirement_ID": "Exotic Melee",
             "Requirement_Value": "3",
             "Effect_Logic": "grapple_ranged",
             "Description": "Whips/chains can grapple enemies from a distance."
         },
         "Flashy": {
-            "Requirement_ID": "Melee Exotics",
+            "Requirement_ID": "Exotic Melee",
             "Requirement_Value": "6",
             "Effect_Logic": "combo_combat_social",
             "Description": "Attacks give you a bonus to your next social interaction."
         },
         "Pain Compliance": {
-            "Requirement_ID": "Melee Exotics",
+            "Requirement_ID": "Exotic Melee",
             "Requirement_Value": "10",
             "Effect_Logic": "debuff_stat(willpower)",
             "Description": "Enemies hit by these weapons suffer a penalty to Willpower."
         },
         "Silent Takedown": {
-            "Requirement_ID": "Ranged Exotics",
+            "Requirement_ID": "Exotic Ranged",
             "Requirement_Value": "3",
             "Effect_Logic": "attack_silent",
             "Description": "Blowgun/Bola attacks make zero noise."
         },
         "Debilitate": {
-            "Requirement_ID": "Ranged Exotics",
+            "Requirement_ID": "Exotic Ranged",
             "Requirement_Value": "6",
             "Effect_Logic": "status_duration_mult(2.0)",
             "Description": "Poisons applied to these weapons last twice as long."
@@ -1165,19 +1165,19 @@
             "Description": "You can captivate a crowd, distracting them so they notice nothing else."
         },
         "Muffled": {
-            "Requirement_ID": "Mail",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "3",
             "Effect_Logic": "reduce_penalty(stealth_armor)",
             "Description": "Reduces the noise penalty of wearing metal armor."
         },
         "Faith": {
-            "Requirement_ID": "Mail",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "6",
             "Effect_Logic": "heal_received_mult(1.2)",
             "Description": "Magical healing received is more effective on you."
         },
         "Unbreakable": {
-            "Requirement_ID": "Mail",
+            "Requirement_ID": "Medium",
             "Requirement_Value": "10",
             "Effect_Logic": "immunity(crit_extra_damage)",
             "Description": "Critical Hits against you are treated as normal hits."
@@ -2474,7 +2474,7 @@
             "School": "Nexus",
             "Damage_Type": "Fire"
         },
-        "Plate": {
+        "Heavy": {
             "Cost": "4",
             "Cost_Type": "Fortitude",
             "Effect": "Skin becomes Iron.",

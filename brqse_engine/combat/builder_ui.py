@@ -282,14 +282,14 @@ class BuilderUI:
         # Update Weapon Gear based on User Skills
         # Map Weapon_Groups Name -> weapons_and_armor Related_Skill
         fam_map = {
-             "Large Weapons": "The Breakers",
-             "Medium Weapons": "The Long Blade", 
-             "Small Weapons": "The Blades", 
-             "Fist Weapons": "The Fist",
-             "Reach Weapons": "The Polearms",
-             "Exotic Weapons": "Melee Exotics",
-             "The Ballistics": "The Draw",
-             # Others usually match (The Thrown, The Simple Shot, The Blast, The Long Shot)
+             "Large Weapons": "Great",
+             "Medium Weapons": "Medium", 
+             "Small Weapons": "Small", 
+             "Fist Weapons": "Fist",
+             "Reach Weapons": "Large",
+             "Exotic Weapons": "Exotic Melee",
+             "Ballistic Weapons": "Ballistics",
+             # Others usually match (Thrown, Simple, Blast, Long Shot)
         }
         
         # Collect selected families
@@ -309,13 +309,11 @@ class BuilderUI:
         self.dd_gear["Weapon"].options = w_opts
 
 
-        # Update Armor Gear based on Skill
+        # Update Armor Gear based on Skill (using new canonical names)
         armor_skill = self.dd_skills["Armor"].selected
         if armor_skill:
-            # Map "Light " to "Leather"
             req_skill = armor_skill.strip()
-            if req_skill == "Light": req_skill = "Leather"
-            
+            # Armor skills are now: Cloth, Light, Medium, Heavy, Natural, Utility
             opts = [g['Name'] for g in self.data.all_gear 
                     if g.get('Type') == 'Armor' and g.get('Related_Skill') == req_skill]
             self.dd_gear["Armor"].options = opts

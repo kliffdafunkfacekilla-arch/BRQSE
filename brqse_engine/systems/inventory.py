@@ -42,23 +42,18 @@ class Inventory:
         }
         self.db = self._load_db()
         self.armor_stats = {
-            "Plate": "Endurance",
-            "Bio": "Vitality",
-            "Light": "Reflexes", # Note: CSV says "Light " with space
-            "Robes": "Knowledge",
-            "Mail": "Willpower",
-            "Rigs": "Intuition"
+            "Heavy": "Endurance",
+            "Natural": "Vitality",
+            "Light": "Reflexes",
+            "Cloth": "Knowledge",
+            "Medium": "Willpower",
+            "Utility": "Intuition"
         }
         self.skill_map = self._load_skills()
-        # Aliases for mismatched data (CSV vs CSV)
+        # Aliases for mismatched data (CSV vs CSV) - Now using canonical names from Skills.csv
         self.skill_aliases = {
-            "The Breakers": "MIGHT",
-            "The Draw": "MIGHT",
-             # The Blades, The Thrown match FINESSE in Skills
-             # The Fist, The Simple Shot match FORTITUDE
-             # The Long Blade, The Blast match LOGIC
-             # The Polearms, The Long Shot match AWARENESS (Note: CSV has 'The Long Shot' vs 'Long Shotl')
-             # Melee Exotics, Ranged Exotics match CHARM
+            # Weapons: Small, Medium, Large, Great, Exotic, Fist, Thrown, Ballistics, Blast, Long Shot, Simple
+            # Armor: Cloth, Light, Medium, Heavy, Natural, Utility
         }
 
     def _load_skills(self):

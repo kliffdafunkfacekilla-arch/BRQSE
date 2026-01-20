@@ -26,13 +26,13 @@
   {
     "Attribute": "ENDURANCE",
     "Type": "Armor",
-    "Skill Name": "Plate",
+    "Skill Name": "Heavy",
     "Description": "Mastery of full plate and heavy chitin armor. You are the anvil."
   },
   {
     "Attribute": "ENDURANCE",
     "Type": "Tool",
-    "Skill Name": "The Shield",
+    "Skill Name": "Shield",
     "Description": "Mastery of bucklers, heaters, and tower shields for active cover and bashing."
   },
   {
@@ -50,13 +50,13 @@
   {
     "Attribute": "FINESSE",
     "Type": "Weapon",
-    "Skill Name": "The Blades",
+    "Skill Name": "Small",
     "Description": "Mastery of precision weapons like rapiers, shivs, and stilettos."
   },
   {
     "Attribute": "FINESSE",
     "Type": "Weapon",
-    "Skill Name": "The Thrown",
+    "Skill Name": "Thrown",
     "Description": "Mastery of balanced throwing weapons like knives, axes, and kunai."
   },
   {
@@ -74,7 +74,7 @@
   {
     "Attribute": "REFLEXES",
     "Type": "Armor",
-    "Skill Name": "Leather",
+    "Skill Name": "Light",
     "Description": "Mastery of light hides and padded armor for maximum mobility."
   },
   {
@@ -98,7 +98,7 @@
   {
     "Attribute": "VITALITY",
     "Type": "Armor",
-    "Skill Name": "Bio",
+    "Skill Name": "Natural",
     "Description": "Mastery of armor made from once-living things (furs, bone, wood)."
   },
   {
@@ -122,13 +122,13 @@
   {
     "Attribute": "FORTITUDE",
     "Type": "Weapon",
-    "Skill Name": "The Fist",
+    "Skill Name": "Fist",
     "Description": "Mastery of unarmed strikes, cestus, and claws. Clinch fighting."
   },
   {
     "Attribute": "FORTITUDE",
     "Type": "Weapon",
-    "Skill Name": "The Simple Shot",
+    "Skill Name": "Simple",
     "Description": "Mastery of simple kinetic weapons like slings and shortbows."
   },
   {
@@ -146,7 +146,7 @@
   {
     "Attribute": "KNOWLEDGE",
     "Type": "Armor",
-    "Skill Name": "Robes",
+    "Skill Name": "Cloth",
     "Description": "Mastery of runed cloth and woven wards that require academic understanding."
   },
   {
@@ -176,7 +176,7 @@
   {
     "Attribute": "LOGIC",
     "Type": "Weapon",
-    "Skill Name": "The Blast",
+    "Skill Name": "Blast",
     "Description": "Mastery of chemical weapons, grenades, scatterguns, and fuse times."
   },
   {
@@ -200,7 +200,7 @@
   {
     "Attribute": "AWARENESS",
     "Type": "Weapon",
-    "Skill Name": "The Long Shot",
+    "Skill Name": "Long Shot",
     "Description": "Mastery of sniper rifles, crossbows, and flintlocks. Lining up the shot."
   },
   {
@@ -218,7 +218,7 @@
   {
     "Attribute": "INTUITION",
     "Type": "Armor",
-    "Skill Name": "Rigs",
+    "Skill Name": "Utility",
     "Description": "Mastery of utility vests, ghillie suits, and \"deep pockets\" preparation."
   },
   {
@@ -242,13 +242,13 @@
   {
     "Attribute": "CHARM",
     "Type": "Weapon",
-    "Skill Name": "Melee Exotics",
+    "Skill Name": "Exotic Melee",
     "Description": "Mastery of performance weapons like whips and nunchaku. Flow and style."
   },
   {
     "Attribute": "CHARM",
     "Type": "Weapon",
-    "Skill Name": "Ranged Exotics",
+    "Skill Name": "Exotic Ranged",
     "Description": "Mastery of tricky tools like bolas and blowguns."
   },
   {
@@ -266,7 +266,7 @@
   {
     "Attribute": "WILLPOWER",
     "Type": "Armor",
-    "Skill Name": "Mail",
+    "Skill Name": "Medium",
     "Description": "Mastery of chain and scale. Relying on reliability and faith."
   },
   {

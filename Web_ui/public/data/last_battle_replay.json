@@ -1,13 +1,22 @@
 {
   "combatants": [
     {
-      "name": "buggy",
-      "max_hp": 51,
+      "name": "Hero",
+      "max_hp": 40,
       "hp": 0,
-      "team": "blue",
-      "x": 10,
-      "y": 3,
+      "team": "red",
+      "x": 9,
+      "y": 5,
       "sprite": "badger"
+    },
+    {
+      "name": "flower",
+      "max_hp": 47,
+      "hp": 30,
+      "team": "red",
+      "x": 11,
+      "y": 1,
+      "sprite": "beaver"
     },
     {
       "name": "Frost",
@@ -16,173 +25,19 @@
       "team": "blue",
       "x": 10,
       "y": 3,
-      "sprite": "beaver"
-    },
-    {
-      "name": "flower",
-      "max_hp": 47,
-      "hp": 10,
-      "team": "red",
-      "x": 11,
-      "y": 3,
       "sprite": "wolf"
     },
     {
-      "name": "Hero",
-      "max_hp": 40,
-      "hp": 32,
-      "team": "red",
-      "x": 11,
-      "y": 3,
+      "name": "buggy",
+      "max_hp": 51,
+      "hp": 0,
+      "team": "blue",
+      "x": 10,
+      "y": 6,
       "sprite": "fox"
     }
   ],
   "log": [
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        1,
-        3
-      ],
-      "to": [
-        2,
-        3
-      ],
-      "timestamp": 1768950858.2222195
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        2,
-        3
-      ],
-      "to": [
-        3,
-        3
-      ],
-      "timestamp": 1768950858.222228
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        3,
-        3
-      ],
-      "to": [
-        4,
-        3
-      ],
-      "timestamp": 1768950858.2222328
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        4,
-        3
-      ],
-      "to": [
-        5,
-        3
-      ],
-      "timestamp": 1768950858.2222362
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        5,
-        3
-      ],
-      "to": [
-        6,
-        3
-      ],
-      "timestamp": 1768950858.222239
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        1,
-        5
-      ],
-      "to": [
-        2,
-        4
-      ],
-      "timestamp": 1768950858.2224152
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        2,
-        4
-      ],
-      "to": [
-        3,
-        3
-      ],
-      "timestamp": 1768950858.22242
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        3,
-        3
-      ],
-      "to": [
-        4,
-        3
-      ],
-      "timestamp": 1768950858.2224228
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        4,
-        3
-      ],
-      "to": [
-        5,
-        3
-      ],
-      "timestamp": 1768950858.222425
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 3,
-      "target_hp": 48,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "buggy",
-      "description": "Used Bolt",
-      "execution_log": [
-        "Hero uses Bolt on buggy!",
-        "Consumed 2 FP",
-        "Dealt 6 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 5 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 11,
-      "target_hp": 37,
-      "style": "lightning"
-    },
     {
       "type": "move",
       "actor": "Hero",
@@ -192,40 +47,135 @@
       ],
       "to": [
         9,
-        4
+        5
       ],
-      "timestamp": 1768950858.2232172
+      "timestamp": 1768952835.9172268
     },
     {
       "type": "move",
       "actor": "Hero",
       "from": [
         9,
-        4
+        5
       ],
       "to": [
         8,
-        3
+        5
       ],
-      "timestamp": 1768950858.223222
+      "timestamp": 1768952835.9172354
     },
     {
       "type": "move",
       "actor": "Hero",
       "from": [
         8,
-        3
+        5
       ],
       "to": [
         7,
+        5
+      ],
+      "timestamp": 1768952835.9172404
+    },
+    {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        7,
+        5
+      ],
+      "to": [
+        6,
+        5
+      ],
+      "timestamp": 1768952835.9172435
+    },
+    {
+      "type": "move",
+      "actor": "flower",
+      "from": [
+        10,
         3
       ],
-      "timestamp": 1768950858.2232254
+      "to": [
+        9,
+        4
+      ],
+      "timestamp": 1768952835.9174435
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Hero",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Hero!",
+        "Consumed 1 SP",
+        "1 Fire damage to Hero!",
+        "Dealt 5 Fire Damage (Tier 1)",
+        "Hero Aged Rapidly (-Might)."
+      ],
+      "damage": 6,
+      "target_hp": 34,
+      "style": "magic"
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        1,
+        5
+      ],
+      "to": [
+        2,
+        5
+      ],
+      "timestamp": 1768952835.9224527
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        2,
+        5
+      ],
+      "to": [
+        3,
+        5
+      ],
+      "timestamp": 1768952835.9224575
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        3,
+        5
+      ],
+      "to": [
+        4,
+        5
+      ],
+      "timestamp": 1768952835.92246
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        4,
+        5
+      ],
+      "to": [
+        5,
+        5
+      ],
+      "timestamp": 1768952835.9224627
     },
     {
       "type": "attack",
-      "actor": "Hero",
-      "target": "buggy",
+      "actor": "Frost",
+      "target": "Hero",
       "result": "miss",
       "damage": 0
     },
@@ -242,86 +192,73 @@
         "Hero Pushed 5ft away!"
       ],
       "damage": 0,
-      "target_hp": 40,
+      "target_hp": 34,
       "style": "magic"
     },
     {
       "type": "move",
       "actor": "buggy",
       "from": [
-        6,
+        1,
         3
       ],
       "to": [
-        7,
-        3
+        2,
+        4
       ],
-      "timestamp": 1768950858.2237225
+      "timestamp": 1768952835.923032
     },
     {
       "type": "move",
       "actor": "buggy",
       "from": [
-        7,
-        3
+        2,
+        4
       ],
       "to": [
-        8,
-        3
+        3,
+        5
       ],
-      "timestamp": 1768950858.223727
-    },
-    {
-      "type": "attack",
-      "actor": "buggy",
-      "target": "Hero",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 38,
-      "style": "hit crit"
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Hero",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Hero!",
-        "Consumed 1 SP",
-        "4 Fire damage to Hero!",
-        "Dealt 2 Fire Damage (Tier 1)",
-        "Hero Aged Rapidly (-Might)."
-      ],
-      "damage": 6,
-      "target_hp": 32,
-      "style": "magic"
+      "timestamp": 1768952835.9230356
     },
     {
       "type": "move",
-      "actor": "Frost",
+      "actor": "buggy",
+      "from": [
+        3,
+        5
+      ],
+      "to": [
+        4,
+        6
+      ],
+      "timestamp": 1768952835.9230387
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        4,
+        6
+      ],
+      "to": [
+        5,
+        6
+      ],
+      "timestamp": 1768952835.9230418
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
       "from": [
         5,
-        3
+        6
       ],
       "to": [
         6,
-        3
+        6
       ],
-      "timestamp": 1768950858.2278464
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        6,
-        3
-      ],
-      "to": [
-        7,
-        3
-      ],
-      "timestamp": 1768950858.2278512
+      "timestamp": 1768952835.923045
     },
     {
       "type": "ability",
@@ -339,17 +276,56 @@
         "Magic Missile (Auto-Hit Force)."
       ],
       "damage": 12,
-      "target_hp": 25,
+      "target_hp": 39,
       "style": "lightning"
+    },
+    {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        8,
+        6
+      ],
+      "to": [
+        7,
+        6
+      ],
+      "timestamp": 1768952835.9234712
     },
     {
       "type": "attack",
       "actor": "Hero",
       "target": "buggy",
       "result": "hit",
-      "damage": 1,
-      "target_hp": 24,
+      "damage": 6,
+      "target_hp": 33,
       "style": "hit"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "buggy",
+      "result": "hit",
+      "damage": 4,
+      "target_hp": 29,
+      "style": "hit crit"
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Hero",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Hero!",
+        "Consumed 1 SP",
+        "3 Fire damage to Hero!",
+        "Dealt 1 Fire Damage (Tier 1)",
+        "Hero Aged Rapidly (-Might)."
+      ],
+      "damage": 4,
+      "target_hp": 30,
+      "style": "magic"
     },
     {
       "type": "ability",
@@ -360,81 +336,47 @@
       "execution_log": [
         "buggy uses Push on Hero!",
         "Consumed 1 SP",
+        "Hero is knocked back!",
         "Hero Pushed 5ft away!"
       ],
       "damage": 0,
-      "target_hp": 32,
+      "target_hp": 30,
       "style": "magic"
     },
     {
       "type": "move",
       "actor": "buggy",
       "from": [
-        8,
-        3
+        6,
+        6
       ],
       "to": [
-        9,
-        3
+        7,
+        6
       ],
-      "timestamp": 1768950858.229046
+      "timestamp": 1768952835.9285226
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        7,
+        6
+      ],
+      "to": [
+        8,
+        6
+      ],
+      "timestamp": 1768952835.9285274
     },
     {
       "type": "attack",
       "actor": "buggy",
       "target": "Hero",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "flower",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on flower!",
-        "Consumed 1 SP",
-        "4 Fire damage to flower!",
-        "Dealt 1 Fire Damage (Tier 1)",
-        "flower Aged Rapidly (-Might)."
-      ],
-      "damage": 5,
-      "target_hp": 42,
-      "style": "magic"
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        7,
-        3
-      ],
-      "to": [
-        8,
-        3
-      ],
-      "timestamp": 1768950858.2331676
-    },
-    {
-      "type": "move",
-      "actor": "flower",
-      "from": [
-        10,
-        3
-      ],
-      "to": [
-        11,
-        3
-      ],
-      "timestamp": 1768950858.2334418
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "miss",
-      "damage": 0
+      "result": "hit",
+      "damage": 7,
+      "target_hp": 23,
+      "style": "hit crit"
     },
     {
       "type": "ability",
@@ -445,14 +387,14 @@
       "execution_log": [
         "Hero uses Bolt on buggy!",
         "Consumed 2 FP",
-        "Dealt 5 Force Damage (Tier 2)",
+        "Dealt 6 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
-        "Dealt 5 Force Damage (Tier 2)",
+        "Dealt 11 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force)."
       ],
-      "damage": 10,
-      "target_hp": 14,
+      "damage": 17,
+      "target_hp": 12,
       "style": "lightning"
     },
     {
@@ -463,6 +405,58 @@
       "damage": 0
     },
     {
+      "type": "attack",
+      "actor": "flower",
+      "target": "buggy",
+      "result": "hit",
+      "damage": 3,
+      "target_hp": 9,
+      "style": "hit crit"
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Hero",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Hero!",
+        "Consumed 1 SP",
+        "3 Fire damage to Hero!",
+        "Dealt 4 Fire Damage (Tier 1)",
+        "Hero Aged Rapidly (-Might)."
+      ],
+      "damage": 7,
+      "target_hp": 16,
+      "style": "magic"
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        5,
+        5
+      ],
+      "to": [
+        6,
+        6
+      ],
+      "timestamp": 1768952835.9332974
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        6,
+        6
+      ],
+      "to": [
+        7,
+        6
+      ],
+      "timestamp": 1768952835.9333022
+    },
+    {
       "type": "ability",
       "actor": "buggy",
       "ability": "Push",
@@ -471,66 +465,43 @@
       "execution_log": [
         "buggy uses Push on Hero!",
         "Consumed 1 SP",
+        "Hero is knocked back!",
         "Hero Pushed 5ft away!"
       ],
       "damage": 0,
-      "target_hp": 32,
+      "target_hp": 16,
       "style": "magic"
     },
     {
       "type": "move",
       "actor": "buggy",
       "from": [
+        8,
+        6
+      ],
+      "to": [
         9,
-        3
+        6
+      ],
+      "timestamp": 1768952835.9338393
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        9,
+        6
       ],
       "to": [
         10,
-        3
+        6
       ],
-      "timestamp": 1768950858.2343147
+      "timestamp": 1768952835.9338439
     },
     {
       "type": "attack",
       "actor": "buggy",
       "target": "Hero",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "flower",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on flower!",
-        "Consumed 1 SP",
-        "2 Fire damage to flower!",
-        "Dealt 1 Fire Damage (Tier 1)",
-        "flower Aged Rapidly (-Might)."
-      ],
-      "damage": 3,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        8,
-        3
-      ],
-      "to": [
-        9,
-        3
-      ],
-      "timestamp": 1768950858.2386072
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
       "result": "miss",
       "damage": 0
     },
@@ -543,14 +514,14 @@
       "execution_log": [
         "Hero uses Bolt on buggy!",
         "Consumed 2 FP",
-        "Dealt 7 Force Damage (Tier 2)",
+        "Dealt 5 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
-        "Dealt 9 Force Damage (Tier 2)",
+        "Dealt 8 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "buggy is DESTROYED by Bolt!"
       ],
-      "damage": 14,
+      "damage": 9,
       "target_hp": 0,
       "style": "lightning"
     },
@@ -558,7 +529,7 @@
       "type": "death",
       "actor": "buggy",
       "x": 10,
-      "y": 3
+      "y": 6
     },
     {
       "type": "attack",
@@ -566,6 +537,15 @@
       "target": "buggy",
       "result": "miss",
       "damage": 0
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Frost",
+      "result": "hit",
+      "damage": 2,
+      "target_hp": 41,
+      "style": "hit"
     },
     {
       "type": "ability",
@@ -576,44 +556,33 @@
       "execution_log": [
         "Frost uses Heat on flower!",
         "Consumed 1 SP",
-        "2 Fire damage to flower!",
-        "Dealt 4 Fire Damage (Tier 1)",
+        "1 Fire damage to flower!",
+        "Dealt 1 Fire Damage (Tier 1)",
         "flower Aged Rapidly (-Might)."
       ],
-      "damage": 6,
-      "target_hp": 33,
+      "damage": 2,
+      "target_hp": 45,
       "style": "magic"
     },
     {
       "type": "move",
       "actor": "Frost",
       "from": [
-        9,
-        3
+        7,
+        6
       ],
       "to": [
-        10,
-        3
+        8,
+        5
       ],
-      "timestamp": 1768950858.24317
+      "timestamp": 1768952835.9414427
     },
     {
       "type": "attack",
       "actor": "Frost",
       "target": "flower",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 28,
-      "style": "hit crit"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "Frost",
-      "result": "hit",
-      "damage": 3,
-      "target_hp": 40,
-      "style": "hit"
+      "result": "miss",
+      "damage": 0
     },
     {
       "type": "ability",
@@ -627,43 +596,93 @@
         "Dealt 10 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
-        "Dealt 6 Force Damage (Tier 2)",
+        "Dealt 10 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force)."
       ],
-      "damage": 16,
-      "target_hp": 24,
+      "damage": 20,
+      "target_hp": 21,
       "style": "lightning"
     },
     {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "flower",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on flower!",
-        "Consumed 1 SP",
-        "3 Fire damage to flower!",
-        "Dealt 5 Fire Damage (Tier 1)",
-        "flower Aged Rapidly (-Might)."
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        11,
+        6
       ],
-      "damage": 8,
-      "target_hp": 20,
-      "style": "magic"
+      "to": [
+        10,
+        5
+      ],
+      "timestamp": 1768952835.942008
+    },
+    {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        10,
+        5
+      ],
+      "to": [
+        9,
+        5
+      ],
+      "timestamp": 1768952835.942013
     },
     {
       "type": "attack",
-      "actor": "Frost",
-      "target": "flower",
+      "actor": "Hero",
+      "target": "Frost",
       "result": "miss",
       "damage": 0
+    },
+    {
+      "type": "move",
+      "actor": "flower",
+      "from": [
+        9,
+        4
+      ],
+      "to": [
+        10,
+        3
+      ],
+      "timestamp": 1768952835.9423249
     },
     {
       "type": "attack",
       "actor": "flower",
       "target": "Frost",
-      "result": "miss",
-      "damage": 0
+      "result": "hit",
+      "damage": 4,
+      "target_hp": 17,
+      "style": "hit"
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Hero",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Hero!",
+        "Consumed 1 SP",
+        "2 Fire damage to Hero!",
+        "Dealt 6 Fire Damage (Tier 1)",
+        "Hero Aged Rapidly (-Might)."
+      ],
+      "damage": 8,
+      "target_hp": 8,
+      "style": "magic"
+    },
+    {
+      "type": "attack",
+      "actor": "Frost",
+      "target": "Hero",
+      "result": "hit",
+      "damage": 1,
+      "target_hp": 7,
+      "style": "hit crit"
     },
     {
       "type": "ability",
@@ -674,50 +693,61 @@
       "execution_log": [
         "Hero uses Bolt on Frost!",
         "Consumed 2 FP",
-        "Dealt 8 Force Damage (Tier 2)",
+        "Dealt 5 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
         "Dealt 9 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force)."
       ],
-      "damage": 17,
-      "target_hp": 7,
+      "damage": 14,
+      "target_hp": 3,
       "style": "lightning"
     },
     {
       "type": "attack",
       "actor": "Hero",
       "target": "Frost",
-      "result": "hit",
-      "damage": 6,
-      "target_hp": 1,
-      "style": "hit"
+      "result": "miss",
+      "damage": 0
     },
     {
       "type": "ability",
       "actor": "Frost",
       "ability": "Heat",
-      "target": "flower",
+      "target": "Hero",
       "description": "Used Heat",
       "execution_log": [
-        "Frost uses Heat on flower!",
+        "Frost uses Heat on Hero!",
         "Consumed 1 SP",
-        "2 Fire damage to flower!",
-        "Dealt 3 Fire Damage (Tier 1)",
-        "flower Aged Rapidly (-Might)."
+        "1 Fire damage to Hero!",
+        "Dealt 6 Fire Damage (Tier 1)",
+        "Hero Aged Rapidly (-Might).",
+        "Hero is DESTROYED by Heat!"
       ],
-      "damage": 5,
-      "target_hp": 15,
+      "damage": 7,
+      "target_hp": 0,
       "style": "magic"
+    },
+    {
+      "type": "death",
+      "actor": "Hero",
+      "x": 9,
+      "y": 5
     },
     {
       "type": "attack",
       "actor": "Frost",
-      "target": "flower",
+      "target": "Hero",
       "result": "hit",
-      "damage": 5,
-      "target_hp": 10,
+      "damage": 6,
+      "target_hp": 0,
       "style": "hit"
+    },
+    {
+      "type": "death",
+      "actor": "Hero",
+      "x": 9,
+      "y": 5
     },
     {
       "type": "attack",
@@ -728,36 +758,125 @@
     },
     {
       "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "Frost",
-      "description": "Used Bolt",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "flower",
+      "description": "Used Heat",
       "execution_log": [
-        "Hero uses Bolt on Frost!",
-        "Consumed 2 FP",
-        "Dealt 4 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 3 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Frost is DESTROYED by Bolt!"
+        "Frost uses Heat on flower!",
+        "Consumed 1 SP",
+        "1 Fire damage to flower!",
+        "Dealt 6 Fire Damage (Tier 1)",
+        "flower Aged Rapidly (-Might)."
       ],
-      "damage": 1,
+      "damage": 7,
+      "target_hp": 38,
+      "style": "magic"
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        8,
+        5
+      ],
+      "to": [
+        9,
+        4
+      ],
+      "timestamp": 1768952835.9695902
+    },
+    {
+      "type": "attack",
+      "actor": "Frost",
+      "target": "flower",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "move",
+      "actor": "flower",
+      "from": [
+        10,
+        3
+      ],
+      "to": [
+        11,
+        2
+      ],
+      "timestamp": 1768952835.970154
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Frost",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "flower",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on flower!",
+        "Consumed 1 SP",
+        "6 Fire damage to flower!",
+        "Dealt 2 Fire Damage (Tier 1)",
+        "flower Aged Rapidly (-Might)."
+      ],
+      "damage": 8,
+      "target_hp": 30,
+      "style": "magic"
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        9,
+        4
+      ],
+      "to": [
+        10,
+        3
+      ],
+      "timestamp": 1768952835.979676
+    },
+    {
+      "type": "attack",
+      "actor": "Frost",
+      "target": "flower",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "move",
+      "actor": "flower",
+      "from": [
+        11,
+        2
+      ],
+      "to": [
+        11,
+        1
+      ],
+      "timestamp": 1768952835.980065
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Frost",
+      "result": "hit",
+      "damage": 4,
       "target_hp": 0,
-      "style": "lightning"
+      "style": "hit"
     },
     {
       "type": "death",
       "actor": "Frost",
       "x": 10,
       "y": 3
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Frost",
-      "result": "miss",
-      "damage": 0
     }
   ],
   "map": [

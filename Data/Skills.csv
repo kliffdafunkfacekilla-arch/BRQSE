@@ -1,13 +1,13 @@
 Attribute,Type,Skill_Name,Description
-MIGHT,Weapon,Great ,Mastery of heavy impact weapons like greatswords and mauls.
-MIGHT,Weapon,Ballastics,Mastery of high-draw-weight ranged weapons like warbows and ballistae.
+MIGHT,Weapon,Great,Mastery of heavy impact weapons like greatswords and mauls.
+MIGHT,Weapon,Ballistics,Mastery of high-draw-weight ranged weapons like warbows and ballistae.
 MIGHT,Social,Intimidation,Using physical presence and threats of violence to force compliance.
 MIGHT,Utility,Athletics,Swimming climbing breaking objects. Lore: War tactics and sieges.
 ENDURANCE,Armor,Heavy,Mastery of full plate and heavy chitin armor. You are the anvil.
-ENDURANCE,Tool, Shield,Mastery of bucklers heaters and tower shields for active cover and bashing.
+ENDURANCE,Tool,Shield,Mastery of bucklers heaters and tower shields for active cover and bashing.
 ENDURANCE,Social,Stoicism,Mastery of the ego. Remaining unbothered by insults pain or fear.
 ENDURANCE,Utility,Labor,Sustained heavy work carrying loads. Lore: Structure and masonry.
-FINESSE,Weapon, Small,Mastery of precision weapons like rapiers shivs and stilettos.
+FINESSE,Weapon,Small,Mastery of precision weapons like rapiers shivs and stilettos.
 FINESSE,Weapon,Thrown,Mastery of balanced throwing weapons like knives axes and kunai.
 FINESSE,Social,Repartee,Using wit mockery and stinging insults to fluster an opponent.
 FINESSE,Utility,Mechanism,Picking locks disarming traps. Lore: Gears and complex devices.
@@ -20,7 +20,7 @@ VITALITY,Tool,Tinctures,Mastery of non-magical aids like herbal salves bandages 
 VITALITY,Social,Poise,Being naturally radiant likable and projecting health/status.
 VITALITY,Utility,Nature,Survival handling animals. Lore: Biology ecology and healing.
 FORTITUDE,Weapon,Fist,Mastery of unarmed strikes cestus and claws. Clinch fighting.
-FORTITUDE,Weapon, Simple Shot,Mastery of simple kinetic weapons like slings and shortbows.
+FORTITUDE,Weapon,Simple,Mastery of simple kinetic weapons like slings and shortbows.
 FORTITUDE,Social,Coercion,Using relentless pressure and The Gaze to corner an opponent.
 FORTITUDE,Utility,Craft,Repairing gear smithing hardening. Lore: Physiology and metallurgy.
 KNOWLEDGE,Armor,Cloth,Mastery of runed cloth and woven wards that require academic understanding.
@@ -28,19 +28,19 @@ KNOWLEDGE,Tool,Catalysts,Mastery of items that channel magic such as scrolls wan
 KNOWLEDGE,Social,Etiquette,Using rank protocol and proper titles as a social shield.
 KNOWLEDGE,Utility,Academics,Researching libraries. Lore: History languages and heraldry.
 LOGIC,Weapon,Medium,Mastery of technical swordsmanship like katanas and arming swords.
-LOGIC,Weapon, Blast,Mastery of chemical weapons grenades scatterguns and fuse times.
+LOGIC,Weapon,Blast,Mastery of chemical weapons grenades scatterguns and fuse times.
 LOGIC,Social,Rhetoric,Using facts logic and debate to dismantle arguments.
 LOGIC,Utility,Analysis,Solving puzzles deduction. Lore: Math engineering and chemistry.
-AWARENESS,Weapon, Large,Mastery of spears and halberds. Keeping enemies at exact range.
-AWARENESS,Weapon, Long Shot,Mastery of sniper rifles crossbows and flintlocks. Lining up the shot.
+AWARENESS,Weapon,Large,Mastery of spears and halberds. Keeping enemies at exact range.
+AWARENESS,Weapon,Long Shot,Mastery of sniper rifles crossbows and flintlocks. Lining up the shot.
 AWARENESS,Social,Insight,Using cold reading to detect lies and expose secrets.
 AWARENESS,Utility,Scouting,Tracking spotting danger. Lore: Forensics and investigation.
 INTUITION,Armor,Utility,Mastery of utility vests ghillie suits and deep pockets preparation.
 INTUITION,Tool,Curios,Mastery of gaming sets dice tarot and tokens of luck/fate.
 INTUITION,Social,Empathy,Sensing the vibe emotional intent and defusing anger.
 INTUITION,Utility,Mysticism,Gut-feeling pathfinding. Lore: Folklore spirits and omens.
-CHARM,Weapon,Melee Exotics,Mastery of performance weapons like whips and nunchaku. Flow and style.
-CHARM,Weapon,Ranged Exotics,Mastery of tricky tools like bolas and blowguns.
+CHARM,Weapon,Exotic Melee,Mastery of performance weapons like whips and nunchaku. Flow and style.
+CHARM,Weapon,Exotic Ranged,Mastery of tricky tools like bolas and blowguns.
 CHARM,Social,Persuasion,Using allure and inspiration to seduce or motivate others.
 CHARM,Utility,Performance,Acting disguise. Lore: Art culture and high fashion.
 WILLPOWER,Armor,Medium,Mastery of chain and scale. Relying on reliability and faith.
