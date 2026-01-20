@@ -464,7 +464,8 @@ class CombatEngine:
         self.aoe_templates = []
         self.replay_log = []  # <--- BURT'S PROTOCOL: The Event Stream
         
-        self.ai = None # Placeholder for AI Engine
+        # Initialize AI Engine immediately if available
+        self.ai = AIDecisionEngine() if AIDecisionEngine else None 
         self.log_callback = None
         
         # Clash State
@@ -1080,6 +1081,16 @@ class CombatEngine:
         self.turn_order.append(minion) # Add to turn order immediately
         return minion
 
+    def _get_ability_style(self, name):
+        name = name.lower()
+        if "fire" in name or "flame" in name or "burn" in name: return "fire"
+        if "ice" in name or "frost" in name or "cold" in name: return "ice"
+        if "poison" in name or "venom" in name: return "poison"
+        if "heal" in name or "cure" in name: return "heal"
+        if "lightning" in name or "shock" in name or "bolt" in name: return "lightning"
+        if "arrow" in name or "shot" in name: return "arrow"
+        return "magic" # Default
+
     def cast_power(self, caster, target, power_data, save_type="Willpower"):
         """
         Cast a power/spell with opposed roll saving throw.
@@ -1094,6 +1105,9 @@ class CombatEngine:
         
         log = [f"{caster.name} casts {power_name} on {target.name}!"]
         
+        # Capture HP for diff
+        start_hp = target.hp
+
         # Caster rolls d20 + Power Stat (Mod)
         caster_roll = random.randint(1, 20)
         caster_mod = caster.get_stat_modifier(power_stat)
@@ -1124,18 +1138,40 @@ class CombatEngine:
             log.append(f"{target.name} fails to resist!")
             ctx["save_success"] = False
             # Apply full effect
-            from abilities.effects_registry import registry
+            from brqse_engine.abilities.effects_registry import registry
             registry.resolve(effect_desc, ctx)
         
         if ctx["log"]:
             log.extend(ctx["log"])
             
+        # Calc actual damage dealt
+        damage_dealt = start_hp - target.hp
+        style = self._get_ability_style(power_name)
+
+        # --- BURT'S PROTOCOL: RECORD CAST EVENT ---
+        self.replay_log.append({
+            "type": "cast",
+            "actor": caster.name,
+            "target": target.name,
+            "ability": power_name,
+            "result": "resist" if ctx["save_success"] else "hit",
+            "damage": damage_dealt,
+            "target_hp": target.hp,
+            "style": style,
+            "roll": caster_total,
+            "save": target_total
+        })
+        # ------------------------------------------
+
         return log
 
     def activate_ability(self, char, ability_name, target=None):
         destination_name = target.name if target else "Self/Area"
         log = [f"{char.name} uses {ability_name} on {destination_name}!"]
         
+        # Capture HP for diff (if target exists)
+        start_hp = target.hp if target else 0
+
         # Context
         ctx = {
             "attacker": char,
@@ -1190,7 +1226,7 @@ class CombatEngine:
                 # 2. Resolve Effect
                 effect_str = data_item.get("Effect") or data_item.get("Description")
                 if effect_str:
-                    from abilities.effects_registry import registry
+                    from brqse_engine.abilities.effects_registry import registry
                     handled = registry.resolve(effect_str, ctx)
                     if not handled: log.append("No effect resolved (or unimplemented).")
                 else:
@@ -1202,6 +1238,28 @@ class CombatEngine:
             log.append(f"FAILED: {e}")
             
         log.extend(ctx["log"])
+        
+        # Calc actual damage
+        damage_dealt = 0
+        if target:
+            damage_dealt = start_hp - target.hp
+        
+        style = self._get_ability_style(ability_name)
+
+        # --- BURT'S PROTOCOL: RECORD ABILITY EVENT ---
+        self.replay_log.append({
+            "type": "ability",
+            "actor": char.name,
+            "ability": ability_name,
+            "target": target.name if target else "Self",
+            "description": f"Used {ability_name}",
+            "execution_log": log, # DEBUG INFO
+            "damage": damage_dealt,
+            "target_hp": target.hp if target else 0,
+            "style": style
+        })
+        # ---------------------------------------------
+        
         return log
 
     def calc_damage(self, attacker, margin):

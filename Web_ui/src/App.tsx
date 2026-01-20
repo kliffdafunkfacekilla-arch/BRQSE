@@ -49,7 +49,7 @@ function App() {
     }));
 
     if (currentHp < character.health) {
-      addLog('COMBAT', `Integrity Loss detected: -${character.health - currentHp} HP`, 'combat');
+      addLog('COMBAT', `HP Loss detected: -${character.health - currentHp}`, 'combat');
     }
   };
 
@@ -59,6 +59,10 @@ function App() {
       timestamp: new Date().toLocaleTimeString(),
       source, message: msg, type
     }, ...prev].slice(0, 50));
+  };
+
+  const handleCombatLog = (msg: string, type: 'info' | 'combat' | 'error') => {
+    addLog('ARENA', msg, type);
   };
 
   // --- COMPONENT: STAT BAR ---
@@ -111,8 +115,8 @@ function App() {
 
           {/* Stats */}
           <div className="p-4 border-b border-stone-800">
-            <StatBar label="Integrity" current={character.health} max={character.maxHealth} color="bg-red-600" icon={Heart} />
-            <StatBar label="Energy" current={character.mana} max={character.maxMana} color="bg-blue-500" icon={Zap} />
+            <StatBar label="Health" current={character.health} max={character.maxHealth} color="bg-red-600" icon={Heart} />
+            <StatBar label="Mana" current={character.mana} max={character.maxMana} color="bg-blue-500" icon={Zap} />
           </div>
 
           {/* Inventory */}
@@ -127,7 +131,7 @@ function App() {
           {/* Arena Container */}
           <div className="flex-1 flex items-center justify-center p-4 bg-grid-pattern relative">
 
-            <Arena onStatsUpdate={handleArenaUpdate} />
+            <Arena onStatsUpdate={handleArenaUpdate} onLog={handleCombatLog} />
           </div>
 
           {/* Bottom Log */}

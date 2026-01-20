@@ -2308,40 +2308,53 @@ class EffectRegistry:
     # SCHOOL OF NEXUS HANDLERS
     # ============================================
 
+    def _apply_implicit_damage(self, ctx, dtype):
+        """Helper to apply damage based on Tier if not already handled"""
+        ctx["damage_type"] = dtype
+        
+        # If we already dealt damage (explicitly), don't double dip?
+        # But this handler is triggered by "Deal X Damage" usually?
+        # No, "Deal X Damage" is handled by _handle_deal_damage.
+        # These handlers match "Deal Lightning Damage" (no number) or "Shock".
+        # So we assume implicit damage based on Tier.
+        
+        tier = ctx.get("tier", 1)
+        import random
+        # Formula: Tier d6
+        dmg = sum(random.randint(1, 6) for _ in range(tier))
+        
+        target = ctx.get("target")
+        if target:
+            target.take_damage(dmg)
+            if "log" in ctx: ctx["log"].append(f"Dealt {dmg} {dtype} Damage (Tier {tier})")
+
     def _handle_fire_damage(self, match, ctx):
         """Deal Fire Damage"""
-        ctx["damage_type"] = "Fire"
-        if "log" in ctx: ctx["log"].append("Damage Type: Fire")
+        self._apply_implicit_damage(ctx, "Fire")
 
     def _handle_cold_damage(self, match, ctx):
         """Deal Cold Damage"""
-        ctx["damage_type"] = "Cold"
-        # Chance to slow/freeze?
-        if "log" in ctx: ctx["log"].append("Damage Type: Cold")
-
+        self._apply_implicit_damage(ctx, "Cold")
+        
     def _handle_lightning_damage(self, match, ctx):
         """Deal Lightning Damage"""
-        ctx["damage_type"] = "Lightning"
-        if "log" in ctx: ctx["log"].append("Damage Type: Lightning")
+        self._apply_implicit_damage(ctx, "Lightning")
 
     def _handle_acid_damage(self, match, ctx):
         """Deal Acid Damage"""
-        ctx["damage_type"] = "Acid"
-        if "log" in ctx: ctx["log"].append("Damage Type: Acid")
+        self._apply_implicit_damage(ctx, "Acid")
 
     def _handle_sonic_damage(self, match, ctx):
         """Deal Sonic Damage"""
-        ctx["damage_type"] = "Sonic"
-        if "log" in ctx: ctx["log"].append("Damage Type: Sonic")
+        self._apply_implicit_damage(ctx, "Sonic")
 
     def _handle_force_damage(self, match, ctx):
         """Deal Force Damage"""
-        ctx["damage_type"] = "Force"
-        if "log" in ctx: ctx["log"].append("Damage Type: Force")
+        self._apply_implicit_damage(ctx, "Force")
 
     def _handle_nuclear_damage(self, match, ctx):
         """Deal Nuclear/Radiation Damage"""
-        ctx["damage_type"] = "Nuclear"
+        self._apply_implicit_damage(ctx, "Nuclear")
         ctx["is_crit"] = True # Nukes hurt
         if "log" in ctx: ctx["log"].append("NUCLEAR DAMAGE!")
 

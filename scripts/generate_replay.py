@@ -1,128 +1,119 @@
 import sys
 import os
 import json
-import random
 import time
 
-# Ensure we can find the engine modules
-# We need to add the PROJECT ROOT to sys.path so we can do 'from brqse_engine...'
+# Add root folder to sys.path so we can import 'brqse_engine'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-try:
-    from brqse_engine.combat import mechanics
-except ImportError:
-    # Fallback/Debug
-    print("Could not import brqse_engine. check your paths.")
-    sys.exit(1)
+from brqse_engine.combat.mechanics import CombatEngine, Combatant
 
-def generate_visual_battle():
-    # --- BURT'S TARGET LOCK ---
-    # We are targeting the NEW Web_ui folder
+def generate_replay():
+    print("Initializing Battle Simulation...")
+    
+    # OUTPUT PATH (Direct to Web App)
     output_path = os.path.join("Web_ui", "public", "data", "last_battle_replay.json")
-    
-    # Setup paths
-    saves_dir = "brqse_engine/Saves"
-    
-    if not os.path.exists(saves_dir):
-        print(f"Error: Saves directory not found at {saves_dir}")
-        print("Current working directory:", os.getcwd())
-        return
-
-    # Load characters (Simulating "Selection")
-    def load_char(filename):
-        try:
-            with open(os.path.join(saves_dir, filename), 'r') as f:
-                data = json.load(f)
-                # Ensure name exists, or default it
-                if "name" not in data:
-                    data["name"] = f"Unknown Entity ({filename})"
-                return data
-        except (FileNotFoundError, json.JSONDecodeError):
-            return None
-
-    # Try to load some test characters, or create dummies
-    char1_data = load_char("buggy.json") or {
-        "name": "Buggy the Clown", "stats": {"attributes": {"Might": 4, "Reflexes": 6, "Vitality": 5}},
-        "derived": {"hp": 30, "speed": 25}
-    }
-    char2_data = load_char("flower_knight.json") or {
-        "name": "Flower Knight", "stats": {"attributes": {"Might": 8, "Reflexes": 3, "Vitality": 8}},
-        "derived": {"hp": 45, "speed": 20}
-    }
-
-    print(f"Loading {char1_data['name']} and {char2_data['name']}...")
 
     # Initialize Engine
-    engine = mechanics.CombatEngine(cols=10, rows=10) # 10x10 Grid for the Arena
-
-    # Create Combatants
-    # Note: Combatant init is (filepath, data). 
-    # It reads "Name" (Capitalized) from data.
+    engine = CombatEngine(cols=10, rows=10)
     
-    # Capitalize keys for engine compatibility if needed
-    if "Name" not in char1_data and "name" in char1_data: char1_data["Name"] = char1_data["name"]
-    if "Name" not in char2_data and "name" in char2_data: char2_data["Name"] = char2_data["name"]
-
-    c1 = mechanics.Combatant(data=char1_data)
-    c2 = mechanics.Combatant(data=char2_data)
-
-    # Set properties manually since init doesn't take them
-    c1.team = "blue"
-    c2.team = "red" 
+    # Load Characters (from Saves)
+    # Check current directory context. Assuming run from root or via simple relative paths.
+    save_dir = os.path.join("brqse_engine", "Saves")
     
-    # Ensure Max HP is set (Engine might calculate it, but let's be safe)
-    if not hasattr(c1, 'max_hp') or c1.max_hp == 0: c1.max_hp = c1.derived.get('hp', 30)
-    if not hasattr(c2, 'max_hp') or c2.max_hp == 0: c2.max_hp = c2.derived.get('hp', 30)
-    c1.hp = c1.max_hp
-    c2.hp = c2.max_hp
+    # Fallback paths if running from scripts folder
+    if not os.path.exists(save_dir) and os.path.exists(os.path.join("..", "brqse_engine", "Saves")):
+        save_dir = os.path.join("..", "brqse_engine", "Saves")
 
-    # Place allowed (and add to engine)
-    c1.x, c1.y = 2, 5
-    c2.x, c2.y = 7, 5
+    # Load Blaze and Iron
+    p1 = Combatant(filepath=os.path.join(save_dir, "Blaze.json"))
+    p2 = Combatant(filepath=os.path.join(save_dir, "Iron.json"))
     
-    engine.add_combatant(c1, c1.x, c1.y)
-    engine.add_combatant(c2, c2.x, c2.y)
+    # If loading failed (empty data), inject defaults
+    if not p1.name or p1.name == "Unknown":
+        print("Warning: Could not load Blaze.json, using fallback.")
+        p1.name = "Blaze"
+        p1.max_hp = 100
+        p1.hp = 100
+        p1.stats = {"Might": 16, "Reflexes": 14, "Vitality": 14, "Knowledge": 10}
+        p1.powers = ["Fireball", "Flame Strike"] # Give some spells
+        
+    if not p2.name or p2.name == "Unknown":
+        print("Warning: Could not load Iron.json, using fallback.")
+        p2.name = "Iron"
+        p2.max_hp = 120
+        p2.hp = 120
+        p2.stats = {"Might": 18, "Reflexes": 10, "Vitality": 18, "Willpower": 14}
+        p2.powers = ["Stone Skin", "Earthquake"]
 
-    # --- SIMULATE BATTLE ---
-    print("Simulating Battle...")
+    # Assign Teams and Positions
+    p1.team = "blue"
+    p2.team = "red"
     
-    # We will just run a few rounds to generate logs
-    for _ in range(5):
-        # We need to manually trigger turns if we aren't using the full game loop
-        # For this demo, let's just force some actions
+    engine.add_combatant(p1, 2, 5)  # Left
+    engine.add_combatant(p2, 7, 5)  # Right
+    
+    # Setup Map (Simple Arena)
+    walls = [(2,2), (2,7), (7,2), (7,7)]
+    for wx, wy in walls:
+        engine.create_wall(wx, wy)
         
-        # 1. Move Blue
-        engine.move_char(c1, c1.x + random.choice([-1, 0, 1]), c1.y + random.choice([-1, 0, 1]))
-        
-        # 2. Blue Attacks Red
-        engine.attack_target(c1, c2)
-        
-        # 3. Move Red
-        engine.move_char(c2, c2.x + random.choice([-1, 0, 1]), c2.y + random.choice([-1, 0, 1]))
-        
-        # 4. Red Attacks Blue
-        engine.attack_target(c2, c1)
+    map_tiles = [["floor_stone" for _ in range(10)] for _ in range(10)]
+    for wx, wy in walls:
+        map_tiles[wy][wx] = "wall_stone"
 
-    # --- EXPORT DATA ---
-    battle_data = {
+    # Start Combat
+    print("Starting Combat Loop...")
+    engine.start_combat()
+    
+    # Limit rounds to prevent infinite loops
+    MAX_ROUNDS = 20
+    round_count = 0
+    
+    while round_count < MAX_ROUNDS and p1.is_alive() and p2.is_alive():
+        # Get active character
+        active = engine.get_active_char()
+        
+        # Execute AI Turn
+        # This will call move, attack, ability, etc. and populate engine.replay_log
+        log = engine.execute_ai_turn(active)
+        
+        # End Turn (Rotation)
+        engine.end_turn()
+        
+        # Check if round rolled over (idx reset)
+        if engine.current_turn_index == 0:
+            round_count += 1
+            print(f"Round {round_count} complete.")
+
+    print(f"Simulation ended after {round_count} rounds.")
+    print(f"Winner: {p1.name if p1.is_alive() else p2.name}")
+    print(f"Total Events: {len(engine.replay_log)}")
+
+    # Construct Final JSON
+    # Include 'x' and 'y' in combatants so the UI places them correctly at start
+    final_data = {
         "combatants": [
-            {"name": c1.name, "max_hp": c1.max_hp, "team": "blue"},
-            {"name": c2.name, "max_hp": c2.max_hp, "team": "red"}
+            {
+                "name": c.name, 
+                "max_hp": c.max_hp, 
+                "hp": c.hp, # Final HP (maybe UI wants Max to start? UI resets hp to max_hp usually)
+                # Actually, UI resets to max_hp on load. So this is fine.
+                "team": c.team,
+                "x": 2 if c == p1 else 7, # Start positions
+                "y": 5
+            } for c in engine.combatants
         ],
-        "log": engine.replay_log
+        "log": engine.replay_log,
+        "map": map_tiles
     }
-
-    # Verify we have data
-    print(f"Generated {len(engine.replay_log)} events.")
-
-    # Save to Web Public Folder
-    # BURT NOTE: This path needs to be correct relative to where you run the script!
+    
+    # Save
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as f:
-        json.dump(battle_data, f, indent=2)
+        json.dump(final_data, f, indent=2)
         
-    print(f"--> TACTICAL DATA DROP: {output_path}")
-    print("--> UI STATUS: READY FOR PLAYBACK")
+    print(f"Replay saved to: {output_path}")
 
 if __name__ == "__main__":
-    generate_visual_battle()
+    generate_replay()

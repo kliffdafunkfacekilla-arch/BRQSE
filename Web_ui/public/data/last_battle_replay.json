@@ -1,31 +1,125 @@
 {
   "combatants": [
     {
-      "name": "buggy",
-      "max_hp": 51,
-      "team": "blue"
+      "name": "Iron",
+      "max_hp": 41,
+      "hp": 38,
+      "team": "red",
+      "x": 7,
+      "y": 5
     },
     {
-      "name": "Flower Knight",
-      "max_hp": 40,
-      "team": "red"
+      "name": "Blaze",
+      "max_hp": 43,
+      "hp": 0,
+      "team": "blue",
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "log": [
+    {
+      "type": "ability",
+      "actor": "Iron",
+      "ability": "Shock",
+      "target": "Blaze",
+      "description": "Used Shock",
+      "execution_log": [
+        "Iron uses Shock on Blaze!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "9 Lightning damage to Blaze!",
+        "Emits Light",
+        "Dealt 10 Lightning Damage (Tier 3)",
+        "Blaze Aged Rapidly (-Might)."
+      ],
+      "damage": 19,
+      "target_hp": 24,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "Blaze",
+      "ability": "Burn",
+      "target": "Iron",
+      "description": "Used Burn",
+      "execution_log": [
+        "Blaze uses Burn on Iron!",
+        "Consumed 4 SP",
+        "Iron is Bleeding! (3/turn for 3 rounds)"
+      ],
+      "damage": 0,
+      "target_hp": 41,
+      "style": "fire"
+    },
+    {
+      "type": "ability",
+      "actor": "Iron",
+      "ability": "Shock",
+      "target": "Blaze",
+      "description": "Used Shock",
+      "execution_log": [
+        "Iron uses Shock on Blaze!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "11 Lightning damage to Blaze!",
+        "Emits Light",
+        "Dealt 10 Lightning Damage (Tier 3)",
+        "Blaze Aged Rapidly (-Might)."
+      ],
+      "damage": 21,
+      "target_hp": 3,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "Blaze",
+      "ability": "Burn",
+      "target": "Iron",
+      "description": "Used Burn",
+      "execution_log": [
+        "Blaze uses Burn on Iron!",
+        "Consumed 4 SP",
+        "Iron is Bleeding! (1/turn for 3 rounds)"
+      ],
+      "damage": 0,
+      "target_hp": 40,
+      "style": "fire"
+    },
+    {
+      "type": "ability",
+      "actor": "Iron",
+      "ability": "Shock",
+      "target": "Blaze",
+      "description": "Used Shock",
+      "execution_log": [
+        "Iron uses Shock on Blaze!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "8 Lightning damage to Blaze!",
+        "Emits Light",
+        "Dealt 8 Lightning Damage (Tier 3)",
+        "Blaze Aged Rapidly (-Might)."
+      ],
+      "damage": 3,
+      "target_hp": 0,
+      "style": "lightning"
     }
   ],
   "map": [
     [
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -34,34 +128,34 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone",
       "floor_stone",
       "floor_stone",
       "wall_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "wall_stone",
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
-      "floor_stone",
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -70,10 +164,10 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -82,34 +176,34 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
-      "floor_stone",
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone",
       "floor_stone",
       "floor_stone",
       "wall_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "wall_stone",
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -118,145 +212,20 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone"
     ],
     [
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone",
-      "wall_stone"
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
     ]
-  ],
-  "log": [
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        2,
-        5
-      ],
-      "to": [
-        2,
-        6
-      ],
-      "timestamp": 1768809385.6354887
-    },
-    {
-      "type": "move",
-      "actor": "Flower Knight",
-      "from": [
-        7,
-        5
-      ],
-      "to": [
-        7,
-        4
-      ],
-      "timestamp": 1768809385.6355045
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        2,
-        6
-      ],
-      "to": [
-        2,
-        6
-      ],
-      "timestamp": 1768809385.6355116
-    },
-    {
-      "type": "move",
-      "actor": "Flower Knight",
-      "from": [
-        7,
-        4
-      ],
-      "to": [
-        6,
-        4
-      ],
-      "timestamp": 1768809385.6355333
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        2,
-        6
-      ],
-      "to": [
-        3,
-        5
-      ],
-      "timestamp": 1768809385.635537
-    },
-    {
-      "type": "move",
-      "actor": "Flower Knight",
-      "from": [
-        6,
-        4
-      ],
-      "to": [
-        5,
-        4
-      ],
-      "timestamp": 1768809385.6355407
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        3,
-        5
-      ],
-      "to": [
-        4,
-        5
-      ],
-      "timestamp": 1768809385.6355438
-    },
-    {
-      "type": "attack",
-      "actor": "buggy",
-      "target": "Flower Knight",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "move",
-      "actor": "Flower Knight",
-      "from": [
-        5,
-        4
-      ],
-      "to": [
-        6,
-        4
-      ],
-      "timestamp": 1768809385.6355772
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        4,
-        5
-      ],
-      "to": [
-        4,
-        5
-      ],
-      "timestamp": 1768809385.635581
-    }
   ]
 }
