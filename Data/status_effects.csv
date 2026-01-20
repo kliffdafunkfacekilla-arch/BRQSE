@@ -1,34 +1,22 @@
-STATUS,MARKER,EFFECT DESCRIPTION,CURE / END
-BLEED,Red Drop,"Take 1d4 Damage at the start of your turn. Stacks (e.g., Bleed 2 = 2d4).",Medicine Check (DC 12) or Magical Healing.
-BLINDED,Eye Slash,All Attacks have Disadvantage. Enemies have Advantage to hit you. Perception is 0.,"End of Duration or ""Cure Ailment."""
-DEAFENED,Crossed Ear,Automatic failure on Hearing Perception. Vulnerable to Sonic damage.,End of Duration.
-EXHAUSTED,Sweat Drop,"-2 Penalty to all Rolls per stack. At Stack 5, Speed = 0. At Stack 6, Death.",Long Rest (-1 Stack).
-GRAPPLED,Chain Link,Speed = 0. Disadvantage on Dex/Reflex saves. Cannot Move.,Escape Action (Athletics/Acrobatics) vs Opponent.
-PRONE,Down Arrow,Lying on ground. Melee attacks against you have Advantage. Ranged have Disadvantage.,Spend Half Movement to stand up.
-POISONED,Green Skull,Take Disadvantage on Attack Rolls and Ability Checks.,Constitution Save (End of Turn) or Antidote.
-RESTRAINED,Rope,Speed = 0. Attacks vs You have Advantage. You have Disadvantage on Dex Saves.,Strength Save or Cutting the bonds.
-SICKENED,Nauseated,Cannot take the Dash or Charge actions. -2 to Defenses.,Constitution Save (End of Turn).
-STUNNED,Stars,Incapacitated (No Actions/Reactions). Auto-fail Str/Dex Saves. Attacks vs You = Crit.,End of Duration (usually 1 round).
-WEAKENED,Broken Sword,Your Melee Attacks deal Half Damage.,"Rest or ""Restoration"" spell."
-CHARMED,Heart,You regard the charmer as a friendly acquaintance. Cannot attack them.,Taking Damage from the Charmer breaks it.
-CONFUSED,? mark,Roll d10 start of turn: 1-4: Do nothing. 5-7: Move Randomly. 8-10: Attack nearest creature.,Willpower Save (End of Turn).
-DOOMED,Skull,You cannot be Healed. Death Saves are made with Disadvantage.,"""Remove Curse"" or defeating the source."
-FEAR,Ghost,You cannot move closer to the source of fear. Attack Rolls have Disadvantage.,Willpower Save (End of Turn).
-FEEBLE,Broken Bulb,Logic & Knowledge scores drop to 1. Cannot cast spells or use Tech.,"""Greater Restoration"" only."
-SHAKEN,Tremble,-2 Penalty to all Defenses (Physical and Mental).,Rally Action (Charm) or Leader's Inspire.
-SILENCED,Muted,Cannot speak. Cannot cast Spells with Verbal components. Immune to Thunder damage.,Leaving the Zone of Silence.
-TAUNTED,Bullseye,You must attack the Taunter if able. All other targets have Disadvantage to be hit.,Logic Save or hitting the Taunter.
-BURNING,Flame,Take 1d6 Fire Damage at start of turn. Panic (Must pass Will save to not run to water).,"Action: ""Stop, Drop, & Roll"" (Dex Check)."
-CORRODED,Acid Drop,Your Armor (DB) is reduced by -2. Permanent until repaired.,Blacksmith Repair or Mending spell.
-FROZEN,Ice Cube,Restrained. Vulnerable to Bludgeoning/Sonic damage.,Taking 5+ Fire Damage melts the ice.
-PETRIFIED,Grey Stone,Turned to Stone. Weight x10. Incapacitated. Resistance to All Damage.,"""Stone to Flesh"" or High-Tier Alchemy."
-SHOCKED,Lightning,No Reactions allowed this round. Speed reduced by 10ft.,End of Turn.
-SOAKED,Water Drop,Vulnerable to Cold and Lightning. Resistance to Fire.,Drying off (1 min) or Fire damage.
-VOID-TOUCHED,Black Spiral,"Whenever you spend Focus/Stamina, take 1d4 Necrotic Damage.",Long Rest in a Sanctuary/Safe Zone.
-BLESSED,Halo,Add +1d4 to all Attack Rolls and Saving Throws.,Priest Spells / Shrines.
-COVER (Half),Shield ½,2 Bonus to Physical Defense (DB) and Reflex Saves.,"Low walls, furniture, other creatures."
-COVER (3/4),Shield ¾,5 Bonus to Physical Defense (DB) and Reflex Saves.,"Arrow slits, heavy trees."
-HASTE,Winged Boot,Speed Doubled. +2 Defense. One extra Action per turn.,Logic/Time Magic.
-INVISIBLE,Empty Eye,Cannot be seen. Attacks against you have Disadvantage. Your attacks have Advantage.,Attacking or Casting a Spell breaks it.
-REGEN,Green Cross,"Regain X HP at the start of your turn (e.g., Regen 5).",Vitality Talents / Potions.
-WARDED,Blue Shield,"You have Temporary HP. While you have Temp HP, you cannot be Wounded/Bleeding.",Magic Shields / Tech Fields.
+STATUS,TIER,ROLL_EFFECT,ATTACK_MOD,DEFENSE_MOD,SPEED_MOD,DESCRIPTION,CURE
+STAGGERED,Action,Disadvantage,All,All,None,Disadvantage on ALL action rolls.,End of next Turn.
+SHAKEN,Action,Disadvantage,None,All,None,Disadvantage on DEFENSE rolls only.,Rally Action or Inspire.
+WEAKENED,Action,Disadvantage,All,None,None,Disadvantage on ATTACK rolls only.,Rest or Restoration.
+BLESSED,Action,Advantage,All,All,None,Advantage on ALL action rolls.,Duration expires.
+HASTE,Action,Advantage,All,All,Double,Advantage + Double Speed + Extra Action.,Duration expires.
+SLOWED,Movement,None,None,None,Half,Movement speed halved.,End of next Turn.
+GRAPPLED,Movement,Disadvantage,None,Reflex,Zero,Speed = 0. Disadvantage on Reflex saves.,Escape Action vs Opponent.
+RESTRAINED,Movement,Disadvantage,None,Dex,Zero,Speed = 0. Attacks vs you have Advantage.,Strength Save or Cut bonds.
+PRONE,Movement,Mixed,None,Melee-Adv/Ranged-Dis,Half,Melee vs you: Advantage. Ranged vs you: Disadvantage.,Spend Half Movement to stand.
+STUNNED,Incapacitating,Auto-Fail,Cannot,Cannot,Zero,Cannot act. All attacks vs you have Advantage.,End of Duration (1 round).
+PARALYZED,Incapacitating,Auto-Fail,Cannot,Cannot,Zero,Cannot move or act. Melee = Auto-Crit.,Duration expires.
+PETRIFIED,Incapacitating,Immune,Cannot,Cannot,Zero,Turned to stone. Immune to most damage.,Stone to Flesh spell.
+BLEED,DoT,None,None,None,None,2 Condition damage per turn.,Medicine Check or Healing.
+BURNING,DoT,None,None,None,None,1d6 Fire damage per turn.,Stop Drop Roll (Dex Check).
+POISONED,DoT,Disadvantage,All,None,None,Disadvantage on attacks + 1d4 damage/turn.,Constitution Save or Antidote.
+CHARMED,Mental,Special,Cannot-vs-Charmer,None,None,Cannot attack charmer. Regard as friend.,Taking Damage from charmer.
+FRIGHTENED,Mental,Disadvantage,All,None,None,Disadvantage on attacks. Cannot approach source.,Willpower Save.
+CONFUSED,Mental,Random,Random,Random,Random,Random action each turn (d10 table).,Willpower Save.
+TAUNTED,Mental,Disadvantage,Non-Taunter,None,None,Must attack taunter. Others at Disadvantage.,Logic Save or hitting taunter.
+BLINDED,Visibility,Disadvantage,All,All,None,Disadvantage on attacks. Attacks vs you: Advantage.,Cure Ailment or Duration.
+INVISIBLE,Visibility,Advantage,All,All,None,Your attacks: Advantage. Attacks vs you: Disadvantage.,Attacking or Casting breaks it.

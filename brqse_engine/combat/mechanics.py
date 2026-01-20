@@ -120,6 +120,41 @@ class Combatant:
         self.is_exhausted = False     # True = SP at 0 (physical exhaustion)
         self.is_drained = False       # True = FP at 0 (focus depleted)
         
+        # === SIMPLIFIED STATUS FLAGS (Advantage/Disadvantage System) ===
+        # Tier 1: Action Modifiers
+        self.is_staggered = False     # Disadvantage on ALL action rolls
+        self.is_shaken = False        # Disadvantage on DEFENSE rolls only
+        self.is_weakened = False      # Disadvantage on ATTACK rolls only
+        self.is_blessed = False       # Advantage on ALL action rolls
+        self.is_hasted = False        # Advantage + Double Speed + Extra Action
+        
+        # Tier 2: Movement Modifiers
+        self.is_slowed = False        # Speed halved
+        self.is_grappled = False      # Speed = 0, Disadvantage on Reflex
+        self.is_restrained = False    # Speed = 0, Attacks vs you have Advantage
+        self.is_prone = False         # Melee Adv, Ranged Dis
+        
+        # Tier 3: Incapacitating
+        self.is_stunned = False       # Cannot act, attacks vs you have Advantage
+        self.is_paralyzed = False     # Cannot move or act, melee = auto-crit
+        self.is_petrified = False     # Turned to stone
+        
+        # Tier 4: DoT
+        self.is_bleeding = False      # 2 Condition damage per turn
+        self.bleed_amount = 0         # Bleed intensity
+        self.is_burning = False       # 1d6 Fire damage per turn
+        self.is_poisoned = False      # Disadvantage + 1d4 damage per turn
+        
+        # Tier 5: Mental/Social
+        self.is_charmed = False       # Cannot attack charmer
+        self.is_frightened = False    # Disadvantage, cannot approach source
+        self.is_confused = False      # Random action each turn
+        self.is_taunted = False       # Must attack taunter
+        
+        # Tier 6: Visibility
+        self.is_blinded = False       # Disadvantage on attacks, attacks vs you Advantage
+        self.is_invisible = False     # Advantage on attacks, attacks vs you Disadvantage
+        
         # Duration-based effects: list of {name, duration, on_expire}
         # duration = rounds remaining (-1 = permanent until cleared)
         self.active_effects = []
@@ -249,7 +284,66 @@ class Combatant:
 
     def get_skill_rank(self, skill_name):
         return self.skills.get(skill_name, 0)
+    
+    # === ADVANTAGE/DISADVANTAGE ROLL SYSTEM ===
+    
+    def roll_with_advantage(self, has_advantage=False, has_disadvantage=False):
+        """
+        Roll d20 with advantage/disadvantage.
+        Advantage: Roll 2d20, take higher.
+        Disadvantage: Roll 2d20, take lower.
+        If both: They cancel out, roll normally.
+        """
+        roll1 = random.randint(1, 20)
+        roll2 = random.randint(1, 20)
         
+        if has_advantage and has_disadvantage:
+            return roll1  # Cancel out
+        elif has_advantage:
+            return max(roll1, roll2)
+        elif has_disadvantage:
+            return min(roll1, roll2)
+        else:
+            return roll1
+    
+    def has_attack_advantage(self):
+        """Returns True if this combatant has advantage on attacks."""
+        return self.is_blessed or self.is_hasted or self.is_invisible
+    
+    def has_attack_disadvantage(self):
+        """Returns True if this combatant has disadvantage on attacks."""
+        return (self.is_staggered or self.is_weakened or self.is_poisoned or 
+                self.is_frightened or self.is_blinded)
+    
+    def has_defense_advantage(self):
+        """Returns True if this combatant has advantage on defense."""
+        return self.is_blessed or self.is_hasted
+    
+    def has_defense_disadvantage(self):
+        """Returns True if this combatant has disadvantage on defense."""
+        return self.is_staggered or self.is_shaken
+    
+    def is_attack_target_advantaged(self, attacker):
+        """Returns True if attacks against this combatant have advantage."""
+        return (self.is_stunned or self.is_restrained or self.is_blinded or 
+                self.is_paralyzed or attacker.is_invisible)
+    
+    def is_attack_target_disadvantaged(self, attacker):
+        """Returns True if attacks against this combatant have disadvantage."""
+        return self.is_invisible
+    
+    def get_effective_speed(self):
+        """Returns current speed considering status effects."""
+        if self.is_grappled or self.is_restrained or self.is_stunned or self.is_paralyzed:
+            return 0
+        speed = self.base_movement
+        if self.is_hasted:
+            speed *= 2
+        if self.is_slowed:
+            speed //= 2
+        return max(speed, 0)
+        
+
     def take_damage(self, amount, damage_type="Physical"):
         """Applies damage and returns True if dead."""
         self.hp -= amount
@@ -965,30 +1059,36 @@ class CombatEngine:
                  skill_rank = attacker.get_skill_rank("The Fist")
             
         hit_mod = attacker.get_stat_modifier(attack_stat) + skill_rank
-        # Log details for clarity in debug
-        # log.append(f"(Roll: d20 + {attack_stat} {hit_mod-skill_rank} + Skill {skill_rank})")
 
-        hit_score = hit_mod + random.randint(1, 20)
+        # === NEW ADVANTAGE/DISADVANTAGE SYSTEM ===
+        # Determine attacker's advantage/disadvantage
+        atk_adv = attacker.has_attack_advantage()
+        atk_dis = attacker.has_attack_disadvantage()
         
-        # STATUS MODIFIERS (Attacker)
-        if attacker.is_prone: hit_score -= 2 # Prone attacking
-        if attacker.is_blinded: hit_score -= 4 
-        if attacker.is_restrained: hit_score -= 2
-        if attacker.is_frightened: hit_score -= 2
+        # Factor in target's state (being prone gives attacker advantage, etc)
+        if target.is_attack_target_advantaged(attacker):
+            atk_adv = True
+        if target.is_attack_target_disadvantaged(attacker):
+            atk_dis = True
         
-        if attacker.is_invisible: 
-             hit_score += 4 # Unseen attacker
-             attacker.is_invisible = False # Breaks invisibility
-             log.append(f"{attacker.name} appears from invisibility!")
-             
-        # STATUS MODIFIERS (Defender)
-        # Prone defender = Advantage for attacker (+4)
-        if target.is_prone: hit_score += 4 
-        # Blind defender = Advantage (+4)
-        if target.is_blinded: hit_score += 4
-        # Stunned/Paralyzed = Auto Crit? Or massive bonus.
-        if target.is_stunned or target.is_paralyzed: hit_score += 5
+        # Prone attacking is disadvantage
+        if attacker.is_prone:
+            atk_dis = True
+            
+        # Roll with advantage/disadvantage
+        raw_d20 = attacker.roll_with_advantage(atk_adv, atk_dis)
+        hit_score = hit_mod + raw_d20
         
+        # Track if Natural 20 (crit) or Natural 1 (disaster)
+        is_nat_20 = (raw_d20 == 20)
+        is_nat_1 = (raw_d20 == 1)
+        
+        # Invisibility breaks on attack
+        if attacker.is_invisible:
+            attacker.is_invisible = False
+            log.append(f"{attacker.name} appears from invisibility!")
+        
+
         # Defender uses AC (Base 10 + Dex/Armor Mod)
         # In D&D: AC = 10 + Mod. 
         # Here: Armor might provide base AC? 

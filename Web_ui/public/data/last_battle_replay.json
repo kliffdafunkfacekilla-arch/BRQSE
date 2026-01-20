@@ -1,128 +1,84 @@
 {
   "combatants": [
     {
-      "name": "flower",
-      "max_hp": 47,
-      "hp": 0,
-      "team": "blue",
-      "x": 2,
+      "name": "Thunder",
+      "max_hp": 40,
+      "hp": 19,
+      "team": "red",
+      "x": 7,
       "y": 5
     },
     {
-      "name": "steve",
-      "max_hp": 42,
-      "hp": 35,
-      "team": "red",
-      "x": 7,
+      "name": "Hero",
+      "max_hp": 40,
+      "hp": 0,
+      "team": "blue",
+      "x": 2,
       "y": 5
     }
   ],
   "log": [
     {
-      "type": "attack",
-      "actor": "flower",
-      "target": "steve",
-      "result": "hit",
-      "damage": 1,
-      "target_hp": 41,
-      "style": "hit"
-    },
-    {
       "type": "ability",
-      "actor": "steve",
-      "ability": "Bolt",
-      "target": "flower",
-      "description": "Used Bolt",
+      "actor": "Thunder",
+      "ability": "Shock",
+      "target": "Hero",
+      "description": "Used Shock",
       "execution_log": [
-        "steve uses Bolt on flower!",
-        "Consumed 2 FP",
-        "Dealt 4 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 5 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
+        "Thunder uses Shock on Hero!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "10 Lightning damage to Hero!",
+        "Emits Light",
+        "Dealt 13 Lightning Damage (Tier 3)",
+        "Hero Aged Rapidly (-Might)."
       ],
-      "damage": 9,
-      "target_hp": 38,
+      "damage": 23,
+      "target_hp": 17,
       "style": "lightning"
     },
     {
-      "type": "attack",
-      "actor": "flower",
-      "target": "steve",
-      "result": "miss",
-      "damage": 0
-    },
-    {
       "type": "ability",
-      "actor": "steve",
+      "actor": "Hero",
       "ability": "Bolt",
-      "target": "flower",
+      "target": "Thunder",
       "description": "Used Bolt",
       "execution_log": [
-        "steve uses Bolt on flower!",
+        "Hero uses Bolt on Thunder!",
         "Consumed 2 FP",
-        "Dealt 4 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
         "Dealt 10 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 14,
-      "target_hp": 24,
-      "style": "lightning"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "steve",
-      "result": "hit",
-      "damage": 6,
-      "target_hp": 35,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "steve",
-      "ability": "Bolt",
-      "target": "flower",
-      "description": "Used Bolt",
-      "execution_log": [
-        "steve uses Bolt on flower!",
-        "Consumed 2 FP",
-        "Dealt 9 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
-        "Dealt 3 Force Damage (Tier 2)",
+        "Dealt 11 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force)."
       ],
-      "damage": 12,
-      "target_hp": 12,
+      "damage": 21,
+      "target_hp": 19,
       "style": "lightning"
     },
     {
       "type": "ability",
-      "actor": "steve",
-      "ability": "Bolt",
-      "target": "flower",
-      "description": "Used Bolt",
+      "actor": "Thunder",
+      "ability": "Shock",
+      "target": "Hero",
+      "description": "Used Shock",
       "execution_log": [
-        "steve uses Bolt on flower!",
-        "Consumed 2 FP",
-        "Dealt 7 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 9 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "flower is DESTROYED by Bolt!"
+        "Thunder uses Shock on Hero!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "7 Lightning damage to Hero!",
+        "Emits Light",
+        "Dealt 12 Lightning Damage (Tier 3)",
+        "Hero Aged Rapidly (-Might).",
+        "Hero is DESTROYED by Shock!"
       ],
-      "damage": 12,
+      "damage": 17,
       "target_hp": 0,
       "style": "lightning"
     },
     {
       "type": "death",
-      "actor": "flower",
+      "actor": "Hero",
       "x": 2,
       "y": 5
     }
