@@ -1,0 +1,16 @@
+TERRAIN_ID,NAME,MOVE_COST,DAMAGE_TYPE,DAMAGE_DICE,EFFECT
+normal,Normal,1,None,,
+difficult,Difficult Terrain,2,None,,
+water_shallow,Shallow Water,2,None,,Fire Resistance
+water_deep,Deep Water,3,None,,Must Swim. Attack Disadvantage.
+ice,Ice,1,None,,Dex Save or Prone on >10ft move
+mud,Mud,2,None,,Grapple Escape Disadvantage
+fire,Fire,2,Fire,1d6,Burning on enter
+acid,Acid Pool,2,Acid,1d8,Corrodes armor
+spikes,Spike Trap,2,Piercing,1d10,One-time trigger
+darkness,Magical Darkness,1,None,,Blinded unless Darkvision
+high_ground,Elevated,1,None,,+2 Ranged from above
+rubble,Rubble,2,None,,
+tall_grass,Tall Grass,2,None,,Half Cover when Prone
+lava,Lava,99,Fire,4d10,Instant death for most
+pit,Pit Trap,1,Bludgeoning,2d6,Falls 20ft

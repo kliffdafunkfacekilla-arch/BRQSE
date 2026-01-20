@@ -6,9 +6,10 @@ interface TokenProps {
     facing: 'up' | 'down' | 'left' | 'right';
     team: string;
     dead?: boolean;
+    sprite?: string;  // Optional sprite name (e.g., "badger", "wolf")
 }
 
-export default function Token({ name, facing, team, dead }: TokenProps) {
+export default function Token({ name, facing, team, dead, sprite }: TokenProps) {
     const [imgSrc, setImgSrc] = useState<string | null>(null);
     const [isFlipped, setIsFlipped] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
@@ -20,7 +21,9 @@ export default function Token({ name, facing, team, dead }: TokenProps) {
         setIsFlipped(false);
         setRetryCount(0);
 
-        const cleanName = name.toLowerCase().replace(/\s+/g, '_');
+        // Use sprite prop if provided, otherwise fall back to name
+        const tokenName = sprite || name;
+        const cleanName = tokenName.toLowerCase().replace(/\s+/g, '_');
 
         // 1. Map Logic Direction -> File Suffix
         // facing: 'up' -> file: '_back'
@@ -32,7 +35,7 @@ export default function Token({ name, facing, team, dead }: TokenProps) {
         // 2. Try the Perfect Match first
         setImgSrc(`/tokens/${cleanName}_${suffix}.png`);
 
-    }, [name, facing]);
+    }, [name, facing, sprite]);
 
     // --- THE SMART FALLBACK SYSTEM ---
     const handleImageError = () => {

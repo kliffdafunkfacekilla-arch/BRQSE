@@ -39,6 +39,58 @@ except ImportError as e:
 # --- CONSTANTS ---
 STAT_BLOCK = ["Might", "Reflexes", "Endurance", "Vitality", "Fortitude", "Knowledge", "Logic", "Awareness", "Intuition", "Charm", "Willpower", "Finesse"]
 
+# --- TERRAIN DATA ---
+TERRAIN_DATA = {
+    "normal": {"move_cost": 1, "damage_type": None, "damage_dice": None},
+    "difficult": {"move_cost": 2, "damage_type": None, "damage_dice": None},
+    "water_shallow": {"move_cost": 2, "damage_type": None, "damage_dice": None, "effect": "fire_resistance"},
+    "water_deep": {"move_cost": 3, "damage_type": None, "damage_dice": None, "effect": "swim_required"},
+    "ice": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "slip_prone"},
+    "mud": {"move_cost": 2, "damage_type": None, "damage_dice": None, "effect": "grapple_disadvantage"},
+    "fire": {"move_cost": 2, "damage_type": "Fire", "damage_dice": "1d6"},
+    "acid": {"move_cost": 2, "damage_type": "Acid", "damage_dice": "1d8"},
+    "spikes": {"move_cost": 2, "damage_type": "Piercing", "damage_dice": "1d10"},
+    "darkness": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "blinded"},
+    "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_bonus"},
+}
+
+# Cover levels: 0=None, 1=Half, 2=Full
+COVER_NONE = 0
+COVER_HALF = 1
+COVER_FULL = 2
+
+class Tile:
+    """Represents a single tile on the combat grid."""
+    def __init__(self, terrain="normal", x=0, y=0):
+        self.x = x
+        self.y = y
+        self.terrain = terrain
+        
+        # Load terrain data
+        data = TERRAIN_DATA.get(terrain, TERRAIN_DATA["normal"])
+        self.move_cost = data.get("move_cost", 1)
+        self.damage_type = data.get("damage_type")
+        self.damage_dice = data.get("damage_dice")
+        self.effect = data.get("effect")
+        
+        # Directional cover (can be set by obstacles on edges)
+        self.cover_north = COVER_NONE
+        self.cover_south = COVER_NONE
+        self.cover_east = COVER_NONE
+        self.cover_west = COVER_NONE
+        
+        # Entity on this tile (if any)
+        self.occupant = None
+        
+    def get_cover_from_direction(self, direction):
+        """Get cover value from a cardinal direction (N/S/E/W)."""
+        if direction == "N": return self.cover_south  # Cover FROM north means wall on south side
+        if direction == "S": return self.cover_north
+        if direction == "E": return self.cover_west
+        if direction == "W": return self.cover_east
+        return COVER_NONE
+
+
 class Combatant:
     def __init__(self, filepath=None, data=None):
         self.filepath = filepath
@@ -154,6 +206,10 @@ class Combatant:
         # Tier 6: Visibility
         self.is_blinded = False       # Disadvantage on attacks, attacks vs you Advantage
         self.is_invisible = False     # Advantage on attacks, attacks vs you Disadvantage
+        
+        # === TACTICAL COMBAT STATE ===
+        self.facing = "N"                     # Facing direction: N/S/E/W
+        self.attacks_received_this_round = 0  # Tracks attacks for multi-attacker disadvantage
         
         # Duration-based effects: list of {name, duration, on_expire}
         # duration = rounds remaining (-1 = permanent until cleared)
@@ -548,9 +604,12 @@ class CombatEngine:
         self.cols = cols
         self.rows = rows
         self.walls = set()
-        self.hazards = [] # <--- BURT'S UPDATE: Add this list!
+        self.hazards = []
         self.aoe_templates = []
-        self.replay_log = []  # <--- BURT'S PROTOCOL: The Event Stream
+        self.replay_log = []
+        
+        # Tile Grid (for terrain and cover)
+        self.tiles = [[Tile("normal", x, y) for x in range(cols)] for y in range(rows)]
         
         # Initialize AI Engine immediately if available
         self.ai = AIDecisionEngine() if AIDecisionEngine else None 
@@ -560,7 +619,137 @@ class CombatEngine:
         self.clash_active = False
         self.clash_participants = (None, None)
         self.clash_stat = None
+    
+    # === TERRAIN & TILE METHODS ===
+    
+    def get_tile(self, x, y):
+        """Get the Tile object at coordinates."""
+        if 0 <= x < self.cols and 0 <= y < self.rows:
+            return self.tiles[y][x]
+        return None
+    
+    def set_terrain(self, x, y, terrain_type):
+        """Set terrain type at coordinates."""
+        tile = self.get_tile(x, y)
+        if tile:
+            tile.terrain = terrain_type
+            data = TERRAIN_DATA.get(terrain_type, TERRAIN_DATA["normal"])
+            tile.move_cost = data.get("move_cost", 1)
+            tile.damage_type = data.get("damage_type")
+            tile.damage_dice = data.get("damage_dice")
+            tile.effect = data.get("effect")
+    
+    def set_cover(self, x, y, direction, level):
+        """Set cover on a tile edge. Direction: N/S/E/W. Level: 0=None, 1=Half, 2=Full."""
+        tile = self.get_tile(x, y)
+        if tile:
+            if direction == "N": tile.cover_north = level
+            elif direction == "S": tile.cover_south = level
+            elif direction == "E": tile.cover_east = level
+            elif direction == "W": tile.cover_west = level
+    
+    # === TACTICAL CHECKS (REVISED) ===
+    
+    def is_behind(self, attacker, target):
+        """Returns True if attacker is in target's rear arc (180° behind facing)."""
+        dx = attacker.x - target.x
+        dy = attacker.y - target.y
         
+        facing = getattr(target, 'facing', 'N')
+        
+        # Check if attacker is in rear arc based on target's facing
+        if facing == "N" and dy > 0: return True   # Target faces N, attacker is South
+        if facing == "S" and dy < 0: return True   # Target faces S, attacker is North
+        if facing == "E" and dx < 0: return True   # Target faces E, attacker is West
+        if facing == "W" and dx > 0: return True   # Target faces W, attacker is East
+        return False
+    
+    def has_line_of_sight(self, attacker, target):
+        """Returns True if clear LOS, False if blocked by walls or full cover."""
+        x0, y0 = attacker.x, attacker.y
+        x1, y1 = target.x, target.y
+        
+        dx = abs(x1 - x0)
+        dy = abs(y1 - y0)
+        sx = 1 if x0 < x1 else -1
+        sy = 1 if y0 < y1 else -1
+        err = dx - dy
+        
+        while (x0, y0) != (x1, y1):
+            # Skip attacker's tile
+            if (x0, y0) != (attacker.x, attacker.y):
+                # Check for wall
+                if (x0, y0) in self.walls:
+                    return False
+                # Check for full cover tile
+                tile = self.get_tile(x0, y0)
+                if tile and tile.occupant and tile.occupant != target:
+                    # Entity blocking? Optional: treat as half cover instead
+                    pass
+            
+            e2 = 2 * err
+            if e2 > -dy:
+                err -= dy
+                x0 += sx
+            if e2 < dx:
+                err += dx
+                y0 += sy
+        
+        return True
+    
+    def get_cover_between(self, attacker, target):
+        """Returns cover level (0=None, 1=Half, 2=Full) that target has from attacker."""
+        # First check LOS
+        if not self.has_line_of_sight(attacker, target):
+            return COVER_FULL  # No LOS = Full Cover
+        
+        tile = self.get_tile(target.x, target.y)
+        if not tile:
+            return COVER_NONE
+        
+        # Determine attack direction
+        dx = target.x - attacker.x
+        dy = target.y - attacker.y
+        
+        # Get directional cover
+        if abs(dx) >= abs(dy):
+            if dx > 0:
+                cover = tile.cover_west
+            else:
+                cover = tile.cover_east
+        else:
+            if dy > 0:
+                cover = tile.cover_north
+            else:
+                cover = tile.cover_south
+        
+        # Cap at COVER_FULL (2) - no 3/4 cover
+        return min(cover, COVER_FULL)
+    
+    def has_high_ground(self, attacker, target):
+        """Returns True if attacker has high ground (elevation advantage)."""
+        atk_tile = self.get_tile(attacker.x, attacker.y)
+        tgt_tile = self.get_tile(target.x, target.y)
+        
+        if atk_tile and atk_tile.effect == "ranged_bonus":
+            if tgt_tile and tgt_tile.effect != "ranged_bonus":
+                return True
+        return False
+    
+    def count_adjacent_enemies(self, target):
+        """Returns count of enemies adjacent to target."""
+        count = 0
+        for c in self.combatants:
+            if c.team != target.team and c.is_alive():
+                if abs(c.x - target.x) <= 1 and abs(c.y - target.y) <= 1:
+                    if c != target:
+                        count += 1
+        return count
+        
+
+        return False
+        
+
     def create_wall(self, x, y):
         """Creates a wall at the specified coordinates."""
         if 0 <= x < self.cols and 0 <= y < self.rows:
@@ -676,6 +865,9 @@ class CombatEngine:
         Returns False if turn is skipped (Stunned/Paralyzed), True otherwise.
         """
         log = []
+        
+        # Reset attacks received for multi-attacker system
+        combatant.attacks_received_this_round = 0
         
         # 1. Tick Start-of-Turn Effects (DoTs)
         if hasattr(combatant, 'is_burning') and combatant.is_burning:
@@ -1074,10 +1266,45 @@ class CombatEngine:
         # Prone attacking is disadvantage
         if attacker.is_prone:
             atk_dis = True
+        
+        # === TACTICAL ADVANTAGE CHECKS (REVISED) ===
+        
+        # Track attacks received for multi-attacker disadvantage
+        target.attacks_received_this_round += 1
+        
+        # Defender Disadvantage: 2nd+ attack against them this round
+        defender_disadvantage = target.attacks_received_this_round >= 2
+        
+        # Behind Attack: Advantage if attacker is in target's rear arc
+        if self.is_behind(attacker, target):
+            atk_adv = True
+            log.append("(Rear Attack!)")
+        
+        # 3+ Enemies: Advantage if target is engaged by 3+ enemies
+        adj_enemies = self.count_adjacent_enemies(target)
+        if adj_enemies >= 3:
+            atk_adv = True
+            log.append("(Surrounded!)")
+        
+        # High Ground: +2 bonus for ranged attacks
+        high_ground_bonus = 0
+        if self.has_high_ground(attacker, target):
+            high_ground_bonus = 2
+            log.append("(High Ground +2)")
+        
+        # Cover: Only Half and Full
+        cover_level = self.get_cover_between(attacker, target)
+        if cover_level == COVER_FULL:
+            return [f"{target.name} has Full Cover! Cannot target."]
+        # Half Cover = Defender gets Advantage (handled via defender_advantage below)
+        defender_advantage = cover_level == COVER_HALF
+        
+        # Apply multi-attacker penalty to defender's defense roll
+        # (defender_disadvantage and defender_advantage are used in defense roll below)
             
         # Roll with advantage/disadvantage
         raw_d20 = attacker.roll_with_advantage(atk_adv, atk_dis)
-        hit_score = hit_mod + raw_d20
+        hit_score = hit_mod + raw_d20 + high_ground_bonus
         
         # Track if Natural 20 (crit) or Natural 1 (disaster)
         is_nat_20 = (raw_d20 == 20)
@@ -1088,7 +1315,6 @@ class CombatEngine:
             attacker.is_invisible = False
             log.append(f"{attacker.name} appears from invisibility!")
         
-
         # Defender uses AC (Base 10 + Dex/Armor Mod)
         # In D&D: AC = 10 + Mod. 
         # Here: Armor might provide base AC? 
@@ -1103,10 +1329,14 @@ class CombatEngine:
              if armor and armor.family:
                   def_skill_rank = target.get_skill_rank(armor.family)
         
-        # User requested "Active Defense".
-        # So Defender Rolls: d20 + Mod + Skill
+        # User requested "Active Defense" with advantage/disadvantage.
+        # Defender also gets status-based advantage/disadvantage
+        def_adv = defender_advantage or target.has_defense_advantage()
+        def_dis = defender_disadvantage or target.has_defense_disadvantage()
+        
         def_total_mod = def_mod + def_skill_rank
-        def_roll = def_total_mod + random.randint(1, 20)
+        def_raw_d20 = target.roll_with_advantage(def_adv, def_dis)
+        def_roll = def_total_mod + def_raw_d20
         
         # LOGIC: Check Hit
         # CLASH CHECK (Equal rolls or within 1)

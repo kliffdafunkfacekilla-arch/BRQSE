@@ -25,6 +25,7 @@ interface Combatant {
     y: number;
     team: string;
     facing: 'up' | 'down' | 'left' | 'right';
+    sprite?: string;  // Optional sprite name for token image
 }
 
 interface VisualEffect {
@@ -52,13 +53,32 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
     const [combatants, setCombatants] = useState<Combatant[]>([]);
     const [visuals, setVisuals] = useState<VisualEffect[]>([]);
     const [persistentVisuals, setPersistentVisuals] = useState<VisualEffect[]>([]);
-    const [popups, setPopups] = useState<FloatingText[]>([]); // <--- NEW STATE FOR DAMAGE NUMBERS
+    const [popups, setPopups] = useState<FloatingText[]>([]);
     const [log, setLog] = useState<ReplayEvent[]>([]);
     const [step, setStep] = useState(0);
     const [playing, setPlaying] = useState(false);
     const [consoleMsg, setConsoleMsg] = useState<string[]>(["SYSTEM IDLE"]);
 
-    const GRID_SIZE = 10;
+    // Attack line for visual clarity
+    const [attackLine, setAttackLine] = useState<{ from: { x: number, y: number }, to: { x: number, y: number }, color: string } | null>(null);
+
+    const GRID_SIZE = 12;  // Increased for staged battles
+
+    // Map tile data from replay
+    const [mapTiles, setMapTiles] = useState<string[][]>([]);
+
+    // Terrain colors for visual rendering
+    const TERRAIN_COLORS: Record<string, string> = {
+        'floor_stone': '',  // transparent - use background
+        'fire': 'bg-orange-600/60',
+        'water': 'bg-blue-500/50',
+        'water_shallow': 'bg-blue-500/50',
+        'ice': 'bg-cyan-300/50',
+        'mud': 'bg-amber-800/50',
+        'rubble': 'bg-stone-600/50',
+        'difficult': 'bg-stone-600/50',
+        'wall_stone': 'bg-stone-900',
+    };
 
     // LOAD DATA WRAPPER
     const fetchData = () => {
@@ -67,30 +87,32 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
         setStep(0);
         setVisuals([]);
         setPersistentVisuals([]);
-        setPopups([]); // Reset popups
+        setPopups([]);
         fetch('/data/last_battle_replay.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
-                const c1 = {
-                    ...data.combatants[0],
-                    hp: data.combatants[0].max_hp,
-                    x: data.combatants[0].x ?? 2,
-                    y: data.combatants[0].y ?? 5,
-                    facing: 'right'
-                };
-                const c2 = {
-                    ...data.combatants[1],
-                    hp: data.combatants[1].max_hp,
-                    x: data.combatants[1].x ?? 7,
-                    y: data.combatants[1].y ?? 5,
-                    facing: 'left'
-                };
-                setCombatants([c1, c2]);
+                // Load ALL combatants
+                const loadedCombatants = data.combatants.map((c: any) => ({
+                    ...c,
+                    hp: c.max_hp,
+                    x: c.x ?? 5,
+                    y: c.y ?? 5,
+                    facing: c.team === 'blue' ? 'right' : 'left',
+                    sprite: c.sprite || null  // Use sprite from replay data
+                }));
+                setCombatants(loadedCombatants);
                 setLog(data.log);
-                setConsoleMsg(["DATA LOADED. READY."]);
+
+                // Load map tiles if present
+                if (data.map && Array.isArray(data.map)) {
+                    setMapTiles(data.map);
+                }
+
+                setConsoleMsg([`DATA LOADED: ${loadedCombatants.length} combatants, ${data.map?.length || 0}x${data.map?.[0]?.length || 0} map. READY.`]);
             })
             .catch(() => setConsoleMsg(["ERR: NO DATA STREAM"]));
     };
+
 
     // Initial Load
     useEffect(() => {
@@ -114,11 +136,23 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
     const processEvent = (event: ReplayEvent) => {
         if (!event) return;
 
-        // Logging Logic
-        let msg = `> ${event.actor}: ${event.type.toUpperCase()}`;
-        if (event.ability) msg += ` [${event.ability}]`;
-        if (event.damage && event.damage > 0) msg += ` -${event.damage} HP`;
-        if (event.description) msg += ` (${event.description})`;
+        // Improved Logging - show attacker → target clearly
+        let msg = '';
+        const actor = combatants.find(c => c.name === event.actor);
+        const actorTeam = actor?.team === 'blue' ? '🔵' : '🔴';
+
+        if (event.type === 'attack' || event.type === 'ability' || event.type === 'cast') {
+            const targetTeam = combatants.find(c => c.name === event.target)?.team === 'blue' ? '🔵' : '🔴';
+            msg = `${actorTeam} ${event.actor} → ${targetTeam} ${event.target || '?'}`;
+            if (event.ability) msg += ` [${event.ability}]`;
+            if (event.damage && event.damage > 0) msg += ` 💥${event.damage}`;
+            if (event.result === 'MISS') msg += ' ❌MISS';
+            if (event.result === 'CRITICAL') msg += ' ⚡CRIT!';
+        } else if (event.type === 'move') {
+            msg = `${actorTeam} ${event.actor} moves`;
+        } else {
+            msg = `${actorTeam} ${event.actor}: ${event.type.toUpperCase()}`;
+        }
 
         setConsoleMsg(prev => [msg, ...prev].slice(0, 30));
 
@@ -150,9 +184,23 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
             triggerEffect(event.x, event.y, "death", true);
         }
 
-        // COMBAT EVENTS
+        // COMBAT EVENTS - Show attack line
         if ((event.type === "attack" || event.type === "ability" || event.type === "cast") && event.target) {
+            const attacker = combatants.find(c => c.name === event.actor);
             const target = combatants.find(c => c.name === event.target);
+
+            // Draw attack line
+            if (attacker && target) {
+                const lineColor = attacker.team === 'blue' ? '#00f2ff' : '#ff4444';
+                setAttackLine({
+                    from: { x: attacker.x, y: attacker.y },
+                    to: { x: target.x, y: target.y },
+                    color: lineColor
+                });
+                // Clear attack line after short delay
+                setTimeout(() => setAttackLine(null), 600);
+            }
+
             if (target) {
                 // 1. Visual Effect
                 let style = event.style || 'hit';
@@ -263,6 +311,46 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                 >
                     <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
+                    {/* TERRAIN TILES */}
+                    {mapTiles.map((row, y) =>
+                        row.map((tile, x) => {
+                            const colorClass = TERRAIN_COLORS[tile] || '';
+                            if (!colorClass) return null; // Skip floor_stone (use background)
+                            return (
+                                <div
+                                    key={`${x}-${y}`}
+                                    className={`absolute ${colorClass} pointer-events-none`}
+                                    style={{
+                                        width: `${100 / GRID_SIZE}%`,
+                                        height: `${100 / GRID_SIZE}%`,
+                                        left: `${x * (100 / GRID_SIZE)}%`,
+                                        top: `${y * (100 / GRID_SIZE)}%`,
+                                    }}
+                                >
+                                    {tile === 'fire' && (
+                                        <div className="w-full h-full animate-pulse opacity-80" />
+                                    )}
+                                </div>
+                            );
+                        })
+                    )}
+
+                    {/* ATTACK LINE */}
+                    {attackLine && (
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                            <line
+                                x1={`${(attackLine.from.x + 0.5) * (100 / GRID_SIZE)}%`}
+                                y1={`${(attackLine.from.y + 0.5) * (100 / GRID_SIZE)}%`}
+                                x2={`${(attackLine.to.x + 0.5) * (100 / GRID_SIZE)}%`}
+                                y2={`${(attackLine.to.y + 0.5) * (100 / GRID_SIZE)}%`}
+                                stroke={attackLine.color}
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                opacity="0.8"
+                            />
+                        </svg>
+                    )}
+
                     {/* TOKENS */}
                     {combatants.map((c, i) => (
                         <div
@@ -271,7 +359,12 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                             style={{ width: `${100 / GRID_SIZE}%`, height: `${100 / GRID_SIZE}%`, left: `${c.x * (100 / GRID_SIZE)}%`, top: `${c.y * (100 / GRID_SIZE)}%` }}
                         >
                             <div className="w-full h-full relative hover:scale-110 transition-transform cursor-pointer group">
-                                <Token name={c.name} facing={c.facing} team={c.team} dead={c.hp <= 0} />
+                                <Token name={c.name} facing={c.facing} team={c.team} dead={c.hp <= 0} sprite={c.sprite} />
+                                {/* Name label */}
+                                <div className={`absolute -bottom-4 left-1/2 -translate-x-1/2 text-[8px] font-bold px-1 rounded whitespace-nowrap
+                                    ${c.team === 'blue' ? 'text-cyan-300 bg-cyan-900/80' : 'text-red-300 bg-red-900/80'}`}>
+                                    {c.name}
+                                </div>
                             </div>
                             <div className="w-full max-w-[40px] h-1 bg-stone-900 mt-1 rounded-full overflow-hidden border border-white/10 relative -top-1">
                                 <div className={`h-full ${c.team === 'blue' ? 'bg-[#00f2ff]' : 'bg-red-500'}`} style={{ width: `${(c.hp / c.max_hp) * 100}%` }} />

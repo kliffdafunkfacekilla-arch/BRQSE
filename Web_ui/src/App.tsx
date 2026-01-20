@@ -10,6 +10,9 @@ import InventoryPanel from './components/InventoryPanel';
 import ActionBar from './components/ActionBar';
 import CharacterSheet from './components/CharacterSheet';
 import Journal from './components/Journal';
+import BattleBuilder from './components/BattleBuilder';
+import CharacterBuilder from './components/CharacterBuilder';
+import { Hammer, UserPlus } from 'lucide-react';
 
 // --- CONFIG ---
 const API_BASE = 'http://localhost:5001/api';
@@ -43,7 +46,7 @@ interface LogEntry {
 
 function App() {
   // 1. NAVIGATION STATE
-  const [currentView, setCurrentView] = useState<'arena' | 'character' | 'inventory' | 'journal'>('arena');
+  const [currentView, setCurrentView] = useState<'arena' | 'character' | 'inventory' | 'journal' | 'builder' | 'create'>('arena');
   const [apiOnline, setApiOnline] = useState(false);
 
   // 2. CHARACTER STATE
@@ -197,7 +200,7 @@ function App() {
   };
 
   // --- NAVIGATION COMPONENT ---
-  const NavButton = ({ view, icon: Icon, label }: { view: 'arena' | 'character' | 'inventory' | 'journal'; icon: any; label: string }) => (
+  const NavButton = ({ view, icon: Icon, label }: { view: 'arena' | 'character' | 'inventory' | 'journal' | 'builder' | 'create'; icon: any; label: string }) => (
     <button
       onClick={() => setCurrentView(view)}
       className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all
@@ -239,6 +242,8 @@ function App() {
           {/* MAIN MENU TABS */}
           <div className="flex gap-1 bg-black border border-stone-800 rounded p-1">
             <NavButton view="arena" icon={Swords} label="Arena" />
+            <NavButton view="builder" icon={Hammer} label="Builder" />
+            <NavButton view="create" icon={UserPlus} label="Create" />
             <NavButton view="character" icon={User} label="Character" />
             <NavButton view="inventory" icon={Backpack} label="Gear" />
             <NavButton view="journal" icon={BookOpen} label="Log" />
@@ -319,6 +324,19 @@ function App() {
             )}
 
             {currentView === 'journal' && <Journal />}
+
+            {currentView === 'builder' && (
+              <BattleBuilder onBattleStart={() => {
+                addLog('BUILDER', 'Staged battle complete!', 'combat');
+                setCurrentView('arena');
+              }} />
+            )}
+
+            {currentView === 'create' && (
+              <CharacterBuilder onSave={(char) => {
+                addLog('CREATE', `Created ${char.Name}`, 'info');
+              }} />
+            )}
           </div>
 
           {/* BOTTOM LOG */}

@@ -1,86 +1,726 @@
 {
   "combatants": [
     {
+      "name": "Frost",
+      "max_hp": 43,
+      "hp": 0,
+      "team": "blue",
+      "x": 5,
+      "y": 5,
+      "sprite": "badger"
+    },
+    {
+      "name": "Blaze",
+      "max_hp": 43,
+      "hp": 0,
+      "team": "blue",
+      "x": 6,
+      "y": 6,
+      "sprite": "beaver"
+    },
+    {
+      "name": "Shadow",
+      "max_hp": 42,
+      "hp": 0,
+      "team": "red",
+      "x": 10,
+      "y": 5,
+      "sprite": "wolf"
+    },
+    {
       "name": "Thunder",
       "max_hp": 40,
-      "hp": 19,
+      "hp": 40,
       "team": "red",
-      "x": 7,
-      "y": 5
+      "x": 10,
+      "y": 3,
+      "sprite": "fox"
+    },
+    {
+      "name": "steve",
+      "max_hp": 42,
+      "hp": 42,
+      "team": "blue",
+      "x": 3,
+      "y": 5,
+      "sprite": "bear"
+    },
+    {
+      "name": "Valor",
+      "max_hp": 44,
+      "hp": 44,
+      "team": "blue",
+      "x": 2,
+      "y": 4,
+      "sprite": "tiger"
+    },
+    {
+      "name": "bob",
+      "max_hp": 51,
+      "hp": 51,
+      "team": "red",
+      "x": 10,
+      "y": 11,
+      "sprite": "mouse"
     },
     {
       "name": "Hero",
       "max_hp": 40,
+      "hp": 40,
+      "team": "red",
+      "x": 10,
+      "y": 7,
+      "sprite": "squirrel"
+    },
+    {
+      "name": "flower",
+      "max_hp": 47,
+      "hp": 47,
+      "team": "red",
+      "x": 10,
+      "y": 9,
+      "sprite": "rabbit_blue"
+    },
+    {
+      "name": "Iron",
+      "max_hp": 41,
+      "hp": 1,
+      "team": "blue",
+      "x": 4,
+      "y": 5,
+      "sprite": "racoon"
+    },
+    {
+      "name": "buggy",
+      "max_hp": 51,
       "hp": 0,
       "team": "blue",
-      "x": 2,
-      "y": 5
+      "x": 6,
+      "y": 6,
+      "sprite": "elephant"
     }
   ],
   "log": [
     {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        1,
+        9
+      ],
+      "to": [
+        2,
+        8
+      ],
+      "timestamp": 1768945662.136147
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        2,
+        8
+      ],
+      "to": [
+        3,
+        7
+      ],
+      "timestamp": 1768945662.136156
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        3,
+        7
+      ],
+      "to": [
+        4,
+        6
+      ],
+      "timestamp": 1768945662.1361616
+    },
+    {
+      "type": "move",
+      "actor": "Frost",
+      "from": [
+        4,
+        6
+      ],
+      "to": [
+        5,
+        5
+      ],
+      "timestamp": 1768945662.1361651
+    },
+    {
+      "type": "move",
+      "actor": "Blaze",
+      "from": [
+        1,
+        11
+      ],
+      "to": [
+        2,
+        10
+      ],
+      "timestamp": 1768945662.1362944
+    },
+    {
+      "type": "move",
+      "actor": "Blaze",
+      "from": [
+        2,
+        10
+      ],
+      "to": [
+        3,
+        9
+      ],
+      "timestamp": 1768945662.136299
+    },
+    {
+      "type": "move",
+      "actor": "Blaze",
+      "from": [
+        3,
+        9
+      ],
+      "to": [
+        4,
+        8
+      ],
+      "timestamp": 1768945662.1363027
+    },
+    {
+      "type": "move",
+      "actor": "Blaze",
+      "from": [
+        4,
+        8
+      ],
+      "to": [
+        5,
+        7
+      ],
+      "timestamp": 1768945662.1363058
+    },
+    {
+      "type": "move",
+      "actor": "Blaze",
+      "from": [
+        5,
+        7
+      ],
+      "to": [
+        6,
+        6
+      ],
+      "timestamp": 1768945662.136325
+    },
+    {
+      "type": "ability",
+      "actor": "Shadow",
+      "ability": "Shock",
+      "target": "Blaze",
+      "description": "Used Shock",
+      "execution_log": [
+        "Shadow uses Shock on Blaze!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "9 Lightning damage to Blaze!",
+        "Emits Light",
+        "Dealt 14 Lightning Damage (Tier 3)",
+        "Blaze Aged Rapidly (-Might)."
+      ],
+      "damage": 23,
+      "target_hp": 20,
+      "style": "lightning"
+    },
+    {
       "type": "ability",
       "actor": "Thunder",
       "ability": "Shock",
-      "target": "Hero",
+      "target": "Blaze",
       "description": "Used Shock",
       "execution_log": [
-        "Thunder uses Shock on Hero!",
+        "Thunder uses Shock on Blaze!",
         "Consumed 3 SP",
         "Effect: Light",
-        "10 Lightning damage to Hero!",
+        "5 Lightning damage to Blaze!",
         "Emits Light",
-        "Dealt 13 Lightning Damage (Tier 3)",
-        "Hero Aged Rapidly (-Might)."
+        "Dealt 12 Lightning Damage (Tier 3)",
+        "Blaze Aged Rapidly (-Might)."
       ],
-      "damage": 23,
-      "target_hp": 17,
+      "damage": 17,
+      "target_hp": 3,
+      "style": "lightning"
+    },
+    {
+      "type": "move",
+      "actor": "steve",
+      "from": [
+        1,
+        5
+      ],
+      "to": [
+        2,
+        5
+      ],
+      "timestamp": 1768945662.1449366
+    },
+    {
+      "type": "move",
+      "actor": "Valor",
+      "from": [
+        1,
+        3
+      ],
+      "to": [
+        2,
+        4
+      ],
+      "timestamp": 1768945662.1450844
+    },
+    {
+      "type": "ability",
+      "actor": "bob",
+      "ability": "Bolt",
+      "target": "Blaze",
+      "description": "Used Bolt",
+      "execution_log": [
+        "bob uses Bolt on Blaze!",
+        "Consumed 2 FP",
+        "Dealt 7 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Blaze is DESTROYED by Bolt!"
+      ],
+      "damage": 3,
+      "target_hp": 0,
+      "style": "lightning"
+    },
+    {
+      "type": "death",
+      "actor": "Blaze",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "type": "ability",
+      "actor": "Hero",
+      "ability": "Bolt",
+      "target": "Frost",
+      "description": "Used Bolt",
+      "execution_log": [
+        "Hero uses Bolt on Frost!",
+        "Consumed 2 FP",
+        "Dealt 4 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
+      ],
+      "damage": 9,
+      "target_hp": 34,
+      "style": "lightning"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Frost",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "move",
+      "actor": "Iron",
+      "from": [
+        1,
+        7
+      ],
+      "to": [
+        2,
+        6
+      ],
+      "timestamp": 1768945662.1461842
+    },
+    {
+      "type": "move",
+      "actor": "Iron",
+      "from": [
+        2,
+        6
+      ],
+      "to": [
+        3,
+        5
+      ],
+      "timestamp": 1768945662.1461885
+    },
+    {
+      "type": "move",
+      "actor": "Iron",
+      "from": [
+        3,
+        5
+      ],
+      "to": [
+        4,
+        5
+      ],
+      "timestamp": 1768945662.1461918
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        1,
+        11
+      ],
+      "to": [
+        2,
+        10
+      ],
+      "timestamp": 1768945662.1463265
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        2,
+        10
+      ],
+      "to": [
+        3,
+        9
+      ],
+      "timestamp": 1768945662.1463306
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        3,
+        9
+      ],
+      "to": [
+        4,
+        8
+      ],
+      "timestamp": 1768945662.1463342
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        4,
+        8
+      ],
+      "to": [
+        5,
+        7
+      ],
+      "timestamp": 1768945662.1463373
+    },
+    {
+      "type": "move",
+      "actor": "buggy",
+      "from": [
+        5,
+        7
+      ],
+      "to": [
+        6,
+        6
+      ],
+      "timestamp": 1768945662.1463406
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Shadow",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Shadow!",
+        "Consumed 1 SP",
+        "3 Fire damage to Shadow!",
+        "Dealt 3 Fire Damage (Tier 1)",
+        "Shadow Aged Rapidly (-Might)."
+      ],
+      "damage": 6,
+      "target_hp": 36,
+      "style": "magic"
+    },
+    {
+      "type": "ability",
+      "actor": "Shadow",
+      "ability": "Shock",
+      "target": "buggy",
+      "description": "Used Shock",
+      "execution_log": [
+        "Shadow uses Shock on buggy!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "4 Lightning damage to buggy!",
+        "Emits Light",
+        "Dealt 12 Lightning Damage (Tier 3)",
+        "buggy Aged Rapidly (-Might)."
+      ],
+      "damage": 16,
+      "target_hp": 35,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "Thunder",
+      "ability": "Shock",
+      "target": "buggy",
+      "description": "Used Shock",
+      "execution_log": [
+        "Thunder uses Shock on buggy!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "7 Lightning damage to buggy!",
+        "Emits Light",
+        "Dealt 8 Lightning Damage (Tier 3)",
+        "buggy Aged Rapidly (-Might)."
+      ],
+      "damage": 15,
+      "target_hp": 20,
+      "style": "lightning"
+    },
+    {
+      "type": "move",
+      "actor": "steve",
+      "from": [
+        2,
+        5
+      ],
+      "to": [
+        3,
+        5
+      ],
+      "timestamp": 1768945662.158312
+    },
+    {
+      "type": "ability",
+      "actor": "bob",
+      "ability": "Bolt",
+      "target": "buggy",
+      "description": "Used Bolt",
+      "execution_log": [
+        "bob uses Bolt on buggy!",
+        "Consumed 2 FP",
+        "Dealt 6 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 8 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
+      ],
+      "damage": 14,
+      "target_hp": 6,
       "style": "lightning"
     },
     {
       "type": "ability",
       "actor": "Hero",
       "ability": "Bolt",
-      "target": "Thunder",
+      "target": "buggy",
       "description": "Used Bolt",
       "execution_log": [
-        "Hero uses Bolt on Thunder!",
+        "Hero uses Bolt on buggy!",
         "Consumed 2 FP",
-        "Dealt 10 Force Damage (Tier 2)",
+        "Dealt 6 Force Damage (Tier 2)",
         "Magic Missile (Auto-Hit Force).",
         "Effect: Auto-Hit!",
-        "Dealt 11 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "buggy is DESTROYED by Bolt!"
       ],
-      "damage": 21,
-      "target_hp": 19,
+      "damage": 6,
+      "target_hp": 0,
+      "style": "lightning"
+    },
+    {
+      "type": "death",
+      "actor": "buggy",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "type": "ability",
+      "actor": "Iron",
+      "ability": "Shock",
+      "target": "Shadow",
+      "description": "Used Shock",
+      "execution_log": [
+        "Iron uses Shock on Shadow!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "7 Lightning damage to Shadow!",
+        "Emits Light",
+        "Dealt 7 Lightning Damage (Tier 3)",
+        "Shadow Aged Rapidly (-Might)."
+      ],
+      "damage": 14,
+      "target_hp": 22,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Shadow",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Shadow!",
+        "Consumed 1 SP",
+        "4 Fire damage to Shadow!",
+        "Dealt 6 Fire Damage (Tier 1)",
+        "Shadow Aged Rapidly (-Might)."
+      ],
+      "damage": 10,
+      "target_hp": 12,
+      "style": "magic"
+    },
+    {
+      "type": "ability",
+      "actor": "Shadow",
+      "ability": "Shock",
+      "target": "Frost",
+      "description": "Used Shock",
+      "execution_log": [
+        "Shadow uses Shock on Frost!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "2 Lightning damage to Frost!",
+        "Emits Light",
+        "Dealt 11 Lightning Damage (Tier 3)",
+        "Frost Aged Rapidly (-Might)."
+      ],
+      "damage": 13,
+      "target_hp": 21,
       "style": "lightning"
     },
     {
       "type": "ability",
       "actor": "Thunder",
       "ability": "Shock",
-      "target": "Hero",
+      "target": "Frost",
       "description": "Used Shock",
       "execution_log": [
-        "Thunder uses Shock on Hero!",
+        "Thunder uses Shock on Frost!",
         "Consumed 3 SP",
         "Effect: Light",
-        "7 Lightning damage to Hero!",
+        "10 Lightning damage to Frost!",
         "Emits Light",
-        "Dealt 12 Lightning Damage (Tier 3)",
-        "Hero Aged Rapidly (-Might).",
-        "Hero is DESTROYED by Shock!"
+        "Dealt 15 Lightning Damage (Tier 3)",
+        "Frost Aged Rapidly (-Might).",
+        "Frost is DESTROYED by Shock!"
       ],
-      "damage": 17,
+      "damage": 21,
       "target_hp": 0,
       "style": "lightning"
     },
     {
       "type": "death",
-      "actor": "Hero",
-      "x": 2,
+      "actor": "Frost",
+      "x": 5,
       "y": 5
+    },
+    {
+      "type": "ability",
+      "actor": "bob",
+      "ability": "Bolt",
+      "target": "Iron",
+      "description": "Used Bolt",
+      "execution_log": [
+        "bob uses Bolt on Iron!",
+        "Consumed 2 FP",
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
+      ],
+      "damage": 10,
+      "target_hp": 31,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "Hero",
+      "ability": "Bolt",
+      "target": "Iron",
+      "description": "Used Bolt",
+      "execution_log": [
+        "Hero uses Bolt on Iron!",
+        "Consumed 2 FP",
+        "Dealt 6 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 7 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
+      ],
+      "damage": 13,
+      "target_hp": 18,
+      "style": "lightning"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Iron",
+      "result": "miss",
+      "damage": 0
+    },
+    {
+      "type": "ability",
+      "actor": "Iron",
+      "ability": "Shock",
+      "target": "Shadow",
+      "description": "Used Shock",
+      "execution_log": [
+        "Iron uses Shock on Shadow!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "4 Lightning damage to Shadow!",
+        "Emits Light",
+        "Dealt 9 Lightning Damage (Tier 3)",
+        "Shadow Aged Rapidly (-Might).",
+        "Shadow is DESTROYED by Shock!"
+      ],
+      "damage": 12,
+      "target_hp": 0,
+      "style": "lightning"
+    },
+    {
+      "type": "death",
+      "actor": "Shadow",
+      "x": 10,
+      "y": 5
+    },
+    {
+      "type": "ability",
+      "actor": "Thunder",
+      "ability": "Shock",
+      "target": "Iron",
+      "description": "Used Shock",
+      "execution_log": [
+        "Thunder uses Shock on Iron!",
+        "Consumed 3 SP",
+        "Effect: Light",
+        "5 Lightning damage to Iron!",
+        "Emits Light",
+        "Dealt 12 Lightning Damage (Tier 3)",
+        "Iron Aged Rapidly (-Might)."
+      ],
+      "damage": 17,
+      "target_hp": 1,
+      "style": "lightning"
     }
   ],
   "map": [
@@ -89,41 +729,7 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
+      "fire",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -136,7 +742,107 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
+      "fire",
       "floor_stone",
+      "floor_stone",
+      "fire",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "water",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "rubble",
+      "water",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "water",
+      "water",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "water",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "water",
+      "rubble",
+      "rubble",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -149,7 +855,23 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
+      "rubble",
+      "water",
       "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone"
+    ],
+    [
+      "floor_stone",
+      "floor_stone",
+      "rubble",
+      "floor_stone",
+      "floor_stone",
+      "floor_stone",
+      "fire",
       "floor_stone",
       "floor_stone",
       "floor_stone",
@@ -161,48 +883,15 @@
       "floor_stone",
       "floor_stone",
       "floor_stone",
+      "fire",
       "floor_stone",
       "floor_stone",
       "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "wall_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
-    ],
-    [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
+      "fire",
       "floor_stone",
       "floor_stone",
       "floor_stone"
     ]
-  ]
+  ],
+  "winner": "Blue Team"
 }
