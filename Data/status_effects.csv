@@ -1,22 +1,12 @@
-STATUS,TIER,ROLL_EFFECT,ATTACK_MOD,DEFENSE_MOD,SPEED_MOD,DESCRIPTION,CURE
-STAGGERED,Action,Disadvantage,All,All,None,Disadvantage on ALL action rolls.,End of next Turn.
-SHAKEN,Action,Disadvantage,None,All,None,Disadvantage on DEFENSE rolls only.,Rally Action or Inspire.
-WEAKENED,Action,Disadvantage,All,None,None,Disadvantage on ATTACK rolls only.,Rest or Restoration.
-BLESSED,Action,Advantage,All,All,None,Advantage on ALL action rolls.,Duration expires.
-HASTE,Action,Advantage,All,All,Double,Advantage + Double Speed + Extra Action.,Duration expires.
-SLOWED,Movement,None,None,None,Half,Movement speed halved.,End of next Turn.
-GRAPPLED,Movement,Disadvantage,None,Reflex,Zero,Speed = 0. Disadvantage on Reflex saves.,Escape Action vs Opponent.
-RESTRAINED,Movement,Disadvantage,None,Dex,Zero,Speed = 0. Attacks vs you have Advantage.,Strength Save or Cut bonds.
-PRONE,Movement,Mixed,None,Melee-Adv/Ranged-Dis,Half,Melee vs you: Advantage. Ranged vs you: Disadvantage.,Spend Half Movement to stand.
-STUNNED,Incapacitating,Auto-Fail,Cannot,Cannot,Zero,Cannot act. All attacks vs you have Advantage.,End of Duration (1 round).
-PARALYZED,Incapacitating,Auto-Fail,Cannot,Cannot,Zero,Cannot move or act. Melee = Auto-Crit.,Duration expires.
-PETRIFIED,Incapacitating,Immune,Cannot,Cannot,Zero,Turned to stone. Immune to most damage.,Stone to Flesh spell.
-BLEED,DoT,None,None,None,None,2 Condition damage per turn.,Medicine Check or Healing.
-BURNING,DoT,None,None,None,None,1d6 Fire damage per turn.,Stop Drop Roll (Dex Check).
-POISONED,DoT,Disadvantage,All,None,None,Disadvantage on attacks + 1d4 damage/turn.,Constitution Save or Antidote.
-CHARMED,Mental,Special,Cannot-vs-Charmer,None,None,Cannot attack charmer. Regard as friend.,Taking Damage from charmer.
-FRIGHTENED,Mental,Disadvantage,All,None,None,Disadvantage on attacks. Cannot approach source.,Willpower Save.
-CONFUSED,Mental,Random,Random,Random,Random,Random action each turn (d10 table).,Willpower Save.
-TAUNTED,Mental,Disadvantage,Non-Taunter,None,None,Must attack taunter. Others at Disadvantage.,Logic Save or hitting taunter.
-BLINDED,Visibility,Disadvantage,All,All,None,Disadvantage on attacks. Attacks vs you: Advantage.,Cure Ailment or Duration.
-INVISIBLE,Visibility,Advantage,All,All,None,Your attacks: Advantage. Attacks vs you: Disadvantage.,Attacking or Casting breaks it.
+Status Name,Tier,Trigger,Mechanic
+STAGGERED,Disrupt,Lost a Clash / Big Hit,Disadvantage on your very next Action or Reaction. Clears immediately after use.
+SHAKEN,Disrupt,Fear / Intimidation,Disadvantage on all Social and Mental rolls. You cannot move closer to the source of your fear.
+SICKENED,Disrupt,Poison / Musk / Gut Shot,"Disadvantage on all Physical rolls (Attacks, Athletics, Fortitude). You are retching or dizzy."
+PRONE,Disrupt,Trip / Fall / Gore,You are on the ground. Disadvantage on Attacks. Melee Attacks against you have Advantage. Costs half movement to stand.
+BLINDED,Stop,Sand / Flash / Darkness,"Disadvantage on everything. Attacks against you have Advantage. You cannot target spells that require Sight."
+STUNNED,Stop,Concussion / Shock / Thunder,"Turn Skipped. You cannot Move, Act, or React. You automatically fail Clashes (Defender wins if they hit you)."
+RESTRAINED,Stop,Web / Grapple / Roots,Speed 0. You cannot Move. Disadvantage on all Attacks. Attacks against you have Advantage.
+CHARMED,Stop,Pheromones / Magic / Seduction,"You cannot Attack the charmer. You interpret their requests as Friendly advice. (If they hurt you, it breaks)."
+BLEED,Kill,Claws / Rapiers,Take 1d4 Damage at the start of your turn. Stops if healed or bandaged (Action).
+BURN,Kill,Fire / Acid,Take 1d6 Damage at the start of your turn. Stops if doused (Action).
+DOOMED,Kill,High Level Magic,"You cannot Heal. If you drop to 0 HP, you die instantly (no Death Saves)."

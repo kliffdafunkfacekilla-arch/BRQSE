@@ -1,164 +1,27 @@
 {
   "blue_team": [
-    "Valor",
-    "steve",
-    "Iron",
-    "Frost",
     "buggy",
-    "Blaze"
+    "Frost"
   ],
   "red_team": [
-    "Thunder",
-    "Shadow",
-    "Hero",
     "flower",
-    "bob"
+    "Hero"
   ],
   "terrain": [
     {
-      "x": 4,
-      "y": 3,
-      "type": "difficult"
-    },
-    {
-      "x": 4,
+      "x": 6,
       "y": 4,
       "type": "difficult"
     },
     {
       "x": 6,
-      "y": 5,
-      "type": "difficult"
-    },
-    {
-      "x": 7,
-      "y": 7,
-      "type": "difficult"
-    },
-    {
-      "x": 5,
-      "y": 8,
-      "type": "difficult"
-    },
-    {
-      "x": 4,
-      "y": 9,
-      "type": "difficult"
-    },
-    {
-      "x": 2,
-      "y": 7,
-      "type": "difficult"
-    },
-    {
-      "x": 2,
-      "y": 10,
-      "type": "difficult"
-    },
-    {
-      "x": 2,
-      "y": 2,
-      "type": "difficult"
-    },
-    {
-      "x": 7,
-      "y": 2,
-      "type": "mud"
-    },
-    {
-      "x": 7,
-      "y": 4,
-      "type": "mud"
-    },
-    {
-      "x": 7,
       "y": 6,
-      "type": "mud"
-    },
-    {
-      "x": 4,
-      "y": 6,
-      "type": "mud"
-    },
-    {
-      "x": 4,
-      "y": 8,
-      "type": "mud"
-    },
-    {
-      "x": 2,
-      "y": 4,
-      "type": "mud"
-    },
-    {
-      "x": 2,
-      "y": 5,
-      "type": "mud"
-    },
-    {
-      "x": 3,
-      "y": 5,
-      "type": "water_shallow"
-    },
-    {
-      "x": 4,
-      "y": 5,
-      "type": "water_shallow"
-    },
-    {
-      "x": 5,
-      "y": 3,
-      "type": "water_shallow"
-    },
-    {
-      "x": 5,
-      "y": 4,
-      "type": "water_shallow"
-    },
-    {
-      "x": 5,
-      "y": 7,
-      "type": "water_shallow"
-    },
-    {
-      "x": 3,
-      "y": 8,
-      "type": "water_shallow"
-    },
-    {
-      "x": 5,
-      "y": 9,
-      "type": "water_shallow"
-    },
-    {
-      "x": 3,
-      "y": 1,
-      "type": "fire"
-    },
-    {
-      "x": 4,
-      "y": 0,
-      "type": "fire"
+      "type": "difficult"
     },
     {
       "x": 6,
-      "y": 1,
-      "type": "fire"
-    },
-    {
-      "x": 6,
-      "y": 10,
-      "type": "fire"
-    },
-    {
-      "x": 8,
-      "y": 11,
-      "type": "fire"
-    },
-    {
-      "x": 4,
-      "y": 11,
-      "type": "fire"
+      "y": 8,
+      "type": "difficult"
     }
   ]
 }

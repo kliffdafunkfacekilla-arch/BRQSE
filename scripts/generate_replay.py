@@ -88,18 +88,22 @@ def generate_staged_replay(config):
     # Setup basic map tiles
     map_tiles = [["floor_stone" for _ in range(12)] for _ in range(12)]
     
-    # Mark terrain on map
+    # Mark terrain on map AND engine (for gameplay effects)
     for tile in terrain_config:
         x, y, t_type = tile.get("x", 0), tile.get("y", 0), tile.get("type", "normal")
         if 0 <= x < 12 and 0 <= y < 12:
+            # Update visual map
             if t_type == "fire":
                 map_tiles[y][x] = "fire"
             elif t_type == "water_shallow":
-                map_tiles[y][x] = "water"
+                map_tiles[y][x] = "water_shallow"
             elif t_type == "ice":
                 map_tiles[y][x] = "ice"
             elif t_type in ["difficult", "mud"]:
-                map_tiles[y][x] = "rubble"
+                map_tiles[y][x] = t_type
+            
+            # CRITICAL: Also update engine tiles for gameplay effects
+            engine.tiles[y][x].terrain = t_type
     
     # Start Combat
     print("Starting Combat Loop...")

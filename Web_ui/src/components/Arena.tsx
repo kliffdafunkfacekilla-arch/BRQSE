@@ -146,8 +146,8 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
             msg = `${actorTeam} ${event.actor} → ${targetTeam} ${event.target || '?'}`;
             if (event.ability) msg += ` [${event.ability}]`;
             if (event.damage && event.damage > 0) msg += ` 💥${event.damage}`;
-            if (event.result === 'MISS') msg += ' ❌MISS';
-            if (event.result === 'CRITICAL') msg += ' ⚡CRIT!';
+            if (event.result?.toLowerCase() === 'miss') msg += ' ❌MISS';
+            if (event.result?.toLowerCase() === 'critical') msg += ' ⚡CRIT!';
         } else if (event.type === 'move') {
             msg = `${actorTeam} ${event.actor} moves`;
         } else {

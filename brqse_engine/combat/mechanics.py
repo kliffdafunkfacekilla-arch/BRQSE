@@ -186,26 +186,35 @@ class Combatant:
         self.is_restrained = False    # Speed = 0, Attacks vs you have Advantage
         self.is_prone = False         # Melee Adv, Ranged Dis
         
-        # Tier 3: Incapacitating
-        self.is_stunned = False       # Cannot act, attacks vs you have Advantage
+        # === USER'S 3-TIER CONDITION SYSTEM ===
+        
+        # TIER 1: DISRUPT (Minor debuffs, clear quickly)
+        self.is_staggered = False     # Disadvantage on next action, clears after use
+        self.is_shaken = False        # Disadvantage on Mental/Social, can't approach fear source
+        self.is_sickened = False      # Disadvantage on Physical rolls (attacks, athletics, fortitude)
+        # self.is_prone already exists above
+        
+        # TIER 2: STOP (Severe debuffs)
+        self.is_blinded = False       # Disadvantage on everything, attacks vs you Advantage
+        self.is_stunned = False       # Turn skipped, auto-fail clashes
+        # self.is_restrained already exists above
+        self.is_charmed = False       # Cannot attack charmer
+        self.charmed_by = None        # Reference to the charmer
+        
+        # TIER 3: KILL (DoT / Death effects)
+        self.is_bleeding = False      # Take 1d4 at start of turn
+        self.is_burning = False       # Take 1d6 at start of turn
+        self.is_doomed = False        # Cannot heal, instant death at 0 HP
+        
+        # Legacy/Additional
         self.is_paralyzed = False     # Cannot move or act, melee = auto-crit
         self.is_petrified = False     # Turned to stone
-        
-        # Tier 4: DoT
-        self.is_bleeding = False      # 2 Condition damage per turn
-        self.bleed_amount = 0         # Bleed intensity
-        self.is_burning = False       # 1d6 Fire damage per turn
         self.is_poisoned = False      # Disadvantage + 1d4 damage per turn
-        
-        # Tier 5: Mental/Social
-        self.is_charmed = False       # Cannot attack charmer
         self.is_frightened = False    # Disadvantage, cannot approach source
         self.is_confused = False      # Random action each turn
         self.is_taunted = False       # Must attack taunter
-        
-        # Tier 6: Visibility
-        self.is_blinded = False       # Disadvantage on attacks, attacks vs you Advantage
         self.is_invisible = False     # Advantage on attacks, attacks vs you Disadvantage
+        self.is_disarmed = False      # Cannot use equipped weapon
         
         # === TACTICAL COMBAT STATE ===
         self.facing = "N"                     # Facing direction: N/S/E/W
@@ -801,43 +810,359 @@ class CombatEngine:
         return db
 
     def attack_target(self, attacker, target):
+        """
+        CONTESTED COMBAT SYSTEM - No AC!
+        Attack: d20 + Weapon Skill + Stat
+        Defense: d20 + Armor Skill + Stat
+        Tie = Physical Clash
+        """
+        log = []
+        
         # 1. Check Range
         r_dist = max(abs(attacker.x - target.x), abs(attacker.y - target.y)) * 5
         max_reach = attacker.get_attack_range()
         
         if r_dist > max_reach:
-            return f"Out of Range! (Target: {r_dist}ft, Reach: {max_reach}ft)"
+            return [f"Out of Range! (Target: {r_dist}ft, Reach: {max_reach}ft)"]
 
-        # 2. Resolve Finesse (Stat Swapping)
-        # Check for Finesse tag
+        # 2. Determine Attack Stat (Finesse swapping)
         wep = getattr(attacker, "weapon_data", {})
         tags = wep.get("tags", set())
         
-        stat_used = "Might" # Default
+        attack_stat = "Might"  # Default physical stat
         if "Finesse" in tags:
-            # Use better of Might vs Reflexes
             might = attacker.get_stat("Might")
             ref = attacker.get_stat("Reflexes")
             if ref > might:
-                stat_used = "Reflexes"
+                attack_stat = "Reflexes"
         
-        # Calculate Chance to Hit
-        # 1d20 + Stat + Tier vs Target Reflex
-        # Tier logic? Assume Tier 1 for now or get from weapon (TODO)
-        roll = random.randint(1, 20)
-        bonus = attacker.get_stat(stat_used)
-        total = roll + bonus
+        # 3. Get Weapon/Armor skill modifiers
+        weapon_skill = attacker.get_weapon_skill() if hasattr(attacker, 'get_weapon_skill') else 0
+        armor_skill = target.get_armor_skill() if hasattr(target, 'get_armor_skill') else 0
         
-        defense = target.get_stat("Reflexes") + 10 # Base AC
+        # 4. CONTESTED ROLLS
+        # ATTACK: d20 + Weapon Skill + Attack Stat
+        attack_roll = random.randint(1, 20)
+        attack_bonus = attacker.get_stat(attack_stat) + weapon_skill
+        attack_total = attack_roll + attack_bonus
         
-        hit = total >= defense
+        # DEFENSE: d20 + Armor Skill + Defense Stat (Reflexes)
+        defense_roll = random.randint(1, 20)
+        defense_stat = "Reflexes"  # Default defense stat
+        defense_bonus = target.get_stat(defense_stat) + armor_skill
+        defense_total = defense_roll + defense_bonus
         
-        if hit:
-            dmg = random.randint(1, 6) + bonus # Base D6
-            target.hp -= dmg
-            return f"Hit! Dealt {dmg} damage."
+        log.append(f"[ATTACK] {attacker.name}: {attack_roll}+{attack_bonus}={attack_total}")
+        log.append(f"[DEFENSE] {target.name}: {defense_roll}+{defense_bonus}={defense_total}")
+        
+        # 5. RESOLVE CONTEST
+        if attack_total > defense_total:
+            # HIT - Calculate damage
+            dmg_die = wep.get("damage_dice", 6) if wep else 6
+            dmg = random.randint(1, dmg_die) + attacker.get_stat(attack_stat)
+            target.take_damage(dmg)
+            log.append(f"HIT! {attacker.name} deals {dmg} damage to {target.name}!")
+            
+            # Log for replay
+            self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "result": "hit",
+                "damage": dmg,
+                "attack_roll": attack_total,
+                "defense_roll": defense_total,
+                "target_hp": target.hp
+            })
+            
+        elif attack_total < defense_total:
+            # MISS
+            log.append(f"MISS! {target.name} deflects the attack!")
+            self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "result": "miss",
+                "damage": 0,
+                "attack_roll": attack_total,
+                "defense_roll": defense_total
+            })
+            
         else:
-            return "Miss!"
+            # TIE = PHYSICAL CLASH!
+            log.append(f"CLASH! Rolls tied at {attack_total}!")
+            clash_log = self.resolve_physical_clash(attacker, target, attack_stat)
+            log.extend(clash_log)
+        
+        return log
+    
+    def resolve_physical_clash(self, attacker, target, stat_used):
+        """
+        Physical Clash triggered on tied attack/defense rolls.
+        Both re-roll d20 + Stat. Winner executes a Technique, Loser is Staggered.
+        """
+        log = []
+        log.append(f"=== PHYSICAL CLASH ({stat_used}) ===")
+        
+        # Clash Roll: d20 + Stat
+        attacker_roll = random.randint(1, 20) + attacker.get_stat(stat_used)
+        defender_roll = random.randint(1, 20) + target.get_stat(stat_used)
+        
+        log.append(f"{attacker.name} clashes: {attacker_roll}")
+        log.append(f"{target.name} clashes: {defender_roll}")
+        
+        # Determine winner
+        if attacker_roll > defender_roll:
+            winner, loser = attacker, target
+        elif defender_roll > attacker_roll:
+            winner, loser = target, attacker
+        else:
+            # Double tie = both staggered, no technique
+            attacker.is_staggered = True
+            target.is_staggered = True
+            log.append("DOUBLE TIE! Both combatants are STAGGERED!")
+            return log
+        
+        # Loser is STAGGERED
+        loser.is_staggered = True
+        log.append(f"{loser.name} is STAGGERED! (Disadvantage next action)")
+        
+        # Winner executes TECHNIQUE based on stat
+        technique = self.execute_clash_technique(winner, loser, stat_used)
+        log.append(technique)
+        
+        # Log clash for replay
+        self.replay_log.append({
+            "type": "clash",
+            "actor": winner.name,
+            "target": loser.name,
+            "stat": stat_used,
+            "description": technique
+        })
+        
+        return log
+    
+    def execute_clash_technique(self, winner, loser, stat):
+        """Execute technique based on stat used in clash."""
+        stat_upper = stat.upper() if stat else "MIGHT"
+        
+        if stat_upper == "MIGHT":
+            # PRESS: Push target 5ft back, take their space
+            old_x, old_y = loser.x, loser.y
+            dir_x = 1 if loser.x > winner.x else (-1 if loser.x < winner.x else 0)
+            dir_y = 1 if loser.y > winner.y else (-1 if loser.y < winner.y else 0)
+            loser.x = max(0, min(self.cols - 1, loser.x + dir_x))
+            loser.y = max(0, min(self.rows - 1, loser.y + dir_y))
+            winner.x, winner.y = old_x, old_y
+            return f"PRESS! {winner.name} pushes {loser.name} back and takes their position!"
+            
+        elif stat_upper in ["FINESSE", "REFLEXES"]:
+            # TACTIC: Disarm target
+            loser.is_disarmed = True
+            return f"TACTIC! {winner.name} disarms {loser.name}!"
+            
+        elif stat_upper == "FORTITUDE":
+            # DISENGAGE: Winner moves 5ft back freely
+            dir_x = -1 if loser.x > winner.x else (1 if loser.x < winner.x else 0)
+            dir_y = -1 if loser.y > winner.y else (1 if loser.y < winner.y else 0)
+            winner.x = max(0, min(self.cols - 1, winner.x + dir_x))
+            winner.y = max(0, min(self.rows - 1, winner.y + dir_y))
+            return f"DISENGAGE! {winner.name} retreats safely!"
+            
+        elif stat_upper == "LOGIC":
+            # MANEUVER: Move to target's side/back
+            # Move to position behind loser
+            behind_x = loser.x + (1 if loser.x > winner.x else -1)
+            behind_y = loser.y
+            winner.x = max(0, min(self.cols - 1, behind_x))
+            winner.y = max(0, min(self.rows - 1, behind_y))
+            return f"MANEUVER! {winner.name} flanks {loser.name}!"
+            
+        elif stat_upper == "INTUITION":
+            # ANTICIPATE: Swap positions
+            winner.x, winner.y, loser.x, loser.y = loser.x, loser.y, winner.x, winner.y
+            return f"ANTICIPATE! {winner.name} and {loser.name} swap positions!"
+            
+        elif stat_upper == "CHARM":
+            # PSYCHE: Choose where target moves (push in any direction)
+            loser.x = max(0, min(self.cols - 1, loser.x + random.choice([-1, 0, 1])))
+            loser.y = max(0, min(self.rows - 1, loser.y + random.choice([-1, 0, 1])))
+            return f"PSYCHE! {winner.name} redirects {loser.name}'s momentum!"
+        
+        else:
+            # Default: Just stagger (already applied)
+            return f"{winner.name} wins the clash!"
+    
+    # ==================== MAGIC ENGINE ====================
+    
+    def make_saving_throw(self, caster, target, cast_stat, save_stat, is_sustained=False):
+        """
+        Contested magic save. 
+        Cast: d20 + Cast Stat (sets Target Number)
+        Save: d20 + Defense Stat
+        Tie on instant = defender wins. Tie on sustained = Magic Clash.
+        Returns (success, log, new_target) - new_target may differ if Magic Clash redirects.
+        """
+        log = []
+        
+        # Cast Roll
+        cast_roll = random.randint(1, 20)
+        cast_bonus = caster.get_stat(cast_stat)
+        cast_total = cast_roll + cast_bonus
+        
+        # Save Roll
+        save_roll = random.randint(1, 20)
+        save_bonus = target.get_stat(save_stat)
+        save_total = save_roll + save_bonus
+        
+        log.append(f"[CAST] {caster.name}: {cast_roll}+{cast_bonus}={cast_total}")
+        log.append(f"[SAVE] {target.name}: {save_roll}+{save_bonus}={save_total}")
+        
+        if cast_total > save_total:
+            # Spell hits
+            log.append(f"SAVE FAILED! {target.name} is hit by the spell!")
+            return (True, log, target)
+            
+        elif cast_total < save_total:
+            # Target saves
+            log.append(f"SAVE SUCCESS! {target.name} resists the spell!")
+            return (False, log, target)
+            
+        else:
+            # TIE
+            if is_sustained:
+                # MAGIC CLASH!
+                log.append(f"MAGIC CLASH! Rolls tied at {cast_total}!")
+                clash_result, clash_log, new_target = self.resolve_magic_clash(
+                    caster, target, cast_stat
+                )
+                log.extend(clash_log)
+                return (clash_result, log, new_target)
+            else:
+                # Instant spell - defender wins ties
+                log.append(f"TIE! Defender wins - spell fizzles!")
+                return (False, log, target)
+    
+    def resolve_magic_clash(self, caster, target, cast_stat):
+        """
+        Magic Clash (Beam Struggle) triggered on ties for sustained spells.
+        Cost: Both pay 1 FP/SP extra.
+        Re-roll d20 + Stat. Winner's spell resolves, loser is Staggered.
+        The stat used determines WHO gets hit (target redirection).
+        """
+        log = []
+        log.append("=== MAGIC CLASH ===")
+        
+        # Extra cost for clash
+        if caster.fp >= 1:
+            caster.fp -= 1
+            log.append(f"{caster.name} pays 1 FP for the clash!")
+        elif caster.sp >= 1:
+            caster.sp -= 1
+            log.append(f"{caster.name} pays 1 SP for the clash!")
+            
+        if target.fp >= 1:
+            target.fp -= 1
+            log.append(f"{target.name} pays 1 FP to resist!")
+        elif target.sp >= 1:
+            target.sp -= 1
+            log.append(f"{target.name} pays 1 SP to resist!")
+        
+        # Clash Rolls
+        caster_roll = random.randint(1, 20) + caster.get_stat(cast_stat)
+        target_roll = random.randint(1, 20) + target.get_stat(cast_stat)
+        
+        log.append(f"{caster.name} channels: {caster_roll}")
+        log.append(f"{target.name} resists: {target_roll}")
+        
+        if caster_roll > target_roll:
+            winner, loser = caster, target
+            spell_succeeds = True
+        elif target_roll > caster_roll:
+            winner, loser = target, caster
+            spell_succeeds = False
+        else:
+            # Double tie - both staggered, spell fizzles
+            caster.is_staggered = True
+            target.is_staggered = True
+            log.append("DOUBLE TIE! Magic explodes! Both are STAGGERED!")
+            return (False, log, target)
+        
+        # Loser is staggered
+        loser.is_staggered = True
+        log.append(f"{loser.name} is STAGGERED!")
+        
+        # Determine new target based on stat used
+        new_target, technique = self.execute_magic_technique(
+            winner, loser, caster, target, cast_stat
+        )
+        log.append(technique)
+        
+        # Log for replay
+        self.replay_log.append({
+            "type": "magic_clash",
+            "actor": winner.name,
+            "target": loser.name,
+            "stat": cast_stat,
+            "description": technique,
+            "result": "caster_wins" if spell_succeeds else "target_wins"
+        })
+        
+        return (spell_succeeds, log, new_target)
+    
+    def execute_magic_technique(self, winner, loser, caster, original_target, stat):
+        """
+        Execute magic targeting based on stat used in clash.
+        Returns (new_target, description).
+        """
+        stat_upper = stat.upper() if stat else "WILLPOWER"
+        
+        if stat_upper == "WILLPOWER":
+            # DOMINATE: Spell hits intended target (no deviation)
+            return (original_target, f"DOMINATE! Spell hits intended target!")
+            
+        elif stat_upper == "ENDURANCE":
+            # OVERCOME: Reflected back to losing caster
+            return (loser, f"OVERCOME! Spell reflects back to {loser.name}!")
+            
+        elif stat_upper == "KNOWLEDGE":
+            # CALCULATE: New target near original target
+            nearby = [c for c in self.combatants if c.is_alive() and c != original_target 
+                     and max(abs(c.x - original_target.x), abs(c.y - original_target.y)) <= 2]
+            if nearby:
+                new_t = random.choice(nearby)
+                return (new_t, f"CALCULATE! Spell redirects to {new_t.name}!")
+            return (original_target, f"CALCULATE! No nearby targets - hits original!")
+            
+        elif stat_upper == "AWARENESS":
+            # SPOT: New target near losing caster
+            nearby = [c for c in self.combatants if c.is_alive() and c != loser 
+                     and max(abs(c.x - loser.x), abs(c.y - loser.y)) <= 2]
+            if nearby:
+                new_t = random.choice(nearby)
+                return (new_t, f"SPOT! Spell targets {new_t.name} near {loser.name}!")
+            return (loser, f"SPOT! No nearby targets - hits {loser.name}!")
+            
+        elif stat_upper == "REFLEXES":
+            # DEFLECT: Random target within 30ft (6 tiles)
+            nearby = [c for c in self.combatants if c.is_alive() 
+                     and max(abs(c.x - caster.x), abs(c.y - caster.y)) <= 6]
+            if nearby:
+                new_t = random.choice(nearby)
+                return (new_t, f"DEFLECT! Spell wildly redirects to {new_t.name}!")
+            return (original_target, f"DEFLECT! No targets in range!")
+            
+        elif stat_upper == "VITALITY":
+            # CENTER: Closest to winner (point blank)
+            candidates = [c for c in self.combatants if c.is_alive() and c != winner]
+            if candidates:
+                closest = min(candidates, 
+                             key=lambda c: max(abs(c.x - winner.x), abs(c.y - winner.y)))
+                return (closest, f"CENTER! Point blank blast hits {closest.name}!")
+            return (original_target, f"CENTER! No targets nearby!")
+        
+        else:
+            return (original_target, f"{winner.name} wins the magic clash!")
 
     def add_combatant(self, combatant, x, y):
         combatant.x = x
@@ -869,16 +1194,43 @@ class CombatEngine:
         # Reset attacks received for multi-attacker system
         combatant.attacks_received_this_round = 0
         
-        # 1. Tick Start-of-Turn Effects (DoTs)
+        # 0. TERRAIN DAMAGE - Check tile combatant is standing on
+        if 0 <= combatant.x < self.cols and 0 <= combatant.y < self.rows:
+            tile = self.tiles[combatant.y][combatant.x]
+            terrain = tile.terrain.lower() if tile.terrain else "floor_stone"
+            
+            if terrain == "fire":
+                dmg = random.randint(1, 6)
+                combatant.take_damage(dmg)
+                log.append(f"{combatant.name} takes {dmg} Fire damage from standing in flames!")
+                self.replay_log.append({
+                    "type": "terrain_damage",
+                    "actor": combatant.name,
+                    "damage": dmg,
+                    "terrain": "fire",
+                    "description": f"Burned by fire tile!"
+                })
+            elif terrain == "ice":
+                if random.random() < 0.3:  # 30% slip chance
+                    log.append(f"{combatant.name} slips on the ice and loses half their movement!")
+                    combatant.movement_remaining = max(0, combatant.movement_remaining // 2)
+            elif terrain in ["water", "water_shallow"]:
+                log.append(f"{combatant.name} trudges through water (slowed).")
+                combatant.movement_remaining = max(0, combatant.movement_remaining - 5)
+            elif terrain in ["mud", "difficult", "rubble"]:
+                log.append(f"{combatant.name} struggles through difficult terrain.")
+                combatant.movement_remaining = max(0, combatant.movement_remaining - 5)
+        
+        # 1. Tick Start-of-Turn Effects (KILL tier DoTs)
         if hasattr(combatant, 'is_burning') and combatant.is_burning:
-            dmg = random.randint(1, 4)
+            dmg = random.randint(1, 6)  # BURN = 1d6
             combatant.take_damage(dmg)
-            log.append(f"{combatant.name} takes {dmg} Fire damage from Burning!")
+            log.append(f"{combatant.name} takes {dmg} BURN damage!")
             
         if hasattr(combatant, 'is_bleeding') and combatant.is_bleeding:
-            dmg = 1
+            dmg = random.randint(1, 4)  # BLEED = 1d4
             combatant.take_damage(dmg)
-            log.append(f"{combatant.name} takes {dmg} Bleed damage!")
+            log.append(f"{combatant.name} takes {dmg} BLEED damage!")
 
         # 2. Check Conditions
         if hasattr(combatant, 'is_frozen') and combatant.is_frozen:

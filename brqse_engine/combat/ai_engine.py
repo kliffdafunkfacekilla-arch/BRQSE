@@ -259,13 +259,12 @@ class AIDecisionEngine:
             
         target = ctx["enemies"][0]["obj"]
         
-        # Step 1: Try ONE offensive ability
+        # Step 1: Try ONE offensive ability (but don't return - keep going)
         if template != "Opportunist":
-            if self._try_use_ability(me, target, engine, log, template):
-                return log
-            # If no ability used, fall through to basic attack
+            self._try_use_ability(me, target, engine, log, template)
+            # Continue to basic attack regardless of ability success
         
-        # Step 2: ALWAYS do basic attack routine
+        # Step 2: ALWAYS do basic attack routine as well
         self._basic_attack_routine(me, target, engine, log)
             
         return log
