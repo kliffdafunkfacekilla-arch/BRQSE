@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Zap, Heart,
   Terminal, Settings, Power,
@@ -11,6 +11,9 @@ import ActionBar from './components/ActionBar';
 import CharacterSheet from './components/CharacterSheet';
 import Journal from './components/Journal';
 
+// --- CONFIG ---
+const API_BASE = 'http://localhost:5001/api';
+
 // --- TYPES ---
 interface CharacterStats {
   name: string;
@@ -18,6 +21,16 @@ interface CharacterStats {
   level: number;
   health: number; maxHealth: number;
   mana: number; maxMana: number;
+}
+
+interface PlayerState {
+  name: string;
+  species: string;
+  stats: Record<string, number>;
+  equipment: Record<string, string>;
+  inventory: string[];
+  skills: string[];
+  powers: string[];
 }
 
 interface LogEntry {
@@ -31,6 +44,7 @@ interface LogEntry {
 function App() {
   // 1. NAVIGATION STATE
   const [currentView, setCurrentView] = useState<'arena' | 'character' | 'inventory' | 'journal'>('arena');
+  const [apiOnline, setApiOnline] = useState(false);
 
   // 2. CHARACTER STATE
   const [character, setCharacter] = useState<CharacterStats>({
@@ -41,26 +55,77 @@ function App() {
     mana: 0, maxMana: 100,
   });
 
-  // 3. THE BAG (Un-equipped items)
-  const [inventory, setInventory] = useState<string[]>([
-    "Iron Sword", "Health Potion", "Leather Armor", "Ration",
-    "Magic Staff", "Ruby Gem", "Steel Shield", "Boots of Speed"
-  ]);
-
-  // 4. THE PAPER DOLL (Equipped items)
-  const [equipment, setEquipment] = useState<Record<string, string>>({
-    "Main Hand": "Empty",
-    "Off Hand": "Empty",
-    "Head": "Empty",
-    "Body": "Empty",
-    "Feet": "Empty",
-    "Ring 1": "Empty"
+  // 3. PLAYER STATE (Synced with backend)
+  const [playerState, setPlayerState] = useState<PlayerState>({
+    name: "Hero",
+    species: "Mammal",
+    stats: {},
+    equipment: {
+      "Main Hand": "Empty",
+      "Off Hand": "Empty",
+      "Head": "Empty",
+      "Body": "Empty",
+      "Feet": "Empty",
+      "Ring 1": "Empty"
+    },
+    inventory: [],
+    skills: [],
+    powers: []
   });
 
   // 5. SYSTEM LOGS
   const [systemLogs, setSystemLogs] = useState<LogEntry[]>([
     { id: '0', timestamp: new Date().toLocaleTimeString(), source: 'SYS', message: 'Engine Online.', type: 'info' }
   ]);
+
+  // --- LOAD PLAYER STATE ON MOUNT ---
+  useEffect(() => {
+    // Check API health
+    fetch(`${API_BASE}/health`)
+      .then(res => res.json())
+      .then(() => {
+        setApiOnline(true);
+        addLog('API', 'Backend connected', 'info');
+        loadPlayerState();
+      })
+      .catch(() => {
+        setApiOnline(false);
+        addLog('API', 'Backend offline - using local state', 'error');
+        // Fallback: load from public folder directly
+        fetch('/data/player_state.json')
+          .then(res => res.json())
+          .then(data => setPlayerState(data))
+          .catch(() => { });
+      });
+  }, []);
+
+  const loadPlayerState = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/player`);
+      const data = await res.json();
+      setPlayerState(data);
+      addLog('SYNC', `Loaded: ${data.name}`, 'info');
+    } catch (e) {
+      addLog('SYNC', 'Failed to load player state', 'error');
+    }
+  };
+
+  const savePlayerState = async (newState: PlayerState) => {
+    setPlayerState(newState);
+
+    if (apiOnline) {
+      try {
+        await fetch(`${API_BASE}/player`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newState)
+        });
+        addLog('SYNC', 'State saved to backend', 'info');
+      } catch (e) {
+        addLog('SYNC', 'Failed to save state', 'error');
+      }
+    }
+  };
 
   // --- HANDLERS ---
   const handleArenaUpdate = (currentHp: number, maxHp: number, name: string) => {
@@ -82,7 +147,6 @@ function App() {
 
   // Move item from Inventory -> Equipment
   const handleEquip = (itemName: string) => {
-    // Determine Slot based on item name
     let slot = "Main Hand";
     const n = itemName.toLowerCase();
 
@@ -93,28 +157,43 @@ function App() {
     else if (n.includes('ring')) slot = "Ring 1";
     else if (n.includes('staff') || n.includes('wand') || n.includes('sword') || n.includes('axe')) slot = "Main Hand";
 
-    // Swap Logic
-    const currentEquipped = equipment[slot];
+    const currentEquipped = playerState.equipment[slot];
 
-    setEquipment(prev => ({ ...prev, [slot]: itemName }));
+    const newEquipment = { ...playerState.equipment, [slot]: itemName };
+    let newInventory = playerState.inventory.filter(i => i !== itemName);
+    if (currentEquipped !== "Empty") newInventory.push(currentEquipped);
 
-    setInventory(prev => {
-      const newInv = prev.filter(i => i !== itemName);
-      if (currentEquipped !== "Empty") newInv.push(currentEquipped);
-      return newInv;
-    });
-
+    const newState = { ...playerState, equipment: newEquipment, inventory: newInventory };
+    savePlayerState(newState);
     addLog('EQUIP', `Equipped ${itemName} to ${slot}`);
   };
 
   // Move item from Equipment -> Inventory
   const handleUnequip = (slot: string) => {
-    const item = equipment[slot];
+    const item = playerState.equipment[slot];
     if (item === "Empty") return;
 
-    setEquipment(prev => ({ ...prev, [slot]: "Empty" }));
-    setInventory(prev => [...prev, item]);
+    const newEquipment = { ...playerState.equipment, [slot]: "Empty" };
+    const newInventory = [...playerState.inventory, item];
+
+    const newState = { ...playerState, equipment: newEquipment, inventory: newInventory };
+    savePlayerState(newState);
     addLog('EQUIP', `Unequipped ${item}`);
+  };
+
+  // Trigger new battle via API
+  const handleNewBattle = async () => {
+    if (apiOnline) {
+      addLog('BATTLE', 'Generating new battle...', 'combat');
+      try {
+        await fetch(`${API_BASE}/battle`, { method: 'POST' });
+        addLog('BATTLE', 'Battle ready! Click RELOAD in Arena.', 'combat');
+      } catch (e) {
+        addLog('BATTLE', 'Failed to generate battle', 'error');
+      }
+    } else {
+      addLog('BATTLE', 'Backend offline. Run: python scripts/generate_replay.py', 'error');
+    }
   };
 
   // --- NAVIGATION COMPONENT ---
@@ -151,7 +230,7 @@ function App() {
       <header className="h-12 border-b border-stone-800 bg-[#0a0a0a] flex items-center justify-between px-4 shrink-0 z-50">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-[#00f2ff] rounded-full animate-pulse shadow-[0_0_8px_#00f2ff]" />
+            <div className={`w-2 h-2 rounded-full animate-pulse shadow-[0_0_8px] ${apiOnline ? 'bg-[#00f2ff] shadow-[#00f2ff]' : 'bg-red-500 shadow-red-500'}`} />
             <h1 className="text-sm font-bold tracking-[0.2em] text-stone-100 uppercase">
               BRQSE <span className="text-stone-600"> / {currentView}</span>
             </h1>
@@ -166,9 +245,15 @@ function App() {
           </div>
         </div>
 
-        <div className="flex gap-2 text-stone-600">
-          <Settings size={14} className="hover:text-white cursor-pointer" />
-          <Power size={14} className="hover:text-red-500 cursor-pointer" />
+        <div className="flex gap-3 items-center">
+          <button
+            onClick={handleNewBattle}
+            className="text-[10px] font-bold px-3 py-1 bg-stone-900 border border-stone-700 hover:border-[#00f2ff] hover:text-[#00f2ff] transition-colors uppercase"
+          >
+            New Battle
+          </button>
+          <Settings size={14} className="text-stone-600 hover:text-white cursor-pointer" />
+          <Power size={14} className="text-stone-600 hover:text-red-500 cursor-pointer" />
         </div>
       </header>
 
@@ -182,18 +267,18 @@ function App() {
               <img src="/tokens/badger_front.png" alt="avatar" className="w-full h-full object-cover opacity-80" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             </div>
-            <h2 className="text-white font-bold tracking-wider text-sm">{character.name}</h2>
-            <p className="text-[9px] text-stone-500 font-mono">{character.class}</p>
+            <h2 className="text-white font-bold tracking-wider text-sm">{playerState.name}</h2>
+            <p className="text-[9px] text-stone-500 font-mono">{playerState.species}</p>
           </div>
           <div className="p-4 border-b border-stone-800">
             <StatBar label="Integrity" current={character.health} max={character.maxHealth} color="bg-red-600" icon={Heart} />
             <StatBar label="Energy" current={character.mana} max={character.maxMana} color="bg-blue-500" icon={Zap} />
           </div>
-          {/* Mini Inventory (Quick Access) */}
+          {/* Mini Inventory */}
           <div className="flex-1 p-2 bg-[#060606] overflow-hidden">
             <div className="text-[9px] text-stone-500 font-bold uppercase mb-2 pl-1">Quick Slots</div>
             <div className="grid grid-cols-4 gap-1">
-              {inventory.slice(0, 8).map((item, i) => (
+              {playerState.inventory.slice(0, 8).map((item, i) => (
                 <div key={i} className="aspect-square bg-stone-900 border border-stone-800 flex items-center justify-center p-1">
                   <div className="w-2 h-2 bg-stone-700 rounded-full" title={item} />
                 </div>
@@ -218,7 +303,8 @@ function App() {
 
             {currentView === 'character' && (
               <CharacterSheet
-                equipment={equipment}
+                equipment={playerState.equipment}
+                stats={playerState.stats}
                 onUnequip={handleUnequip}
               />
             )}
@@ -226,7 +312,7 @@ function App() {
             {currentView === 'inventory' && (
               <div className="p-8 h-full">
                 <InventoryPanel
-                  characterItems={inventory}
+                  characterItems={playerState.inventory}
                   onEquip={handleEquip}
                 />
               </div>
@@ -240,12 +326,13 @@ function App() {
             <div className="px-3 py-1 border-b border-stone-800 bg-stone-900/50 flex items-center gap-2">
               <Terminal size={10} className="text-[#00f2ff]" />
               <span className="text-[9px] font-bold uppercase tracking-wider text-stone-400">System Feed</span>
+              {!apiOnline && <span className="text-[9px] text-red-500 ml-2">(OFFLINE MODE)</span>}
             </div>
             <div className="flex-1 overflow-y-auto p-2 font-mono text-[10px] space-y-1">
               {systemLogs.map((log) => (
                 <div key={log.id} className="flex gap-2 opacity-80 hover:opacity-100 border-l-2 border-transparent hover:border-[#00f2ff] pl-1">
                   <span className="text-stone-600">[{log.timestamp}]</span>
-                  <span className={`font-bold ${log.type === 'combat' ? 'text-red-400' : 'text-[#00f2ff]'}`}>
+                  <span className={`font-bold ${log.type === 'combat' ? 'text-red-400' : log.type === 'error' ? 'text-yellow-500' : 'text-[#00f2ff]'}`}>
                     {log.source}:
                   </span>
                   <span className="text-stone-300">{log.message}</span>

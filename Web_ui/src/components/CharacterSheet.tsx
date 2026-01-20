@@ -3,21 +3,28 @@ import ItemIcon from './ItemIcon';
 
 interface CharacterSheetProps {
     equipment?: Record<string, string>;
+    stats?: Record<string, number>;
     onUnequip?: (slot: string) => void;
 }
 
-export default function CharacterSheet({ equipment, onUnequip }: CharacterSheetProps) {
+export default function CharacterSheet({ equipment, stats: propStats, onUnequip }: CharacterSheetProps) {
     // Use props if available, else fallback
     const gear = equipment || {
         "Main Hand": "Empty", "Off Hand": "Empty", "Head": "Empty",
         "Body": "Empty", "Feet": "Empty", "Ring 1": "Empty"
     };
 
-    // Mock Stats - Using your game's stat system
-    const stats = {
+    // Use passed stats or fallback to defaults
+    const stats = propStats && Object.keys(propStats).length > 0 ? propStats : {
         Might: 10, Reflexes: 10, Endurance: 12, Vitality: 10, Fortitude: 14, Finesse: 12,
         Knowledge: 12, Logic: 10, Awareness: 10, Intuition: 10, Charm: 12, Willpower: 10
     };
+
+    // Calculate derived stats from formulas
+    const getScore = (name: string) => stats[name] || 10;
+    const derivedHP = 10 + getScore('Might') + getScore('Reflexes') + getScore('Vitality');
+    const derivedSP = getScore('Endurance') + getScore('Finesse') + getScore('Fortitude');
+    const derivedFP = getScore('Knowledge') + getScore('Charm') + getScore('Intuition');
 
     const getMod = (val: number) => {
         const mod = Math.floor((val - 10) / 2);
@@ -98,15 +105,15 @@ export default function CharacterSheet({ equipment, onUnequip }: CharacterSheetP
                     <div className="grid grid-cols-3 gap-2 text-center">
                         <div className="bg-stone-900 p-2">
                             <div className="text-[10px] text-stone-500">HP</div>
-                            <div className="text-xl text-white font-mono">40</div>
+                            <div className="text-xl text-white font-mono">{derivedHP}</div>
                         </div>
                         <div className="bg-stone-900 p-2">
                             <div className="text-[10px] text-stone-500">SP</div>
-                            <div className="text-xl text-white font-mono">12</div>
+                            <div className="text-xl text-white font-mono">{derivedSP}</div>
                         </div>
                         <div className="bg-stone-900 p-2">
                             <div className="text-[10px] text-stone-500">FP</div>
-                            <div className="text-xl text-white font-mono">10</div>
+                            <div className="text-xl text-white font-mono">{derivedFP}</div>
                         </div>
                     </div>
                 </div>

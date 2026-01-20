@@ -1,0 +1,46 @@
+{
+    "name": "Hero",
+    "species": "Mammal",
+    "stats": {
+        "Might": 10,
+        "Reflexes": 10,
+        "Endurance": 12,
+        "Vitality": 10,
+        "Fortitude": 14,
+        "Knowledge": 12,
+        "Logic": 10,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 12,
+        "Willpower": 10,
+        "Finesse": 12
+    },
+    "equipment": {
+        "Main Hand": "Empty",
+        "Off Hand": "Empty",
+        "Head": "Empty",
+        "Body": "Empty",
+        "Feet": "Empty",
+        "Ring 1": "Empty"
+    },
+    "inventory": [
+        "Iron Sword",
+        "Health Potion",
+        "Leather Armor",
+        "Ration",
+        "Magic Staff",
+        "Ruby Gem",
+        "Steel Shield",
+        "Boots of Speed"
+    ],
+    "skills": [
+        "Small Weapons",
+        "Bio",
+        "Performance",
+        "Tinctures"
+    ],
+    "powers": [
+        "Bolt",
+        "Push"
+    ]
+}

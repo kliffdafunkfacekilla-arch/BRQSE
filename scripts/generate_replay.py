@@ -1,7 +1,6 @@
 import sys
 import os
 import json
-import time
 import random
 import glob
 
@@ -13,49 +12,111 @@ from brqse_engine.combat.mechanics import CombatEngine, Combatant
 def generate_replay():
     print("Initializing Battle Simulation...")
     
-    # OUTPUT PATH (Direct to Web App)
-    output_path = os.path.join("Web_ui", "public", "data", "last_battle_replay.json")
+    # PATHS
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    output_path = os.path.join(base_dir, "Web_ui", "public", "data", "last_battle_replay.json")
+    player_state_path = os.path.join(base_dir, "Web_ui", "public", "data", "player_state.json")
+    save_dir = os.path.join(base_dir, "brqse_engine", "Saves")
 
     # Initialize Engine
     engine = CombatEngine(cols=10, rows=10)
     
-    # Load Characters (from Saves)
-    # Check current directory context. Assuming run from root or via simple relative paths.
-    save_dir = os.path.join("brqse_engine", "Saves")
+    # --- LOAD PLAYER STATE ---
+    player_data = None
+    if os.path.exists(player_state_path):
+        try:
+            with open(player_state_path, 'r') as f:
+                player_data = json.load(f)
+            print(f"Loaded player state: {player_data.get('name', 'Unknown')}")
+        except Exception as e:
+            print(f"Warning: Could not load player state: {e}")
     
-    # Fallback paths if running from scripts folder
-    if not os.path.exists(save_dir) and os.path.exists(os.path.join("..", "brqse_engine", "Saves")):
-        save_dir = os.path.join("..", "brqse_engine", "Saves")
-
-    # Random Selection Logic
+    # --- CREATE PLAYER COMBATANT ---
+    if player_data:
+        # Create combatant with player's equipment
+        p1 = Combatant()  # Empty init
+        p1.name = player_data.get("name", "Hero")
+        p1.data = {
+            "Name": p1.name,
+            "Species": player_data.get("species", "Mammal"),
+            "Stats": player_data.get("stats", {}),
+            "Skills": player_data.get("skills", []),
+            "Powers": player_data.get("powers", []),
+            "Inventory": [],  # Will add equipped items
+            "Gear": []
+        }
+        
+        # Add equipped items to inventory for the engine to equip
+        equipment = player_data.get("equipment", {})
+        for slot, item in equipment.items():
+            if item != "Empty":
+                p1.data["Inventory"].append(item)
+                print(f"  Equipping: {item} -> {slot}")
+        
+        # Re-initialize from data
+        p1.stats = p1.data.get("Stats", {})
+        p1.powers = p1.data.get("Powers", [])
+        p1.skills = p1.data.get("Skills", [])
+        p1.traits = p1.data.get("Traits", [])
+        
+        # Calculate derived stats
+        def get_score(name): return p1.stats.get(name, 10)
+        p1.max_hp = 10 + get_score("Might") + get_score("Reflexes") + get_score("Vitality")
+        p1.hp = p1.max_hp
+        p1.max_cmp = 10 + get_score("Willpower") + get_score("Logic") + get_score("Awareness")
+        p1.cmp = p1.max_cmp
+        p1.max_sp = get_score("Endurance") + get_score("Finesse") + get_score("Fortitude")
+        p1.sp = p1.max_sp
+        p1.max_fp = get_score("Knowledge") + get_score("Charm") + get_score("Intuition")
+        p1.fp = p1.max_fp
+        
+        # Movement
+        raw_speed = get_score("Vitality") + get_score("Willpower")
+        p1.base_movement = int(5 * round(raw_speed / 5))
+        if p1.base_movement < 5: p1.base_movement = 5
+        p1.movement = p1.base_movement
+        p1.movement_remaining = p1.movement
+        
+        # Init flags
+        p1.action_used = False
+        p1.bonus_action_used = False
+        p1.reaction_used = False
+        p1.active_effects = []
+        p1.x = 0
+        p1.y = 0
+        p1.initiative = 0
+        p1.team = "Neutral"
+        
+        print(f"Player HP: {p1.max_hp}, Powers: {p1.powers}")
+    else:
+        # Fallback to random save file
+        save_files = glob.glob(os.path.join(save_dir, "*.json"))
+        if save_files:
+            f1 = random.choice(save_files)
+            print(f"No player state, using: {os.path.basename(f1)}")
+            p1 = Combatant(filepath=f1)
+        else:
+            print("No saves found. Creating default player.")
+            p1 = Combatant()
+            p1.name = "Hero"
+            p1.max_hp = 100
+            p1.hp = 100
+    
+    # --- LOAD ENEMY ---
     save_files = glob.glob(os.path.join(save_dir, "*.json"))
-    if len(save_files) >= 2:
-        f1, f2 = random.sample(save_files, 2)
-        print(f"Selected Fighters: {os.path.basename(f1)} vs {os.path.basename(f2)}")
-        p1 = Combatant(filepath=f1)
+    # Pick random enemy that's not the player
+    enemy_files = [f for f in save_files if os.path.basename(f).lower() != f"{p1.name.lower()}.json"]
+    
+    if enemy_files:
+        f2 = random.choice(enemy_files)
+        print(f"Enemy: {os.path.basename(f2)}")
         p2 = Combatant(filepath=f2)
     else:
-        # Load Blaze and Iron Default
-        print("Not enough saves found. Defaulting to Blaze vs Iron.")
-        p1 = Combatant(filepath=os.path.join(save_dir, "Blaze.json"))
-        p2 = Combatant(filepath=os.path.join(save_dir, "Iron.json"))
-    
-    # If loading failed (empty data), inject defaults
-    if not p1.name or p1.name == "Unknown":
-        print("Warning: Could not load Blaze.json, using fallback.")
-        p1.name = "Blaze"
-        p1.max_hp = 100
-        p1.hp = 100
-        p1.stats = {"Might": 16, "Reflexes": 14, "Vitality": 14, "Knowledge": 10}
-        p1.powers = ["Fireball", "Flame Strike"] # Give some spells
-        
-    if not p2.name or p2.name == "Unknown":
-        print("Warning: Could not load Iron.json, using fallback.")
-        p2.name = "Iron"
-        p2.max_hp = 120
-        p2.hp = 120
-        p2.stats = {"Might": 18, "Reflexes": 10, "Vitality": 18, "Willpower": 14}
-        p2.powers = ["Stone Skin", "Earthquake"]
+        print("No enemy saves found. Creating default enemy.")
+        p2 = Combatant()
+        p2.name = "Enemy"
+        p2.max_hp = 80
+        p2.hp = 80
 
     # Assign Teams and Positions
     p1.team = "blue"
@@ -64,7 +125,7 @@ def generate_replay():
     engine.add_combatant(p1, 2, 5)  # Left
     engine.add_combatant(p2, 7, 5)  # Right
     
-    # Setup Map (Simple Arena)
+    # Setup Map
     walls = [(2,2), (2,7), (7,2), (7,7)]
     for wx, wy in walls:
         engine.create_wall(wx, wy)
@@ -77,22 +138,14 @@ def generate_replay():
     print("Starting Combat Loop...")
     engine.start_combat()
     
-    # Limit rounds to prevent infinite loops
     MAX_ROUNDS = 20
     round_count = 0
     
     while round_count < MAX_ROUNDS and p1.is_alive() and p2.is_alive():
-        # Get active character
         active = engine.get_active_char()
-        
-        # Execute AI Turn
-        # This will call move, attack, ability, etc. and populate engine.replay_log
-        log = engine.execute_ai_turn(active)
-        
-        # End Turn (Rotation)
+        engine.execute_ai_turn(active)
         engine.end_turn()
         
-        # Check if round rolled over (idx reset)
         if engine.current_turn_index == 0:
             round_count += 1
             print(f"Round {round_count} complete.")
@@ -102,16 +155,14 @@ def generate_replay():
     print(f"Total Events: {len(engine.replay_log)}")
 
     # Construct Final JSON
-    # Include 'x' and 'y' in combatants so the UI places them correctly at start
     final_data = {
         "combatants": [
             {
                 "name": c.name, 
                 "max_hp": c.max_hp, 
-                "hp": c.hp, # Final HP (maybe UI wants Max to start? UI resets hp to max_hp usually)
-                # Actually, UI resets to max_hp on load. So this is fine.
+                "hp": c.hp,
                 "team": c.team,
-                "x": 2 if c == p1 else 7, # Start positions
+                "x": 2 if c == p1 else 7,
                 "y": 5
             } for c in engine.combatants
         ],
