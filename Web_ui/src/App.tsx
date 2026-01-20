@@ -32,7 +32,7 @@ function App() {
   // 1. NAVIGATION STATE
   const [currentView, setCurrentView] = useState<'arena' | 'character' | 'inventory' | 'journal'>('arena');
 
-  // 2. SHARED STATE
+  // 2. CHARACTER STATE
   const [character, setCharacter] = useState<CharacterStats>({
     name: "NO SIGNAL",
     class: "UNKNOWN ENTITY",
@@ -41,10 +41,23 @@ function App() {
     mana: 0, maxMana: 100,
   });
 
-  const [inventoryIds] = useState<string[]>([
-    "Iron Sword", "Health Potion", "Leather Armor", "Ration", "Magic Staff", "Ruby Gem"
+  // 3. THE BAG (Un-equipped items)
+  const [inventory, setInventory] = useState<string[]>([
+    "Iron Sword", "Health Potion", "Leather Armor", "Ration",
+    "Magic Staff", "Ruby Gem", "Steel Shield", "Boots of Speed"
   ]);
 
+  // 4. THE PAPER DOLL (Equipped items)
+  const [equipment, setEquipment] = useState<Record<string, string>>({
+    "Main Hand": "Empty",
+    "Off Hand": "Empty",
+    "Head": "Empty",
+    "Body": "Empty",
+    "Feet": "Empty",
+    "Ring 1": "Empty"
+  });
+
+  // 5. SYSTEM LOGS
   const [systemLogs, setSystemLogs] = useState<LogEntry[]>([
     { id: '0', timestamp: new Date().toLocaleTimeString(), source: 'SYS', message: 'Engine Online.', type: 'info' }
   ]);
@@ -65,6 +78,43 @@ function App() {
       id: Date.now().toString(), timestamp: new Date().toLocaleTimeString(),
       source, message: msg, type
     }, ...prev].slice(0, 50));
+  };
+
+  // Move item from Inventory -> Equipment
+  const handleEquip = (itemName: string) => {
+    // Determine Slot based on item name
+    let slot = "Main Hand";
+    const n = itemName.toLowerCase();
+
+    if (n.includes('shield')) slot = "Off Hand";
+    else if (n.includes('helm') || n.includes('hat') || n.includes('hood')) slot = "Head";
+    else if (n.includes('armor') || n.includes('plate') || n.includes('robe') || n.includes('hide')) slot = "Body";
+    else if (n.includes('boots') || n.includes('shoes')) slot = "Feet";
+    else if (n.includes('ring')) slot = "Ring 1";
+    else if (n.includes('staff') || n.includes('wand') || n.includes('sword') || n.includes('axe')) slot = "Main Hand";
+
+    // Swap Logic
+    const currentEquipped = equipment[slot];
+
+    setEquipment(prev => ({ ...prev, [slot]: itemName }));
+
+    setInventory(prev => {
+      const newInv = prev.filter(i => i !== itemName);
+      if (currentEquipped !== "Empty") newInv.push(currentEquipped);
+      return newInv;
+    });
+
+    addLog('EQUIP', `Equipped ${itemName} to ${slot}`);
+  };
+
+  // Move item from Equipment -> Inventory
+  const handleUnequip = (slot: string) => {
+    const item = equipment[slot];
+    if (item === "Empty") return;
+
+    setEquipment(prev => ({ ...prev, [slot]: "Empty" }));
+    setInventory(prev => [...prev, item]);
+    addLog('EQUIP', `Unequipped ${item}`);
   };
 
   // --- NAVIGATION COMPONENT ---
@@ -125,7 +175,7 @@ function App() {
       {/* MAIN CONTENT AREA */}
       <div className="flex flex-1 overflow-hidden">
 
-        {/* LEFT SIDEBAR (Always visible for quick stats) */}
+        {/* LEFT SIDEBAR */}
         <aside className="w-64 bg-[#080808] border-r border-stone-800 flex flex-col z-10 shrink-0">
           <div className="p-6 border-b border-stone-800 flex flex-col items-center">
             <div className="w-20 h-20 mb-3 bg-stone-900 border border-stone-800 flex items-center justify-center relative rounded-sm overflow-hidden">
@@ -143,7 +193,7 @@ function App() {
           <div className="flex-1 p-2 bg-[#060606] overflow-hidden">
             <div className="text-[9px] text-stone-500 font-bold uppercase mb-2 pl-1">Quick Slots</div>
             <div className="grid grid-cols-4 gap-1">
-              {inventoryIds.slice(0, 8).map((item, i) => (
+              {inventory.slice(0, 8).map((item, i) => (
                 <div key={i} className="aspect-square bg-stone-900 border border-stone-800 flex items-center justify-center p-1">
                   <div className="w-2 h-2 bg-stone-700 rounded-full" title={item} />
                 </div>
@@ -152,13 +202,12 @@ function App() {
           </div>
         </aside>
 
-        {/* CENTER VIEWPORT (Switches based on Nav) */}
+        {/* CENTER VIEWPORT */}
         <main className="flex-1 relative flex flex-col bg-[#030303] overflow-hidden">
 
           <div className="flex-1 overflow-auto relative">
             {currentView === 'arena' && (
               <div className="h-full flex flex-col">
-                {/* Grid Background */}
                 <div className="flex-1 flex items-center justify-center p-4 bg-grid-pattern relative">
                   <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-50" />
                   <Arena onStatsUpdate={handleArenaUpdate} onLog={(msg, type) => addLog('ARENA', msg, type)} />
@@ -167,18 +216,26 @@ function App() {
               </div>
             )}
 
-            {currentView === 'character' && <CharacterSheet />}
+            {currentView === 'character' && (
+              <CharacterSheet
+                equipment={equipment}
+                onUnequip={handleUnequip}
+              />
+            )}
 
             {currentView === 'inventory' && (
               <div className="p-8 h-full">
-                <InventoryPanel characterItems={inventoryIds} />
+                <InventoryPanel
+                  characterItems={inventory}
+                  onEquip={handleEquip}
+                />
               </div>
             )}
 
             {currentView === 'journal' && <Journal />}
           </div>
 
-          {/* BOTTOM LOG (Global) */}
+          {/* BOTTOM LOG */}
           <div className="h-32 border-t border-stone-800 bg-[#080808] flex flex-col shrink-0">
             <div className="px-3 py-1 border-b border-stone-800 bg-stone-900/50 flex items-center gap-2">
               <Terminal size={10} className="text-[#00f2ff]" />

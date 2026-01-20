@@ -1,33 +1,22 @@
-import { Shield, User, Crosshair, Heart, Zap, Brain } from 'lucide-react';
+import { Shield, User, Crosshair, Brain, X } from 'lucide-react';
 import ItemIcon from './ItemIcon';
 
-export default function CharacterSheet() {
-    // Mock Data - Matches your game's stat system
-    const stats = {
-        // Physical
-        Might: 10,
-        Reflexes: 10,
-        Endurance: 12,
-        Vitality: 10,
-        Fortitude: 14,
-        Finesse: 12,
-        // Mental
-        Knowledge: 12,
-        Logic: 10,
-        Awareness: 10,
-        Intuition: 10,
-        Charm: 12,
-        Willpower: 10
+interface CharacterSheetProps {
+    equipment?: Record<string, string>;
+    onUnequip?: (slot: string) => void;
+}
+
+export default function CharacterSheet({ equipment, onUnequip }: CharacterSheetProps) {
+    // Use props if available, else fallback
+    const gear = equipment || {
+        "Main Hand": "Empty", "Off Hand": "Empty", "Head": "Empty",
+        "Body": "Empty", "Feet": "Empty", "Ring 1": "Empty"
     };
 
-    const equipment: Record<string, string> = {
-        "Main Hand": "Cane Sword",
-        "Off Hand": "Empty",
-        "Armor": "Troll Hide",
-        "Head": "Empty",
-        "Neck": "Empty",
-        "Ring 1": "Empty",
-        "Ring 2": "Empty"
+    // Mock Stats - Using your game's stat system
+    const stats = {
+        Might: 10, Reflexes: 10, Endurance: 12, Vitality: 10, Fortitude: 14, Finesse: 12,
+        Knowledge: 12, Logic: 10, Awareness: 10, Intuition: 10, Charm: 12, Willpower: 10
     };
 
     const getMod = (val: number) => {
@@ -46,21 +35,36 @@ export default function CharacterSheet() {
     );
 
     const EquipSlot = ({ slot, item }: { slot: string; item: string }) => (
-        <div className="flex items-center gap-3 p-2 bg-[#0a0a0f] border border-stone-800 hover:border-stone-600 transition-colors cursor-pointer group">
-            <div className="w-10 h-10 bg-black border border-stone-800 flex items-center justify-center">
+        <div
+            className={`flex items-center gap-3 p-2 border transition-colors group relative
+            ${item !== 'Empty' ? 'bg-stone-900/80 border-stone-700' : 'bg-[#0a0a0f] border-stone-800 hover:border-stone-600'}
+        `}
+        >
+            <div className="w-10 h-10 bg-black border border-stone-800 flex items-center justify-center shrink-0">
                 {item === "Empty" ? <span className="text-stone-700 text-xs">.</span> : <ItemIcon name={item} />}
             </div>
-            <div className="flex-1">
+            <div className="flex-1 overflow-hidden">
                 <div className="text-[9px] text-stone-500 uppercase tracking-wider mb-0.5">{slot}</div>
-                <div className={`text-xs ${item === 'Empty' ? 'text-stone-700' : 'text-stone-300 group-hover:text-white'}`}>{item}</div>
+                <div className={`text-xs truncate ${item === 'Empty' ? 'text-stone-700' : 'text-stone-300 group-hover:text-white'}`}>{item}</div>
             </div>
+
+            {/* UNEQUIP BUTTON */}
+            {item !== "Empty" && onUnequip && (
+                <button
+                    onClick={() => onUnequip(slot)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-stone-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Unequip"
+                >
+                    <X size={14} />
+                </button>
+            )}
         </div>
     );
 
     return (
         <div className="flex gap-6 h-full p-6 text-stone-300 justify-center overflow-auto">
 
-            {/* LEFT: PHYSICAL ATTRIBUTES */}
+            {/* LEFT: PHYSICAL */}
             <div className="w-64 space-y-4">
                 <div className="bg-[#080808] p-4 border border-stone-800 rounded">
                     <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><User size={14} /> Physical</h3>
@@ -75,7 +79,7 @@ export default function CharacterSheet() {
                 </div>
             </div>
 
-            {/* CENTER: MENTAL ATTRIBUTES + GEAR */}
+            {/* CENTER: MENTAL + DERIVED */}
             <div className="w-64 space-y-4">
                 <div className="bg-[#080808] p-4 border border-stone-800 rounded">
                     <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><Brain size={14} /> Mental</h3>
@@ -90,7 +94,7 @@ export default function CharacterSheet() {
                 </div>
 
                 <div className="bg-[#080808] p-4 border border-stone-800 rounded">
-                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><Crosshair size={14} /> Derived Stats</h3>
+                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><Crosshair size={14} /> Derived</h3>
                     <div className="grid grid-cols-3 gap-2 text-center">
                         <div className="bg-stone-900 p-2">
                             <div className="text-[10px] text-stone-500">HP</div>
@@ -108,26 +112,25 @@ export default function CharacterSheet() {
                 </div>
             </div>
 
-            {/* RIGHT: GEAR + PORTRAIT */}
-            <div className="w-80 space-y-4">
-                <div className="bg-[#080808] p-4 border border-stone-800 rounded flex flex-col">
-                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-4 flex items-center gap-2"><Shield size={14} /> Equipment</h3>
+            {/* RIGHT: EQUIPMENT */}
+            <div className="w-80 bg-[#080808] p-4 border border-stone-800 rounded flex flex-col">
+                <h3 className="text-stone-500 font-bold uppercase text-xs mb-4 flex items-center gap-2"><Shield size={14} /> Equipment</h3>
 
-                    <div className="space-y-2 flex-1">
-                        {Object.entries(equipment).map(([slot, item]) => (
-                            <EquipSlot key={slot} slot={slot} item={item} />
-                        ))}
-                    </div>
+                <div className="space-y-2 flex-1">
+                    {Object.entries(gear).map(([slot, item]) => (
+                        <EquipSlot key={slot} slot={slot} item={item} />
+                    ))}
                 </div>
 
                 {/* PORTRAIT */}
-                <div className="bg-[#080808] border border-stone-800 rounded flex flex-col items-center p-4">
-                    <div className="w-32 h-32 bg-black border-2 border-stone-700 mb-3 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                        <img src="/tokens/badger_front.png" alt="portrait" className="w-full h-full object-contain p-2 opacity-80" />
+                <div className="mt-4 pt-4 border-t border-stone-800 flex items-center gap-4">
+                    <div className="w-16 h-16 bg-black border border-stone-700 shrink-0 overflow-hidden">
+                        <img src="/tokens/badger_front.png" alt="portrait" className="w-full h-full object-contain opacity-80" />
                     </div>
-                    <h1 className="text-xl font-bold text-white tracking-wider">HERO</h1>
-                    <p className="text-[#00f2ff] font-mono text-xs mb-2">Mammal</p>
-                    <div className="text-[9px] text-stone-500">Powers: Bolt, Push</div>
+                    <div>
+                        <h1 className="text-lg font-bold text-white">HERO</h1>
+                        <p className="text-[#00f2ff] font-mono text-xs">Mammal</p>
+                    </div>
                 </div>
             </div>
 
