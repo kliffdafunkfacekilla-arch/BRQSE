@@ -4192,5 +4192,16 @@ class EffectRegistry:
     def _handle_sunder_talent(self, match, ctx):
         if "log" in ctx: ctx["log"].append("Sunder applied! (Vulnerable)")
 
+    # --- MISSING HANDLERS ---
+    def _handle_magic_missile(self, match, ctx):
+        """Deal Force Damage (Implicit based on Tier)"""
+        ctx["damage_type"] = "Force"
+        self._apply_implicit_damage(ctx, "Force")
+        if "log" in ctx: ctx["log"].append("Magic Missile (Auto-Hit Force).")
+
+    def _handle_auto_hit(self, match, ctx):
+        """Log Auto-Hit status"""
+        if "log" in ctx: ctx["log"].append("Effect: Auto-Hit!")
+
 # Singleton instance for easy access
 registry = EffectRegistry()

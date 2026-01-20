@@ -1,17 +1,17 @@
 {
   "combatants": [
     {
-      "name": "Frost",
-      "max_hp": 43,
+      "name": "flower",
+      "max_hp": 47,
       "hp": 0,
       "team": "blue",
       "x": 2,
       "y": 5
     },
     {
-      "name": "Iron",
-      "max_hp": 41,
-      "hp": 20,
+      "name": "steve",
+      "max_hp": 42,
+      "hp": 35,
       "team": "red",
       "x": 7,
       "y": 5
@@ -19,117 +19,110 @@
   ],
   "log": [
     {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Iron",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Iron!",
-        "Consumed 1 SP",
-        "2 Fire damage to Iron!",
-        "Dealt 5 Fire Damage (Tier 1)",
-        "Iron Aged Rapidly (-Might)."
-      ],
-      "damage": 7,
-      "target_hp": 34,
-      "style": "magic"
+      "type": "attack",
+      "actor": "flower",
+      "target": "steve",
+      "result": "hit",
+      "damage": 1,
+      "target_hp": 41,
+      "style": "hit"
     },
     {
       "type": "ability",
-      "actor": "Iron",
-      "ability": "Shock",
-      "target": "Frost",
-      "description": "Used Shock",
+      "actor": "steve",
+      "ability": "Bolt",
+      "target": "flower",
+      "description": "Used Bolt",
       "execution_log": [
-        "Iron uses Shock on Frost!",
-        "Consumed 3 SP",
-        "Effect: Light",
-        "8 Lightning damage to Frost!",
-        "Emits Light",
-        "Dealt 12 Lightning Damage (Tier 3)",
-        "Frost Aged Rapidly (-Might)."
-      ],
-      "damage": 20,
-      "target_hp": 23,
-      "style": "lightning"
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Iron",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Iron!",
-        "Consumed 1 SP",
-        "2 Fire damage to Iron!",
-        "Dealt 3 Fire Damage (Tier 1)",
-        "Iron Aged Rapidly (-Might)."
-      ],
-      "damage": 5,
-      "target_hp": 29,
-      "style": "magic"
-    },
-    {
-      "type": "ability",
-      "actor": "Iron",
-      "ability": "Shock",
-      "target": "Frost",
-      "description": "Used Shock",
-      "execution_log": [
-        "Iron uses Shock on Frost!",
-        "Consumed 3 SP",
-        "Effect: Light",
-        "1 Lightning damage to Frost!",
-        "Emits Light",
-        "Dealt 14 Lightning Damage (Tier 3)",
-        "Frost Aged Rapidly (-Might)."
-      ],
-      "damage": 15,
-      "target_hp": 8,
-      "style": "lightning"
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Iron",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Iron!",
-        "Consumed 1 SP",
-        "3 Fire damage to Iron!",
-        "Dealt 6 Fire Damage (Tier 1)",
-        "Iron Aged Rapidly (-Might)."
+        "steve uses Bolt on flower!",
+        "Consumed 2 FP",
+        "Dealt 4 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 5 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
       ],
       "damage": 9,
-      "target_hp": 20,
-      "style": "magic"
+      "target_hp": 38,
+      "style": "lightning"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "steve",
+      "result": "miss",
+      "damage": 0
     },
     {
       "type": "ability",
-      "actor": "Iron",
-      "ability": "Shock",
-      "target": "Frost",
-      "description": "Used Shock",
+      "actor": "steve",
+      "ability": "Bolt",
+      "target": "flower",
+      "description": "Used Bolt",
       "execution_log": [
-        "Iron uses Shock on Frost!",
-        "Consumed 3 SP",
-        "Effect: Light",
-        "8 Lightning damage to Frost!",
-        "Emits Light",
-        "Dealt 14 Lightning Damage (Tier 3)",
-        "Frost Aged Rapidly (-Might).",
-        "Frost is DESTROYED by Shock!"
+        "steve uses Bolt on flower!",
+        "Consumed 2 FP",
+        "Dealt 4 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 10 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
       ],
-      "damage": 8,
+      "damage": 14,
+      "target_hp": 24,
+      "style": "lightning"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "steve",
+      "result": "hit",
+      "damage": 6,
+      "target_hp": 35,
+      "style": "hit"
+    },
+    {
+      "type": "ability",
+      "actor": "steve",
+      "ability": "Bolt",
+      "target": "flower",
+      "description": "Used Bolt",
+      "execution_log": [
+        "steve uses Bolt on flower!",
+        "Consumed 2 FP",
+        "Dealt 9 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 3 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force)."
+      ],
+      "damage": 12,
+      "target_hp": 12,
+      "style": "lightning"
+    },
+    {
+      "type": "ability",
+      "actor": "steve",
+      "ability": "Bolt",
+      "target": "flower",
+      "description": "Used Bolt",
+      "execution_log": [
+        "steve uses Bolt on flower!",
+        "Consumed 2 FP",
+        "Dealt 7 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "Effect: Auto-Hit!",
+        "Dealt 9 Force Damage (Tier 2)",
+        "Magic Missile (Auto-Hit Force).",
+        "flower is DESTROYED by Bolt!"
+      ],
+      "damage": 12,
       "target_hp": 0,
       "style": "lightning"
     },
     {
       "type": "death",
-      "actor": "Frost",
+      "actor": "flower",
       "x": 2,
       "y": 5
     }

@@ -777,7 +777,7 @@ class CombatEngine:
             if ai_char.powers and (ai_char.sp >= 2 or ai_char.fp >= 2):
                  import random
                  # Priority: Control if target free, then Damage
-                 control_spells = [p for p in ai_char.powers if "Entangle" in p or "Sleep" in p or "Stun" in p]
+                 control_spells = [p for p in ai_char.powers if "Entangle" in p or "Sleep" in p or "Stun" in p or "Push" in p]
                  damage_spells = [p for p in ai_char.powers if p not in control_spells]
                  
                  chosen_spell = None

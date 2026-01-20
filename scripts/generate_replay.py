@@ -29,8 +29,6 @@ def generate_replay():
 
     # Random Selection Logic
     save_files = glob.glob(os.path.join(save_dir, "*.json"))
-    p1 = None; p2 = None
-    
     if len(save_files) >= 2:
         f1, f2 = random.sample(save_files, 2)
         print(f"Selected Fighters: {os.path.basename(f1)} vs {os.path.basename(f2)}")
