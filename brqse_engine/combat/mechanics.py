@@ -249,23 +249,17 @@ class Combatant:
 
     def get_skill_rank(self, skill_name):
         return self.skills.get(skill_name, 0)
+        
+    def take_damage(self, amount, damage_type="Physical"):
+        """Applies damage and returns True if dead."""
+        self.hp -= amount
+        if self.hp < 0: self.hp = 0
+        return self.hp == 0 
 
     def is_alive(self):
         # FIX: Also check is_dead flag
         return self.hp > 0 and not self.is_dead
     
-    def take_damage(self, amount):
-        """
-        Apply damage with death checking.
-        Returns actual damage dealt.
-        """
-        if self.is_dead:
-            return 0  # Can't damage a corpse
-        
-        self.hp -= amount
-        if self.hp <= 0:
-            self.hp = 0
-            self.is_dead = True
         return amount
     
     def heal(self, amount):
@@ -1026,10 +1020,17 @@ class CombatEngine:
             return log
 
         if hit_score >= def_roll:
-            # HIT
-             target.take_damage(damage) # Simplified for now, removed damage_type, attacker
+             # HIT
+             was_killed = target.take_damage(damage) 
              log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
              
+             # Calculate Crit visually
+             style = "hit"
+             if hit_score >= def_roll + 5: # Solid hit
+                 if random.random() < 0.2: style = "hit crit" 
+             if hit_score >= def_roll + 10: # Crushing hit
+                 style = "hit crit"
+
              # --- RECORD EVENT (PROTOCOL 2) ---
              self.replay_log.append({
                 "type": "attack",
@@ -1037,8 +1038,18 @@ class CombatEngine:
                 "target": target.name,
                 "result": "hit",
                 "damage": damage,
-                "target_hp": target.hp
+                "target_hp": target.hp,
+                "style": style
              })
+             
+             if was_killed:
+                 log.append(f"{target.name} is SLAIN!")
+                 self.replay_log.append({
+                    "type": "death",
+                    "actor": target.name,
+                    "x": target.x,
+                    "y": target.y
+                 })
              # ---------------------------------
         else:
              log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
@@ -1127,7 +1138,8 @@ class CombatEngine:
             "log": [],
             "caster_total": caster_total,
             "save_total": target_total,
-            "save_success": target_total >= caster_total
+            "save_success": target_total >= caster_total,
+            "is_crit": caster_roll == 20
         }
         
         if target_total >= caster_total:
@@ -1146,7 +1158,8 @@ class CombatEngine:
             
         # Calc actual damage dealt
         damage_dealt = start_hp - target.hp
-        style = self._get_ability_style(power_name)
+        if caster_roll == 20:
+            style += " crit"
 
         # --- BURT'S PROTOCOL: RECORD CAST EVENT ---
         self.replay_log.append({
@@ -1161,6 +1174,17 @@ class CombatEngine:
             "roll": caster_total,
             "save": target_total
         })
+        
+        # Check Death (Manual check since cast_power calculated diff manually)
+        if target.hp == 0 and start_hp > 0:
+             log.append(f"{target.name} is SLAIN by {power_name}!")
+             self.replay_log.append({
+                "type": "death",
+                "actor": target.name,
+                "x": target.x,
+                "y": target.y
+             })
+        # ------------------------------------------
         # ------------------------------------------
 
         return log
@@ -1258,6 +1282,17 @@ class CombatEngine:
             "target_hp": target.hp if target else 0,
             "style": style
         })
+        
+        # Check Death
+        if target and target.hp == 0 and start_hp > 0:
+             log.append(f"{target.name} is DESTROYED by {ability_name}!")
+             self.replay_log.append({
+                "type": "death",
+                "actor": target.name,
+                "x": target.x,
+                "y": target.y
+             })
+        # ---------------------------------------------
         # ---------------------------------------------
         
         return log

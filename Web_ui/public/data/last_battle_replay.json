@@ -1,109 +1,137 @@
 {
   "combatants": [
     {
-      "name": "Iron",
-      "max_hp": 41,
-      "hp": 38,
-      "team": "red",
-      "x": 7,
-      "y": 5
-    },
-    {
-      "name": "Blaze",
+      "name": "Frost",
       "max_hp": 43,
       "hp": 0,
       "team": "blue",
       "x": 2,
+      "y": 5
+    },
+    {
+      "name": "Iron",
+      "max_hp": 41,
+      "hp": 20,
+      "team": "red",
+      "x": 7,
       "y": 5
     }
   ],
   "log": [
     {
       "type": "ability",
+      "actor": "Frost",
+      "ability": "Heat",
+      "target": "Iron",
+      "description": "Used Heat",
+      "execution_log": [
+        "Frost uses Heat on Iron!",
+        "Consumed 1 SP",
+        "2 Fire damage to Iron!",
+        "Dealt 5 Fire Damage (Tier 1)",
+        "Iron Aged Rapidly (-Might)."
+      ],
+      "damage": 7,
+      "target_hp": 34,
+      "style": "magic"
+    },
+    {
+      "type": "ability",
       "actor": "Iron",
       "ability": "Shock",
-      "target": "Blaze",
+      "target": "Frost",
       "description": "Used Shock",
       "execution_log": [
-        "Iron uses Shock on Blaze!",
+        "Iron uses Shock on Frost!",
         "Consumed 3 SP",
         "Effect: Light",
-        "9 Lightning damage to Blaze!",
+        "8 Lightning damage to Frost!",
         "Emits Light",
-        "Dealt 10 Lightning Damage (Tier 3)",
-        "Blaze Aged Rapidly (-Might)."
+        "Dealt 12 Lightning Damage (Tier 3)",
+        "Frost Aged Rapidly (-Might)."
       ],
-      "damage": 19,
-      "target_hp": 24,
+      "damage": 20,
+      "target_hp": 23,
       "style": "lightning"
     },
     {
       "type": "ability",
-      "actor": "Blaze",
-      "ability": "Burn",
+      "actor": "Frost",
+      "ability": "Heat",
       "target": "Iron",
-      "description": "Used Burn",
+      "description": "Used Heat",
       "execution_log": [
-        "Blaze uses Burn on Iron!",
-        "Consumed 4 SP",
-        "Iron is Bleeding! (3/turn for 3 rounds)"
+        "Frost uses Heat on Iron!",
+        "Consumed 1 SP",
+        "2 Fire damage to Iron!",
+        "Dealt 3 Fire Damage (Tier 1)",
+        "Iron Aged Rapidly (-Might)."
       ],
-      "damage": 0,
-      "target_hp": 41,
-      "style": "fire"
+      "damage": 5,
+      "target_hp": 29,
+      "style": "magic"
     },
     {
       "type": "ability",
       "actor": "Iron",
       "ability": "Shock",
-      "target": "Blaze",
+      "target": "Frost",
       "description": "Used Shock",
       "execution_log": [
-        "Iron uses Shock on Blaze!",
+        "Iron uses Shock on Frost!",
         "Consumed 3 SP",
         "Effect: Light",
-        "11 Lightning damage to Blaze!",
+        "1 Lightning damage to Frost!",
         "Emits Light",
-        "Dealt 10 Lightning Damage (Tier 3)",
-        "Blaze Aged Rapidly (-Might)."
+        "Dealt 14 Lightning Damage (Tier 3)",
+        "Frost Aged Rapidly (-Might)."
       ],
-      "damage": 21,
-      "target_hp": 3,
+      "damage": 15,
+      "target_hp": 8,
       "style": "lightning"
     },
     {
       "type": "ability",
-      "actor": "Blaze",
-      "ability": "Burn",
+      "actor": "Frost",
+      "ability": "Heat",
       "target": "Iron",
-      "description": "Used Burn",
+      "description": "Used Heat",
       "execution_log": [
-        "Blaze uses Burn on Iron!",
-        "Consumed 4 SP",
-        "Iron is Bleeding! (1/turn for 3 rounds)"
+        "Frost uses Heat on Iron!",
+        "Consumed 1 SP",
+        "3 Fire damage to Iron!",
+        "Dealt 6 Fire Damage (Tier 1)",
+        "Iron Aged Rapidly (-Might)."
       ],
-      "damage": 0,
-      "target_hp": 40,
-      "style": "fire"
+      "damage": 9,
+      "target_hp": 20,
+      "style": "magic"
     },
     {
       "type": "ability",
       "actor": "Iron",
       "ability": "Shock",
-      "target": "Blaze",
+      "target": "Frost",
       "description": "Used Shock",
       "execution_log": [
-        "Iron uses Shock on Blaze!",
+        "Iron uses Shock on Frost!",
         "Consumed 3 SP",
         "Effect: Light",
-        "8 Lightning damage to Blaze!",
+        "8 Lightning damage to Frost!",
         "Emits Light",
-        "Dealt 8 Lightning Damage (Tier 3)",
-        "Blaze Aged Rapidly (-Might)."
+        "Dealt 14 Lightning Damage (Tier 3)",
+        "Frost Aged Rapidly (-Might).",
+        "Frost is DESTROYED by Shock!"
       ],
-      "damage": 3,
+      "damage": 8,
       "target_hp": 0,
       "style": "lightning"
+    },
+    {
+      "type": "death",
+      "actor": "Frost",
+      "x": 2,
+      "y": 5
     }
   ],
   "map": [

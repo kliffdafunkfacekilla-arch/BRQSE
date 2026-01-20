@@ -2,6 +2,8 @@ import sys
 import os
 import json
 import time
+import random
+import glob
 
 # Add root folder to sys.path so we can import 'brqse_engine'
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -25,9 +27,20 @@ def generate_replay():
     if not os.path.exists(save_dir) and os.path.exists(os.path.join("..", "brqse_engine", "Saves")):
         save_dir = os.path.join("..", "brqse_engine", "Saves")
 
-    # Load Blaze and Iron
-    p1 = Combatant(filepath=os.path.join(save_dir, "Blaze.json"))
-    p2 = Combatant(filepath=os.path.join(save_dir, "Iron.json"))
+    # Random Selection Logic
+    save_files = glob.glob(os.path.join(save_dir, "*.json"))
+    p1 = None; p2 = None
+    
+    if len(save_files) >= 2:
+        f1, f2 = random.sample(save_files, 2)
+        print(f"Selected Fighters: {os.path.basename(f1)} vs {os.path.basename(f2)}")
+        p1 = Combatant(filepath=f1)
+        p2 = Combatant(filepath=f2)
+    else:
+        # Load Blaze and Iron Default
+        print("Not enough saves found. Defaulting to Blaze vs Iron.")
+        p1 = Combatant(filepath=os.path.join(save_dir, "Blaze.json"))
+        p2 = Combatant(filepath=os.path.join(save_dir, "Iron.json"))
     
     # If loading failed (empty data), inject defaults
     if not p1.name or p1.name == "Unknown":
