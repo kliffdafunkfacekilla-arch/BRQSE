@@ -1,0 +1,33 @@
+=== TESTING TACTICAL RULES ===
+
+--- TEST 1: FLANKING (2 Attacks) ---
+Villain has 2 adjacent enemies (Expected 2).
+Hero attacking Villain (Should be Flanking):
+Log: Hero attacks Villain: 18 vs AC 10. HIT! [Flanking] Defender Disadvantage.  (+2 Flank Bonus) Dealt 10 damage. Villain is DOWN!
+Roll: 12, Total: 18 (Base Mod +4 + Flank?)
+
+--- TEST 2: MOBBING (3 Attacks) ---
+Villain has 3 adjacent enemies (Expected 3).
+Hero attacking Villain (Should be Mobbing - Advantage):
+Log: Hero attacks Villain: 25 vs AC 10. HIT! [Mobbing] Attacker Adv, Defender Disadv.  (+2 Flank Bonus) Dealt 9 damage. Villain is DOWN!
+
+--- TEST 3: FRIENDLY FIRE ---
+Hero at 0,5. Villain at 5,5. Ally at 6,5
+Shot 1:
+Result: Hero attacks Villain: 22 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 9 damage. Villain is DOWN!
+Shot 2:
+Result: Hero attacks Villain: 24 vs AC 10. HIT! [Target Engaged] Ranged Advantage. CRITICAL HIT! Dealt 16 damage. Villain is DOWN!
+Shot 3:
+Result: Hero attacks Villain: 20 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 7 damage. Villain is DOWN!
+Shot 4:
+Result: Hero attacks Villain: 23 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 7 damage. Villain is DOWN!
+Shot 5:
+Result: Hero attacks Villain: 21 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 9 damage. Villain is DOWN!
+Shot 6:
+Result: Hero attacks Villain: 10 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 5 damage. Villain is DOWN!
+Shot 7:
+Result: Hero attacks Villain: 13 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 6 damage. Villain is DOWN!
+Shot 8:
+Result: Hero attacks Villain: 22 vs AC 10. HIT! [Target Engaged] Ranged Advantage. Dealt 6 damage. Villain is DOWN!
+Shot 9:
+!!! SUCCESS: Hero attacks Ally: 6 vs AC 10. HIT! [Target Engaged] Ranged Advantage. FRIENDLY FIRE! Aimed at Villain, hit Ally instead! Dealt 6 damage. (Friendly Fire)

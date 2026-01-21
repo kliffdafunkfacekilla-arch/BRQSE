@@ -1,57 +1,121 @@
-Body Part,Skill Name,Type,Effect Description
-Jumping Legs,Power Leap,Action,Jump up to 30ft horizontally or 15ft vertically without a running start.
-Jumping Legs,Kick Off,Reaction,"When an enemy moves within 5ft, you can jump 10ft away without provoking an attack."
-Extra Limbs,Multi-Task,Bonus,"Use an object, reload a weapon, or open a door while keeping your main hands full."
-Extra Limbs,Stability,Passive,You have Advantage on saving throws against being knocked Prone or Shoved.
-Flat Body,Compression,Passive,You can squeeze through gaps as small as 1 inch wide without slowing down.
-Flat Body,Low Profile,Reaction,"When targeted by a ranged attack, flatten yourself to the ground to impose Disadvantage."
-Striped Abdomen,Warning,Passive,You have Advantage on Intimidation checks (biological warning signals).
-Striped Abdomen,Flash,Reaction,"When attacked, flare your colors. The attacker must save (Will) or choose a new target."
-Shovel Legs,Burrow,Action,You gain a Burrow speed of 15ft through loose soil or sand.
-Shovel Legs,Entrench,Action,Dig a foxhole in 1 round. You gain Half-Cover while standing in that spot.
-Color Change,Active Camo,Action,Turn Invisible until you move or attack by matching the background perfectly.
-Color Change,Ambush,Passive,"If you attack a target that hasn't seen you, you deal extra damage equal to your Level."
-Large Pincers,Crush,Action,"Make a Grapple attempt. If successful, the target takes Bludgeoning damage immediately."
-Large Pincers,Sever,Reaction,"When an enemy misses you with a weapon, attempt to Disarm them (catch the blade)."
-Thick Plates,Heavy Chitin,Passive,Your base Armor Class is 13 + Dexterity modifier (max +2).
-Thick Plates,Deflect,Reaction,Reduce damage from a non-magical slashing or piercing attack by half.
-Bladed Arms,Scythe Sweep,Action,Make one attack roll against two adjacent enemies within your reach.
-Bladed Arms,Parry,Reaction,Gain +2 AC against one melee attack by blocking with your blades.
-Barb Stinger,Impale,Action,"Make a piercing attack. On hit, leave the stinger in; target takes damage every turn until removed."
-Barb Stinger,Desperation,Reaction,"If you drop to 0 HP, make one immediate Stinger attack before falling."
-Toxic Fangs,Envenom,Bonus,Coat your next bite attack with poison. Target must save or be Poisoned for 1 minute.
-Toxic Fangs,Necrosis,Passive,Damage dealt by your fangs cannot be healed by non-magical means for 1 hour.
-Serrated Grip,Wall Walk,Passive,You can walk on walls and ceilings at full speed.
-Serrated Grip,Latch,Reaction,Advantage on checks to avoid being Disarmed or dropping an item.
-Antennae,Tremorsense,Passive,You can detect the location of any moving creature on the ground within 30ft.
-Antennae,Scent Trail,Utility,You can track a creature by pheromones or scent with Advantage on Survival checks.
-Blank Stare,Unreadable,Passive,You are immune to Insight checks; creatures cannot determine your emotions or next move.
-Blank Stare,Unnerving,Action,"Stare at a target. They must save (Will) or hesitate, losing their Reaction for the round."
-Pheromone Plumes,Rally,Action,Release a scent cloud. Allies within 10ft gain Temporary HP equal to your Proficiency Bonus.
-Pheromone Plumes,Confusion,Action,Release a cloud. Enemies within 10ft must save or attack a random target next turn.
-Needle Limbs,Pierce Armor,Action,Make an attack that ignores the target's Armor Class bonus from shields or heavy armor.
-Needle Limbs,Pinpoint,Passive,Your critical hit range is 19-20 on piercing attacks.
-Spiracles,Air Bubble,Passive,"You can trap air in your shell, allowing you to function underwater for 1 hour."
-Spiracles,Purge,Reaction,Advantage on saving throws against inhaled gases or Cloudkill effects.
-Waxy Shell,Insulation,Passive,You have Resistance to Acid damage and cannot be dissolved by slimes.
-Waxy Shell,Slippery,Reaction,Advantage on checks to escape a Grapple or Web trap.
-Earthy Claws,Mold Earth,Utility,You can turn a 5ft square of ground into Difficult Terrain (rubble) as an Action.
-Earthy Claws,Anchor,Passive,You cannot be moved against your will while standing on natural earth/stone.
-Faceted Eyes,Omni-Vision,Passive,You can see in all directions at once. You cannot be Flanked.
-Faceted Eyes,Reflex Dodge,Reaction,You gain +2 to Reflex saves against Area of Effect spells (you see it coming).
-Spiked Knees,Knee Strike,Bonus,"If you have a target Grappled, deal Piercing damage to them automatically."
-Spiked Knees,Vault,Reaction,"When an enemy misses you, you can jump over them to the opposite side (flanking position)."
-Spinnerets,Web Shot,Action,Fire a sticky net (30ft). Target must save (Dex) or be Restrained.
-Spinnerets,Silk Rope,Utility,Produce up to 50ft of silk rope per day. It is strong enough to hold your weight.
-Resisting Chitin,Spell Shield,Reaction,Gain Advantage on a Saving Throw against a magical spell or effect.
-Resisting Chitin,Hardened,Passive,"You have Resistance to one damage type (Fire, Cold, or Lightning) chosen at creation."
-Skill Name,Required Body Part,Effect,
-Nat_Weapon,Mandibles / Claws,Unarmed deals 1d6 Slash/Pierce.,
-Stinger,Barb Stinger,Unarmed injects Poison (DC 12).,
-Warn_Color,Bright Pattern,Biter takes 1 Poison Dmg.,
-Pheromones,Glands / Plumes,Leave scent trail for allies.,
-Vibration,Antennae,Detect moving targets 15ft if Blind.,
-Climber,Serrated Legs,Climb Speed = Walk Speed.,
-Jumper,Jumping Legs,Jump distance tripled.,
-Motion_Track,Compound Eyes,Cannot be Flanked.,
-Filter,Spiracles,Immune to Nausea/Sickened condition.,
+Body Part,Rank,Skill Name,Type,Reserve Cost,Limit / Burn,Effect
+Faceted Eyes,1,Compound-Sight,Passive,0,Passive,Cannot be Flanked. 360 Vision.
+Faceted Eyes,3,Tremor-Sense,Passive,0,1 Focus,Detect moving invisible enemies within 30ft.
+Faceted Eyes,5,Analyze,Action,0,1/Day,Reveal all stats/weaknesses of target.
+Feelers,1,Compound-Sight,Passive,0,Passive,Cannot be Flanked. 360 Vision.
+Feelers,3,Tremor-Sense,Passive,0,1 Focus,Detect moving invisible enemies within 30ft.
+Feelers,5,Analyze,Action,0,1/Day,Reveal all stats/weaknesses of target.
+Light Sensors,1,Compound-Sight,Passive,0,Passive,Cannot be Flanked. 360 Vision.
+Light Sensors,3,Tremor-Sense,Passive,0,1 Focus,Detect moving invisible enemies within 30ft.
+Light Sensors,5,Analyze,Action,0,1/Day,Reveal all stats/weaknesses of target.
+Chemical Receptors,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Chemical Receptors,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Chemical Receptors,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Serrated Jaws,1,Mandibles,Passive,0,Passive,Unarmed strike deals Slashing dmg.
+Serrated Jaws,3,Drain,Action,0,2 Stamina,Grapple + Drain HP (Heal self).
+Serrated Jaws,5,Sever,Action,0,1/Day,Cut through non-magical weapon/armor.
+Needle Mouth,1,Mandibles,Passive,0,Passive,Unarmed strike deals Slashing dmg.
+Needle Mouth,3,Drain,Action,0,2 Stamina,Grapple + Drain HP (Heal self).
+Needle Mouth,5,Sever,Action,0,1/Day,Cut through non-magical weapon/armor.
+Biolum-Glands,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Biolum-Glands,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Biolum-Glands,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Ovipositor,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Ovipositor,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Ovipositor,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Raptorial Blades,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Raptorial Blades,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Raptorial Blades,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Crushing Claws,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Crushing Claws,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Crushing Claws,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Spinneret Wrists,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Spinneret Wrists,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Spinneret Wrists,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Barbed Forelegs,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Barbed Forelegs,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Barbed Forelegs,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Flat-Plate Arms,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Flat-Plate Arms,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Flat-Plate Arms,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Tiny Claws,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Tiny Claws,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Tiny Claws,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Spade Limbs,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Spade Limbs,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Spade Limbs,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Hypodermic Spurs,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Hypodermic Spurs,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Hypodermic Spurs,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Multi-Legs,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Multi-Legs,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Multi-Legs,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Hydraulic Knees,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Hydraulic Knees,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Hydraulic Knees,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Hooked Tarsi,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Hooked Tarsi,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Hooked Tarsi,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Surface Tension,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Surface Tension,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Surface Tension,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Buzzing Wings,1,Flutter,Passive,0,Passive,Feather fall effect.
+Buzzing Wings,3,Buzz,Action,0,1 Stamina,Deafen/Distract targets nearby.
+Buzzing Wings,5,True-Flight,Passive,0,Passive,Gain Fly Speed equal to Walk Speed.
+Soft-Hairs,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Soft-Hairs,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Soft-Hairs,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Rhythmic Gait,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Rhythmic Gait,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Rhythmic Gait,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Paddle Hairs,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Paddle Hairs,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Paddle Hairs,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Hard Shell,1,Exoskeleton,Passive,0,Passive,Base AC = 13 + Dex.
+Hard Shell,3,Hover,Move,0,1 Stamina,Fly speed for 1 turn.
+Hard Shell,5,Molt,Short Rest,0,1/Day,Regrow lost limb / Heal full HP.
+Stick-Bug Shape,1,Exoskeleton,Passive,0,Passive,Base AC = 13 + Dex.
+Stick-Bug Shape,3,Hover,Move,0,1 Stamina,Fly speed for 1 turn.
+Stick-Bug Shape,5,Molt,Short Rest,0,1/Day,Regrow lost limb / Heal full HP.
+Warning Colors,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Warning Colors,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Warning Colors,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Thorax Spines,1,Exoskeleton,Passive,0,Passive,Base AC = 13 + Dex.
+Thorax Spines,3,Hover,Move,0,1 Stamina,Fly speed for 1 turn.
+Thorax Spines,5,Molt,Short Rest,0,1/Day,Regrow lost limb / Heal full HP.
+Sensory Bristles,1,Compound-Sight,Passive,0,Passive,Cannot be Flanked. 360 Vision.
+Sensory Bristles,3,Tremor-Sense,Passive,0,1 Focus,Detect moving invisible enemies within 30ft.
+Sensory Bristles,5,Analyze,Action,0,1/Day,Reveal all stats/weaknesses of target.
+Abdominal Light,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Abdominal Light,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Abdominal Light,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Compressed Thorax,1,Exoskeleton,Passive,0,Passive,Base AC = 13 + Dex.
+Compressed Thorax,3,Hover,Move,0,1 Stamina,Fly speed for 1 turn.
+Compressed Thorax,5,Molt,Short Rest,0,1/Day,Regrow lost limb / Heal full HP.
+Molting Hormones,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Molting Hormones,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Molting Hormones,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Abdominal Spur,1,Chitin,Passive,0,Passive,Resistant to Fall Damage.
+Abdominal Spur,3,Adapt,Reaction,0,1 Stamina,Reroll a failed physical save.
+Abdominal Spur,5,Evolution,Passive,0,1/Day,Gain Resistance to last dmg type taken.
+Rear Spinnerets,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Rear Spinnerets,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Rear Spinnerets,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Pheromone Cloud,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Pheromone Cloud,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Pheromone Cloud,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Chemical Chamber,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Chemical Chamber,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Chemical Chamber,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Elytra/Wings,1,Exoskeleton,Passive,0,Passive,Base AC = 13 + Dex.
+Elytra/Wings,3,Hover,Move,0,1 Stamina,Fly speed for 1 turn.
+Elytra/Wings,5,Molt,Short Rest,0,1/Day,Regrow lost limb / Heal full HP.
+Stridulation Legs,1,Skitter,Passive,0,Passive,Ignore difficult terrain.
+Stridulation Legs,3,Power-Jump,Bonus,0,1 Stamina,Jump 30ft horizontally.
+Stridulation Legs,5,Mantis-Strike,Reaction,0,1/Day,Attack enemy who missed you.
+Brood Sac,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Brood Sac,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Brood Sac,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.
+Mind-Spore,1,Silk-Weaver,Utility,0,Passive,Create rope/net over time.
+Mind-Spore,3,Web-Shot,Action,0,2 Stamina,Restrain target (Str Save).
+Mind-Spore,5,Hive-Call,Action,0,1/Day,Summon Swarm of insects.

@@ -1,54 +1,121 @@
-Body Part,Skill Name,Type,Effect Description
-Mossy Skin,Photosynth,Short Rest,"If you rest in direct sunlight, you regain maximum Hit Points possible for your dice roll."
-Mossy Skin,Dampen,Passive,You are constantly moist. You have Resistance to Fire damage.
-Tendril Fingers,Entangle,Action,"Cast a vine to Entangle a target 30ft away. Deal 1d6 Bludgeoning damage. If successful, they are Restrained."
-Tendril Fingers,Climb,Passive,You gain a Climb Speed equal to your Walk Speed.
-Mushroom Cap,Spore Cloud,Action,"Release a cloud adjacent to you. Enemies take 1d6 Poison damage and must save (Con) or be Poisoned for 1 minute."
-Mushroom Cap,Umbrella,Reaction,"Shield yourself or an adjacent ally from rain, falling debris, or overhead acid attacks."
-Sharp Thorns,Spike Armor,Passive,Creatures that hit you with unarmed strikes or Grapple you take 1d4 Piercing damage.
-Sharp Thorns,Latch,Reaction,Advantage on checks to maintain a Grapple (the thorns hook into the enemy).
-Closing Foliage,Snap Trap,Action,"Make a bite attack. If it hits, the target is automatically Grappled."
-Closing Foliage,Digest,Bonus,Deal Acid damage to a creature you currently have Grappled.
-Adaptive Leaves,Camouflage,Action,Change leaf color to match the season/terrain. Gain Advantage on Stealth checks.
-Adaptive Leaves,Weatherproof,Passive,You ignore penalties from extreme heat or extreme cold environments.
-Thorns,Deterrent,Passive,You have Advantage on Intimidation checks (you look painful to touch).
-Thorns,Barricade,Action,Lock your limbs together to create a wall of spikes. You provide Three-Quarters Cover to allies behind you.
-IronBark,Hardwood,Passive,Your base Armor Class is 14 + Dexterity modifier (max +2).
-IronBark,Rooted,Reaction,Advantage on saving throws to resist being Shoved or knocked Prone.
-Razor Leaves,Leaf Storm,Action,"Fire a volley of sharp leaves in a 15ft cone. Deal 3d6 Slashing damage (Dex save for half)."
-Razor Leaves,Serrated,Passive,Your unarmed strikes deal Slashing damage instead of Bludgeoning.
-Cactus Spines,Needle Burst,Reaction,"When hit by melee, explode spines outward. Attackers within 5ft take Piercing damage."
-Cactus Spines,Water Store,Passive,You can survive for 7 days without water.
-Toxic Sap,Poison Coat,Bonus,Coat a weapon or your hands in sap. Your next attack deals extra Poison damage.
-Toxic Sap,Splatter,Reaction,"When you take Slashing damage, your blood sprays. Attacker must save (Dex) or take Acid damage."
-Wide Roots,Tremorsense,Passive,You can detect the location of moving creatures on the ground within 20ft.
-Wide Roots,Stability,Passive,You are immune to being pushed or pulled against your will while on soil.
-Flower Head,Allure,Action,Release a pleasant scent. Humanoids must save (Will) or be Charmed (Passive/Non-hostile) for 1 minute.
-Flower Head,Solar Beam,Action,"Absorb light and fire a dazzling beam. Range 60ft. Deal 2d8 Radiant damage and Target must save or be Blinded."
-Root Ball,Earth Glide,Action,Sink into the earth and move through soil/dirt (Burrow speed 15ft).
-Root Ball,Bludgeon,Action,Use your heavy base to slam a prone enemy. Deal critical damage.
-Whistling Branches,Scream,Action,Let the wind pass through you to create a terrifying shriek. Enemies save vs Fear.
-Whistling Branches,Signal,Utility,Communicate with allies over long distances (1 mile) using wind sounds.
-Gnarled Face,Ancient Visage,Passive,You have Advantage on Insight and History checks (you look wise and old).
-Gnarled Face,Knotty Skin,Passive,You are immune to Critical Hits; knots deflect the blow to non-vital wood.
-Fluff Blooms,Drift,Reaction,"When falling, deploy seeds/fluff to float down safely (Feather Fall)."
-Fluff Blooms,Obscure,Action,Shake loose a cloud of white fluff. Creates a Heavily Obscured area (fog cloud) for 1 round.
-Irritating Sap,Itch,Action,Touch attack. Target gets a rash and has Disadvantage on Concentration checks.
-Irritating Sap,Bad Taste,Passive,Any creature that bites you must make a Con save or spend their next action retching (Stunned).
-Long Stem,Reach,Passive,Your melee reach increases by 5ft.
-Long Stem,Sway,Reaction,Gain +2 AC against a Ranged Attack by bending your flexible body out of the way.
-Stalk Hairs,Trigger,Passive,You cannot be Surprised. You feel air displacement before a hit connects.
-Stalk Hairs,Sticky,Passive,Advantage on checks to climb or hold onto objects (Velcro-like grip).
-Pine Needles,Evergreen,Passive,You remain conscious and active even in magical sleep or freezing temperatures.
-Pine Needles,Carpet,Action,Shake off needles to cover the floor. The area becomes Difficult Terrain and deals 1 damage per 5ft moved.
-Fruit Blooms,Goodberry,Action,Grow a magical fruit. Eating it restores 1d4 HP (Max 3 per day).
-Fruit Blooms,Bait,Utility,Grow a delicious-smelling fruit to lure hungry beasts into a trap.
-Pine Cones,Seed Grenade,Action,"Throw a cone. It explodes on impact, dealing Bludgeoning damage in a 5ft radius."
-Pine Cones,Scaly Armor,Passive,You have Resistance to Piercing damage (overlapping wooden scales).
-Skill Name,Required Body Part,Effect,
-Stable,Roots,Advantage vs Knock Prone.,
-Grounding,Wide Roots,Sense tremors 30ft.,
-Siege_Fist,Heavy Bough,Double Unarmed Dmg to objects.,
-Thorns,Spines,Grappler takes 1d4 damage (derived from Warn_Color).,
-Photosynth,Leaves,Go 1 week without food (Renamed from Storage).,
-Hard_Kill,Wood Heart,Advantage on Death Saves.,
+Body Part,Rank,Skill Name,Type,Reserve Cost,Limit / Burn,Effect
+Photosensors,1,Solar-Charge,Passive,0,Passive,Regain 1 Stamina per hour in sunlight.
+Photosensors,3,Camo,Action,0,1 Focus,Change color. Invisible while stationary.
+Photosensors,5,Beam,Action,0,1/Day,Fire Laser. Radiant Damage line.
+Root-Nerves,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Root-Nerves,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Root-Nerves,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Scent-Glands,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Scent-Glands,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Scent-Glands,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Mycelium-Brain,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Mycelium-Brain,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Mycelium-Brain,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Thermal-Pits,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Thermal-Pits,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Thermal-Pits,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Chemo-Receptors,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Chemo-Receptors,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Chemo-Receptors,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Sweet-Nectar,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Sweet-Nectar,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Sweet-Nectar,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Moisture-Sense,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Moisture-Sense,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Moisture-Sense,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Heavy Branches,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Heavy Branches,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Heavy Branches,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Whip-Limbs,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Whip-Limbs,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Whip-Limbs,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Needle-Fingers,1,Barbed,Passive,0,Passive,Grapplers take 1d4 damage per turn.
+Needle-Fingers,3,Volley,Action,0,2 Stamina,Shoot spines. Cone 15ft. Dex Save.
+Needle-Fingers,5,Explode,Reaction,0,1/Day,When hit, deal attacker equal damage.
+Puff-Ball Hands,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Puff-Ball Hands,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Puff-Ball Hands,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Fly-Trap Jaws,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Fly-Trap Jaws,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Fly-Trap Jaws,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Sticky Palms,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Sticky Palms,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Sticky Palms,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Cactus-Spines,1,Barbed,Passive,0,Passive,Grapplers take 1d4 damage per turn.
+Cactus-Spines,3,Volley,Action,0,2 Stamina,Shoot spines. Cone 15ft. Dex Save.
+Cactus-Spines,5,Explode,Reaction,0,1/Day,When hit, deal attacker equal damage.
+Root-Fists,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Root-Fists,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Root-Fists,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Stump-Roots,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Stump-Roots,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Stump-Roots,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Vine-Mass,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Vine-Mass,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Vine-Mass,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Spore-Cloud,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Spore-Cloud,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Spore-Cloud,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Roll-Cage,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Roll-Cage,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Roll-Cage,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Sub-Surface,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Sub-Surface,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Sub-Surface,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Stalk-Legs,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Stalk-Legs,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Stalk-Legs,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Drill-Roots,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Drill-Roots,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Drill-Roots,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Tendrils,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Tendrils,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Tendrils,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Iron-Wood,1,Tough,Passive,0,Passive,Gain +2 Max HP.
+Iron-Wood,3,Harden,Reaction,0,1 Stamina,Gain Resistance to Physical Damage for 1 hit.
+Iron-Wood,5,Regrow,Action,0,1/Day,Regain 50% HP over 1 minute.
+Fungal-Flesh,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Fungal-Flesh,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Fungal-Flesh,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Spiked-Skin,1,Tough,Passive,0,Passive,Gain +2 Max HP.
+Spiked-Skin,3,Harden,Reaction,0,1 Stamina,Gain Resistance to Physical Damage for 1 hit.
+Spiked-Skin,5,Regrow,Action,0,1/Day,Regain 50% HP over 1 minute.
+Soft-Moss,1,Solar-Charge,Passive,0,Passive,Regain 1 Stamina per hour in sunlight.
+Soft-Moss,3,Camo,Action,0,1 Focus,Change color. Invisible while stationary.
+Soft-Moss,5,Beam,Action,0,1/Day,Fire Laser. Radiant Damage line.
+Cuticle-Layer,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Cuticle-Layer,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Cuticle-Layer,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Hydraulic-Vines,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Hydraulic-Vines,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Hydraulic-Vines,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Reed-Structure,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Reed-Structure,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Reed-Structure,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Cork-Skin,1,Tough,Passive,0,Passive,Gain +2 Max HP.
+Cork-Skin,3,Harden,Reaction,0,1 Stamina,Gain Resistance to Physical Damage for 1 hit.
+Cork-Skin,5,Regrow,Action,0,1/Day,Regain 50% HP over 1 minute.
+Rapid-Cell,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Rapid-Cell,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Rapid-Cell,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Poison-Sap,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Poison-Sap,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Poison-Sap,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Goodberry,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Goodberry,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Goodberry,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Pollen-Cloud,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Pollen-Cloud,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Pollen-Cloud,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Mandrake-Root,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Mandrake-Root,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Mandrake-Root,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Root-Burst,1,Anchor,Passive,0,Passive,Advantage vs Knockback/Prone.
+Root-Burst,3,Entangle,Action,0,2 Stamina,Ranged Grapple (30ft). Target Restrained.
+Root-Burst,5,Earthquake,Action,0,1/Day,Knock all ground enemies Prone in 15ft radius.
+Fungal-Spore,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Fungal-Spore,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Fungal-Spore,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).
+Pollen-Link,1,Hive-Mind,Passive,0,Passive,Telepathic bond with other Plants.
+Pollen-Link,3,Sneeze,Action,0,2 Stamina,Target Confused/Stunned (Con Save).
+Pollen-Link,5,Infect,Action,0,1/Day,Target becomes Ally for 1 hour (Mind Control).

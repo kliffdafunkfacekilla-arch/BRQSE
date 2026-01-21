@@ -89,6 +89,16 @@ class Combatant:
         val = self.character.get_stat(stat)
         return (val - 10) // 2
 
+    def get_ac(self) -> int:
+        """
+        Calculates Armor Class.
+        Base 10 + Reflex Mod + (TODO: Armor/Shield/Buffs)
+        """
+        base = 10
+        dex_mod = self.get_stat_mod("Reflexes")
+        # TODO: Check inventory for Armor
+        return base + dex_mod
+
     # --- Status Management ---
     
     # --- Status Management ---

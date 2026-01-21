@@ -1,0 +1,8 @@
+Situation,Attacker Roll,Defender Roll,Notes
+1v1 Melee,Normal,Normal,Fair fight.
+2v1 Melee (Flanking),Normal,Disadvantage,The Defender is split between two threats.
+3v1+ Melee (Mobbing),Advantage,Disadvantage,The Defender is overwhelmed. No escape.
+Ranged vs Engaged (Clear LOS),Advantage,Normal,Target is distracted by melee; cannot dodge the arrow.
+Ranged vs Unengaged (Aware),Normal,Normal,Target sees the arrow and can Dodge/Block.
+Ranged vs Hidden/Cover,Normal,Normal,"Standard Contest (Attack vs Defense + Cover Bonus)."
+High Ground,Advantage,Normal,Attacker is firing from an elevated position.

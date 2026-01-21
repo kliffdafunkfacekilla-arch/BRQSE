@@ -82,6 +82,19 @@ def generate_replay():
     # 4. Start Combat
     engine.start_combat()
     
+    # CAPTURE INITIAL STATE
+    initial_combatants = []
+    for c in engine.combatants:
+        initial_combatants.append({
+            "name": c.name,
+            "max_hp": c.max_hp,
+            "hp": c.current_hp,
+            "team": c.team,
+            "x": c.x,
+            "y": c.y,
+            "sprite": c.sprite or "wolf"
+        })
+    
     # 5. Simulation Loop
     MAX_ROUNDS = 20
     round_count = 0
@@ -123,17 +136,9 @@ def generate_replay():
                  row.append(tile.terrain)
         map_tiles.append(row)
     
-    combatant_data = []
-    for c in engine.combatants:
-        combatant_data.append({
-            "name": c.name,
-            "max_hp": c.max_hp,
-            "hp": c.current_hp,
-            "team": c.team,
-            "x": c.x,
-            "y": c.y,
-            "sprite": c.sprite or "wolf"
-        })
+    
+    # Use captured initial state for combatant display start
+    combatant_data = initial_combatants
 
     final_data = {
         "combatants": combatant_data,

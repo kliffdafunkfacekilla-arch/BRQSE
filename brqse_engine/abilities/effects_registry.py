@@ -148,6 +148,7 @@ class EffectRegistry:
         # --- HEALING & RESOURCES ---
         self.register_pattern(r"Heal (?!HP every|minor)(\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
         self.register_pattern(r"Regain (\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
+        self.register_pattern(r"Regain (\d+) (Stamina|Focus|FP|SP)", self._handle_restore_resource)
         self.register_pattern(r"(?<!Stasis )Temp(?:orary)? HP", self._handle_temp_hp)
         
         # --- BUFFS / DEBUFFS ---
@@ -213,8 +214,10 @@ class EffectRegistry:
         self.register_pattern(r"Climb Speed|Walk on walls", self._handle_climb_speed)
         self.register_pattern(r"Burrow Speed", self._handle_burrow_speed)
         self.register_pattern(r"See in Darkness", self._handle_darkvision)
-        self.register_pattern(r"Tremorsense|Detect.*?location", self._handle_tremorsense)
+        self.register_pattern(r"Tremorsense|Detect.*?location|Detect moving", self._handle_tremorsense)
         self.register_pattern(r"Natural Armor.*?(\d+)", self._handle_natural_armor_formula) # 13+Dex
+        self.register_pattern(r"Reveal.*?stats|Analyze", self._handle_analyze)
+        self.register_pattern(r"Push all enemies.*?(\d+)ft|Tsunami", self._handle_aoe_push)
         
         # --- SAVE EFFECTS ---
         self.register_pattern(r"save.*?or.*?(Prone|Frightened|Charmed|Blinded|Paralyzed|Poisoned|Stunned|Restrained|Deafened)", self._handle_save_condition)
@@ -270,7 +273,7 @@ class EffectRegistry:
         # --- FLUX: DISINTEGRATE & DAMAGE ---
         self.register_pattern(r"Disintegrate", self._handle_disintegrate)
         self.register_pattern(r"Damage over Time|(?<!Massive )(?<!Rapid )DoT|(?<!Stop )Bleed", self._handle_dot)
-        self.register_pattern(r"Cut off|Sever.*?(limb|appendage)", self._handle_sever_limb)
+        self.register_pattern(r"Cut off|Sever.*?(limb|appendage|weapon|armor)", self._handle_sever_limb)
         self.register_pattern(r"Compress.*?space|Gravity well|Pull enemies", self._handle_compress_space)
         
         # --- FLUX: ESCAPE & MOVEMENT ---
@@ -711,6 +714,18 @@ class EffectRegistry:
         user = ctx.get("attacker")
         if user:
             if "log" in ctx: ctx["log"].append("Gained Temp HP!")
+
+    def _handle_restore_resource(self, match, ctx):
+        """Regain Stamina/Focus"""
+        amt = int(match.group(1))
+        res = match.group(2)
+        target = ctx.get("target") or ctx.get("attacker")
+        if target:
+            if res in ["Stamina", "SP"]:
+                target.sp = min(target.sp + amt, target.max_sp)
+            elif res in ["Focus", "FP"]:
+                target.fp = min(target.fp + amt, target.max_fp)
+            if "log" in ctx: ctx["log"].append(f"{target.name} regained {amt} {res}.")
 
     def _handle_stun(self, match, ctx):
         t = ctx.get("target")
@@ -4020,6 +4035,43 @@ class EffectRegistry:
     def _handle_squeeze(self, match, ctx):
         """Squeeze through tight spaces"""
         if "log" in ctx: ctx["log"].append("Can squeeze through small spaces.")
+
+    def _handle_analyze(self, match, ctx):
+        """Reveal Stats"""
+        target = ctx.get("target")
+        if target and "log" in ctx:
+            info = f"Analyze: {target.name} | HP: {target.hp}/{target.max_hp} | AC: {target.get_ac()}"
+            ctx["log"].append(info)
+
+    def _handle_aoe_push(self, match, ctx):
+        """Tsunami Push"""
+        engine = ctx.get("engine")
+        attacker = ctx.get("attacker")
+        dist = 15 # Default
+        if match.group(1): dist = int(match.group(1))
+        
+        if engine and attacker:
+            count = 0
+            for t in engine.combatants:
+                if t != attacker and t.is_alive():
+                     # Push away
+                     dx = t.x - attacker.x
+                     dy = t.y - attacker.y
+                     if dx == 0 and dy == 0: continue
+                     
+                     # Simple normalization for direction
+                     sx = 1 if dx > 0 else -1 if dx < 0 else 0
+                     sy = 1 if dy > 0 else -1 if dy < 0 else 0
+                     
+                     # Move dist/5 tiles
+                     tiles = dist // 5
+                     nx, ny = t.x + (sx * tiles), t.y + (sy * tiles)
+                     
+                     # Check bounds
+                     if 0 <= nx < engine.cols and 0 <= ny < engine.rows:
+                         t.x, t.y = nx, ny
+                         count += 1
+            if "log" in ctx: ctx["log"].append(f"Tsunami! Pushed {count} enemies back {dist}ft.")
 
     def _handle_biosense(self, match, ctx):
         """Detect Life/Heartbeat"""

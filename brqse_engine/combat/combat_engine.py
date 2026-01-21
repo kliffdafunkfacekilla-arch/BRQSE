@@ -224,27 +224,127 @@ class CombatEngine:
             self.log(f"Error using {ability_name}: {e}")
             return False
 
-    def execute_attack(self, attacker: Combatant, target: Combatant, weapon_stat="Might") -> Dict[str, Any]:
+    def get_adjacent_opponents(self, combatant: Combatant) -> List[Combatant]:
+        """Returns list of adjacent enemies."""
+        ops = []
+        for c in self.combatants:
+            if c != combatant and c.team != combatant.team and c.is_alive:
+                if max(abs(c.x - combatant.x), abs(c.y - combatant.y)) <= 1:
+                    ops.append(c)
+        return ops
+
+    def check_cover(self, attacker: Combatant, target: Combatant) -> int:
+        """Returns AC bonus from cover (0, +2, or 999 for Full)."""
+        # Simple line check for obstacles
+        # For now, just checking adjacent walls to target in direction of attacker?
+        # A true line-of-sight check is complex. 
+        # Simplified: If target is next to a wall between them -> Half Cover
+        return 0 # Plac horder for complex LOS
+
+    def execute_attack(self, attacker: Combatant, target: Combatant, weapon_stat="Might", is_ranged=False) -> Dict[str, Any]:
         """
         Calculates an attack roll and damage.
-        Returns a result dict.
+        Handles Flanking, Mobbing, Ranged Penalties, and Friendly Fire.
         """
-        # 1. Roll to Hit
-        roll_val, _, breakdown = Dice.roll("1d20")
+        log_entries = []
+        
+        # 0. Determine Distance & Ranged Status
+        dist = max(abs(attacker.x - target.x), abs(attacker.y - target.y))
+        if dist > 1: is_ranged = True
+        
+        # 1. Determine Situational Modifiers
+        adj_enemies = self.get_adjacent_opponents(target)
+        flanked = len(adj_enemies) >= 2
+        mobbed = len(adj_enemies) >= 3
+        
+        atk_advantage = False
+        atk_disadvantage = False
+        def_disadvantage = False
+        
+        if mobbed:
+            atk_advantage = True
+            def_disadvantage = True
+            log_entries.append("[Mobbing] Attacker Adv, Defender Disadv.")
+        elif flanked:
+            def_disadvantage = True # Flanking gives defender disadvantage
+            log_entries.append("[Flanking] Defender Disadvantage.")
+            
+        if is_ranged:
+            # Check if Attacker is Engaged (Adjacent to enemy)
+            attacker_engaged = len(self.get_adjacent_opponents(attacker)) > 0
+            if attacker_engaged:
+                atk_disadvantage = True # Disadvantage firing while engaged
+                log_entries.append("[Engaged] Ranged Disadvantage.")
+            
+            # Check if Target is Engaged (Distracted)
+            if len(adj_enemies) > 0: # Target is engaged by someone
+                 # Ranged vs Engaged Logic: "Advantage vs Engaged"
+                 if not attacker_engaged:
+                     atk_advantage = True
+                     log_entries.append("[Target Engaged] Ranged Advantage.")
+
+        # 2. Roll to Hit (With Advantage/Disadvantage Logic)
+        def roll_d20(adv=False, dis=False):
+            r1, _, _ = Dice.roll("1d20")
+            r2, _, _ = Dice.roll("1d20")
+            if adv and not dis: return max(r1, r2), " (Adv)"
+            if dis and not adv: return min(r1, r2), " (Dis)"
+            return r1, ""
+
+        roll_val, roll_note = roll_d20(atk_advantage, atk_disadvantage)
         
         # Calculate Modifier
         mod = attacker.get_stat_mod(weapon_stat)
         total_hit = roll_val + mod
         
-        # Determine AC (Reflex + 10 etc)
-        # Simplified: AC = 10 + Reflex Mod + Armor
-        target_ac = 10 + target.get_stat_mod("Reflexes") 
-        # TODO: Add Armor bonus lookup
+        # 3. Determine AC
+        # Base AC + Armor + Shield + Dex
+        target_ac = target.get_ac()
         
-        hit = total_hit >= target_ac
+        # Apply Defender Disadvantage (Technically AC penalty or Reroll? 
+        # Prompt says "Defender Roll". In a D20 vs AC system, Defender Disadvantage usually means 
+        # Attacker Advantage OR a penalty to AC. Let's treat it as effective -2 AC or similar?
+        # Actually, "Defender Roll" implies an active defense system (Dodge/Parry).
+        # Since this engine uses static AC (lines 239-241), we simulate Defender Disadvantage 
+        # by granting Attacker Advantage if not already set, or +2 to hit?)
+        # Let's map "Defender Disadvantage" to +2 To Hit for the attacker in a static AC system.
+        if def_disadvantage:
+            total_hit += 2 
+            log_entries.append(" (+2 Flank Bonus)")
+
+        # 4. Check Cover
+        cover_bonus = self.check_cover(attacker, target)
+        if cover_bonus > 10:
+             log_entries.append("Target has Full Cover!")
+             hit = False
+        else:
+             target_ac += cover_bonus
+             hit = total_hit >= target_ac
+        
         critical = roll_val == 20
         miss = not hit
         
+        # 5. Friendly Fire Check (Ranged Only)
+        friendly_hit = None
+        if is_ranged and miss: # "if they fail the attack roll"
+            # Check for allies in path or adjacent to target
+            # Simplified: Is there an ally of Attacker adjacent to Target?
+            # "Shooting past or next to them"
+            allies_near_target = []
+            for c in self.combatants:
+                if c != target and c.team == attacker.team and c.is_alive:
+                     if max(abs(c.x - target.x), abs(c.y - target.y)) <= 1:
+                         allies_near_target.append(c)
+            
+            if allies_near_target:
+                 # 50% chance to hit ally
+                 ff_roll, _, _ = Dice.roll("1d100")
+                 if ff_roll <= 50:
+                     friendly_hit = allies_near_target[0] # Hit the first one found
+                     log_entries.append(f"FRIENDLY FIRE! Aimed at {target.name}, hit {friendly_hit.name} instead!")
+                     hit = True # We hit *something*
+                     target = friendly_hit # Swap target for damage calculation
+
         result = {
             "attacker": attacker.name,
             "target": target.name,
@@ -254,8 +354,9 @@ class CombatEngine:
             "hit": hit,
             "critical": critical,
             "damage": 0,
-            "log": f"{attacker.name} attacks {target.name}: Rolled {total_hit} vs AC {target_ac}. {'HIT!' if hit else 'MISS.'}"
+            "log": f"{attacker.name} attacks {target.name}: {total_hit} vs AC {target_ac}. {'HIT!' if hit else 'MISS.'}"
         }
+        if log_entries: result["log"] += " " + " ".join(log_entries)
         
         if hit:
             # Roll Damage (Hardcoded 1d6 for now - needs Weapon lookap)
@@ -269,10 +370,9 @@ class CombatEngine:
             result["damage"] = dmg
             result["target_hp"] = target.current_hp
             result["log"] += f" Dealt {dmg} damage."
+            if friendly_hit: result["log"] += " (Friendly Fire)"
             
             if target.current_hp == 0:
-                result["log"] += f" {target.name} is DOWN!"
-        
                 result["log"] += f" {target.name} is DOWN!"
                 self.record_event("death", target.name, x=target.x, y=target.y)
         

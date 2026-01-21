@@ -3,18 +3,18 @@
     {
       "name": "Hero",
       "max_hp": 34,
-      "hp": 7,
+      "hp": 34,
       "team": "Blue",
-      "x": 5,
+      "x": 2,
       "y": 6,
       "sprite": "wolf"
     },
     {
-      "name": "flower",
-      "max_hp": 38,
-      "hp": 0,
+      "name": "Blaze",
+      "max_hp": 36,
+      "hp": 36,
       "team": "Red",
-      "x": 6,
+      "x": 9,
       "y": 6,
       "sprite": "wolf"
     }
@@ -38,19 +38,13 @@
       ]
     },
     {
-      "type": "hazard",
-      "actor": "Hero",
-      "damage": 1,
-      "effect": "fire"
-    },
-    {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "flower",
+      "actor": "Blaze",
       "from": [
         9,
         6
@@ -59,12 +53,6 @@
         8,
         6
       ]
-    },
-    {
-      "type": "hazard",
-      "actor": "flower",
-      "damage": 3,
-      "effect": "fire"
     },
     {
       "type": "info",
@@ -90,12 +78,12 @@
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "flower",
+      "actor": "Blaze",
       "from": [
         8,
         6
@@ -129,12 +117,12 @@
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "flower",
+      "actor": "Blaze",
       "from": [
         7,
         6
@@ -146,12 +134,12 @@
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 11,
+      "attack_roll": 8,
       "defense_roll": 10,
-      "result": "HIT",
-      "damage": 5
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
@@ -166,25 +154,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 10,
+      "target": "Blaze",
+      "attack_roll": 8,
       "defense_roll": 9,
-      "result": "HIT",
-      "damage": 6
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
       "attack_roll": 10,
       "defense_roll": 10,
       "result": "HIT",
-      "damage": 4
+      "damage": 6
     },
     {
       "type": "info",
@@ -199,25 +187,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 16,
+      "target": "Blaze",
+      "attack_roll": 10,
       "defense_roll": 9,
       "result": "HIT",
-      "damage": 5
+      "damage": 3
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 8,
+      "attack_roll": 19,
       "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
+      "result": "HIT",
+      "damage": 4
     },
     {
       "type": "info",
@@ -232,25 +220,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 15,
+      "target": "Blaze",
+      "attack_roll": 3,
       "defense_roll": 9,
-      "result": "HIT",
-      "damage": 3
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 16,
+      "attack_roll": 11,
       "defense_roll": 10,
       "result": "HIT",
-      "damage": 4
+      "damage": 1
     },
     {
       "type": "info",
@@ -265,25 +253,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 14,
+      "target": "Blaze",
+      "attack_roll": 9,
       "defense_roll": 9,
       "result": "HIT",
-      "damage": 2
+      "damage": 5
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 13,
+      "attack_roll": 18,
       "defense_roll": 10,
       "result": "HIT",
-      "damage": 4
+      "damage": 1
     },
     {
       "type": "info",
@@ -298,25 +286,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 18,
+      "target": "Blaze",
+      "attack_roll": 6,
       "defense_roll": 9,
-      "result": "HIT",
-      "damage": 5
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 7,
+      "attack_roll": 20,
       "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
+      "result": "CRITICAL",
+      "damage": 12
     },
     {
       "type": "info",
@@ -331,22 +319,22 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 1,
+      "target": "Blaze",
+      "attack_roll": 17,
       "defense_roll": 9,
-      "result": "MISS",
-      "damage": 0
+      "result": "HIT",
+      "damage": 5
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 7,
+      "attack_roll": 1,
       "defense_roll": 10,
       "result": "MISS",
       "damage": 0
@@ -364,25 +352,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 15,
+      "target": "Blaze",
+      "attack_roll": 4,
       "defense_roll": 9,
-      "result": "HIT",
-      "damage": 2
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 18,
+      "attack_roll": 8,
       "defense_roll": 10,
-      "result": "HIT",
-      "damage": 2
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
@@ -397,25 +385,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 11,
+      "target": "Blaze",
+      "attack_roll": 16,
       "defense_roll": 9,
       "result": "HIT",
-      "damage": 5
+      "damage": 1
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 17,
+      "attack_roll": 8,
       "defense_roll": 10,
-      "result": "HIT",
-      "damage": 4
+      "result": "MISS",
+      "damage": 0
     },
     {
       "type": "info",
@@ -430,25 +418,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 19,
+      "target": "Blaze",
+      "attack_roll": 17,
       "defense_roll": 9,
       "result": "HIT",
       "damage": 1
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 19,
+      "attack_roll": 17,
       "defense_roll": 10,
       "result": "HIT",
-      "damage": 3
+      "damage": 4
     },
     {
       "type": "info",
@@ -463,25 +451,25 @@
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 6,
+      "target": "Blaze",
+      "attack_roll": 17,
       "defense_roll": 9,
-      "result": "MISS",
-      "damage": 0
+      "result": "HIT",
+      "damage": 4
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
       "description": "Turn Starts"
     },
     {
       "type": "attack",
-      "actor": "flower",
+      "actor": "Blaze",
       "target": "Hero",
-      "attack_roll": 1,
+      "attack_roll": 18,
       "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
+      "result": "HIT",
+      "damage": 5
     },
     {
       "type": "info",
@@ -494,121 +482,56 @@
       "description": "Turn Starts"
     },
     {
-      "type": "death",
-      "actor": "flower",
-      "x": 6,
-      "y": 6
-    },
-    {
       "type": "attack",
       "actor": "Hero",
-      "target": "flower",
-      "attack_roll": 15,
+      "target": "Blaze",
+      "attack_roll": 9,
       "defense_roll": 9,
       "result": "HIT",
       "damage": 6
     },
     {
       "type": "info",
-      "actor": "flower",
+      "actor": "Blaze",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "death",
+      "actor": "Hero",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "type": "attack",
+      "actor": "Blaze",
+      "target": "Hero",
+      "attack_roll": 15,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 15 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
       "description": "Turn Starts"
     }
   ],
   "map": [
     [
       "normal",
-      "mud",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "ice",
-      "normal",
-      "normal",
-      "normal",
-      "fire",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "fire",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "fire",
-      "normal",
-      "ice",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "fire",
       "normal",
       "normal",
       "normal",
       "ice",
-      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "water_deep",
       "normal",
       "normal",
       "normal"
@@ -628,15 +551,15 @@
       "wall_stone"
     ],
     [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
       "ice",
       "normal",
       "normal",
       "normal",
+      "water_deep",
+      "normal",
+      "wall_stone",
+      "normal",
+      "normal",
       "normal",
       "normal",
       "normal"
@@ -645,21 +568,49 @@
       "normal",
       "normal",
       "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
+      "ice",
+      "water_deep",
       "normal",
       "normal",
       "wall_stone",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ],
     [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "mud"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal",
       "normal",
       "fire",
       "normal",
+      "normal"
+    ],
+    [
+      "mud",
+      "normal",
+      "normal",
+      "normal",
       "normal",
       "normal",
       "normal",
@@ -672,6 +623,18 @@
     [
       "normal",
       "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
       "normal",
       "normal",
       "normal",
@@ -680,9 +643,53 @@
       "mud",
       "normal",
       "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
       "fire",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "water_deep",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ]
   ],
-  "winner": "Blue Team"
+  "winner": "Red Team"
 }

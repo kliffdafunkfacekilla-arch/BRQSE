@@ -1,56 +1,121 @@
-Body Part,Skill Name,Type,Effect Description
-Hooked Beak,Tear Flesh,Action,"Make a bite attack. If it hits, the target takes extra Bleed damage equal to your Proficiency Bonus."
-Hooked Beak,Grip,Passive,You have Advantage on checks to maintain a grapple on a target you have bitten.
-Chisel Beak,Sunder,Action,Strike an object or armor. Reduce the target's Armor Class (AC) by 1 until repaired.
-Chisel Beak,Bore,Utility,You can drill a small hole through wood or stone (1 inch/minute) to spy or create a peephole.
-Black Plumage,Omen,Action,Fluff your feathers and stare. Target must save (Willpower) or be Frightened (Bad Luck omen).
-Black Plumage,Shadow Blend,Passive,Advantage on Stealth checks when in Dim Light or Darkness.
-Sharp Eyes,Spot Weakness,Bonus,Analyze a target. Your next attack against them scores a Critical Hit on a roll of 19 or 20.
-Sharp Eyes,Telescopic,Passive,You suffer no penalties on Perception checks due to distance. You can read lips from 100ft.
-Wide Wings,Gust,Action,Flap powerfully to create a 15ft line of wind. Creatures must save (Strength) or be pushed back 10ft.
-Wide Wings,Soar,Passive,You can fly for hours without exhaustion if you are high enough to catch thermals.
-Mottled Feathers,Static Camo,Action,Press yourself against tree bark or stone. You become Invisible as long as you do not move.
-Mottled Feathers,Blur,Reaction,"When targeted by a ranged attack, shake your feathers to distort your outline, imposing Disadvantage on the hit."
-Large Syrinx,Mimicry,Action,"Perfectly imitate a voice or sound you have heard (e.g., a baby crying, a guard captain's order)."
-Large Syrinx,Dual Tone,Passive,"You can produce two distinct sounds at once (e.g., speaking while whistling a signal)."
-Oily Feathers,Waterproof,Passive,You are immune to the soaked condition and resist Cold damage from water.
-Oily Feathers,Slick Escape,Reaction,Advantage on checks to escape a Grapple or bindings (ropes/nets).
-Large Talons,Snatch,Action,Fly by a target smaller than you. You can Grapple them and continue moving without provoking Opportunity Attacks.
-Large Talons,Crush,Bonus,"If you have a target Grappled, deal Bludgeoning damage equal to your Strength modifier."
-Sharp Beak,Precision Peck,Action,"Make an attack against a specific body part (eyes/hands) with a -2 penalty. On hit, apply a debuff (Blind/Disarm)."
-Sharp Beak,Shell Cracker,Passive,Your bite attacks ignore Resistance provided by natural armor or chitin.
-Throat Muscles,Project Voice,Action,"Your voice carries clearly over loud noises (storms, battle) up to 300ft."
-Throat Muscles,Gullet Storage,Utility,You can swallow an item up to the size of a potion bottle and hold it safely in your crop.
-Barrel Chest,Deep Breath,Passive,You can hold your breath for 15 minutes (high altitude adaptation).
-Barrel Chest,Resonance,Action,Hum a low frequency. Allies touching you recover from the Frightened condition.
-Tail Fan,Display,Action,Spread your tail. Creatures in a 15ft cone must save (Charisma) or be Charmed or Intimidated.
-Tail Fan,Air Brake,Reaction,"When falling or flying too fast, spread your tail to stop instantly or take 0 falling damage."
-Forward Stance,Charge,Action,Move at least 20ft straight toward a target and attack. Deal +2 damage on a hit.
-Forward Stance,Aggressor,Passive,You gain a +2 bonus to Initiative rolls.
-Vocal Tones,Inspire,Bonus,Sing a chord to give one ally a d6 Inspiration Die to use on their next roll.
-Vocal Tones,Harmony,Passive,Advantage on Persuasion checks when speaking to intelligent creatures.
-Wide Eyes,Night Vision,Passive,You can see in Dim Light as if it were Bright Light.
-Wide Eyes,Vigilant,Reaction,You cannot be Surprised while you are awake.
-Webbed Feet,Surface Dash,Action,You can run across the surface of water for one turn without sinking.
-Webbed Feet,Paddle,Passive,You gain a Swim Speed equal to your Walk Speed.
-Barbed Throat,No Escape,Passive,"If you swallow a creature (Small or Tiny), they cannot escape your stomach."
-Barbed Throat,Regurgitate,Action,Expel stomach contents as a projectile weapon (Acid damage) or to feed an ally (Transfer HP).
-Head Crest,Signal,Bonus,Raise/Lower crest to send a silent coded message to allies within sight.
-Head Crest,Sense Current,Passive,You automatically detect changes in air pressure (incoming storms or invisible flying enemies).
-Large Pupils,Allure,Reaction,"When a humanoid attacks you, use ""Cute Eyes."" They must make a Will save or deal half damage."
-Large Pupils,Light Sensitivity,Passive,"You have Superior Darkvision (120ft), but Disadvantage on attacks in direct bright sunlight."
-Bobbing Head,Stabilize,Passive,You suffer no penalties to Perception or Ranged Attacks while moving at full speed.
-Bobbing Head,Rhythm,Action,Entrancing movement. A target watching you has Disadvantage on Wisdom saves until you stop.
-Foot Talons,Rake,Action,"Make a kick attack. If the target is Prone, this attack deals Critical Damage."
-Foot Talons,Perch,Passive,You can sleep comfortably on narrow branches or ropes without falling.
-Light Build,Lift Off,Reaction,"When an enemy moves within 5ft of you, you can fly 10ft away without provoking an attack."
-Light Build,Fragile Speed,Passive,"Your Fly speed increases by +10ft, but your max carrying capacity is halved."
-Skill Name,Required Body Part,Effect,
-Safe_Fall,Feathers / Wings,Reduce fall damage by 20ft.,
-Mimicry,Large Syrinx,Replicate any voice/sound heard.,
-Signal,Throat Muscles,Message allies up to 1 mile away.,
-Telescopic,Sharp Eyes,No Range Penalty (Renamed from Geometry).,
-Dive,Light Build,#ERROR!,
-Bleed,Hooked Beak,Critical Hits cause 1d4 Bleed dmg.,
-Vigilant,Wide Eyes,No penalties from lack of sleep/surprise.,
-Grip,Talons,Advantage to resist being Shoved/Moved.,
+Body Part,Rank,Skill Name,Type,Reserve Cost,Limit / Burn,Effect
+Magnifying Lens,1,Eagle-Eyed,Passive,0,Passive,Treat Dim Light as Bright. See detail from 1 mile away.
+Magnifying Lens,3,Focus,Bonus,0,1 Focus,Next Ranged Attack ignores Cover penalties.
+Magnifying Lens,5,True-Sight,Action,0,1/Day,See Invisible/Camouflaged targets for 1 minute.
+Tubular Eyes,1,Eagle-Eyed,Passive,0,Passive,Treat Dim Light as Bright. See detail from 1 mile away.
+Tubular Eyes,3,Focus,Bonus,0,1 Focus,Next Ranged Attack ignores Cover penalties.
+Tubular Eyes,5,True-Sight,Action,0,1/Day,See Invisible/Camouflaged targets for 1 minute.
+Magneto-Receptors,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Magneto-Receptors,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Magneto-Receptors,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Lateral Eyes,1,Eagle-Eyed,Passive,0,Passive,Treat Dim Light as Bright. See detail from 1 mile away.
+Lateral Eyes,3,Focus,Bonus,0,1 Focus,Next Ranged Attack ignores Cover penalties.
+Lateral Eyes,5,True-Sight,Action,0,1/Day,See Invisible/Camouflaged targets for 1 minute.
+Olfactory Bulb,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Olfactory Bulb,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Olfactory Bulb,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Gyro-Head,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Gyro-Head,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Gyro-Head,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Facial Disk,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Facial Disk,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Facial Disk,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Crest Display,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Crest Display,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Crest Display,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Spurred Wrists,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Spurred Wrists,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Spurred Wrists,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Heavy Pinions,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Heavy Pinions,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Heavy Pinions,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Bone-Wings,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Bone-Wings,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Bone-Wings,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Clawed Digits,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Clawed Digits,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Clawed Digits,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Swept Wings,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Swept Wings,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Swept Wings,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Serrated Fringes,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Serrated Fringes,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Serrated Fringes,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Strong Shoulders,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Strong Shoulders,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Strong Shoulders,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Flipper-Wings,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Flipper-Wings,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Flipper-Wings,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Raptor Claws,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Raptor Claws,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Raptor Claws,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Running Struts,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Running Struts,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Running Struts,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Zygodactyl Toes,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Zygodactyl Toes,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Zygodactyl Toes,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Stilt Legs,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Stilt Legs,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Stilt Legs,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Cassowary Claw,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Cassowary Claw,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Cassowary Claw,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Locking Tendons,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Locking Tendons,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Locking Tendons,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Webbed Feet,1,Perch,Passive,0,Passive,Climb Speed equal to Walk Speed. Lock onto surfaces.
+Webbed Feet,3,Rend,Action,0,2 Stamina,Melee Strike. If target is Grappled, deal Max Damage.
+Webbed Feet,5,Execute,Action,0,1/Day,Deal Critical Damage. If target dies, regain 10 HP.
+Shock Absorbers,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Shock Absorbers,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Shock Absorbers,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Insulating Down,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Insulating Down,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Insulating Down,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Preen Gland,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Preen Gland,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Preen Gland,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Keratin Scales,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Keratin Scales,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Keratin Scales,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Iridescent Plume,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Iridescent Plume,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Iridescent Plume,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Camo-Plumage,1,Glide,Passive,0,Passive,Negate Fall Damage. Travel speed x2 when descending.
+Camo-Plumage,3,Gust,Action,0,2 Stamina,Cone of Wind. Enemies must save (Str) or be Pushed 10ft.
+Camo-Plumage,5,Hurricane,Action,0,1/Day,All adjacent enemies are knocked Prone and take 2d6 Bludgeoning.
+Hollow Bones,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Hollow Bones,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Hollow Bones,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Crop Pouch,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Crop Pouch,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Crop Pouch,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Thick Skin,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Thick Skin,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Thick Skin,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Syrinx Box,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Syrinx Box,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Syrinx Box,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Song-Throat,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Song-Throat,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Song-Throat,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Fan Tail,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Fan Tail,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Fan Tail,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Counter-Tail,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Counter-Tail,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Counter-Tail,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Hooked Bill,1,Tool-Use,Passive,0,Passive,Use Beak for precision tasks (Picking locks/knots).
+Hooked Bill,3,Snap,Action,0,1 Stamina,Melee Bite. Ignore 2 points of Armor Rating.
+Hooked Bill,5,Shatter,Action,0,1/Day,Destroy a [Brittle] object or weapon instantly.
+Nut-Cracker Bill,1,Tool-Use,Passive,0,Passive,Use Beak for precision tasks (Picking locks/knots).
+Nut-Cracker Bill,3,Snap,Action,0,1 Stamina,Melee Bite. Ignore 2 points of Armor Rating.
+Nut-Cracker Bill,5,Shatter,Action,0,1/Day,Destroy a [Brittle] object or weapon instantly.
+Throat Sac,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Throat Sac,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Throat Sac,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.
+Boom-Sack,1,Mimicry,Passive,0,Passive,Perfectly replicate sounds heard.
+Boom-Sack,3,Screech,Action,0,1 Stamina,Cone of Sound. Deafen targets.
+Boom-Sack,5,Inspire,Action,0,1/Day,Allies gain Advantage on next roll.

@@ -1,0 +1,5 @@
+Status,Trigger,Effect,Removal
+Engaged,Adjacent to an enemy,"Cannot move without Disengage. Ranged Attacks out have Disadvantage.",Disengage or Enemy Dies.
+Flanked,Engaged by 2 Enemies,Defender has Disadvantage on Defense rolls.,"Move out of the ""sandwich""."
+Overwhelmed,Engaged by 3+ Enemies,Defender has Disadvantage. Attackers have Advantage.,Pray or Die.
+Targeted,Engaged by Ally + Ranged LOS,Ranged Attackers have Advantage against you.,Break LOS or Kill the Engager.

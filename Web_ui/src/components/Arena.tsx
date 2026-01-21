@@ -195,18 +195,24 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
         }
 
         // MOVEMENT
-        if (event.type === "move" && event.to && event.from) {
-            const [oldX, oldY] = event.from;
-            const [newX, newY] = event.to;
-            let newFacing: 'up' | 'down' | 'left' | 'right' = 'down';
-            if (newX > oldX) newFacing = 'right';
-            else if (newX < oldX) newFacing = 'left';
-            else if (newY > oldY) newFacing = 'down';
-            else if (newY < oldY) newFacing = 'up';
+        if (event.type === "move") {
+            const names = combatants.map(c => `'${c.name}'`).join(", ");
+            setConsoleMsg(prev => [`DEBUG: MOVE '${event.actor}' vs [${names}]`, ...prev].slice(0, 30));
+            if (event.to && event.from) {
+                const [oldX, oldY] = event.from;
+                const [newX, newY] = event.to;
+                let newFacing: 'up' | 'down' | 'left' | 'right' = 'down';
+                if (newX > oldX) newFacing = 'right';
+                else if (newX < oldX) newFacing = 'left';
+                else if (newY > oldY) newFacing = 'down';
+                else if (newY < oldY) newFacing = 'up';
 
-            setCombatants(prev => prev.map(c =>
-                c.name === event.actor ? { ...c, x: newX, y: newY, facing: newFacing } : c
-            ));
+                setCombatants(prev => prev.map(c =>
+                    c.name === event.actor ? { ...c, x: newX, y: newY, facing: newFacing } : c
+                ));
+            } else {
+                setConsoleMsg(prev => [`DEBUG: MOVE FAILED (No Coords) for ${event.actor}`, ...prev].slice(0, 30));
+            }
         }
 
         // DEATH EVENT
