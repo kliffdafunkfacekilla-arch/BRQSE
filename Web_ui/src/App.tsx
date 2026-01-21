@@ -12,6 +12,7 @@ import CharacterSheet from './components/CharacterSheet';
 import Journal from './components/Journal';
 import BattleBuilder from './components/BattleBuilder';
 import CharacterBuilder from './components/CharacterBuilder';
+import SceneStack from './components/SceneStack';
 import { Hammer, UserPlus } from 'lucide-react';
 
 // --- CONFIG ---
@@ -297,13 +298,22 @@ function App() {
 
           <div className="flex-1 overflow-auto relative">
             {currentView === 'arena' && (
-              <div className="h-full flex flex-col">
+import SceneStack from './components/SceneStack';
+
+            // ... (inside the component)
+
+            {currentView === 'arena' && (
+              <div className="h-full flex flex-col relative">
+                {/* Overlay SceneStack UI */}
+                <SceneStack onLog={(msg, type) => addLog('WORLD', msg, type)} />
+
                 <div className="flex-1 flex items-center justify-center p-4 bg-grid-pattern relative">
                   <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-50" />
                   <Arena onStatsUpdate={handleArenaUpdate} onLog={(msg, type) => addLog('ARENA', msg, type)} />
                 </div>
                 <ActionBar />
               </div>
+            )}
             )}
 
             {currentView === 'character' && (
