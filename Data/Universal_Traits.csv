@@ -1,0 +1,8 @@
+Tier,Skill_Name,Effect
+Novice,Toughness,+1 Condition per Level.
+Novice,Fleet,+5ft Movement Speed.
+Novice,Alert,+5 to Initiative rolls.
+Adept,Grit,Ignore the first Level of Exhaustion.
+Adept,Brawler,Unarmed Damage becomes 1d6.
+Master,Iron Will,Reroll a failed Willpower Save (1/Day).
+Legend,Regenerator,Regain 1 Condition every minute outside combat.

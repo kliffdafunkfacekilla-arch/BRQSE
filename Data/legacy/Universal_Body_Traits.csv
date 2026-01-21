@@ -1,0 +1,7 @@
+Tier,Skill_Name,Type,Effect
+1,Scarred,Passive,+2 Max HP. You look tough.
+1,Sprinter,Passive,+5ft Movement Speed.
+3,Grit,Reaction,Spend 1 Willpower to reroll a failed Death Save.
+3,Brawler,Passive,Unarmed Damage becomes 1d4 (instead of 1).
+5,Iron Lung,Passive,Hold breath for 10 minutes. Advantage vs Inhaled Poison.
+5,Sixth Sense,Passive,You wake up instantly if danger approaches while sleeping.

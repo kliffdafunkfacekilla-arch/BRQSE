@@ -1,0 +1,21 @@
+Level,XP_Required,Tier,AP_Gain,SP_Gain,Capacity_Bonus,Unlocks
+1,0,Novice,0,2,0,Rank 1 Racial Traits
+2,300,Novice,1,1,+2 Stamina,
+3,900,Novice,1,1,+2 Focus,Rank 3 Racial Traits
+4,2700,Veteran,1,2,+2 Stamina,Feat Slot 1
+5,6500,Veteran,1,1,+2 Focus,Subclass Spec
+6,14000,Veteran,1,1,+4 Stamina,
+7,23000,Elite,2,2,+4 Focus,Rank 5 Racial Traits
+8,34000,Elite,1,1,+4 Stamina,Feat Slot 2
+9,48000,Elite,1,1,+4 Focus,
+10,64000,Master,2,3,+10 Both,Capstone Ability
+11,85000,Master,1,1,+2 Stamina,Limit Break 1
+12,100000,Master,1,2,+2 Focus,Feat Slot 3
+13,120000,Master,1,1,+5 Stamina,
+14,145000,Legend,2,1,+5 Focus,Secondary Body Part
+15,175000,Legend,1,1,+5 Stamina,
+16,210000,Legend,1,2,+5 Focus,Feat Slot 4
+17,250000,Mythic,2,1,+10 Stamina,
+18,300000,Mythic,1,1,+10 Focus,Limit Break 2
+19,355000,Mythic,1,1,+10 Both,
+20,420000,God,5,5,Infinite,Ascension

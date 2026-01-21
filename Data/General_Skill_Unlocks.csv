@@ -1,0 +1,17 @@
+Category,Rank,Name,Effect
+WEAPON,Novice,Grip,You cannot be Disarmed.
+WEAPON,Adept,Breaker,Critical Hits destroy the target's Shield or Armor (reduce AR).
+WEAPON,Master,Execute,Advantage on attacks against targets with <50% HP.
+WEAPON,Legend,Reaper,If you kill a target make a second attack instantly (Free Action).
+ARMOR,Novice,Wear,Sleeping in armor causes no Fatigue/Penalties.
+ARMOR,Adept,Deflect,Reaction: Reduce incoming Ranged Damage by your Armor Rating.
+ARMOR,Master,Turtle,You cannot be Critically Hit while Flanked.
+ARMOR,Legend,Bulwark,You provide Full Cover to allies behind you.
+TOOL,Novice,Hasty,You can use a Tool (Potion/Trap) as a Bonus Action.
+TOOL,Adept,Recycle,On a successful Tool check roll d6. On 6 you keep the consumable.
+TOOL,Master,Improv,You can use Tools without a Kit (using nearby junk) at no penalty.
+TOOL,Legend,MacGyver,You can disable Magical Traps/Locks using non-magical tools.
+UTILITY,Novice,Reliable,If you roll a Natural 1 on a Utility check reroll it (once).
+UTILITY,Adept,Assist,When you Help an ally they add your Attribute Die to their roll.
+UTILITY,Master,Fast,Perform long tasks (Searching room First Aid) in half the time.
+UTILITY,Legend,Ghost,You can Hide while being observed (Shadow Step).

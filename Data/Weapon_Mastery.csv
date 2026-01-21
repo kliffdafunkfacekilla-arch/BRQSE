@@ -1,0 +1,49 @@
+Skill_Name,Attribute,Tier,Unlock_Name,Effect
+Great,Might,Novice,Cleave,If you kill a target deal remaining damage to an adjacent enemy.
+Great,Might,Adept,Shatter,Critical Hits destroy the target's Shield (Armor Rating 0).
+Great,Might,Master,Executioner,Advantage on attacks against Prone or Stunned targets.
+Great,Might,Legend,Titan,You can wield Two-Handed weapons in one hand (requires 18 Might).
+Ballistics,Might,Novice,Heavy Draw,Range increases by 50%.
+Ballistics,Might,Adept,Pin,On Crit target gains Restrained condition.
+Ballistics,Might,Master,Siege,Deal double damage to structures and Large+ creatures.
+Ballistics,Might,Legend,Overdraw,Spend 1 turn aiming to Auto-Crit on hit.
+Small,Finesse,Novice,Hidden,You can draw a Small weapon as a Free Action.
+Small,Finesse,Adept,Backstab,Advantage on attacks if Flanking.
+Small,Finesse,Master,Surgical,Ignore Resistance to Piercing damage.
+Small,Finesse,Legend,Assassin,If you attack from Hiding and hit target must save vs Death (Fortitude).
+Thrown,Finesse,Novice,Quick Draw,Throwing a weapon does not provoke Reactions.
+Thrown,Finesse,Adept,Ricochet,Missed throws return to your hand.
+Thrown,Finesse,Master,Volley,Throw 3 weapons at once (Disadvantage on accuracy).
+Thrown,Finesse,Legend,Bullseye,Ignore Cover penalties entirely.
+Fist,Fortitude,Novice,Brawler,Unarmed damage becomes 1d4.
+Fist,Fortitude,Adept,Clinch,You can Grapple as a Bonus Action after a hit.
+Fist,Fortitude,Master,Iron Skin,While unarmed gain +2 Natural Armor.
+Fist,Fortitude,Legend,Quivering Palm,Spend 3 Focus. Hit target dies in 1d4 rounds (Fortitude Save).
+Simple,Fortitude,Novice,Reliable,Reroll 1s on Damage dice.
+Simple,Fortitude,Adept,Snapshot,Can fire Simple weapons in melee without Disadvantage.
+Simple,Fortitude,Master,Cheap Shot,Aim for weak points. Deal low damage but inflict Stunned.
+Simple,Fortitude,Legend,Rapid Fire,Make one extra attack per turn with Simple weapons.
+Medium,Logic,Novice,Parry,Reaction: Roll Weapon Skill vs Attack to negate a hit.
+Medium,Logic,Adept,Riposte,If you successfully Parry make an immediate counter-attack.
+Medium,Logic,Master,Disarm,Advantage on Disarm attempts.
+Medium,Logic,Legend,Flow,Killing an enemy grants 1 Action immediately.
+Blast,Logic,Novice,Grenadier,Throw range increased by 10ft.
+Blast,Logic,Adept,Shape Charge,You are immune to your own Blast damage.
+Blast,Logic,Master,Shrapnel,Blast damage causes Bleeding.
+Blast,Logic,Legend,Nuke,All Blast radii are doubled.
+Large,Awareness,Novice,Reach,You threaten Reactions at 10ft range.
+Large,Awareness,Adept,Brace,Reaction: Attack an enemy entering your reach.
+Large,Awareness,Master,Sweep,Trip attempt targets all adjacent enemies.
+Large,Awareness,Legend,Phalanx,Allies adjacent to you gain Advantage on Defense rolls.
+Long Shot,Awareness,Novice,Snipe,If you don't move Range is doubled.
+Long Shot,Awareness,Adept,Headshot,Critical Range increases to 19-20.
+Long Shot,Awareness,Master,Camouflaged,Shooting while Hidden does not reveal you if you kill the target.
+Long Shot,Awareness,Legend,One Shot,Deal Max Damage on all hits against Unaware targets.
+Exotic Melee,Charm,Novice,Dazzle,Flourish weapon to give target Disadvantage on next attack.
+Exotic Melee,Charm,Adept,Entangle,Whips/Chains can Grapple at range.
+Exotic Melee,Charm,Master,Flow,Moving does not provoke Reactions.
+Exotic Melee,Charm,Legend,Dance,Add Charm modifier to Damage Rolls.
+Exotic Ranged,Charm,Novice,Silent,Blowgun/Bolas make no sound when fired.
+Exotic Ranged,Charm,Adept,Poisoner,Applying poison is a Free Action.
+Exotic Ranged,Charm,Master,Trick Shot,Ignore Cover penalties.
+Exotic Ranged,Charm,Legend,Sleep,Bolas/Darts inflict Unconscious (Fortitude Save).

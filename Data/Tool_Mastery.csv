@@ -1,0 +1,25 @@
+Skill_Name,Attribute,Tier,Unlock_Name,Effect
+Shield,Endurance,Novice,Bash,Shield Strike deals 1d4 + Shove.
+Shield,Endurance,Adept,Cover,Grant adjacent ally Advantage on Defense rolls.
+Shield,Endurance,Master,Wall,You provide Full Cover to allies behind you.
+Shield,Endurance,Legend,Reflect,Reaction: Bounce a spell bolt back at the caster.
+Snares,Reflexes,Novice,Setter,Set a trap in 1 Round (Combat Speed).
+Snares,Reflexes,Adept,Hidden,Traps are invisible without active Awareness check.
+Snares,Reflexes,Master,Complex,Traps deal double damage or status duration.
+Snares,Reflexes,Legend,Zone,You control a 3x3 area. Anyone entering takes damage.
+Tinctures,Vitality,Novice,Medic,Stabilize Dying target automatically (no roll).
+Tinctures,Vitality,Adept,Brewer,Create 2 potions for the cost of 1.
+Tinctures,Vitality,Master,Surgeon,Cure 1 Physical Trauma during Short Rest.
+Tinctures,Vitality,Legend,Miracle,Revive a dead target (within 1 min) to 1 Condition.
+Catalysts,Knowledge,Novice,Wand,Can use wands without spending charges on a 6 (d6).
+Catalysts,Knowledge,Adept,Scroll,Can cast from scrolls without destroying them (50% chance).
+Catalysts,Knowledge,Master,Staff,Advantage on Spell Attack Rolls.
+Catalysts,Knowledge,Legend,Battery,Store 5 Focus in an item for later use.
+Curios,Intuition,Novice,Luck,Gain 1 Reroll per session.
+Curios,Intuition,Adept,Fate,Force an enemy to Reroll a success.
+Curios,Intuition,Master,Tarot,Draw a card for a random buff at start of day.
+Curios,Intuition,Legend,Cheat,Change a dice roll to a Natural 20 (1/Campaign).
+Regalia,Willpower,Novice,Banner,Allies within 30ft gain Advantage vs Fear.
+Regalia,Willpower,Adept,Horn,Action: All allies can move 10ft immediately.
+Regalia,Willpower,Master,Badge,Advantage on Social checks with soldiers.
+Regalia,Willpower,Legend,King,Allies within 30ft are immune to Broken condition.

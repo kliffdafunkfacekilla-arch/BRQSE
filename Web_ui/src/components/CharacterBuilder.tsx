@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { User, Save, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, Book, Shield, Swords, Sparkles } from 'lucide-react';
+import { User, Save, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, Book, Shield, Swords, Sparkles, Shuffle } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api';
 
@@ -313,6 +313,36 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
             setStatus('Saved (Offline)');
             if (onSave) onSave(char);
         }
+    };
+
+    const randomizeCharacter = () => {
+        // Random species
+        const species = ['Mammal', 'Reptile', 'Avian', 'Insect', 'Aquatic', 'Plant'];
+        const randSpecies = species[Math.floor(Math.random() * species.length)];
+        setSelectedClass(randSpecies);
+
+        // Generate random name
+        const prefixes = ['Shadow', 'Storm', 'Iron', 'Swift', 'Crimson', 'Wild', 'Stone', 'Flame', 'Frost', 'Night'];
+        const suffixes = ['claw', 'fang', 'wing', 'heart', 'runner', 'striker', 'walker', 'stalker', 'hunter', 'blade'];
+        const randName = prefixes[Math.floor(Math.random() * prefixes.length)] + suffixes[Math.floor(Math.random() * suffixes.length)];
+        setName(randName);
+
+        // Random token
+        if (tokenData.length > 0) {
+            setSelectedToken(tokenData[Math.floor(Math.random() * tokenData.length)]);
+        }
+
+        // Random spells (pick 2 from available)
+        if (spellData.length >= 2) {
+            const shuffled = [...spellData].sort(() => Math.random() - 0.5);
+            setSelectedSpells(shuffled.slice(0, 2));
+        }
+
+        // Note: Component selections, backgrounds, and gear will need
+        // to be randomized after class data loads (via useEffect)
+        // For now, we jump to finalize step for quick generation
+        setCurrentStepIndex(steps.length - 1);
+        setStatus('Random character generated! Customize as needed.');
     };
 
     // --- Renderers ---
@@ -662,14 +692,23 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                         <div className="text-[10px] text-stone-400">Phase {Math.floor(currentStepIndex / 5) + 1}: {currentStep.label}</div>
                     </div>
                 </div>
-                <div className="flex gap-0.5 max-w-[50%] overflow-hidden">
-                    {steps.map((s, i) => (
-                        <div
-                            key={s.id}
-                            className={`h-1.5 w-4 rounded-sm transition-all ${i === currentStepIndex ? 'bg-[#66fcf1] w-6' : i < currentStepIndex ? 'bg-[#45a29e]' : 'bg-stone-800'
-                                }`}
-                        />
-                    ))}
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={randomizeCharacter}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold rounded transition-all"
+                        title="Generate Random Character"
+                    >
+                        <Shuffle size={14} /> Random
+                    </button>
+                    <div className="flex gap-0.5 max-w-[40%] overflow-hidden">
+                        {steps.map((s, i) => (
+                            <div
+                                key={s.id}
+                                className={`h-1.5 w-4 rounded-sm transition-all ${i === currentStepIndex ? 'bg-[#66fcf1] w-6' : i < currentStepIndex ? 'bg-[#45a29e]' : 'bg-stone-800'
+                                    }`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
 

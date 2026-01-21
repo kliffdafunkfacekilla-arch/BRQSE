@@ -28,6 +28,8 @@ interface Combatant {
     name: string;
     max_hp: number;
     hp: number;
+    max_composure?: number;
+    composure?: number;
     x: number;
     y: number;
     team: string;
@@ -422,9 +424,16 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                                     {c.name}
                                 </div>
                             </div>
+                            {/* HP Bar */}
                             <div className="w-full max-w-[40px] h-1 bg-stone-900 mt-1 rounded-full overflow-hidden border border-white/10 relative -top-1">
                                 <div className={`h-full ${c.team === 'blue' ? 'bg-[#00f2ff]' : 'bg-red-500'}`} style={{ width: `${(c.hp / c.max_hp) * 100}%` }} />
                             </div>
+                            {/* Composure Bar (Purple) */}
+                            {c.max_composure && c.max_composure > 0 && (
+                                <div className="w-full max-w-[40px] h-1 bg-stone-900 rounded-full overflow-hidden border border-white/10 relative -top-1">
+                                    <div className="h-full bg-purple-500" style={{ width: `${((c.composure || 0) / c.max_composure) * 100}%` }} />
+                                </div>
+                            )}
                         </div>
                     ))}
 

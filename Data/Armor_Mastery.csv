@@ -1,0 +1,25 @@
+Skill_Name,Attribute,Tier,Unlock_Name,Effect
+Heavy,Endurance,Novice,Juggernaut,Advantage vs Shove/Trip.
+Heavy,Endurance,Adept,Deflect,Reduce all non-magical damage by 1.
+Heavy,Endurance,Master,Anchor,You cannot be Moved against your will.
+Heavy,Endurance,Legend,Invincible,Once per combat reduce a hit to 0 Damage.
+Light,Reflexes,Novice,Silent,No Stealth Penalty for moving at full speed.
+Light,Reflexes,Adept,Tumbler,Standing up from Prone costs 0 Movement.
+Light,Reflexes,Master,Evasion,Take 0 Damage on successful Reflexes Saves (instead of half).
+Light,Reflexes,Legend,Blur,If you move 10ft gain Advantage on Defense vs Reactions.
+Natural,Vitality,Novice,Thick Skin,+1 Natural Armor when unarmored.
+Natural,Vitality,Adept,Regen,Recover 1 Condition per minute outside combat.
+Natural,Vitality,Master,Primal,Advantage on Saves vs Disease and Poison.
+Natural,Vitality,Legend,Beast,You can shapeshift into a medium animal 1/Day.
+Cloth,Knowledge,Novice,Ward,Advantage on Saves vs Magic.
+Cloth,Knowledge,Adept,Channel,Regain 1 Focus when you Critically Fail a spell.
+Cloth,Knowledge,Master,Robes,You can store 2 extra Scrolls/Potions in your gear.
+Cloth,Knowledge,Legend,Archmage,Spells cost 1 less Focus (Min 1).
+Medium,Willpower,Novice,Reliable,Armor does not impose Fatigue penalties.
+Medium,Willpower,Adept,Faith,Add Willpower modifier to your Armor Rating.
+Medium,Willpower,Master,Grit,Ignore the first level of Exhaustion.
+Medium,Willpower,Legend,Bastion,You provide Full Cover to allies behind you.
+Utility,Intuition,Novice,Pockets,Carry Capacity +20 lbs.
+Utility,Intuition,Adept,Quick Item,Use a potion/tool as a Bonus Action.
+Utility,Intuition,Master,Scavenger,Find extra loot on bodies.
+Utility,Intuition,Legend,Batman,You always have the right tool (spend 1 Focus).

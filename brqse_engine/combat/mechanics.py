@@ -39,7 +39,7 @@ except ImportError as e:
 # --- CONSTANTS ---
 STAT_BLOCK = ["Might", "Reflexes", "Endurance", "Vitality", "Fortitude", "Knowledge", "Logic", "Awareness", "Intuition", "Charm", "Willpower", "Finesse"]
 
-# --- TERRAIN DATA ---
+# --- TERRAIN DATA (synced with Data/Terrain_Types.csv) ---
 TERRAIN_DATA = {
     "normal": {"move_cost": 1, "damage_type": None, "damage_dice": None},
     "difficult": {"move_cost": 2, "damage_type": None, "damage_dice": None},
@@ -51,7 +51,12 @@ TERRAIN_DATA = {
     "acid": {"move_cost": 2, "damage_type": "Acid", "damage_dice": "1d8"},
     "spikes": {"move_cost": 2, "damage_type": "Piercing", "damage_dice": "1d10"},
     "darkness": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "blinded"},
-    "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_bonus"},
+    "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_advantage"},
+    "tree": {"move_cost": 99, "damage_type": None, "damage_dice": None, "effect": "cover"},
+    "rubble": {"move_cost": 2, "damage_type": None, "damage_dice": None},
+    "tall_grass": {"move_cost": 2, "damage_type": None, "damage_dice": None, "effect": "half_cover_prone"},
+    "lava": {"move_cost": 99, "damage_type": "Fire", "damage_dice": "4d10"},
+    "pit": {"move_cost": 1, "damage_type": "Bludgeoning", "damage_dice": "2d6", "effect": "fall"},
 }
 
 # Cover levels: 0=None, 1=Half, 2=Full

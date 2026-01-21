@@ -1,11 +1,11 @@
-﻿Tier,Resource_Cost,Damage_Dice,Healing_Dice,Duration,Force_Magnitude,Description
-1,1,1d6,1d6,1 Round,5 ft / 50 lbs,Basic impact or momentary effect.
-2,2,1d8,1d8,1 Minute,10 ft / 100 lbs,Standard combat power.
-3,3,2d6,2d6,10 Minutes,15 ft / 200 lbs,Heavy hit; short-term buff.
-4,4,2d8,2d8,1 Hour,20 ft / 500 lbs,Elite power; encounter-long buff.
-5,5,3d6,3d6,8 Hours,"30 ft / 1,000 lbs",Significant destruction; work-day duration.
-6,6,3d8,3d8,24 Hours,50 ft / 1 Ton,Siege power; day-long buff.
-7,8,4d10,4d10,1 Week,100 ft / 5 Tons,Structural damage; long-term change.
-8,10,5d10,5d10,1 Month,500 ft / 10 Tons,Disaster level; seasonal change.
-9,12,10d10,Full Heal,1 Year,1 Mile / City Block,Cataclysmic; year-long curse/buff.
-10,15,Narrative (Kill),Resurrect,Permanent,Global / Infinite,God-tier; alters reality forever.
+﻿Tier,Unlock_Level,Cost,Damage,Effect_Scale,Mechanic
+1,1,1 Focus,1d6,Momentary,Standard: Simple contest.
+2,3,2 Focus,1d8,Encounter,Potent: Target has Disadvantage on Save if unaware.
+3,5,3 Focus,2d6,10 Min,Impact: Knockback / Prone on hit.
+4,7,4 Focus,2d8,1 Hour,Zone: Creates Advantage/Disadvantage zones.
+5,9,5 Focus,3d6,8 Hours,Siege: Destroys objects/cover instantly.
+6,11,6 Focus,3d8,24 Hours,Persistent: Effect lasts until Long Rest.
+7,13,8 Focus,4d10,1 Week,Greater: Ignores Resistances.
+8,15,10 Focus,5d10,1 Month,Master: Reroll 1s on Damage Dice.
+9,17,12 Focus,10d10,1 Year,Cataclysm: Enemies have Disadvantage on Saves.
+10,19,15 Focus,KILL,Permanent,God Tier: No Save for non-Legendary targets.

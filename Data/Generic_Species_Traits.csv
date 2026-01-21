@@ -1,0 +1,19 @@
+Species,Tier,Skill_Name,Effect
+MAMMAL,1,Warm Blood,Advantage on Saves vs. Cold / Weather.
+MAMMAL,3,Pack Tactics,Advantage on Attack if an Ally is adjacent to the target.
+MAMMAL,5,Adrenaline,Reaction: When hit to 0 HP drop to 1 HP instead (1/Day).
+REPTILE,1,Sun Eater,Regain 1 Stamina per hour in direct sunlight.
+REPTILE,3,Stillness,Advantage on Stealth if you haven't moved this turn.
+REPTILE,5,Regrow,Short Rest: Regrow a lost limb or cure a Physical Trauma.
+AVIAN,1,Hollow,Advantage on Jump and Acrobatics checks.
+AVIAN,3,High Ground,+2 Damage if you are physically higher than your target.
+AVIAN,5,Dive Bomb,If you fall/fly 30ft before attacking deal double damage.
+INSECT,1,Wall Walk,Climb Speed = Walk Speed. Hands free while climbing.
+INSECT,3,Hive Mind,You cannot be Surprised if an Ally is awake nearby.
+INSECT,5,Carapace,Reaction: Gain Resistance to Physical Damage for 1 attack (1/Encounter).
+AQUATIC,1,Fluid,You can Squeeze through tight spaces without penalty.
+AQUATIC,3,Slippery,Advantage to escape Grapples or Restraints.
+AQUATIC,5,Pressure,Immune to Crushing/Bludgeoning damage from the environment.
+PLANT,1,Rooted,Advantage to resist being Shoved or Knocked Prone.
+PLANT,3,Solar Food,You do not need rations; only water and sun.
+PLANT,5,Spore Breath,Action: 15ft Cone. Targets must save vs Sleep or Poison (1/Day).

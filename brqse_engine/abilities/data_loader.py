@@ -17,6 +17,16 @@ class DataLoader:
         self.power_tiers = {}  # Tier -> {Damage_Dice, Healing_Dice, Resource_Cost, etc.}
         self.power_shapes = {}  # Tier -> {Shape_Name, Range_Area, Cost_Modifier}
         
+        # Mastery Tables (Skill Name -> {Tier -> Unlock})
+        self.weapon_mastery = {}
+        self.armor_mastery = {}
+        self.tool_mastery = {}
+        
+        # Traits Tables
+        self.universal_traits = []  # List of {Tier, Skill_Name, Effect}
+        self.general_skill_unlocks = {}  # Category -> [Rank -> Unlock]
+        self.generic_species_traits = {}  # Species -> [Tier -> Trait]
+        
         self.reload_all()
 
     def _load_csv(self, filename):
@@ -81,6 +91,49 @@ class DataLoader:
                 }
             except:
                 pass
+        
+        # Load Mastery Tables
+        self._load_mastery("Weapon_Mastery.csv", self.weapon_mastery)
+        self._load_mastery("Armor_Mastery.csv", self.armor_mastery)
+        self._load_mastery("Tool_Mastery.csv", self.tool_mastery)
+        
+        # Load Universal Traits
+        self.universal_traits = self._load_csv("Universal_Traits.csv")
+        
+        # Load General Skill Unlocks (Category -> Rank -> Unlock)
+        for row in self._load_csv("General_Skill_Unlocks.csv"):
+            cat = row.get("Category", "")
+            rank = row.get("Rank", "")
+            if cat not in self.general_skill_unlocks:
+                self.general_skill_unlocks[cat] = {}
+            self.general_skill_unlocks[cat][rank] = {
+                "name": row.get("Name", ""),
+                "effect": row.get("Effect", "")
+            }
+        
+        # Load Generic Species Traits (Species -> Tier -> Trait)
+        for row in self._load_csv("Generic_Species_Traits.csv"):
+            species = row.get("Species", "")
+            tier = row.get("Tier", "1")
+            if species not in self.generic_species_traits:
+                self.generic_species_traits[species] = {}
+            self.generic_species_traits[species][tier] = {
+                "name": row.get("Skill_Name", ""),
+                "effect": row.get("Effect", "")
+            }
+
+    def _load_mastery(self, filename, target_dict):
+        """Load a mastery CSV into skill_name -> tier -> unlock dict."""
+        for row in self._load_csv(filename):
+            skill = row.get("Skill_Name", "")
+            tier = row.get("Tier", "Novice")
+            if skill not in target_dict:
+                target_dict[skill] = {}
+            target_dict[skill][tier] = {
+                "name": row.get("Unlock_Name", ""),
+                "effect": row.get("Effect", ""),
+                "attribute": row.get("Attribute", "")
+            }
 
     def get_tier_damage(self, tier):
         """Get damage dice for a given tier. Returns dice string like '2d6'."""

@@ -4,7 +4,7 @@ from brqse_engine.core.dice import Dice
 import brqse_engine.abilities.engine_hooks as engine_hooks
 from brqse_engine.abilities.effects_registry import registry
 
-# --- TERRAIN DATA ---
+# --- TERRAIN DATA (synced with Data/Terrain_Types.csv) ---
 TERRAIN_DATA = {
     "normal": {"move_cost": 1, "damage_type": None, "damage_dice": None},
     "difficult": {"move_cost": 2, "damage_type": None, "damage_dice": None},
@@ -16,8 +16,12 @@ TERRAIN_DATA = {
     "acid": {"move_cost": 2, "damage_type": "Acid", "damage_dice": "1d8"},
     "spikes": {"move_cost": 2, "damage_type": "Piercing", "damage_dice": "1d10"},
     "darkness": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "blinded"},
-    "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_bonus"},
-    "tree": {"move_cost": 99, "damage_type": None, "damage_dice": None, "effect": "cover"}, # Impassable/Cover
+    "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_advantage"},
+    "tree": {"move_cost": 99, "damage_type": None, "damage_dice": None, "effect": "cover"},
+    "rubble": {"move_cost": 2, "damage_type": None, "damage_dice": None},
+    "tall_grass": {"move_cost": 2, "damage_type": None, "damage_dice": None, "effect": "half_cover_prone"},
+    "lava": {"move_cost": 99, "damage_type": "Fire", "damage_dice": "4d10"},
+    "pit": {"move_cost": 1, "damage_type": "Bludgeoning", "damage_dice": "2d6", "effect": "fall"},
 }
 
 class Tile:
@@ -65,6 +69,9 @@ class CombatEngine:
         # Load Trauma Tables
         self.traumas = {"Physical": [], "Mental": []}
         self._load_trauma_data()
+        
+        # Note: Terrain data is stored in TERRAIN_DATA constant
+        # Tactical rules (Flanking/Mobbing/Cover) are in _get_attack_modifiers()
 
     def _load_social_data(self):
         """Loads Social_Maneuvers.csv"""
@@ -345,6 +352,34 @@ class CombatEngine:
             if attacker_engaged:
                 dis = True
                 logs.append("[Engaged] Ranged Disadvantage.")
+        
+        # 5. MASTERY EFFECTS
+        # Get attacker's weapon skill and check for mastery unlocks
+        weapon = attacker.character.get_equipped_weapon()
+        weapon_skill = weapon.get("Related_Skill", weapon.get("Skill", ""))
+        unlocks = attacker.character.get_active_mastery_unlocks(weapon_skill)
+        
+        for unlock in unlocks:
+            effect = unlock.get("effect", "").lower()
+            name = unlock.get("name", "")
+            
+            # Execute: Advantage on Bloodied targets (<50% HP)
+            if "advantage" in effect and ("bloodied" in effect or "<50%" in effect):
+                if target.is_bloodied:
+                    adv = True
+                    logs.append(f"[{name}] Advantage (target Bloodied).")
+            
+            # Executioner: Advantage on Prone/Stunned
+            if "advantage" in effect and ("prone" in effect or "stunned" in effect):
+                if target.has_condition("Prone") or target.is_stunned:
+                    adv = True
+                    logs.append(f"[{name}] Advantage (target incapacitated).")
+            
+            # Backstab: Advantage when Flanking
+            if "advantage" in effect and "flank" in effect:
+                if len(allies_engaging) >= 1:
+                    adv = True
+                    logs.append(f"[{name}] Flanking Advantage.")
 
         return adv, dis, logs
 

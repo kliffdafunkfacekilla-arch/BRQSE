@@ -19,6 +19,8 @@ class SimpleAI:
             SimpleAI._ai_ranged_sniper(me, engine)
         elif archetype == "Soldier":
             SimpleAI._ai_tactical_soldier(me, engine)
+        elif archetype == "Social":
+            SimpleAI._ai_social_manipulator(me, engine)
         else: # Default Berserker
             SimpleAI._ai_melee_berserker(me, engine)
 
@@ -186,3 +188,40 @@ class SimpleAI:
                 if engine.move_entity(me, nx, ny):
                     engine.log(f"{me.name} retreats!")
                     return
+
+    @staticmethod
+    def _ai_social_manipulator(me: Combatant, engine: CombatEngine):
+        """
+        Strategy: Social Combat.
+        Uses words instead of weapons. Targets Composure.
+        """
+        targets = SimpleAI._get_targets(me, engine)
+        if not targets: return
+        
+        dist, target = targets[0]
+        
+        # Social maneuvers work at any range (within reason)
+        # Pick the best maneuver based on the situation
+        maneuvers = list(engine.social_maneuvers.keys())
+        if not maneuvers:
+            # Fallback to physical if no maneuvers loaded
+            SimpleAI._ai_melee_berserker(me, engine)
+            return
+        
+        # Priority: If target is already damaged, use "Call Out" for crit damage
+        # Otherwise use "Gaslight" to debuff
+        if target.is_bloodied and "Call Out" in maneuvers:
+            chosen = "Call Out"
+        elif "Gaslight" in maneuvers:
+            chosen = "Gaslight"
+        elif "Grandstand" in maneuvers:
+            chosen = "Grandstand"
+        else:
+            chosen = random.choice(maneuvers)
+        
+        # Move closer if too far (social range ~8 tiles for "shouting distance")
+        if dist > 8:
+            SimpleAI._move_towards(me, target, engine, desired_range=5)
+        
+        # Execute social maneuver
+        engine.execute_social_maneuver(me, target, chosen)
