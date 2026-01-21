@@ -89,11 +89,68 @@ class SimpleAI:
     @staticmethod
     def _ai_tactical_soldier(me: Combatant, engine: CombatEngine):
         """
-        Strategy: Safe. Stick to allies? Use Cover?
-        For now: Same as Berserker but prefers flanking?
+        Strategy: Tactical. 
+        1. If not in cover/defensible: Move to nearest Cover.
+        2. If in cover or no cover reachable: Attack nearest enemy (Ranged pref).
         """
-        # Placeholder: Behave like a smart Berserker
-        SimpleAI._ai_melee_berserker(me, engine)
+        # 1. Check if currently in cover
+        current_tile = engine.tiles[me.y][me.x]
+        if current_tile.effect == "cover":
+             # Already in cover. Attack!
+             SimpleAI._ai_ranged_sniper(me, engine) # Use Sniper logic for kiting/shooting
+             return
+
+        # 2. Find Cover
+        cover_tile = SimpleAI._find_best_cover(me, engine)
+        if cover_tile:
+             cx, cy = cover_tile
+             # Move towards cover
+             dist_to_cover = max(abs(me.x - cx), abs(me.y - cy))
+             if dist_to_cover <= 1: # Can reach it
+                 if engine.move_entity(me, cx, cy):
+                     engine.log(f"{me.name} takes cover!")
+                     # Try to attack after moving? (If Actions allow - Simulating standard action economy)
+                     # For now, SimpleAI is 1 Action per turn. Move OR Attack usually? 
+                     # Actually execute_turn does 1 thing. 
+                     # Let's verify standard rules. BrqSE is usually Move+Action.
+                     # But SimpleAI methods usually do one or the other.
+                     # Let's assume Move takes "Movement" and we can still Attack.
+                     # But _ai_ranged_sniper does logic: Move THEN Attack.
+                     # We should replicate that.
+                     SimpleAI._ai_ranged_sniper(me, engine)
+                     return
+             else:
+                 # Move towards it
+                 SimpleAI._move_towards(me, type('Obj', (object,), {'x': cx, 'y': cy}), engine, range=0)
+                 return
+        
+        # Fallback: Be a Sniper (Keep distance)
+        SimpleAI._ai_ranged_sniper(me, engine)
+
+    @staticmethod
+    def _find_best_cover(me: Combatant, engine: CombatEngine):
+        """Returns (x, y) of nearest unoccupied cover tile."""
+        best_tile = None
+        min_dist = 999
+        
+        for r in range(engine.rows):
+            for c in range(engine.cols):
+                tile = engine.tiles[r][c]
+                if tile.effect == "cover":
+                     # Check if occupied
+                     is_occupied = False
+                     for comb in engine.combatants:
+                         if comb.x == c and comb.y == r and comb != me:
+                             is_occupied = True
+                             break
+                     if is_occupied: continue
+                     
+                     dist = max(abs(me.x - c), abs(me.y - r))
+                     if dist < min_dist:
+                         min_dist = dist
+                         best_tile = (c, r)
+        
+        return best_tile
 
     @staticmethod
     def _move_towards(me, target, engine, desired_range):

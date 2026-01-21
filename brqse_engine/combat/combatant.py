@@ -26,6 +26,20 @@ class Combatant:
         self.conditions: List[str] = []
         self.active_effects: List[Dict] = [] # {name, duration, ...}
 
+    def has_condition(self, condition_name: str) -> bool:
+        """Check if combatant has a specific condition."""
+        return condition_name in self.conditions
+    
+    def add_condition(self, condition_name: str):
+        """Add a condition if not already present."""
+        if condition_name not in self.conditions:
+            self.conditions.append(condition_name)
+            
+    def remove_condition(self, condition_name: str):
+        """Remove a condition if present."""
+        if condition_name in self.conditions:
+            self.conditions.remove(condition_name)
+
         # Resources (Calculated from Stats for compatibility)
         self.sp = self._calc_resource("Endurance") + self._calc_resource("Finesse") + self._calc_resource("Fortitude")
         self.fp = self._calc_resource("Knowledge") + self._calc_resource("Charm") + self._calc_resource("Intuition")

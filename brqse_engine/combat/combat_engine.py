@@ -257,6 +257,57 @@ class CombatEngine:
         # Simplified: If target is next to a wall between them -> Half Cover
         return 0 # Plac horder for complex LOS
 
+    def _get_attack_modifiers(self, attacker: Combatant, target: Combatant, is_ranged: bool) -> Tuple[bool, bool, List[str]]:
+        """
+        Calculates advantage/disadvantage based on Tactics AND Status Effects.
+        Returns: (advantage, disadvantage, log_lines)
+        """
+        adv = False
+        dis = False
+        logs = []
+        
+        # --- TACTICS (Flanking/Mobbing) ---
+        adj_enemies = self.get_adjacent_opponents(target)
+        # Allies of the attacker engaging the target
+        allies_engaging = [c for c in adj_enemies if c.team == attacker.team and c != attacker]
+        
+        if len(allies_engaging) >= 2: # Mobbed
+            adv = True 
+            logs.append("[Mobbing] Advantage.")
+        
+        # --- STATUS EFFECTS ---
+        # 1. PRONE
+        if target.has_condition("Prone"):
+            if not is_ranged:
+                adv = True
+                logs.append("[Target Prone] Melee Advantage.")
+            else:
+                dis = True
+                logs.append("[Target Prone] Ranged Disadvantage.")
+        
+        # 2. BLINDED
+        if attacker.has_condition("Blinded"):
+            dis = True
+            logs.append("[Blinded] Attacking with Disadvantage.")
+        
+        if target.has_condition("Blinded"):
+            adv = True
+            logs.append("[Target Blinded] Advantage.")
+            
+        # 3. STUNNED/PARALYZED (Auto Advantage)
+        if target.is_stunned:
+             adv = True
+             logs.append("[Target Stunned] Advantage.")
+             
+        # 4. RANGED VS ENGAGED
+        if is_ranged:
+            attacker_engaged = len(self.get_adjacent_opponents(attacker)) > 0
+            if attacker_engaged:
+                dis = True
+                logs.append("[Engaged] Ranged Disadvantage.")
+
+        return adv, dis, logs
+
     def execute_attack(self, attacker: Combatant, target: Combatant, weapon_stat="Might", is_ranged=False) -> Dict[str, Any]:
         """
         Calculates an attack roll and damage.
@@ -268,37 +319,15 @@ class CombatEngine:
         dist = max(abs(attacker.x - target.x), abs(attacker.y - target.y))
         if dist > 1: is_ranged = True
         
-        # 1. Determine Situational Modifiers
-        adj_enemies = self.get_adjacent_opponents(target)
-        flanked = len(adj_enemies) >= 2
-        mobbed = len(adj_enemies) >= 3
-        
-        atk_advantage = False
-        atk_disadvantage = False
-        def_disadvantage = False
-        
-        if mobbed:
-            atk_advantage = True
-            def_disadvantage = True
-            log_entries.append("[Mobbing] Attacker Adv, Defender Disadv.")
-        elif flanked:
-            def_disadvantage = True # Flanking gives defender disadvantage
-            log_entries.append("[Flanking] Defender Disadvantage.")
-            
-        if is_ranged:
-            # Check if Attacker is Engaged (Adjacent to enemy)
-            attacker_engaged = len(self.get_adjacent_opponents(attacker)) > 0
-            if attacker_engaged:
-                atk_disadvantage = True # Disadvantage firing while engaged
-                log_entries.append("[Engaged] Ranged Disadvantage.")
-            
-            # Check if Target is Engaged (Distracted)
-            if len(adj_enemies) > 0: # Target is engaged by someone
-                 # Ranged vs Engaged Logic: "Advantage vs Engaged"
-                 if not attacker_engaged:
-                     atk_advantage = True
-                     log_entries.append("[Target Engaged] Ranged Advantage.")
+        # 1. Get Modifiers (Tactics + Status)
+        atk_advantage, atk_disadvantage, mod_logs = self._get_attack_modifiers(attacker, target, is_ranged)
+        log_entries.extend(mod_logs)
 
+        # Tactical: Flanking adds +2 if strictly Flanked (1 ally) and not Mobbed (Advantage)
+        # Verify allies count again for the +2 bonus logic
+        adj_enemies = self.get_adjacent_opponents(target)
+        allies_engaging = [c for c in adj_enemies if c.team == attacker.team and c != attacker]
+        
         # 2. Roll to Hit (With Advantage/Disadvantage Logic)
         def roll_d20(adv=False, dis=False):
             r1, _, _ = Dice.roll("1d20")
@@ -309,34 +338,38 @@ class CombatEngine:
 
         roll_val, roll_note = roll_d20(atk_advantage, atk_disadvantage)
         
-        # Calculate Modifier
+        # Calculate Base Modifier
         mod = attacker.get_stat_mod(weapon_stat)
+        
+        # Add Flanking Bonus (+2) if strictly Flanked (1 ally) and not relying on Adv only
+        if len(allies_engaging) == 1 and not is_ranged:
+            mod += 2
+            
         total_hit = roll_val + mod
         
         # 3. Determine AC
         # Base AC + Armor + Shield + Dex
         target_ac = target.get_ac()
         
-        # Apply Defender Disadvantage (Technically AC penalty or Reroll? 
-        # Prompt says "Defender Roll". In a D20 vs AC system, Defender Disadvantage usually means 
-        # Attacker Advantage OR a penalty to AC. Let's treat it as effective -2 AC or similar?
-        # Actually, "Defender Roll" implies an active defense system (Dodge/Parry).
-        # Since this engine uses static AC (lines 239-241), we simulate Defender Disadvantage 
-        # by granting Attacker Advantage if not already set, or +2 to hit?)
-        # Let's map "Defender Disadvantage" to +2 To Hit for the attacker in a static AC system.
-        if def_disadvantage:
-            total_hit += 2 
-            log_entries.append(" (+2 Flank Bonus)")
-
-        # 4. Check Cover
+        # Apply Defender Disadvantage logic from old code?
+        # If target has a condition that reduces AC, apply here.
+        # Def Disadvantage was mapped to Attacker Advantage in modern 5e style rules usually.
+        # But if we want specific AC penalty:
+        if target.has_condition("Sunder"): # Example
+             target_ac -= 2
+             
+        # 4. Check Cover (Tactical)
         cover_bonus = self.check_cover(attacker, target)
         if cover_bonus > 10:
              log_entries.append("Target has Full Cover!")
              hit = False
-        else:
+             # Force miss or very high AC
+             target_ac += 99 # Effectively unhittable
+        elif cover_bonus > 0:
              target_ac += cover_bonus
-             hit = total_hit >= target_ac
+             log_entries.append(f"[Cover] +{cover_bonus} AC")
         
+        hit = total_hit >= target_ac
         critical = roll_val == 20
         miss = not hit
         
