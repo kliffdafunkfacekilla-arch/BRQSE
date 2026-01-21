@@ -173,7 +173,58 @@ def save_character():
 
 @app.route('/api/health', methods=['GET'])
 def health():
-    return jsonify({"status": "online", "version": "2.1 (Phase A: Container)"})
+    return jsonify({"status": "online", "version": "2.2 (Phase B: AI Narration)"})
+
+# --- WORLD ENGINE (Chaos/Tension/Atmosphere) ---
+
+from scripts.world_engine import ChaosManager, SceneStack
+
+# Global world state (will be initialized per session in future)
+CHAOS_MANAGER = ChaosManager()
+SCENE_STACK = SceneStack(CHAOS_MANAGER)
+
+@app.route('/api/world/status', methods=['GET'])
+def world_status():
+    """Returns current chaos, tension, and atmosphere state."""
+    return jsonify({
+        "chaos_level": CHAOS_MANAGER.chaos_level,
+        "chaos_clock": CHAOS_MANAGER.chaos_clock,
+        "tension_threshold": CHAOS_MANAGER.tension_threshold,
+        "is_doomed": CHAOS_MANAGER.is_doomed,
+        "atmosphere": CHAOS_MANAGER.get_atmosphere()
+    })
+
+@app.route('/api/world/tension/roll', methods=['POST'])
+def roll_tension():
+    """Rolls the tension die. Returns EVENT, CHAOS_EVENT, or SAFE."""
+    result = CHAOS_MANAGER.roll_tension()
+    return jsonify({
+        "result": result,
+        "chaos_clock": CHAOS_MANAGER.chaos_clock,
+        "tension_threshold": CHAOS_MANAGER.tension_threshold,
+        "atmosphere": CHAOS_MANAGER.get_atmosphere()
+    })
+
+@app.route('/api/world/quest/generate', methods=['POST'])
+def generate_quest():
+    """Generates a new quest stack."""
+    SCENE_STACK.generate_quest()
+    return jsonify({
+        "stack_size": len(SCENE_STACK.stack),
+        "chaos_level": CHAOS_MANAGER.chaos_level
+    })
+
+@app.route('/api/world/scene/advance', methods=['POST'])
+def advance_scene():
+    """Advances to the next scene in the stack."""
+    scene = SCENE_STACK.advance()
+    return jsonify({
+        "text": scene.text,
+        "encounter_type": scene.encounter_type,
+        "enemy_data": scene.enemy_data,
+        "remaining": len(SCENE_STACK.stack),
+        "atmosphere": CHAOS_MANAGER.get_atmosphere()
+    })
 
 
 if __name__ == '__main__':

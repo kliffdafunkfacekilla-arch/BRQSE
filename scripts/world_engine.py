@@ -9,17 +9,58 @@ class ChaosManager:
         self.tension_threshold = 1
         
     def roll_tension(self):
+        """Roll tension die. Returns EVENT, CHAOS_EVENT, or SAFE."""
+        # DOOM STATE: Auto-trigger on 1-5
+        trigger_range = 5 if self.is_doomed else self.tension_threshold
+        
         roll = random.randint(1, 10)
-        if roll <= self.tension_threshold:
+        if roll <= trigger_range:
             self.tension_threshold = 1
             return "EVENT"
         elif roll == self.chaos_level:
-            self.chaos_clock = min(10, self.chaos_clock + 1)
+            self.chaos_clock = min(12, self.chaos_clock + 1)  # Max 12 per Design Bible
             self.chaos_level = random.randint(1, 10)
             return "CHAOS_EVENT"
         else:
             self.tension_threshold += 1
             return "SAFE"
+    
+    @property
+    def is_doomed(self) -> bool:
+        """Returns True if Chaos Clock is maxed (DOOM STATE)."""
+        return self.chaos_clock >= 12
+    
+    def get_atmosphere(self) -> dict:
+        """Returns tone modifiers for AI narration based on Chaos Clock."""
+        if self.chaos_clock >= 12:
+            return {
+                "tone": "doom",
+                "descriptor": "Reality fractures. The shadows hunger. Nothing is safe.",
+                "ai_modifier": "Describe everything as oppressive, surreal, and actively hostile."
+            }
+        elif self.chaos_clock >= 9:
+            return {
+                "tone": "dread", 
+                "descriptor": "The air is thick with malice. Something ancient stirs.",
+                "ai_modifier": "Descriptions should feel dark, claustrophobic, and ominous."
+            }
+        elif self.chaos_clock >= 6:
+            return {
+                "tone": "tense",
+                "descriptor": "Unease gnaws at the edges. Every shadow could hide danger.",
+                "ai_modifier": "Add subtle tension and unease to descriptions."
+            }
+        elif self.chaos_clock >= 3:
+            return {
+                "tone": "alert",
+                "descriptor": "The dungeon watches. Stay sharp.",
+                "ai_modifier": "Descriptions should feel watchful and slightly unsettling."
+            }
+        return {
+            "tone": "normal",
+            "descriptor": "",
+            "ai_modifier": ""
+        }
 
 class Scene:
     def __init__(self, text, encounter_type="EMPTY", enemy_data=None):

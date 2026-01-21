@@ -6,13 +6,16 @@ class Item:
     Strictly maps to the schema found in Gear.json.
     """
     def __init__(self, data: Dict[str, Any]):
+        self.data = data  # Store raw data for compatibility
         self.name = data.get("Name", "Unknown")
         self.type = data.get("Type", "Misc")
         self.cost = int(data.get("Cost", 0))
-        self.related_skill = data.get("Related_Skill", "")
+        self.related_skill = data.get("Related_Skill", data.get("Skill", ""))  # Support both keys
+        self.skill = data.get("Skill", data.get("Related_Skill", ""))  # Weapon skill for mastery
         self.description = data.get("Description", "")
         self.effect_text = data.get("Effect", "")
         self.logic_tags = self._parse_tags(data.get("Logic_Tags", ""))
+        self.is_equipped = data.get("is_equipped", False)
         
         # Helper properties derived from tags
         self.is_weapon = self.type == "Weapon"

@@ -232,6 +232,7 @@ class Character:
             "Name": "Unarmed Strike",
             "Damage": "1d4",
             "Stat": "Might",
+            "Skill": "Fist",  # For mastery lookups
             "Range": 1
         }
 
