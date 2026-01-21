@@ -15,6 +15,13 @@ interface ReplayEvent {
     y?: number; // For death events
     ability?: string;
     description?: string;
+    // Contested roll data
+    attack_roll?: number;
+    defense_roll?: number;
+    target_hp?: number;
+    // Clash/effect data
+    stat?: string;
+    effect?: string;
 }
 
 interface Combatant {
@@ -145,9 +152,27 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
             const targetTeam = combatants.find(c => c.name === event.target)?.team === 'blue' ? '🔵' : '🔴';
             msg = `${actorTeam} ${event.actor} → ${targetTeam} ${event.target || '?'}`;
             if (event.ability) msg += ` [${event.ability}]`;
+
+            // Show contested roll values if present
+            if (event.attack_roll && event.defense_roll) {
+                msg += ` ⚔️${event.attack_roll} vs 🛡️${event.defense_roll}`;
+            }
+
             if (event.damage && event.damage > 0) msg += ` 💥${event.damage}`;
             if (event.result?.toLowerCase() === 'miss') msg += ' ❌MISS';
             if (event.result?.toLowerCase() === 'critical') msg += ' ⚡CRIT!';
+            if (event.result?.toLowerCase() === 'hit') msg += ' ✓HIT';
+        } else if (event.type === 'clash') {
+            // Physical Clash event
+            msg = `⚔️ CLASH! ${actorTeam} ${event.actor} wins vs ${event.target}`;
+            if (event.description) msg += ` - ${event.description}`;
+        } else if (event.type === 'magic_clash') {
+            // Magic Clash event  
+            msg = `✨ MAGIC CLASH! ${actorTeam} ${event.actor} vs ${event.target}`;
+            if (event.description) msg += ` - ${event.description}`;
+        } else if (event.type === 'dot_damage') {
+            // DoT damage event
+            msg = `🔥 ${event.actor} takes ${event.damage} ${event.effect?.toUpperCase()} damage`;
         } else if (event.type === 'move') {
             msg = `${actorTeam} ${event.actor} moves`;
         } else {
@@ -158,7 +183,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
 
         if (event.execution_log) {
             event.execution_log.forEach(line => {
-                if (line.includes("Dealt") || line.includes("Effect") || line.includes("SLAIN") || line.includes("Save")) {
+                if (line.includes("Dealt") || line.includes("Effect") || line.includes("SLAIN") || line.includes("Save") || line.includes("STAGGERED") || line.includes("CLASH")) {
                     setConsoleMsg(prev => [`  * ${line}`, ...prev].slice(0, 30));
                 }
             });

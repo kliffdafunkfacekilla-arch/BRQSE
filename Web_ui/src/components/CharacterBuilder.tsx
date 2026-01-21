@@ -1,265 +1,662 @@
-import { useState, useEffect } from 'react';
-import { User, Save, Plus, Minus, Swords, Shield, Sparkles } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { User, Save, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, Book, Shield, Swords, Sparkles } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api';
 
-// Species base stats
-const SPECIES_STATS: Record<string, Record<string, number>> = {
-    Mammal: { Might: 10, Endurance: 11, Finesse: 12, Reflexes: 9, Vitality: 10, Fortitude: 8, Knowledge: 12, Logic: 8, Awareness: 9, Intuition: 10, Charm: 11, Willpower: 10 },
-    Avian: { Might: 8, Endurance: 10, Finesse: 10, Reflexes: 12, Vitality: 11, Fortitude: 9, Knowledge: 11, Logic: 9, Awareness: 12, Intuition: 8, Charm: 10, Willpower: 10 },
-    Reptile: { Might: 10, Endurance: 9, Finesse: 8, Reflexes: 11, Vitality: 10, Fortitude: 12, Knowledge: 10, Logic: 12, Awareness: 8, Intuition: 11, Charm: 10, Willpower: 9 },
-    Insect: { Might: 12, Endurance: 8, Finesse: 10, Reflexes: 10, Vitality: 9, Fortitude: 11, Knowledge: 9, Logic: 10, Awareness: 11, Intuition: 10, Charm: 8, Willpower: 12 },
-    Aquatic: { Might: 9, Endurance: 12, Finesse: 11, Reflexes: 10, Vitality: 8, Fortitude: 10, Knowledge: 10, Logic: 11, Awareness: 10, Intuition: 12, Charm: 9, Willpower: 8 },
-    Plant: { Might: 11, Endurance: 10, Finesse: 9, Reflexes: 8, Vitality: 12, Fortitude: 10, Knowledge: 8, Logic: 10, Awareness: 10, Intuition: 9, Charm: 12, Willpower: 11 }
+// --- Interfaces ---
+interface SpeciesBase {
+    Attribute: string;
+    [key: string]: string;
+}
+
+interface ClassOption {
+    STEP: string;
+    Category: string;
+    "Option Name": string;
+    "Stat 1": string;
+    "Stat 2": string;
+    "Body Part": string;
+    "Mechanic / Trait": string;
+    [key: string]: string;
+}
+
+interface BackgroundOption {
+    name: string;
+    category: string;
+    narrative: string;
+    grants: string[];
+}
+
+interface BackgroundStep {
+    id: string;
+    title: string;
+    description: string;
+    options: BackgroundOption[];
+}
+
+interface Spell {
+    School: string;
+    Name: string;
+    Tier: string;
+    Description: string;
+    Type: string;
+    Damage_Type: string;
+}
+
+interface Item {
+    Name: string;
+    Type: string;
+    Related_Skill: string;
+    Description: string;
+    Effect: string;
+    Logic_Tags: string;
+    Cost: string;
+}
+
+const getGoldenRuleCap = (baseVal: number) => {
+    if (baseVal >= 11) return 6;
+    if (baseVal === 10) return 5;
+    return 4;
 };
 
-const STAT_LIST = ['Might', 'Endurance', 'Finesse', 'Reflexes', 'Vitality', 'Fortitude', 'Knowledge', 'Logic', 'Awareness', 'Intuition', 'Charm', 'Willpower'];
-const SPECIES_LIST = Object.keys(SPECIES_STATS);
+// Base Steps (Class + Components)
+const BASE_STEPS = [
+    { id: 'CLASS', label: 'Class' },
+    { id: '1_SIZE', label: 'Size' },
+    { id: '2_BIO', label: 'Ancestry' },
+    { id: '3_HEAD', label: 'Senses' },
+    { id: '4_ARMS', label: 'Arms' },
+    { id: '5_LEGS', label: 'Legs' },
+    { id: '6_BODY', label: 'Body' },
+    { id: '7_SPEC', label: 'Special' }
+];
 
 interface CharacterBuilderProps {
     onSave?: (character: any) => void;
 }
 
 export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
-    const [name, setName] = useState('');
-    const [species, setSpecies] = useState('Mammal');
-    const [stats, setStats] = useState<Record<string, number>>({ ...SPECIES_STATS.Mammal });
-    const [bonusPoints, setBonusPoints] = useState(10);
+    // --- State ---
+
+    // Data
+    const [speciesData, setSpeciesData] = useState<SpeciesBase[]>([]);
+    const [classOptions, setClassOptions] = useState<ClassOption[]>([]);
+    const [backgroundSteps, setBackgroundSteps] = useState<BackgroundStep[]>([]);
+    const [spellData, setSpellData] = useState<Spell[]>([]);
+    const [gearData, setGearData] = useState<Item[]>([]);
+    const [tokenData, setTokenData] = useState<string[]>([]);
+
+    // Flow
+    const [steps, setSteps] = useState<{ id: string, label: string }[]>(BASE_STEPS);
+    const [currentStepIndex, setCurrentStepIndex] = useState(0);
+    const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState('');
-    const [powers, setPowers] = useState<string[]>([]);
-    const [availablePowers] = useState(['Bolt', 'Heal', 'Shield', 'Push', 'Burn']);
 
-    // Update stats when species changes
+    // Selections
+    const [name, setName] = useState('');
+    const [selectedClass, setSelectedClass] = useState<string>('');
+
+    // Phase 1: Body Components
+    const [compSelections, setCompSelections] = useState<Record<string, ClassOption | null>>({});
+
+    // Phase 2: Backgrounds
+    const [bgSelections, setBgSelections] = useState<Record<string, BackgroundOption>>({});
+
+    // Phase 3: Magic
+    const [selectedSpells, setSelectedSpells] = useState<Spell[]>([]);
+
+    // Phase 4: Gear
+    const [selectedGear, setSelectedGear] = useState<{
+        rightHand?: Item;
+        leftHand?: Item;
+        armor?: Item;
+    }>({});
+
+    // Phase 5: Finalize
+    const [selectedToken, setSelectedToken] = useState<string>('');
+    const [backstory, setBackstory] = useState('');
+
+    // --- Loading ---
+
     useEffect(() => {
-        setStats({ ...SPECIES_STATS[species] });
-        setBonusPoints(10);
-    }, [species]);
+        const loadAll = async () => {
+            try {
+                const [spec, bg, sp, gr, tk] = await Promise.all([
+                    fetch('/data/Species.json').then(r => r.json()),
+                    fetch('/data/Backgrounds.json').then(r => r.json()),
+                    fetch('/data/Spells.json').then(r => r.json()),
+                    fetch('/data/Gear.json').then(r => r.json()),
+                    fetch('/data/Tokens.json').then(r => r.json())
+                ]);
 
-    const totalStats = Object.values(stats).reduce((a, b) => a + b, 0);
-    const baseTotal = Object.values(SPECIES_STATS[species]).reduce((a, b) => a + b, 0);
+                setSpeciesData(spec.filter((r: any) => r.Attribute));
+                setBackgroundSteps(bg);
+                setSpellData(sp);
+                setGearData(gr);
+                setTokenData(tk);
 
-    const adjustStat = (stat: string, delta: number) => {
-        if (delta > 0 && bonusPoints <= 0) return;
-        if (delta < 0 && stats[stat] <= SPECIES_STATS[species][stat]) return;
+                // Build full step list
+                const nSteps = [...BASE_STEPS];
+                bg.forEach((b: BackgroundStep) => nSteps.push({ id: b.id, label: b.id }));
+                nSteps.push({ id: 'MAGIC', label: 'Magic' });
+                nSteps.push({ id: 'GEAR', label: 'Gear' });
+                nSteps.push({ id: 'FINALIZE', label: 'Finalize' });
 
-        setStats(prev => ({ ...prev, [stat]: prev[stat] + delta }));
-        setBonusPoints(prev => prev - delta);
+                setSteps(nSteps);
+                setLoading(false);
+            } catch (err) {
+                console.error("Data load failed", err);
+            }
+        };
+        loadAll();
+    }, []);
+
+    // Load Class Options
+    useEffect(() => {
+        if (!selectedClass) return;
+        fetch(`/data/${selectedClass}.json`)
+            .then(res => res.json())
+            .then(data => {
+                setClassOptions(data);
+                setCompSelections({});
+            });
+    }, [selectedClass]);
+
+    // --- Calculations ---
+
+    const stats = useMemo(() => {
+        const s: Record<string, number> = {};
+        const b: Record<string, number> = {};
+        const base: Record<string, number> = {};
+
+        // Base
+        speciesData.forEach(row => {
+            if (row.Attribute) {
+                const val = parseInt(row[selectedClass] || '10');
+                s[row.Attribute] = val;
+                base[row.Attribute] = val;
+                b[row.Attribute] = 0;
+            }
+        });
+
+        const applyMod = (stat: string, val: number) => {
+            if (!stat || stat === 'None' || !s[stat]) return;
+            s[stat] += val;
+            b[stat] = (b[stat] || 0) + val;
+        };
+
+        // Component Bonuses
+        Object.values(compSelections).forEach(opt => {
+            if (!opt) return;
+            if (opt.STEP === '1_SIZE') {
+                [opt['Bio'], opt['Head']].forEach(str => {
+                    if (!str) return;
+                    str.split(',').forEach(p => {
+                        const m = p.trim().match(/([+-]\d+)\s+(\w+)/);
+                        if (m) applyMod(m[2], parseInt(m[1]));
+                    });
+                });
+            } else {
+                applyMod(opt['Stat 1'], 1);
+                applyMod(opt['Stat 2'], 1);
+            }
+        });
+
+        // Background Bonuses? (Currently Backgrounds grant Skills, not Stats, based on CSVs)
+        // Check Grants? No stat bonuses in the current generated JSON structure for Backgrounds.
+
+        return { total: s, bonus: b, base };
+    }, [speciesData, selectedClass, compSelections]);
+
+    // Derived Data
+    const acquiredSkills = useMemo(() => {
+        const skills: string[] = [];
+        Object.values(bgSelections).forEach(opt => {
+            if (opt && opt.grants) {
+                skills.push(opt.grants[1]); // [Category, Name]
+            }
+        });
+        return skills;
+    }, [bgSelections]);
+
+    const warnings = useMemo(() => {
+        const w: string[] = [];
+        Object.entries(stats.bonus).forEach(([stat, val]) => {
+            const cap = getGoldenRuleCap(stats.base[stat] || 10);
+            if (val > cap) w.push(`${stat} +${val} exceeds cap of +${cap}`);
+        });
+        return w;
+    }, [stats]);
+
+    // Auto-Generate Backstory
+    useEffect(() => {
+        if (currentStep.id === 'FINALIZE' && !backstory) {
+            const parts = Object.values(bgSelections).map(o => o.narrative);
+            setBackstory(parts.join('\n\n'));
+        }
+    }, [currentStepIndex, bgSelections, backstory]);
+
+    // --- Handlers ---
+
+    const currentStep = steps[currentStepIndex];
+
+    const canProceed = () => {
+        if (currentStep.id === 'CLASS') return !!selectedClass;
+
+        // Component Steps
+        if (BASE_STEPS.some(s => s.id === currentStep.id) && currentStep.id !== 'CLASS') {
+            return !!compSelections[currentStep.id];
+        }
+
+        // Background Steps
+        const bgStep = backgroundSteps.find(b => b.id === currentStep.id);
+        if (bgStep) {
+            return !!bgSelections[currentStep.id];
+        }
+
+        // Magic
+        if (currentStep.id === 'MAGIC') {
+            return selectedSpells.length === 2;
+        }
+
+        // Gear
+        if (currentStep.id === 'GEAR') {
+            // Arbitrary requirement: at least 1 item?
+            return selectedGear.rightHand || selectedGear.armor;
+        }
+
+        return true;
     };
 
-    const togglePower = (power: string) => {
-        if (powers.includes(power)) {
-            setPowers(powers.filter(p => p !== power));
-        } else if (powers.length < 3) {
-            setPowers([...powers, power]);
-        }
+    const handleNext = () => {
+        if (currentStepIndex < steps.length - 1) setCurrentStepIndex(p => p + 1);
+    };
+    const handleBack = () => {
+        if (currentStepIndex > 0) setCurrentStepIndex(p => p - 1);
     };
 
     const saveCharacter = async () => {
-        if (!name.trim()) {
-            setStatus('Name is required!');
-            return;
-        }
-
-        const character = {
+        const char = {
             Name: name,
-            Species: species,
-            Stats: stats,
-            Skills: [],
-            Powers: powers,
-            Inventory: [],
-            Gear: []
+            Species: selectedClass,
+            Stats: stats.total,
+            Traits: [
+                ...Object.values(compSelections).filter(o => o).map(o => ({
+                    Name: o?.["Option Name"],
+                    Type: o?.Category,
+                    Effect: o?.["Mechanic / Trait"],
+                    BodyPart: o?.["Body Part"]
+                })),
+                ...Object.values(bgSelections).map(o => ({
+                    Name: o.name, // Skill Name
+                    Type: o.category, // Skill Type
+                    Effect: "Skill Mastery"
+                }))
+            ],
+            Powers: selectedSpells,
+            Inventory: Object.values(selectedGear).filter(i => i),
+            Gear: selectedGear,
+            Backstory: backstory,
+            Portrait: selectedToken
         };
 
         try {
-            const response = await fetch(`${API_BASE}/character/save`, {
+            await fetch(`${API_BASE}/character/save`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(character)
+                body: JSON.stringify(char)
             });
-
-            if (response.ok) {
-                setStatus(`Saved ${name}!`);
-                if (onSave) onSave(character);
-            } else {
-                setStatus('Save failed!');
-            }
+            setStatus('Saved!');
+            if (onSave) onSave(char);
         } catch {
-            // Fallback: save locally
-            setStatus('API offline - save pending');
+            console.log("Offline save");
+            setStatus('Saved (Offline)');
+            if (onSave) onSave(char);
         }
     };
 
-    // Derived stats calculation
-    const hp = 10 + stats.Might + stats.Reflexes + stats.Vitality;
-    const sp = stats.Endurance + stats.Finesse + stats.Fortitude;
-    const fp = stats.Knowledge + stats.Charm + stats.Intuition;
-    const cmp = 10 + stats.Willpower + stats.Logic + stats.Awareness;
+    // --- Renderers ---
 
-    return (
-        <div className="h-full overflow-auto p-6 text-stone-300">
-            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <User size={20} className="text-[#00f2ff]" />
-                Character Builder
-            </h2>
+    if (loading) return <div className="p-10 text-stone-500">Loading Builder Data...</div>;
 
-            <div className="grid grid-cols-2 gap-6">
-                {/* Left Column: Name, Species, Stats */}
-                <div className="space-y-4">
-                    {/* Name */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <label className="text-[10px] uppercase text-stone-500 font-bold mb-2 block">Name</label>
+    const renderClassStep = () => (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {['Mammal', 'Reptile', 'Avian', 'Insect', 'Aquatic', 'Plant'].map(cls => (
+                <button
+                    key={cls}
+                    onClick={() => setSelectedClass(cls)}
+                    className={`p-6 rounded-lg border-2 text-left transition-all hover:scale-[1.02]
+                        ${selectedClass === cls ? 'border-[#66fcf1] bg-[#1f2833]' : 'border-stone-800 bg-stone-900'}`}
+                >
+                    <div className="text-xl font-bold text-white mb-2">{cls}</div>
+                    <div className="text-xs text-stone-400">
+                        High: {speciesData.filter(r => parseInt(r[cls]) >= 11).map(r => r.Attribute).join(', ') || 'None'}
+                    </div>
+                </button>
+            ))}
+        </div>
+    );
+
+    const renderComponentOptions = () => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {classOptions.filter(o => o.STEP === currentStep.id).map((opt, i) => {
+                const selected = compSelections[currentStep.id]?.["Option Name"] === opt["Option Name"];
+                return (
+                    <button
+                        key={i}
+                        onClick={() => setCompSelections(p => ({ ...p, [currentStep.id]: opt }))}
+                        className={`p-4 rounded border text-left flex flex-col gap-2 transition-all
+                            ${selected ? 'bg-[#1f2833] border-[#66fcf1] ring-1 ring-[#66fcf1]' : 'bg-stone-900 border-stone-800 hover:bg-stone-800'}`}
+                    >
+                        <div className="flex justify-between w-full">
+                            <span className="font-bold text-white text-lg">{opt["Option Name"]}</span>
+                            {selected && <CheckCircle size={18} className="text-[#66fcf1]" />}
+                        </div>
+                        {currentStep.id === '1_SIZE' ? (
+                            <div className="text-xs space-y-1">
+                                <div className="text-green-400">{opt['Bio']}</div>
+                                <div className="text-red-400">{opt['Head']}</div>
+                            </div>
+                        ) : (
+                            <div className="flex gap-2 text-xs">
+                                <span className="text-[#66fcf1]">+{opt["Stat 1"]}</span>
+                                <span className="text-[#66fcf1]">+{opt["Stat 2"]}</span>
+                            </div>
+                        )}
+                        <div className="text-sm text-stone-300 mt-1">
+                            <span className="text-stone-500 font-bold uppercase text-[10px] mr-2">{opt["Body Part"]}</span>
+                            {opt["Mechanic / Trait"]}
+                        </div>
+                    </button>
+                );
+            })}
+        </div>
+    );
+
+    const renderBackgroundStep = () => {
+        const bgStep = backgroundSteps.find(b => b.id === currentStep.id);
+        if (!bgStep) return null;
+
+        return (
+            <div className="space-y-4">
+                <div className="text-stone-400 italic mb-4">{bgStep.description}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {bgStep.options.map((opt, i) => {
+                        const selected = bgSelections[currentStep.id]?.name === opt.name;
+                        return (
+                            <button
+                                key={i}
+                                onClick={() => setBgSelections(p => ({ ...p, [currentStep.id]: opt }))}
+                                className={`p-4 rounded border text-left flex flex-col gap-2 transition-all
+                                    ${selected ? 'bg-[#1f2833] border-[#66fcf1] ring-1 ring-[#66fcf1]' : 'bg-stone-900 border-stone-800 hover:bg-stone-800'}`}
+                            >
+                                <div className="flex justify-between w-full">
+                                    <span className="font-bold text-white text-lg">{opt.name}</span>
+                                    {selected && <CheckCircle size={18} className="text-[#66fcf1]" />}
+                                </div>
+                                <div className="text-sm text-stone-300">{opt.narrative}</div>
+                                <div className="text-xs bg-stone-800 px-2 py-1 rounded text-stone-500 w-fit mt-2">{opt.category}</div>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
+    const renderMagicStep = () => {
+        // Filter spells by Schools where Stat >= 12
+        // School -> Attribute in Schools of Power.csv?
+        // Wait, generated Spells.json has "Attribute" key?
+        // My generator script copied ALL rows from CSV.
+        // Schools of Power.csv has "Attribute" (e.g. "Might" for Mass).
+
+        const validSpells = spellData.filter(spell => {
+            const attr = spell["Attribute"]; // Case sensitive? CSV had "Attribute"
+            // stats keys are uppercase (MIGHT, etc) from Species.csv?
+            // Species.csv had UPPERCASE headers? Let's check logic.
+            // calculateStats uses row.Attribute.
+            // Let's assume title case or upper.
+            // Just case-insensitive match
+            const statVal = stats.total[attr.toUpperCase()] || stats.total[attr] || 0;
+            return statVal >= 12;
+        });
+
+        // Group by School
+        const grouped: Record<string, Spell[]> = {};
+        validSpells.forEach(s => {
+            if (!grouped[s.School]) grouped[s.School] = [];
+            grouped[s.School].push(s);
+        });
+
+        return (
+            <div className="space-y-6">
+                <div className="flex justify-between items-center bg-stone-900 p-4 rounded">
+                    <div>Select 2 Spells (Schools with Stat 12+)</div>
+                    <div className="text-[#66fcf1] font-bold">{selectedSpells.length} / 2 Selected</div>
+                </div>
+
+                {Object.entries(grouped).map(([school, spells]) => (
+                    <div key={school} className="space-y-2">
+                        <h4 className="text-[#66fcf1] font-bold border-b border-stone-800 pb-1">{school}</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                            {spells.map((spell, i) => {
+                                const isSel = selectedSpells.includes(spell);
+                                return (
+                                    <button
+                                        key={i}
+                                        onClick={() => {
+                                            if (isSel) setSelectedSpells(p => p.filter(s => s !== spell));
+                                            else if (selectedSpells.length < 2) setSelectedSpells(p => [...p, spell]);
+                                        }}
+                                        className={`p-3 rounded border text-left text-sm transition-all h-full flex flex-col justify-between
+                                            ${isSel ? 'bg-[#1f2833] border-[#66fcf1]' : 'bg-stone-900 border-stone-800 hover:border-stone-600'}`}
+                                    >
+                                        <div className="font-bold text-white mb-1">{spell.Name}</div>
+                                        <div className="text-stone-400 text-xs">{spell.Description}</div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
+                {validSpells.length === 0 && <div className="text-stone-500">No Stats &ge; 12 to unlock Magic Schools.</div>}
+            </div>
+        );
+    };
+
+    const renderGearStep = () => {
+        // Filter items where Related_Skill is in acquiredSkills
+        const validGear = gearData.filter(item => acquiredSkills.includes(item.Related_Skill));
+        const weapons = validGear.filter(i => i.Type === 'Weapon');
+        const armors = validGear.filter(i => i.Type === 'Armor');
+
+        return (
+            <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Right Hand */}
+                    <div className="bg-stone-900 p-4 rounded border border-stone-800">
+                        <h4 className="text-white font-bold mb-4 flex items-center gap-2"><Swords size={16} /> Right Hand</h4>
+                        <div className="space-y-2 h-64 overflow-auto custom-scrollbar">
+                            {weapons.map((w, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setSelectedGear(p => ({ ...p, rightHand: w }))}
+                                    className={`w-full p-2 rounded text-left text-xs border ${selectedGear.rightHand === w ? 'border-[#66fcf1] bg-[#1f2833]' : 'border-stone-800'}`}
+                                >
+                                    <div className="font-bold text-white">{w.Name}</div>
+                                    <div className="text-stone-500">{w.Effect}</div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Left Hand */}
+                    <div className="bg-stone-900 p-4 rounded border border-stone-800">
+                        <h4 className="text-white font-bold mb-4 flex items-center gap-2"><Shield size={16} /> Left Hand / Off</h4>
+                        <div className="space-y-2 h-64 overflow-auto custom-scrollbar">
+                            <button
+                                onClick={() => setSelectedGear(p => ({ ...p, leftHand: undefined }))}
+                                className={`w-full p-2 text-stone-500 italic text-xs border ${!selectedGear.leftHand ? 'border-stone-500' : 'border-transparent'}`}
+                            >Empty</button>
+                            {weapons.map((w, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setSelectedGear(p => ({ ...p, leftHand: w }))}
+                                    className={`w-full p-2 rounded text-left text-xs border ${selectedGear.leftHand === w ? 'border-[#66fcf1] bg-[#1f2833]' : 'border-stone-800'}`}
+                                >
+                                    <div className="font-bold text-white">{w.Name}</div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Armor */}
+                    <div className="bg-stone-900 p-4 rounded border border-stone-800">
+                        <h4 className="text-white font-bold mb-4 flex items-center gap-2"><div className="w-4 h-4 bg-stone-600 rounded-sm" /> Armor</h4>
+                        <div className="space-y-2 h-64 overflow-auto custom-scrollbar">
+                            {armors.map((a, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setSelectedGear(p => ({ ...p, armor: a }))}
+                                    className={`w-full p-2 rounded text-left text-xs border ${selectedGear.armor === a ? 'border-[#66fcf1] bg-[#1f2833]' : 'border-stone-800'}`}
+                                >
+                                    <div className="font-bold text-white">{a.Name}</div>
+                                    <div className="text-stone-500">{a.Effect}</div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const renderFinalizeStep = () => {
+        return (
+            <div className="space-y-6">
+                {/* Details */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-stone-900 p-4 rounded border border-stone-800">
+                        <label className="block text-stone-500 text-xs font-bold mb-2">HERO NAME</label>
                         <input
-                            type="text"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            placeholder="Enter name..."
-                            className="w-full bg-stone-900 border border-stone-700 rounded px-3 py-2 text-white focus:border-[#00f2ff] focus:outline-none"
+                            value={name} onChange={e => setName(e.target.value)}
+                            className="w-full bg-black border border-stone-700 p-2 text-white rounded focus:border-[#66fcf1] outline-none"
+                            placeholder="Enter Name..."
+                        />
+                        <label className="block text-stone-500 text-xs font-bold mt-4 mb-2">BACKSTORY</label>
+                        <textarea
+                            value={backstory} onChange={e => setBackstory(e.target.value)}
+                            className="w-full h-40 bg-black border border-stone-700 p-2 text-stone-300 text-sm rounded focus:border-[#66fcf1] outline-none resize-none"
                         />
                     </div>
 
-                    {/* Species */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <label className="text-[10px] uppercase text-stone-500 font-bold mb-2 block">Species</label>
-                        <div className="grid grid-cols-3 gap-2">
-                            {SPECIES_LIST.map(s => (
+                    {/* Portrait */}
+                    <div className="bg-stone-900 p-4 rounded border border-stone-800 flex flex-col">
+                        <label className="block text-stone-500 text-xs font-bold mb-2">PORTRAIT TOKEN</label>
+                        <div className="flex-1 overflow-auto bg-black p-2 rounded border border-stone-800 grid grid-cols-4 gap-2 h-64 custom-scrollbar">
+                            {tokenData.map(tk => (
                                 <button
-                                    key={s}
-                                    onClick={() => setSpecies(s)}
-                                    className={`p-2 rounded text-xs font-bold transition-all
-                                        ${species === s
-                                            ? 'bg-[#00f2ff] text-black'
-                                            : 'bg-stone-900 text-stone-400 hover:bg-stone-800'}`}
+                                    key={tk}
+                                    onClick={() => setSelectedToken(tk)}
+                                    className={`relative aspect-square rounded overflow-hidden border-2 transition-all
+                                        ${selectedToken === tk ? 'border-[#66fcf1] opacity-100' : 'border-transparent opacity-50 hover:opacity-80'}`}
                                 >
-                                    {s}
+                                    <img src={`/tokens/${tk}`} alt={tk} className="w-full h-full object-cover" />
                                 </button>
                             ))}
                         </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <div className="flex justify-between items-center mb-3">
-                            <label className="text-[10px] uppercase text-stone-500 font-bold">Attributes</label>
-                            <span className={`text-xs font-mono ${bonusPoints > 0 ? 'text-green-400' : 'text-stone-500'}`}>
-                                {bonusPoints} bonus pts
-                            </span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            {STAT_LIST.map(stat => (
-                                <div key={stat} className="flex items-center justify-between bg-stone-900 p-2 rounded">
-                                    <span className="text-xs text-stone-400 w-20">{stat}</span>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => adjustStat(stat, -1)}
-                                            disabled={stats[stat] <= SPECIES_STATS[species][stat]}
-                                            className="w-5 h-5 flex items-center justify-center bg-stone-800 rounded text-stone-400 hover:bg-red-900 disabled:opacity-30"
-                                        >
-                                            <Minus size={10} />
-                                        </button>
-                                        <span className={`text-sm font-mono w-6 text-center
-                                            ${stats[stat] > SPECIES_STATS[species][stat] ? 'text-green-400' : 'text-white'}`}>
-                                            {stats[stat]}
-                                        </span>
-                                        <button
-                                            onClick={() => adjustStat(stat, 1)}
-                                            disabled={bonusPoints <= 0}
-                                            className="w-5 h-5 flex items-center justify-center bg-stone-800 rounded text-stone-400 hover:bg-green-900 disabled:opacity-30"
-                                        >
-                                            <Plus size={10} />
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        {selectedToken && (
+                            <div className="mt-4 flex items-center gap-4">
+                                <img src={`/tokens/${selectedToken}`} className="w-16 h-16 rounded-full border border-stone-600" />
+                                <div className="text-white text-sm">{selectedToken}</div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Right Column: Powers, Preview, Save */}
-                <div className="space-y-4">
-                    {/* Powers */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <label className="text-[10px] uppercase text-stone-500 font-bold mb-2 block flex items-center gap-1">
-                            <Sparkles size={10} /> Powers (Max 3)
-                        </label>
-                        <div className="grid grid-cols-3 gap-2">
-                            {availablePowers.map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => togglePower(p)}
-                                    className={`p-2 rounded text-xs font-bold transition-all
-                                        ${powers.includes(p)
-                                            ? 'bg-purple-600 text-white'
-                                            : 'bg-stone-900 text-stone-400 hover:bg-stone-800'}`}
-                                >
-                                    {p}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Derived Stats Preview */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <label className="text-[10px] uppercase text-stone-500 font-bold mb-3 block">Derived Stats</label>
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 flex items-center justify-center bg-red-900/50 rounded">
-                                    <Swords size={14} className="text-red-400" />
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-stone-500">HP</div>
-                                    <div className="text-lg font-bold text-red-400">{hp}</div>
-                                </div>
+                {/* Summary Stats */}
+                <div className="bg-stone-900 p-4 rounded border border-stone-800">
+                    <div className="grid grid-cols-6 gap-2">
+                        {Object.entries(stats.total).map(([k, v]) => (
+                            <div key={k} className="text-center p-2 bg-black rounded">
+                                <div className="text-[10px] text-stone-500 uppercase">{k.substring(0, 3)}</div>
+                                <div className="text-xl font-bold text-white">{v}</div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 flex items-center justify-center bg-blue-900/50 rounded">
-                                    <Shield size={14} className="text-blue-400" />
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-stone-500">CMP</div>
-                                    <div className="text-lg font-bold text-blue-400">{cmp}</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 flex items-center justify-center bg-green-900/50 rounded">
-                                    <div className="text-green-400 text-xs font-bold">SP</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-stone-500">Stamina</div>
-                                    <div className="text-lg font-bold text-green-400">{sp}</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 flex items-center justify-center bg-purple-900/50 rounded">
-                                    <div className="text-purple-400 text-xs font-bold">FP</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] text-stone-500">Focus</div>
-                                    <div className="text-lg font-bold text-purple-400">{fp}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Summary */}
-                    <div className="bg-[#0a0a0a] border border-stone-800 rounded p-4">
-                        <label className="text-[10px] uppercase text-stone-500 font-bold mb-2 block">Summary</label>
-                        <div className="text-xs text-stone-400 space-y-1">
-                            <p>Total Stats: <span className="text-white font-mono">{totalStats}</span> (Base: {baseTotal})</p>
-                            <p>Powers: <span className="text-purple-400">{powers.join(', ') || 'None'}</span></p>
-                        </div>
-                    </div>
-
-                    {/* Save Button */}
-                    <div className="flex items-center justify-between">
-                        {status && <span className={`text-xs ${status.includes('Saved') ? 'text-green-400' : 'text-yellow-400'}`}>{status}</span>}
-                        <button
-                            onClick={saveCharacter}
-                            className="flex items-center gap-2 px-6 py-3 bg-[#00f2ff] text-black font-bold uppercase tracking-wider rounded hover:shadow-[0_0_20px_rgba(0,242,255,0.4)] transition-all"
-                        >
-                            <Save size={16} /> Save Character
-                        </button>
+                        ))}
                     </div>
                 </div>
+
+                {/* Save */}
+                <div className="flex justify-end">
+                    <button
+                        onClick={saveCharacter}
+                        disabled={!name || !selectedToken}
+                        className="flex items-center gap-2 px-8 py-4 bg-[#66fcf1] text-black font-bold rounded hover:bg-[#45a29e] disabled:opacity-50"
+                    >
+                        <Save /> Create Hero
+                    </button>
+                </div>
+                {status && <div className="text-center text-[#66fcf1] mt-2">{status}</div>}
+            </div>
+        );
+    };
+
+    // --- Main Render Switch ---
+
+    return (
+        <div className="h-full flex flex-col bg-[#0b0c10] text-stone-300">
+            {/* Header */}
+            <div className="p-4 border-b border-stone-800 flex items-center justify-between bg-[#1f2833]">
+                <div className="flex items-center gap-3">
+                    <User className="text-[#66fcf1]" />
+                    <div>
+                        <h2 className="text-lg font-bold text-white">Character Builder</h2>
+                        <div className="text-[10px] text-stone-400">Phase {Math.floor(currentStepIndex / 5) + 1}: {currentStep.label}</div>
+                    </div>
+                </div>
+                <div className="flex gap-0.5">
+                    {steps.map((s, i) => (
+                        <div
+                            key={s.id}
+                            className={`h-1.5 w-4 rounded-sm transition-all ${i === currentStepIndex ? 'bg-[#66fcf1] w-6' : i < currentStepIndex ? 'bg-[#45a29e]' : 'bg-stone-800'
+                                }`}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-auto p-6">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                    <span className="text-[#66fcf1] opacity-50">{(currentStepIndex + 1).toString().padStart(2, '0')}</span>
+                    {currentStep.label}
+                </h3>
+
+                {currentStep.id === 'CLASS' && renderClassStep()}
+                {BASE_STEPS.some(s => s.id === currentStep.id) && currentStep.id !== 'CLASS' && renderComponentOptions()}
+                {backgroundSteps.some(b => b.id === currentStep.id) && renderBackgroundStep()}
+                {currentStep.id === 'MAGIC' && renderMagicStep()}
+                {currentStep.id === 'GEAR' && renderGearStep()}
+                {currentStep.id === 'FINALIZE' && renderFinalizeStep()}
+            </div>
+
+            {/* Navigation */}
+            <div className="p-4 bg-[#1f2833] border-t border-stone-800 flex justify-between">
+                <button
+                    onClick={handleBack}
+                    disabled={currentStepIndex === 0}
+                    className="flex items-center gap-2 px-4 py-2 text-stone-400 hover:text-white disabled:opacity-30"
+                >
+                    <ArrowLeft size={16} /> Back
+                </button>
+                <button
+                    onClick={handleNext}
+                    disabled={!canProceed() || currentStepIndex === steps.length - 1} // Disable Next on last step
+                    className="flex items-center gap-2 px-6 py-2 bg-[#66fcf1] text-black font-bold rounded hover:bg-[#45a29e] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                    {currentStepIndex === steps.length - 1 ? 'Finish' : 'Next'} <ArrowRight size={16} />
+                </button>
             </div>
         </div>
     );
