@@ -1,0 +1,13 @@
+Type,Roll,Name,Trigger,Effect,Cure
+Physical,1,Concussion,0 HP / Head Hit,"Disadvantage on Logic/Focus checks. Cannot maintain Concentration.",2 Days Rest
+Physical,2,Broken Ribs,Massive Blow,"Max Stamina reduced by 5. Disadvantage on Fortitude saves.",Medicine Check + 1 Week
+Physical,3,Deep Gash,Torso Hit,"Gain Bleeding status at combat start (1d4 Dmg/turn) until bandaged.",Magical Healing (Level 2+)
+Physical,4,Fractured Arm,Arm Hit,"Cannot use Two-Handed weapons or Shields. Off-hand disabled.",Splint + 1 Week
+Physical,5,Hobbled,Leg Hit,"Movement Speed halved. Cannot Dash or Sprint.",Medicine Check + 2 Weeks
+Physical,6,Eye Injury,Head Hit,"Disadvantage on Ranged Attacks and Perception. 50% chance permanent.",Surgery or Magic
+Mental,1,Paranoia,0 CMP / Betrayal,"Cannot benefit from Assist action or Flanking bonuses.",Indulge Vice (High Cost)
+Mental,2,The Shakes,0 CMP / Fear,"-2 Initiative (Alertness). Disadvantage on Finesse checks.",Sedative/Alcohol
+Mental,3,Craven,0 CMP / Intimidation,"Taking damage triggers Willpower save (DC 12) or Disengage.",Win a Combat solo
+Mental,4,Hesitation,0 CMP / Shock,"Cannot take Reactions (Block, Parry, Opportunity Attacks).",Meditation / Prayer
+Mental,5,Obsession,Cosmic Horror,"GM picks one goal. Regain 0 Focus during Rests unless pursuing it.",Achieve the Goal
+Mental,6,Despair,Critical Failure,"Cannot use Luck points or Reroll abilities.",Major Victory / Level Up

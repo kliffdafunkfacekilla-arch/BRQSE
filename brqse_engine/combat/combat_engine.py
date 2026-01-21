@@ -61,6 +61,10 @@ class CombatEngine:
         # Load Social Maneuvers
         self.social_maneuvers = {}
         self._load_social_data()
+        
+        # Load Trauma Tables
+        self.traumas = {"Physical": [], "Mental": []}
+        self._load_trauma_data()
 
     def _load_social_data(self):
         """Loads Social_Maneuvers.csv"""
@@ -72,6 +76,42 @@ class CombatEngine:
                 reader = csv.DictReader(f)
                 for row in reader:
                     self.social_maneuvers[row["Maneuver"]] = row
+
+    def _load_trauma_data(self):
+        """Loads Traumas.csv into Physical and Mental lists."""
+        import csv
+        import os
+        path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Data", "Traumas.csv")
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    trauma_type = row.get("Type", "Physical")
+                    if trauma_type in self.traumas:
+                        self.traumas[trauma_type].append(row)
+
+    def roll_trauma(self, combatant: Combatant, trauma_type: str = "Physical") -> str:
+        """Rolls on trauma table and applies injury. Returns injury name."""
+        table = self.traumas.get(trauma_type, [])
+        if not table:
+            return None
+        
+        roll, _, _ = Dice.roll("1d6")
+        # Find matching trauma by Roll column
+        for trauma in table:
+            if int(trauma.get("Roll", 0)) == roll:
+                injury_name = trauma.get("Name", "Unknown Injury")
+                combatant.add_injury(injury_name)
+                self.log(f"TRAUMA! {combatant.name} suffers {injury_name}: {trauma.get('Effect', '')}")
+                self.record_event("trauma", combatant.name, injury=injury_name, effect=trauma.get("Effect"))
+                return injury_name
+        
+        # Fallback to first entry if roll doesn't match
+        if table:
+            injury_name = table[0].get("Name", "Minor Wound")
+            combatant.add_injury(injury_name)
+            return injury_name
+        return None
 
     def add_combatant(self, combatant: Combatant):
         self.combatants.append(combatant)

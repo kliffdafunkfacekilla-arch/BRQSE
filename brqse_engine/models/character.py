@@ -16,22 +16,30 @@ class Character:
         self.sprite = data.get("Sprite", None)
         self.ai_archetype = data.get("AI_Archetype", "Berserker") # Default to Melee Rush
         
-        # Calculate Derived Stats (HP, etc)
-        self.max_hp = self._calculate_max_hp()
-        self.current_hp = data.get("Current_HP", self.max_hp)
+        # Calculate Derived Stats: CONDITION (Body HP) and COMPOSURE (Mind HP)
+        # Condition = Might + Vitality + Reflexes (Physical Resilience)
+        # Composure = Willpower + Logic + Awareness (Mental Resilience)
+        self.max_condition = self._calculate_max_condition()
+        self.current_condition = data.get("Current_Condition", self.max_condition)
         
-        # Social Stats (Composure)
         self.max_composure = self._calculate_max_composure()
         self.current_composure = data.get("Current_Composure", self.max_composure)
+        
+        # Legacy HP alias for compatibility
+        self.max_hp = self.max_condition
+        self.current_hp = self.current_condition
+        
+        # Injury/Death System
+        self.injuries: List[str] = data.get("Injuries", [])  # List of injury names
+        self.death_clock: int = data.get("Death_Clock", self._get_max_death_clock())
+        self.is_dying: bool = False
+        self.is_broken: bool = False
         
         # Inventory Management
         self.inventory: List[Item] = []
         raw_inv = data.get("Inventory", [])
         for i_data in raw_inv:
             if isinstance(i_data, str):
-                # If just a string name, we need to load it from DB later. 
-                # For now store as stub or handle in Data Loader.
-                # Storing strings for now, Controller will hydrate.
                 pass 
             elif isinstance(i_data, dict):
                  self.inventory.append(Item(i_data))
@@ -40,31 +48,42 @@ class Character:
             "Main Hand": None,
             "Off Hand": None,
             "Armor": None,
-            # Add other slots as needed
         }
         
-        # Load Equipment if present in data
         raw_eq = data.get("Equipment", {})
-        # Note: Hydration of equipment usually requires the Item DB.
-        # This model might just hold the names if we want it to be pure data, 
-        # or we inject the Item DB.
-        self.equipment_names = raw_eq # Keep raw names for reference
+        self.equipment_names = raw_eq
+
+    def _calculate_max_condition(self) -> int:
+        """Condition = Might + Vitality + Reflexes (Body)"""
+        might = self.stats.get("Might", 10)
+        vit = self.stats.get("Vitality", 10)
+        reflex = self.stats.get("Reflexes", 10)
+        return might + vit + reflex
 
     def _calculate_max_hp(self) -> int:
-        """
-        HP = Vitality + Fortitude + 10 (Base)
-        """
-        vit = self.stats.get("Vitality", 0)
-        fort = self.stats.get("Fortitude", 0)
-        return 10 + vit + fort
+        """Legacy: Alias for max_condition."""
+        return self._calculate_max_condition()
 
     def _calculate_max_composure(self) -> int:
-        """
-        Composure = Charm + Logic + 10 (Base)
-        """
-        charm = self.stats.get("Charm", 0)
-        logic = self.stats.get("Logic", 0)
-        return 10 + charm + logic
+        """Composure = Willpower + Logic + Awareness (Mind)"""
+        will = self.stats.get("Willpower", 10)
+        logic = self.stats.get("Logic", 10)
+        aware = self.stats.get("Awareness", 10)
+        return will + logic + aware
+    
+    def _get_max_death_clock(self) -> int:
+        """Death Clock = Vitality stat (min 1)"""
+        return max(1, self.stats.get("Vitality", 10))
+    
+    @property
+    def is_bloodied(self) -> bool:
+        """Below 50% Condition triggers 'Bloodied' state."""
+        return self.current_condition <= (self.max_condition // 2)
+    
+    @property
+    def is_shaken(self) -> bool:
+        """Below 50% Composure triggers 'Shaken' state."""
+        return self.current_composure <= (self.max_composure // 2)
 
     def get_stat(self, stat_name: str) -> int:
         return self.stats.get(stat_name, 0)

@@ -1,0 +1,8 @@
+State,Trigger,Effect,Duration
+Dying,HP reaches 0,"Prone. Speed 0. Cannot take Actions. Clock starts.",Until Stabilized or Clock 0
+Bleeding Out,Start of Turn,Reduce Death Clock by 1.,Instant
+Damage Taken,Hit while Dying,Reduce Death Clock by 1 (Ranged) or 2 (Melee).,Instant
+Stabilized,Medicine Check (DC 10),Clock stops. Remains Unconscious.,Until HP > 0
+Last Stand,Burn 1 Willpower,Regain full movement/actions for 1 turn.,1 Round
+Dead,Clock reaches 0,Character is removed from play.,Permanent
+Recovery,Healed > 0 HP,Gain 1 Level of Exhaustion + 1 Injury.,Until Long Rest/Treatment

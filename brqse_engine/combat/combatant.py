@@ -82,19 +82,67 @@ class Combatant:
         self.initiative = roll + alertness
         return self.initiative
 
-    def take_damage(self, amount: int) -> bool:
+    def take_damage(self, amount: int) -> int:
         """
-        Applies damage. Returns True if dead/down.
+        Applies damage to Condition. Returns actual damage taken.
+        Triggers Critical State if Condition hits 0.
         """
-        self.current_hp -= amount
+        actual = min(amount, self.current_hp)
+        self.current_hp -= actual
         if self.current_hp < 0:
             self.current_hp = 0
         
-        # Sync back to character model? 
-        # For now, yes, assume persistent damage within the session.
+        # Sync to character model
+        self.character.current_condition = self.current_hp
         self.character.current_hp = self.current_hp
         
-        return self.current_hp == 0
+        # Check for critical state
+        if self.current_hp == 0 and not self.is_dying:
+            self.enter_critical_state()
+        
+        return actual
+    
+    def enter_critical_state(self):
+        """Triggers when Condition reaches 0. Start death clock."""
+        self.is_dying = True
+        self.character.is_dying = True
+        self.add_condition("Prone")
+        self.add_condition("Dying")
+        # Death clock already initialized from character
+        
+    def tick_death_clock(self, amount: int = 1) -> bool:
+        """Reduces death clock. Returns True if character dies."""
+        self.character.death_clock -= amount
+        if self.character.death_clock <= 0:
+            self.character.death_clock = 0
+            self.is_dead = True
+            return True
+        return False
+    
+    @property
+    def is_dying(self) -> bool:
+        return self.character.is_dying
+    
+    @is_dying.setter
+    def is_dying(self, val: bool):
+        self.character.is_dying = val
+        
+    @property
+    def death_clock(self) -> int:
+        return self.character.death_clock
+    
+    @property
+    def is_bloodied(self) -> bool:
+        return self.character.is_bloodied
+    
+    @property
+    def injuries(self):
+        return self.character.injuries
+    
+    def add_injury(self, injury_name: str):
+        """Adds an injury to the character's injury list."""
+        if injury_name not in self.character.injuries:
+            self.character.injuries.append(injury_name)
 
     def heal(self, amount: int) -> int:
         """Heals HP up to Max."""

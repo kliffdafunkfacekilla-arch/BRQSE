@@ -1,0 +1,3 @@
+Stat,Name,Derived_From,Threshold_Name,Threshold_Percent,Zero_State
+Body,Condition,Might + Vitality + Reflexes,Bloodied,50,Critical (Dying)
+Mind,Composure,Willpower + Logic + Awareness,Shaken,50,Broken (Panic)
