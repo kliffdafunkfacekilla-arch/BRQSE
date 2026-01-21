@@ -23,7 +23,7 @@ interface Scene {
 
 const API_BASE = 'http://localhost:5001/api';
 
-export default function SceneStack({ onLog }: { onLog: (msg: string, type: 'info' | 'combat') => void }) {
+export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: string, type: 'info' | 'combat') => void, onSceneChange?: () => void }) {
     const [world, setWorld] = useState<WorldState | null>(null);
     const [currentScene, setCurrentScene] = useState<Scene | null>(null);
     const [loading, setLoading] = useState(false);
@@ -72,6 +72,7 @@ export default function SceneStack({ onLog }: { onLog: (msg: string, type: 'info
             setCurrentScene(data);
             onLog(`Entered: ${data.text}`, 'info');
             fetchStatus();
+            onSceneChange?.();
         } catch (e) {
             onLog("Failed to advance scene", 'info');
         }
@@ -141,7 +142,7 @@ export default function SceneStack({ onLog }: { onLog: (msg: string, type: 'info
                         <div className="relative z-10">
                             <div className="text-sm font-bold text-stone-200 mb-1">{currentScene.text}</div>
                             <div className={`text-[10px] inline-block px-1 rounded ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
-                                    'bg-stone-800 text-stone-400 border border-stone-700'
+                                'bg-stone-800 text-stone-400 border border-stone-700'
                                 }`}>
                                 {currentScene.encounter_type}
                             </div>

@@ -82,6 +82,9 @@ function App() {
     { id: '0', timestamp: new Date().toLocaleTimeString(), source: 'SYS', message: 'Engine Online.', type: 'info' }
   ]);
 
+  // 6. SCENE VERSION (For reloading Arena)
+  const [sceneVersion, setSceneVersion] = useState(0);
+
   // --- LOAD PLAYER STATE ON MOUNT ---
   useEffect(() => {
     // Check API health
@@ -305,11 +308,18 @@ import SceneStack from './components/SceneStack';
             {currentView === 'arena' && (
               <div className="h-full flex flex-col relative">
                 {/* Overlay SceneStack UI */}
-                <SceneStack onLog={(msg, type) => addLog('WORLD', msg, type)} />
+                <SceneStack
+                  onLog={(msg, type) => addLog('WORLD', msg, type)}
+                  onSceneChange={() => setSceneVersion(prev => prev + 1)}
+                />
 
                 <div className="flex-1 flex items-center justify-center p-4 bg-grid-pattern relative">
                   <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-50" />
-                  <Arena onStatsUpdate={handleArenaUpdate} onLog={(msg, type) => addLog('ARENA', msg, type)} />
+                  <Arena
+                    sceneVersion={sceneVersion}
+                    onStatsUpdate={handleArenaUpdate}
+                    onLog={(msg, type) => addLog('ARENA', msg, type)}
+                  />
                 </div>
                 <ActionBar />
               </div>

@@ -217,7 +217,9 @@ def generate_quest():
 @app.route('/api/world/scene/advance', methods=['POST'])
 def advance_scene():
     """Advances to the next scene in the stack."""
-    scene = SCENE_STACK.advance()
+    # Use GameLoop to ensure map is generated
+    scene = GAME_LOOP.advance_scene()
+    
     return jsonify({
         "text": scene.text,
         "encounter_type": scene.encounter_type,
@@ -227,9 +229,66 @@ def advance_scene():
     })
 
 
+# --- GAME LOOP (Exploration/Combat Controller) ---
+
+from brqse_engine.core.game_loop import GameLoopController
+
+# Initialize one global controller for the session
+GAME_LOOP = GameLoopController(CHAOS_MANAGER)
+
+@app.route('/api/game/init', methods=['POST'])
+def game_init():
+    """Starts a new game session/quest."""
+    # Reset controller
+    global GAME_LOOP
+    GAME_LOOP = GameLoopController(CHAOS_MANAGER)
+    return jsonify(GAME_LOOP.get_state())
+
+@app.route('/api/game/state', methods=['GET'])
+def game_state():
+    """Returns current board state (walls, objects, player pos)."""
+    return jsonify(GAME_LOOP.get_state())
+
+@app.route('/api/game/move', methods=['POST'])
+def game_move():
+    """Attempts to move player. Returns success/fail and events."""
+    data = request.get_json()
+    
+    # Extract Player Traits (Prototype Mapping)
+    player = GAME_STATE.get_player()
+    traits = []
+    species = player.get('species', "")
+    
+    if species == 'Avian': traits.append('Wings')
+    elif species == 'Reptile': traits.append('Sticky Pads')
+    elif species == 'Mammal' or species == 'Bear': traits.append('Huge Size')
+    
+    result = GAME_LOOP.handle_move(data.get('x'), data.get('y'), traits=traits)
+    
+    # Enrich result with full state update
+    response = {
+        "result": result,
+        "state": GAME_LOOP.get_state(),
+        "tension": {
+            "threshold": CHAOS_MANAGER.tension_threshold,
+            "chaos_clock": CHAOS_MANAGER.chaos_clock
+        }
+    }
+    return jsonify(response)
+
+@app.route('/api/game/interact', methods=['POST'])
+def game_interact():
+    """Interacts with object at target."""
+    data = request.get_json()
+    result = GAME_LOOP.handle_interact(data.get('x'), data.get('y'))
+    return jsonify({
+        "result": result,
+        "state": GAME_LOOP.get_state()
+    })
+
 if __name__ == '__main__':
     print("=" * 50)
-    print("BRQSE API Server v2.1 (GameState Integrated)")
+    print("BRQSE API Server v2.3 (Game Loop Integrated)")
     print(f"Base Dir: {BASE_DIR}")
     print("=" * 50)
     app.run(host='0.0.0.0', port=5001, debug=True)

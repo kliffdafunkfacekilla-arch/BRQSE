@@ -63,10 +63,22 @@ class ChaosManager:
         }
 
 class Scene:
-    def __init__(self, text, encounter_type="EMPTY", enemy_data=None):
+    def __init__(self, text, encounter_type="EMPTY", enemy_data=None, biome="DUNGEON"):
         self.text = text
         self.encounter_type = encounter_type # COMBAT, HAZARD, EMPTY
         self.enemy_data = enemy_data 
+        # Phase E: Grid Data
+        self.biome = biome
+        self.grid = [] # 20x20 array [y][x]
+        self.entrances = [] # list of (x,y)
+        self.exits = [] # list of (x,y)
+        self.loot_nodes = [] # list of dicts {x,y,type}
+        
+    def set_grid(self, grid, entrances, exits, loot_nodes):
+        self.grid = grid
+        self.entrances = entrances
+        self.exits = exits
+        self.loot_nodes = loot_nodes 
 
 class SceneStack:
     def __init__(self, chaos_manager):

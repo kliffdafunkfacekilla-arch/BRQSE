@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Token from './Token';
 
+const TILE_SIZE = 64;
+
 interface ReplayEvent {
     type: string;
     style?: string;
@@ -56,9 +58,10 @@ interface FloatingText {
 interface ArenaProps {
     onStatsUpdate?: (currentHp: number, maxHp: number, name: string) => void;
     onLog?: (msg: string, type: 'info' | 'combat' | 'error') => void;
+    sceneVersion?: number;
 }
 
-export default function Arena({ onStatsUpdate }: ArenaProps) {
+export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0 }: ArenaProps) {
     const [combatants, setCombatants] = useState<Combatant[]>([]);
     const [visuals, setVisuals] = useState<VisualEffect[]>([]);
     const [persistentVisuals, setPersistentVisuals] = useState<VisualEffect[]>([]);
@@ -101,8 +104,32 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
         'darkness': 'bg-black/80',
     };
 
+    // EXPLORATION STATE
+    const [explorationMode, setExplorationMode] = useState(false);
+    const [playerPos, setPlayerPos] = useState({ x: 1, y: 6 });
+    const [objects, setObjects] = useState<any[]>([]);
+    const [explored, setExplored] = useState<Set<string>>(new Set());
+
     // LOAD DATA WRAPPER
     const fetchData = () => {
+        // Try Game Loop State First
+        fetch('/api/game/state')
+            .then(res => res.json())
+            .then(data => {
+                if (data.mode === 'EXPLORE') {
+                    setExplorationMode(true);
+                    setConsoleMsg(["EXPLORATION MODE ACTIVE"]);
+                    updateGameState(data);
+                } else {
+                    // Fallback to Replay Mode
+                    loadReplayData();
+                }
+            })
+            .catch(() => loadReplayData());
+    };
+
+    const loadReplayData = () => {
+        setExplorationMode(false);
         setConsoleMsg(["FETCHING BATTLE DATA..."]);
         setPlaying(false);
         setStep(0);
@@ -139,11 +166,104 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
             .catch(() => setConsoleMsg(["ERR: NO DATA STREAM"]));
     };
 
+    const updateGameState = (state: any) => {
+        setPlayerPos(state.player_pos ? { x: state.player_pos[0], y: state.player_pos[1] } : { x: 1, y: 6 });
+        setObjects(state.objects || []);
 
-    // Initial Load
+        // Parse Explored Tiles
+        if (state.explored) {
+            const newExplored = new Set<string>();
+            state.explored.forEach((t: any) => {
+                const [ex, ey] = t;
+                newExplored.add(`${ex},${ey}`);
+            });
+            setExplored(newExplored);
+        }
+
+        // Dynamic Grid Size
+        const w = state.grid_w || 12;
+        const h = state.grid_h || 12;
+        setGridSize(Math.max(w, h));
+
+        // Rebuild Map Tiles from Grid (Preferred)
+        if (state.grid) {
+            const newMap = state.grid.map((row: number[]) => row.map((tileId: number) => {
+                // Map ID to Texture Key
+                switch (tileId) {
+                    case 0: return "wall"; // TILE_WALL
+                    case 1: return "grass"; // TILE_FLOOR
+                    case 2: return "tree"; // TILE_COVER
+                    case 3: return "grass"; // TILE_ENEMY (Floor, entity rendered separately?)
+                    case 4: return "door"; // TILE_DOOR
+                    case 5: return "mud"; // TILE_HAZARD (Mud for now)
+                    case 6: return "grass"; // TILE_LOOT (Floor, object rendered separately)
+                    default: return "grass";
+                }
+            }));
+            setMapTiles(newMap);
+        } else if (state.walls) {
+            // Legacy Fallback
+            const newMap = Array(12).fill(null).map(() => Array(12).fill("normal"));
+            state.walls.forEach((w: any) => {
+                const [wx, wy] = w;
+                if (wy < 12 && wx < 12) newMap[wy][wx] = "wall";
+            });
+            setMapTiles(newMap);
+        }
+    };
+
+    const handleTileClick = (tx: number, ty: number) => {
+        if (!explorationMode) return;
+
+        // Determine Action: Move or Interact
+        // Simple heuristic: If object there, interact. Else move.
+        const isObject = objects.find(o => o.x === tx && o.y === ty);
+        const endpoint = isObject ? '/api/game/interact' : '/api/game/move';
+
+        fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ x: tx, y: ty })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.result && data.result.success) {
+                    if (data.state) updateGameState(data.state);
+                    if (data.result.event === 'COMBAT_STARTED') {
+                        setExplorationMode(false);
+                        onLog && onLog("COMBAT STARTED!", "combat");
+                        setTimeout(loadReplayData, 1000); // Switch to battle view
+                    }
+                    if (data.result.effect) {
+                        onLog && onLog(data.result.effect, "info");
+                        // Visual popup
+                        setPopups(prev => [...prev, {
+                            id: Date.now(), x: tx, y: ty, text: data.result.effect, color: 'text-yellow-400'
+                        }]);
+                    }
+                } else {
+                    onLog && onLog(data.result?.reason || "Failed", "error");
+                }
+            });
+    };
+
+    // INITIAL LOAD
     useEffect(() => {
+        // Initial load
         fetchData();
-    }, []);
+    }, [sceneVersion]);
+    // Poll for state changes (e.g. scene advance)
+    useEffect(() => {
+        let interval: any;
+        if (explorationMode) {
+            interval = setInterval(() => {
+                fetch('/api/game/state').then(r => r.json()).then(d => {
+                    if (d.mode === 'EXPLORE') updateGameState(d);
+                });
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [explorationMode]);
 
     // PLAYBACK LOOP
     useEffect(() => {
@@ -371,10 +491,30 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
 
                             if (!asset && !colorClass) return null;
 
+                            // FOG OF WAR
+                            const isExplored = explored.has(`${x},${y}`);
+
+                            // If not explored, render PURE BLACK (Unrevealed)
+                            if (!isExplored && explorationMode) {
+                                return (
+                                    <div
+                                        key={`${x}-${y}`}
+                                        className="absolute bg-black flex items-center justify-center z-20"
+                                        style={{
+                                            width: `${100 / gridSize}%`,
+                                            height: `${100 / gridSize}%`,
+                                            left: `${x * (100 / gridSize)}%`,
+                                            top: `${y * (100 / gridSize)}%`,
+                                        }}
+                                    />
+                                );
+                            }
+
                             return (
                                 <div
                                     key={`${x}-${y}`}
-                                    className={`absolute pointer-events-none ${!asset ? colorClass : ''} flex items-center justify-center`}
+                                    onClick={() => handleTileClick(x, y)}
+                                    className={`absolute ${!asset ? colorClass : ''} flex items-center justify-center cursor-pointer hover:bg-white/10`}
                                     style={{
                                         width: `${100 / gridSize}%`,
                                         height: `${100 / gridSize}%`,
@@ -388,6 +528,52 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                                     {tile === 'fire' && (
                                         <div className="absolute inset-0 w-full h-full animate-pulse bg-orange-500/30" />
                                     )}
+                                    {/* Shroud for Explore Mode (Visible but not 'current' could be dimmed if we had LOS) */}
+                                </div>
+                            );
+                        })
+                    )}
+
+                    {/* RENDER COMBATANTS OR PLAYER */}
+                    {explorationMode ? (
+                        <>
+                            {/* Player Token */}
+                            <div className="absolute transition-all duration-300 z-10"
+                                style={{ left: `${playerPos.x * TILE_SIZE}px`, top: `${playerPos.y * TILE_SIZE}px`, width: TILE_SIZE, height: TILE_SIZE }}>
+                                <Token
+                                    name="Hero"
+                                    facing="right"
+                                    team="blue"
+                                    sprite="/tokens/badger_front.png"
+                                />
+                            </div>
+                            {/* Objects */}
+                            {objects.map((obj, i) => (
+                                <div key={i} className="absolute z-0 pointer-events-none"
+                                    style={{ left: `${obj.x * TILE_SIZE}px`, top: `${obj.y * TILE_SIZE}px`, width: TILE_SIZE, height: TILE_SIZE }}>
+                                    {obj.type === 'CHEST' && <div className="w-full h-full bg-yellow-500/50 animate-pulse rounded-full border-2 border-yellow-300" />}
+                                    {obj.type === 'SPIKES' && <div className="w-full h-full bg-red-900/50 border border-red-500" />}
+                                </div>
+                            ))}
+                        </>
+                    ) : (
+                        combatants.map((c, i) => {
+                            if (c.hp <= 0) return null; // Dead
+                            return (
+                                <div key={i} className="absolute transition-all duration-500 z-10"
+                                    style={{
+                                        left: `${c.x * TILE_SIZE}px`,
+                                        top: `${c.y * TILE_SIZE}px`,
+                                        width: TILE_SIZE,
+                                        height: TILE_SIZE
+                                    }}
+                                >
+                                    <Token
+                                        name={c.name}
+                                        team={c.team}
+                                        facing={c.facing}
+                                        sprite={c.sprite}
+                                    />
                                 </div>
                             );
                         })
