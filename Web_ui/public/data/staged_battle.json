@@ -1,72 +1,9 @@
 {
   "blue_team": [
-    "bobby",
-    "flower"
+    "kliff"
   ],
   "red_team": [
-    "Hero",
-    "Valor"
+    "Iron"
   ],
-  "terrain": [
-    {
-      "x": 6,
-      "y": 6,
-      "type": "fire"
-    },
-    {
-      "x": 4,
-      "y": 6,
-      "type": "fire"
-    },
-    {
-      "x": 2,
-      "y": 2,
-      "type": "fire"
-    },
-    {
-      "x": 6,
-      "y": 8,
-      "type": "difficult"
-    },
-    {
-      "x": 6,
-      "y": 4,
-      "type": "difficult"
-    },
-    {
-      "x": 3,
-      "y": 4,
-      "type": "difficult"
-    },
-    {
-      "x": 8,
-      "y": 6,
-      "type": "ice"
-    },
-    {
-      "x": 4,
-      "y": 7,
-      "type": "ice"
-    },
-    {
-      "x": 9,
-      "y": 4,
-      "type": "mud"
-    },
-    {
-      "x": 5,
-      "y": 5,
-      "type": "mud"
-    },
-    {
-      "x": 8,
-      "y": 3,
-      "type": "normal"
-    },
-    {
-      "x": 5,
-      "y": 2,
-      "type": "normal"
-    }
-  ]
+  "terrain": []
 }

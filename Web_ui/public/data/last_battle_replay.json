@@ -1,966 +1,687 @@
 {
   "combatants": [
     {
-      "name": "Frost",
-      "max_hp": 43,
-      "hp": 0,
-      "team": "blue",
+      "name": "Hero",
+      "max_hp": 34,
+      "hp": 7,
+      "team": "Blue",
       "x": 5,
-      "y": 3,
-      "sprite": "badger"
-    },
-    {
-      "name": "buggy",
-      "max_hp": 51,
-      "hp": 13,
-      "team": "blue",
-      "x": 11,
-      "y": 3,
-      "sprite": "beaver"
-    },
-    {
-      "name": "flower",
-      "max_hp": 47,
-      "hp": 39,
-      "team": "red",
-      "x": 18,
-      "y": 3,
+      "y": 6,
       "sprite": "wolf"
     },
     {
-      "name": "Hero",
-      "max_hp": 40,
+      "name": "flower",
+      "max_hp": 38,
       "hp": 0,
-      "team": "red",
-      "x": 9,
-      "y": 3,
-      "sprite": "fox"
+      "team": "Red",
+      "x": 6,
+      "y": 6,
+      "sprite": "wolf"
     }
   ],
   "log": [
     {
-      "type": "move",
-      "actor": "Frost",
-      "from": [
-        1,
-        5
-      ],
-      "to": [
-        2,
-        4
-      ],
-      "timestamp": 1768954443.5208223
+      "type": "info",
+      "actor": "System",
+      "description": "Round 1 Begins"
     },
     {
       "type": "move",
-      "actor": "Frost",
+      "actor": "Hero",
       "from": [
         2,
-        4
+        6
       ],
       "to": [
         3,
-        3
-      ],
-      "timestamp": 1768954443.52083
+        6
+      ]
+    },
+    {
+      "type": "hazard",
+      "actor": "Hero",
+      "damage": 1,
+      "effect": "fire"
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Frost",
+      "actor": "flower",
+      "from": [
+        9,
+        6
+      ],
+      "to": [
+        8,
+        6
+      ]
+    },
+    {
+      "type": "hazard",
+      "actor": "flower",
+      "damage": 3,
+      "effect": "fire"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 2 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Hero",
       "from": [
         3,
-        3
+        6
       ],
       "to": [
         4,
-        3
-      ],
-      "timestamp": 1768954443.5208344
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Frost",
+      "actor": "flower",
+      "from": [
+        8,
+        6
+      ],
+      "to": [
+        7,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 3 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Hero",
       "from": [
         4,
-        3
+        6
       ],
       "to": [
         5,
-        3
-      ],
-      "timestamp": 1768954443.5208373
+        6
+      ]
     },
     {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        1,
-        3
-      ],
-      "to": [
-        2,
-        3
-      ],
-      "timestamp": 1768954443.521044
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        2,
-        3
-      ],
-      "to": [
-        3,
-        3
-      ],
-      "timestamp": 1768954443.5210485
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        3,
-        3
-      ],
-      "to": [
-        4,
-        3
-      ],
-      "timestamp": 1768954443.5210516
-    },
-    {
-      "type": "attack",
+      "type": "info",
       "actor": "flower",
-      "target": "Frost",
-      "result": "hit",
-      "damage": 4,
-      "target_hp": 39,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "Frost",
-      "description": "Used Bolt",
-      "execution_log": [
-        "Hero uses Bolt on Frost!",
-        "Consumed 2 FP",
-        "Dealt 10 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 6 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 16,
-      "target_hp": 23,
-      "style": "lightning"
+      "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Hero",
-      "from": [
-        10,
-        5
-      ],
-      "to": [
-        9,
-        4
-      ],
-      "timestamp": 1768954443.521983
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        9,
-        4
-      ],
-      "to": [
-        8,
-        3
-      ],
-      "timestamp": 1768954443.5219867
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        8,
-        3
-      ],
-      "to": [
-        7,
-        3
-      ],
-      "timestamp": 1768954443.5219898
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
+      "actor": "flower",
       "from": [
         7,
-        3
+        6
       ],
       "to": [
         6,
-        3
-      ],
-      "timestamp": 1768954443.5219924
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Frost",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 21,
-      "style": "hit crit"
-    },
-    {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Hero",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Hero!",
-        "Consumed 1 SP",
-        "6 Fire damage to Hero!",
-        "Dealt 6 Fire Damage (Tier 1)",
-        "Hero Aged Rapidly (-Might)."
-      ],
-      "damage": 12,
-      "target_hp": 28,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "Frost",
-      "target": "Hero",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 23,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "Hero",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on Hero!",
-        "Consumed 1 SP",
-        "Hero is knocked back!",
-        "Hero Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 23,
-      "style": "magic"
+        6
+      ]
     },
     {
       "type": "attack",
       "actor": "flower",
-      "target": "Frost",
-      "result": "miss",
+      "target": "Hero",
+      "attack_roll": 11,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 5
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 4 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 10,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 6
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 10,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 5 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 16,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 5
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 8,
+      "defense_roll": 10,
+      "result": "MISS",
       "damage": 0
     },
     {
-      "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "Frost",
-      "description": "Used Bolt",
-      "execution_log": [
-        "Hero uses Bolt on Frost!",
-        "Consumed 2 FP",
-        "Dealt 8 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 8 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 16,
-      "target_hp": 5,
-      "style": "lightning"
+      "type": "info",
+      "actor": "System",
+      "description": "Round 6 Begins"
     },
     {
-      "type": "move",
+      "type": "info",
       "actor": "Hero",
-      "from": [
-        8,
-        3
-      ],
-      "to": [
-        7,
-        3
-      ],
-      "timestamp": 1768954443.5275576
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        7,
-        3
-      ],
-      "to": [
-        6,
-        3
-      ],
-      "timestamp": 1768954443.527562
+      "description": "Turn Starts"
     },
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "Frost",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 3,
-      "style": "hit"
+      "target": "flower",
+      "attack_roll": 15,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 3
     },
     {
-      "type": "ability",
-      "actor": "Frost",
-      "ability": "Heat",
-      "target": "Hero",
-      "description": "Used Heat",
-      "execution_log": [
-        "Frost uses Heat on Hero!",
-        "Consumed 1 SP",
-        "6 Fire damage to Hero!",
-        "Dealt 1 Fire Damage (Tier 1)",
-        "Hero Aged Rapidly (-Might)."
-      ],
-      "damage": 7,
-      "target_hp": 16,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "Frost",
-      "target": "Hero",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 11,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "Hero",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on Hero!",
-        "Consumed 1 SP",
-        "Hero is knocked back!",
-        "Hero Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 11,
-      "style": "magic"
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
     },
     {
       "type": "attack",
       "actor": "flower",
-      "target": "Frost",
-      "result": "hit",
-      "damage": 4,
-      "target_hp": 0,
-      "style": "hit crit"
+      "target": "Hero",
+      "attack_roll": 16,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 7 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 14,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 2
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 13,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 8 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 18,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 5
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 7,
+      "defense_roll": 10,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 9 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 1,
+      "defense_roll": 9,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 7,
+      "defense_roll": 10,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 10 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 15,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 2
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 18,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 2
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 11 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 11,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 5
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 17,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 12 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 19,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 1
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 19,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 3
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 13 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "flower",
+      "attack_roll": 6,
+      "defense_roll": 9,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "flower",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "attack",
+      "actor": "flower",
+      "target": "Hero",
+      "attack_roll": 1,
+      "defense_roll": 10,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 14 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
     },
     {
       "type": "death",
-      "actor": "Frost",
-      "x": 5,
-      "y": 3
-    },
-    {
-      "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "buggy",
-      "description": "Used Bolt",
-      "execution_log": [
-        "Hero uses Bolt on buggy!",
-        "Consumed 2 FP",
-        "Dealt 8 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 7 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 15,
-      "target_hp": 36,
-      "style": "lightning"
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        8,
-        3
-      ],
-      "to": [
-        7,
-        3
-      ],
-      "timestamp": 1768954443.5328922
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        7,
-        3
-      ],
-      "to": [
-        6,
-        3
-      ],
-      "timestamp": 1768954443.5328965
-    },
-    {
-      "type": "move",
-      "actor": "Hero",
-      "from": [
-        6,
-        3
-      ],
-      "to": [
-        5,
-        3
-      ],
-      "timestamp": 1768954443.5328996
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 5,
-      "target_hp": 31,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "Hero",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on Hero!",
-        "Consumed 1 SP",
-        "Hero is knocked back!",
-        "Hero Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 11,
-      "style": "magic"
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        4,
-        3
-      ],
-      "to": [
-        5,
-        3
-      ],
-      "timestamp": 1768954443.5333076
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        5,
-        3
-      ],
-      "to": [
-        6,
-        3
-      ],
-      "timestamp": 1768954443.5333116
-    },
-    {
-      "type": "attack",
-      "actor": "buggy",
-      "target": "Hero",
-      "result": "hit",
-      "damage": 1,
-      "target_hp": 10,
-      "style": "hit"
-    },
-    {
-      "type": "attack",
       "actor": "flower",
-      "target": "buggy",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "ability",
-      "actor": "Hero",
-      "ability": "Bolt",
-      "target": "buggy",
-      "description": "Used Bolt",
-      "execution_log": [
-        "Hero uses Bolt on buggy!",
-        "Consumed 2 FP",
-        "Dealt 2 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force).",
-        "Effect: Auto-Hit!",
-        "Dealt 6 Force Damage (Tier 2)",
-        "Magic Missile (Auto-Hit Force)."
-      ],
-      "damage": 8,
-      "target_hp": 23,
-      "style": "lightning"
+      "x": 6,
+      "y": 6
     },
     {
       "type": "attack",
       "actor": "Hero",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 3,
-      "target_hp": 20,
-      "style": "hit crit"
+      "target": "flower",
+      "attack_roll": 15,
+      "defense_roll": 9,
+      "result": "HIT",
+      "damage": 6
     },
     {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "Hero",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on Hero!",
-        "Consumed 1 SP",
-        "Hero is knocked back!",
-        "Hero Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 10,
-      "style": "magic"
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        6,
-        3
-      ],
-      "to": [
-        7,
-        3
-      ],
-      "timestamp": 1768954443.534211
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        7,
-        3
-      ],
-      "to": [
-        8,
-        3
-      ],
-      "timestamp": 1768954443.5342147
-    },
-    {
-      "type": "attack",
-      "actor": "buggy",
-      "target": "Hero",
-      "result": "hit",
-      "damage": 12,
-      "target_hp": 0,
-      "style": "hit"
-    },
-    {
-      "type": "death",
-      "actor": "Hero",
-      "x": 9,
-      "y": 3
-    },
-    {
-      "type": "attack",
+      "type": "info",
       "actor": "flower",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 1,
-      "target_hp": 19,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower is knocked back!",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 47,
-      "style": "magic"
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        8,
-        3
-      ],
-      "to": [
-        9,
-        3
-      ],
-      "timestamp": 1768954443.534757
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        9,
-        3
-      ],
-      "to": [
-        10,
-        3
-      ],
-      "timestamp": 1768954443.5347602
-    },
-    {
-      "type": "move",
-      "actor": "buggy",
-      "from": [
-        10,
-        3
-      ],
-      "to": [
-        11,
-        3
-      ],
-      "timestamp": 1768954443.5347624
-    },
-    {
-      "type": "attack",
-      "actor": "buggy",
-      "target": "flower",
-      "result": "hit",
-      "damage": 8,
-      "target_hp": 39,
-      "style": "hit"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 1,
-      "target_hp": 18,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "miss",
-      "damage": 0
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 2,
-      "target_hp": 16,
-      "style": "hit crit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
-    },
-    {
-      "type": "attack",
-      "actor": "flower",
-      "target": "buggy",
-      "result": "hit",
-      "damage": 3,
-      "target_hp": 13,
-      "style": "hit"
-    },
-    {
-      "type": "ability",
-      "actor": "buggy",
-      "ability": "Push",
-      "target": "flower",
-      "description": "Used Push",
-      "execution_log": [
-        "buggy uses Push on flower!",
-        "Consumed 1 SP",
-        "flower Pushed 5ft away!"
-      ],
-      "damage": 0,
-      "target_hp": 39,
-      "style": "magic"
+      "description": "Turn Starts"
     }
   ],
   "map": [
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "mud",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "ice",
+      "normal",
+      "normal",
+      "normal",
+      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "difficult",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "fire",
+      "normal",
+      "ice",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "difficult",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "ice",
+      "fire",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "wall_stone"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "difficult",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "ice",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "wall_stone",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
     ],
     [
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone",
-      "floor_stone"
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "mud",
+      "normal",
+      "normal",
+      "fire",
+      "normal"
     ]
   ],
   "winner": "Blue Team"

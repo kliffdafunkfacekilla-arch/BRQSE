@@ -14,34 +14,31 @@ import subprocess
 import sys
 import glob
 
+# Import GameState
+# Ensure parent dir is in path to import brqse_engine
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+from brqse_engine.core.game_state import GameState
+
 app = Flask(__name__)
 CORS(app)  # Allow requests from Vite dev server
 
-# Paths
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PLAYER_STATE_PATH = os.path.join(BASE_DIR, "Web_ui", "public", "data", "player_state.json")
-REPLAY_PATH = os.path.join(BASE_DIR, "Web_ui", "public", "data", "last_battle_replay.json")
-SAVES_DIR = os.path.join(BASE_DIR, "brqse_engine", "Saves")
-STAGED_CONFIG_PATH = os.path.join(BASE_DIR, "Web_ui", "public", "data", "staged_battle.json")
+# Initialize GameState
+GAME_STATE = GameState(BASE_DIR)
 
 # --- PLAYER STATE ---
 
 @app.route('/api/player', methods=['GET'])
 def get_player():
     """Returns current player state"""
-    try:
-        with open(PLAYER_STATE_PATH, 'r') as f:
-            return jsonify(json.load(f))
-    except FileNotFoundError:
-        return jsonify({"error": "Player state not found"}), 404
+    return jsonify(GAME_STATE.get_player())
 
 @app.route('/api/player', methods=['POST'])
 def update_player():
     """Updates player state (equipment, inventory, etc)"""
     try:
         data = request.get_json()
-        with open(PLAYER_STATE_PATH, 'w') as f:
-            json.dump(data, f, indent=4)
+        GAME_STATE.update_player(data)
         return jsonify({"status": "ok"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -52,7 +49,8 @@ def update_player():
 def list_characters():
     """Returns list of available characters from Saves folder"""
     try:
-        pattern = os.path.join(SAVES_DIR, "*.json")
+        saves_dir = GAME_STATE.get_saves_dir()
+        pattern = os.path.join(saves_dir, "*.json")
         files = glob.glob(pattern)
         characters = []
         for f in files:
@@ -96,7 +94,7 @@ def run_battle():
             }), 500
         
         # Return the new replay
-        with open(REPLAY_PATH, 'r') as f:
+        with open(GAME_STATE.get_replay_path(), 'r') as f:
             return jsonify(json.load(f))
             
     except subprocess.TimeoutExpired:
@@ -118,7 +116,7 @@ def run_staged_battle():
             return jsonify({"error": "Both teams must have at least one character"}), 400
         
         # Save config for generate_replay.py to read
-        with open(STAGED_CONFIG_PATH, 'w') as f:
+        with open(GAME_STATE.get_staged_config_path(), 'w') as f:
             json.dump(config, f, indent=2)
         
         # Run the replay generator with --staged flag
@@ -139,7 +137,7 @@ def run_staged_battle():
             }), 500
         
         # Return the new replay
-        with open(REPLAY_PATH, 'r') as f:
+        with open(GAME_STATE.get_replay_path(), 'r') as f:
             return jsonify(json.load(f))
             
     except subprocess.TimeoutExpired:
@@ -162,7 +160,7 @@ def save_character():
         if not safe_name:
             safe_name = "Unnamed"
         
-        filepath = os.path.join(SAVES_DIR, f"{safe_name}.json")
+        filepath = os.path.join(GAME_STATE.get_saves_dir(), f"{safe_name}.json")
         
         with open(filepath, 'w') as f:
             json.dump(data, f, indent=2)
@@ -175,14 +173,12 @@ def save_character():
 
 @app.route('/api/health', methods=['GET'])
 def health():
-    return jsonify({"status": "online", "version": "2.0"})
+    return jsonify({"status": "online", "version": "2.1 (Phase A: Container)"})
 
 
 if __name__ == '__main__':
     print("=" * 50)
-    print("BRQSE API Server v2.0")
-    print(f"Player State: {PLAYER_STATE_PATH}")
-    print(f"Replay Path: {REPLAY_PATH}")
-    print(f"Saves Dir: {SAVES_DIR}")
+    print("BRQSE API Server v2.1 (GameState Integrated)")
+    print(f"Base Dir: {BASE_DIR}")
     print("=" * 50)
     app.run(host='0.0.0.0', port=5001, debug=True)

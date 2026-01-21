@@ -296,57 +296,57 @@
     "description": "You learned to fight. (Choose a Melee Weapon Skill)",
     "options": [
       {
-        "name": "The Breakers",
+        "name": "Great",
         "category": "Weapon Skill",
         "narrative": "Impact. Raw muscle to swing heavy metal.",
         "grants": [
           "Weapon Skill",
-          "The Breakers"
+          "Great"
         ]
       },
       {
-        "name": "The Blades",
+        "name": "Small",
         "category": "Weapon Skill",
         "narrative": "Precision. Hand-eye coordination and dexterity.",
         "grants": [
           "Weapon Skill",
-          "The Blades"
+          "Small"
         ]
       },
       {
-        "name": "The Fist",
+        "name": "Fist",
         "category": "Weapon Skill",
         "narrative": "Clinch. Using your body\u2019s hardness as a weapon.",
         "grants": [
           "Weapon Skill",
-          "The Fist"
+          "Fist"
         ]
       },
       {
-        "name": "The Long Blade",
+        "name": "Medium",
         "category": "Weapon Skill",
         "narrative": "Parry. Technical fighting. Analyzing the duel.",
         "grants": [
           "Weapon Skill",
-          "The Long Blade"
+          "Medium"
         ]
       },
       {
-        "name": "The Polearms",
+        "name": "Large",
         "category": "Weapon Skill",
         "narrative": "Reach. Spatial awareness. Keeping the enemy at exact range.",
         "grants": [
           "Weapon Skill",
-          "The Polearms"
+          "Large"
         ]
       },
       {
-        "name": "Melee Exotics",
+        "name": "Exotic Melee",
         "category": "Weapon Skill",
         "narrative": "Wrap. Performance. Flow. Distracting the enemy.",
         "grants": [
           "Weapon Skill",
-          "Melee Exotics"
+          "Exotic Melee"
         ]
       }
     ]
@@ -357,21 +357,21 @@
     "description": "You learned to survive. (Choose an Armor Skill)",
     "options": [
       {
-        "name": "Plate",
+        "name": "Heavy",
         "category": "Armor Skill",
         "narrative": "Bulwark. You are the anvil. You absorb the blow.",
         "grants": [
           "Armor Skill",
-          "Plate"
+          "Heavy"
         ]
       },
       {
-        "name": "Bio",
+        "name": "Natural",
         "category": "Armor Skill",
         "narrative": "Reliable. \"Living Armor made of once living material\" ",
         "grants": [
           "Armor Skill",
-          "Bio"
+          "Natural"
         ]
       },
       {
@@ -384,30 +384,30 @@
         ]
       },
       {
-        "name": "Robes",
+        "name": "Cloth",
         "category": "Armor Skill",
         "narrative": "Mana-Weave. Warding patterns that require academic understanding.",
         "grants": [
           "Armor Skill",
-          "Robes"
+          "Cloth"
         ]
       },
       {
-        "name": "Mail",
+        "name": "Medium",
         "category": "Armor Skill",
         "narrative": "Cover. Scales or flexible metal that moves with you.",
         "grants": [
           "Armor Skill",
-          "Mail"
+          "Medium"
         ]
       },
       {
-        "name": "Rigs",
+        "name": "Utility",
         "category": "Armor Skill",
         "narrative": "Deep Pockets. Preparedness. Having the right tool in the right pocket by instinct.",
         "grants": [
           "Armor Skill",
-          "Rigs"
+          "Utility"
         ]
       }
     ]
@@ -418,57 +418,57 @@
     "description": "Something changed you. (Choose a Ranged Weapon Skill)",
     "options": [
       {
-        "name": "The Draw",
+        "name": "Ballistics",
         "category": "Weapon Skill",
         "narrative": "Power Shot.  weight requires strength.",
         "grants": [
           "Weapon Skill",
-          "The Draw"
+          "Ballistics"
         ]
       },
       {
-        "name": "The Thrown",
+        "name": "Thrown",
         "category": "Weapon Skill",
         "narrative": "Dual-Utility. Flick of the wrist and balance.",
         "grants": [
           "Weapon Skill",
-          "The Thrown"
+          "Thrown"
         ]
       },
       {
-        "name": "The Simple Shot",
+        "name": "Simple",
         "category": "Weapon Skill",
         "narrative": "Mobile Fire. Cardio. Running and gunning without shaking.",
         "grants": [
           "Weapon Skill",
-          "The Simple Shot"
+          "Simple"
         ]
       },
       {
-        "name": "The Blast",
+        "name": "Blast",
         "category": "Weapon Skill",
         "narrative": "Splash.  Calculating arc, fuse time, and chemical mix.",
         "grants": [
           "Weapon Skill",
-          "The Blast"
+          "Blast"
         ]
       },
       {
-        "name": "The Long Shot",
+        "name": "Long Shot",
         "category": "Weapon Skill",
         "narrative": "Pierce. Aim. Lining up the sights. The Sniper.",
         "grants": [
           "Weapon Skill",
-          "The Long Shot"
+          "Long Shot"
         ]
       },
       {
-        "name": "Ranged Exotics",
+        "name": "Exotic Ranged",
         "category": "Weapon Skill",
         "narrative": "Debilitate. Tricky, annoying, and stylish tools.",
         "grants": [
           "Weapon Skill",
-          "Ranged Exotics"
+          "Exotic Ranged"
         ]
       }
     ]

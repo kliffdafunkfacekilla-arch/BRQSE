@@ -8,34 +8,7 @@ TOKENS_DIR = r"C:\Users\krazy\Desktop\BRQSE\Web_ui\public\tokens"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Mappings for consistent IDs (Updated to Canonical Names)
-WEAPON_SKILL_MAP = {
-    "Large Weapons": "Large",       # Was "The Breakers" -> Great? No, Rename script says "The Breakers" -> "Great"
-    # Wait, check Weapon_Groups.csv again.
-    # Large Weapons -> MIGHT -> "Greatsword, Maul". 
-    # Skills.csv: MIGHT, Weapon, Great. 
-    "Large Weapons": "The Breakers",
-    "The Ballistics": "The Draw",
-    "Small Weapons": "The Blades",
-    "The Thrown": "The Thrown",
-    "Fist Weapons": "The Fist",
-    "The Simple Shot": "The Simple Shot",
-    "Medium Weapons": "The Long Blade",
-    "The Blast": "The Blast",
-    "Reach Weapons": "The Polearms",
-    "The Long Shot": "The Long Shot",
-    "Exotic Weapons": "Melee Exotics",
-    "Ranged Exotics": "Ranged Exotics"
-}
-
-ARMOR_SKILL_MAP = {
-    "Plate": "Plate",
-    "Bio": "Bio",
-    "Light ": "Leather",  # Note space in CSV
-    "Robes": "Robes",
-    "Mail": "Mail",
-    "Rigs": "Rigs"
-}
+# Mappings no longer needed as CSVs were updated to use Canonical Names
 
 def read_csv(filename):
     path = os.path.join(DATA_DIR, filename)
@@ -112,16 +85,11 @@ def generate_backgrounds():
     
     # Filter Skills.csv for Tool/Utility
     # Headers: Attribute, Type, Skill_Name, Description
+    
     for row in skills:
         stype = row.get("Type", "").strip()
         name = row.get("Skill_Name", "").strip()
         desc = row.get("Description", "").strip()
-        
-        # Apply Rename Map if present in keys? No, Skills.csv usually has the Canonical name in "Skill_Name"
-        # But let's check if we need to map anything.
-        # Skills.csv has "Great", "Ballistics" etc? 
-        # Viewed Skills.csv: "Great", "Ballistics", "Intimidation"...
-        # So Skills.csv ALREADY has the right names. We just use them.
         
         if stype == "Utility":
             childhood_step["options"].append({
@@ -163,8 +131,8 @@ def generate_backgrounds():
         fam = row.get("Family Name", "").strip()
         wtype = row.get("Type", "").strip() # Melee or Ranged
         
-        # Map to Canonical Name
-        canonical = WEAPON_SKILL_MAP.get(fam, fam)
+        # Canonical Name is now just the Family Name directly
+        canonical = fam
         
         desc = row.get("Trait", "") + ". " + row.get("Why this Stat?", "")
         
@@ -194,7 +162,7 @@ def generate_backgrounds():
     
     for row in armor:
         fam = row.get("Family Name", "").strip()
-        canonical = ARMOR_SKILL_MAP.get(fam, fam)
+        canonical = fam # Direct map now
         desc = row.get("Trait", "") + ". " + row.get("Why this Stat?", "")
         
         train_step["options"].append({

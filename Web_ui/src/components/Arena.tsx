@@ -69,7 +69,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
     // Attack line for visual clarity
     const [attackLine, setAttackLine] = useState<{ from: { x: number, y: number }, to: { x: number, y: number }, color: string } | null>(null);
 
-    const GRID_SIZE = 12;  // Increased for staged battles
+    const [gridSize, setGridSize] = useState(12); // Dynamic grid size
 
     // Map tile data from replay
     const [mapTiles, setMapTiles] = useState<string[][]>([]);
@@ -98,6 +98,16 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
         fetch('/data/last_battle_replay.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
+                // Determine Grid Size from Map
+                let newGridSize = 12;
+                if (data.map && Array.isArray(data.map)) {
+                    const rows = data.map.length;
+                    const cols = data.map[0]?.length || 0;
+                    newGridSize = Math.max(rows, cols, 10);
+                    setMapTiles(data.map);
+                }
+                setGridSize(newGridSize);
+
                 // Load ALL combatants
                 const loadedCombatants = data.combatants.map((c: any) => ({
                     ...c,
@@ -110,12 +120,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                 setCombatants(loadedCombatants);
                 setLog(data.log);
 
-                // Load map tiles if present
-                if (data.map && Array.isArray(data.map)) {
-                    setMapTiles(data.map);
-                }
-
-                setConsoleMsg([`DATA LOADED: ${loadedCombatants.length} combatants, ${data.map?.length || 0}x${data.map?.[0]?.length || 0} map. READY.`]);
+                setConsoleMsg([`DATA LOADED: ${loadedCombatants.length} combatants, ${newGridSize}x${newGridSize} map. READY.`]);
             })
             .catch(() => setConsoleMsg(["ERR: NO DATA STREAM"]));
     };
@@ -330,7 +335,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                 <div
                     className="relative border border-stone-800 shadow-2xl overflow-hidden w-full aspect-square rounded-sm"
                     style={{
-                        display: 'grid', gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
+                        display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
                         backgroundImage: `url('/tiles/floor_stone.png')`, backgroundSize: '100% 100%', imageRendering: 'pixelated'
                     }}
                 >
@@ -346,10 +351,10 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                                     key={`${x}-${y}`}
                                     className={`absolute ${colorClass} pointer-events-none`}
                                     style={{
-                                        width: `${100 / GRID_SIZE}%`,
-                                        height: `${100 / GRID_SIZE}%`,
-                                        left: `${x * (100 / GRID_SIZE)}%`,
-                                        top: `${y * (100 / GRID_SIZE)}%`,
+                                        width: `${100 / gridSize}%`,
+                                        height: `${100 / gridSize}%`,
+                                        left: `${x * (100 / gridSize)}%`,
+                                        top: `${y * (100 / gridSize)}%`,
                                     }}
                                 >
                                     {tile === 'fire' && (
@@ -364,10 +369,10 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                     {attackLine && (
                         <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
                             <line
-                                x1={`${(attackLine.from.x + 0.5) * (100 / GRID_SIZE)}%`}
-                                y1={`${(attackLine.from.y + 0.5) * (100 / GRID_SIZE)}%`}
-                                x2={`${(attackLine.to.x + 0.5) * (100 / GRID_SIZE)}%`}
-                                y2={`${(attackLine.to.y + 0.5) * (100 / GRID_SIZE)}%`}
+                                x1={`${(attackLine.from.x + 0.5) * (100 / gridSize)}%`}
+                                y1={`${(attackLine.from.y + 0.5) * (100 / gridSize)}%`}
+                                x2={`${(attackLine.to.x + 0.5) * (100 / gridSize)}%`}
+                                y2={`${(attackLine.to.y + 0.5) * (100 / gridSize)}%`}
                                 stroke={attackLine.color}
                                 strokeWidth="3"
                                 strokeLinecap="round"
@@ -381,7 +386,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                         <div
                             key={i}
                             className="absolute transition-all duration-500 ease-in-out flex flex-col items-center justify-center z-10 p-1"
-                            style={{ width: `${100 / GRID_SIZE}%`, height: `${100 / GRID_SIZE}%`, left: `${c.x * (100 / GRID_SIZE)}%`, top: `${c.y * (100 / GRID_SIZE)}%` }}
+                            style={{ width: `${100 / gridSize}%`, height: `${100 / gridSize}%`, left: `${c.x * (100 / gridSize)}%`, top: `${c.y * (100 / gridSize)}%` }}
                         >
                             <div className="w-full h-full relative hover:scale-110 transition-transform cursor-pointer group">
                                 <Token name={c.name} facing={c.facing} team={c.team} dead={c.hp <= 0} sprite={c.sprite} />
@@ -400,7 +405,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                     {/* PERSISTENT FX (Blood Puddles) */}
                     {persistentVisuals.map((v) => (
                         <div key={v.id} className="absolute z-5 pointer-events-none flex items-center justify-center opacity-80"
-                            style={{ width: `${100 / GRID_SIZE}%`, height: `${100 / GRID_SIZE}%`, left: `${v.x * (100 / GRID_SIZE)}%`, top: `${v.y * (100 / GRID_SIZE)}%` }}>
+                            style={{ width: `${100 / gridSize}%`, height: `${100 / gridSize}%`, left: `${v.x * (100 / gridSize)}%`, top: `${v.y * (100 / gridSize)}%` }}>
                             <img src={v.img} alt="blood" className="w-full h-full object-contain" />
                         </div>
                     ))}
@@ -408,7 +413,7 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                     {/* VISUAL FX (Fireballs/Sparks) */}
                     {visuals.map((v) => (
                         <div key={v.id} className="absolute z-20 pointer-events-none flex items-center justify-center animate-ping-slow"
-                            style={{ width: `${100 / GRID_SIZE}%`, height: `${100 / GRID_SIZE}%`, left: `${v.x * (100 / GRID_SIZE)}%`, top: `${v.y * (100 / GRID_SIZE)}%` }}>
+                            style={{ width: `${100 / gridSize}%`, height: `${100 / gridSize}%`, left: `${v.x * (100 / gridSize)}%`, top: `${v.y * (100 / gridSize)}%` }}>
                             <img src={v.img} alt="fx" className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,100,0,0.8)]" />
                         </div>
                     ))}
@@ -419,8 +424,8 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                             key={p.id}
                             className={`absolute z-30 pointer-events-none flex items-center justify-center w-full font-black text-xl text-shadow-outline animate-float ${p.color}`}
                             style={{
-                                width: `${100 / GRID_SIZE}%`,
-                                left: `${p.x * (100 / GRID_SIZE)}%`, top: `${p.y * (100 / GRID_SIZE)}%`
+                                width: `${100 / gridSize}%`,
+                                left: `${p.x * (100 / gridSize)}%`, top: `${p.y * (100 / gridSize)}%`
                             }}
                         >
                             {p.text}

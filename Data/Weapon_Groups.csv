@@ -1,13 +1,13 @@
 Family Name,Type,The Stat,Examples,Trait,Why this Stat?
-Large Weapons,Melee,MIGHT,"Greatsword, Maul",Impact,Raw muscle to swing heavy metal.
-The Ballistics,Ranged,MIGHT," Warbow, Arbalist",Power Shot, weight requires strength.
-Small Weapons,Melee,FINESSE,"Rapier, Shiv",Precision,Hand-eye coordination and dexterity.
-The Thrown,Ranged,FINESSE,"Throwing Axe, Kunai",Dual-Utility,Flick of the wrist and balance.
-Fist Weapons,Melee,FORTITUDE,"Cestus, Claws",Clinch,Using your body’s hardness as a weapon.
-The Simple Shot,Ranged,FORTITUDE,"Shortbow, Sling",Mobile Fire,Cardio. Running and gunning without shaking.
-Medium Weapons,Melee,LOGIC,"Katana, Arming Sword",Parry,Technical fighting. Analyzing the duel.
-The Blast,Ranged,LOGIC,"Grenade, Scattergun",Splash," Calculating arc, fuse time, and chemical mix."
-Reach Weapons,Melee,AWARENESS,"Spear, Halberd",Reach,Spatial awareness. Keeping the enemy at exact range.
-The Long Shot,Ranged,AWARENESS,"Crossbow, Flintlock",Pierce,Aim. Lining up the sights. The Sniper.
-Exotic Weapons,Melee,CHARM,"Whip, Nunchaku",Wrap,Performance. Flow. Distracting the enemy.
-Ranged Exotics,Ranged,CHARM,"Bolas, Blowgun",Debilitate,"Tricky, annoying, and stylish tools."
+Great,Melee,MIGHT,"Greatsword, Maul",Impact,Raw muscle to swing heavy metal.
+Ballistics,Ranged,MIGHT," Warbow, Arbalist",Power Shot, weight requires strength.
+Small,Melee,FINESSE,"Rapier, Shiv",Precision,Hand-eye coordination and dexterity.
+Thrown,Ranged,FINESSE,"Throwing Axe, Kunai",Dual-Utility,Flick of the wrist and balance.
+Fist,Melee,FORTITUDE,"Cestus, Claws",Clinch,Using your body’s hardness as a weapon.
+Simple,Ranged,FORTITUDE,"Shortbow, Sling",Mobile Fire,Cardio. Running and gunning without shaking.
+Medium,Melee,LOGIC,"Katana, Arming Sword",Parry,Technical fighting. Analyzing the duel.
+Blast,Ranged,LOGIC,"Grenade, Scattergun",Splash," Calculating arc, fuse time, and chemical mix."
+Large,Melee,AWARENESS,"Spear, Halberd",Reach,Spatial awareness. Keeping the enemy at exact range.
+Long Shot,Ranged,AWARENESS,"Crossbow, Flintlock",Pierce,Aim. Lining up the sights. The Sniper.
+Exotic Melee,Melee,CHARM,"Whip, Nunchaku",Wrap,Performance. Flow. Distracting the enemy.
+Exotic Ranged,Ranged,CHARM,"Bolas, Blowgun",Debilitate,"Tricky, annoying, and stylish tools."
