@@ -8,8 +8,12 @@ TOKENS_DIR = r"C:\Users\krazy\Desktop\BRQSE\Web_ui\public\tokens"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Mappings for consistent IDs
+# Mappings for consistent IDs (Updated to Canonical Names)
 WEAPON_SKILL_MAP = {
+    "Large Weapons": "Large",       # Was "The Breakers" -> Great? No, Rename script says "The Breakers" -> "Great"
+    # Wait, check Weapon_Groups.csv again.
+    # Large Weapons -> MIGHT -> "Greatsword, Maul". 
+    # Skills.csv: MIGHT, Weapon, Great. 
     "Large Weapons": "The Breakers",
     "The Ballistics": "The Draw",
     "Small Weapons": "The Blades",
@@ -89,12 +93,20 @@ def generate_backgrounds():
             
     backgrounds.append(origin_step)
 
-    # 2. CHILDHOOD (Tool/Utility)
+    # 2. CHILDHOOD (Utility) & 3. APPRENTICESHIP (Tool)
     skills = read_csv("Skills.csv")
+    
     childhood_step = {
-        "id": "Childhood",
+        "id": "Utility Skills",
         "title": "Step 9: Childhood",
-        "description": "What did you learn growing up? (Choose a Tool or Utility Skill)",
+        "description": "What did you do as a child? (Choose a Utility Skill)",
+        "options": []
+    }
+    
+    appren_step = {
+        "id": "Tool Skills",
+        "title": "Step 10: Apprenticeship",
+        "description": "What trade did you learn? (Choose a Tool Skill)",
         "options": []
     }
     
@@ -102,10 +114,24 @@ def generate_backgrounds():
     # Headers: Attribute, Type, Skill_Name, Description
     for row in skills:
         stype = row.get("Type", "").strip()
-        if stype in ["Tool", "Utility"]:
-            name = row.get("Skill_Name", "").strip()
-            desc = row.get("Description", "").strip()
+        name = row.get("Skill_Name", "").strip()
+        desc = row.get("Description", "").strip()
+        
+        # Apply Rename Map if present in keys? No, Skills.csv usually has the Canonical name in "Skill_Name"
+        # But let's check if we need to map anything.
+        # Skills.csv has "Great", "Ballistics" etc? 
+        # Viewed Skills.csv: "Great", "Ballistics", "Intimidation"...
+        # So Skills.csv ALREADY has the right names. We just use them.
+        
+        if stype == "Utility":
             childhood_step["options"].append({
+                "name": name,
+                "category": stype,
+                "narrative": desc,
+                "grants": [stype, name]
+            })
+        elif stype == "Tool":
+             appren_step["options"].append({
                 "name": name,
                 "category": stype,
                 "narrative": desc,
@@ -113,20 +139,21 @@ def generate_backgrounds():
             })
     
     backgrounds.append(childhood_step)
+    backgrounds.append(appren_step)
 
-    # 3. COMING OF AGE (Melee Weapons)
+    # 4. COMING OF AGE (Melee Weapons)
     weps = read_csv("Weapon_Groups.csv")
     age_step = {
-        "id": "Coming of Age",
-        "title": "Step 10: Coming of Age",
+        "id": "Melee Access",
+        "title": "Step 11: Coming of Age",
         "description": "You learned to fight. (Choose a Melee Weapon Skill)",
         "options": []
     }
     
-    # 5. CATALYST (Ranged Weapons)
+    # 6. CATALYST (Ranged Weapons)
     cat_step = {
-        "id": "Catalyst",
-        "title": "Step 12: Catalyst",
+        "id": "Ranged Access",
+        "title": "Step 13: Catalyst",
         "description": "Something changed you. (Choose a Ranged Weapon Skill)",
         "options": []
     }
@@ -155,12 +182,12 @@ def generate_backgrounds():
             
     backgrounds.append(age_step)
 
-    # 4. TRAINING (Armor)
+    # 5. TRAINING (Armor)
     # Insert Training before Catalyst
     armor = read_csv("Armor_Groups.csv")
     train_step = {
-        "id": "Training",
-        "title": "Step 11: Training",
+        "id": "Armor Access",
+        "title": "Step 12: Training",
         "description": "You learned to survive. (Choose an Armor Skill)",
         "options": []
     }
@@ -206,13 +233,9 @@ def generate_gear():
     raw = read_csv("weapons_and_armor.csv")
     gear = []
     
+    # Direct import since we are using canonical names matching CSV now
     for row in raw:
-        # Clean up keys if needed
-        # Just pass through mostly, ensuring Related_Skill is clean
-        rel = row.get("Related_Skill", "").strip()
-        if rel:
-            row["Related_Skill"] = rel
-            gear.append(row)
+        gear.append(row)
             
     with open(os.path.join(OUTPUT_DIR, "Gear.json"), 'w') as f:
         json.dump(gear, f, indent=2)

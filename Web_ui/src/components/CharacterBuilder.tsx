@@ -588,21 +588,68 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                 </div>
 
                 {/* Save */}
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-4 overflow-x-auto">
                     <button
-                        onClick={saveCharacter}
-                        disabled={!name || !selectedToken}
-                        className="flex items-center gap-2 px-8 py-4 bg-[#66fcf1] text-black font-bold rounded hover:bg-[#45a29e] disabled:opacity-50"
+                        onClick={() => {
+                            if (!name) {
+                                setStatus("Please enter a name.");
+                                return;
+                            }
+                            if (!selectedToken) {
+                                setStatus("Please select a portrait token.");
+                                return;
+                            }
+                            saveCharacter();
+                        }}
+                        className="flex items-center gap-2 px-8 py-4 bg-[#66fcf1] text-black font-bold rounded hover:bg-[#45a29e] transition-all"
                     >
                         <Save /> Create Hero
                     </button>
                 </div>
-                {status && <div className="text-center text-[#66fcf1] mt-2">{status}</div>}
+                {status && (
+                    <div className={`text-center mt-2 font-bold ${status.includes('Saved') ? 'text-green-400' : 'text-red-400 animate-pulse'}`}>
+                        {status}
+                    </div>
+                )}
             </div>
         );
     };
 
     // --- Main Render Switch ---
+
+    // Validation Message
+    const getValidationMessage = () => {
+        if (currentStep.id === 'CLASS' && !selectedClass) return "Select a Species to continue.";
+
+        if (BASE_STEPS.some(s => s.id === currentStep.id) && currentStep.id !== 'CLASS') {
+            if (!compSelections[currentStep.id]) return "Make a selection to continue.";
+        }
+
+        const bgStep = backgroundSteps.find(b => b.id === currentStep.id);
+        if (bgStep && !bgSelections[currentStep.id]) return "Choose an option to continue.";
+
+        if (currentStep.id === 'MAGIC') {
+            if (selectedSpells.length !== 2) return `Select exactly 2 spells (${selectedSpells.length}/2).`;
+        }
+
+        if (currentStep.id === 'GEAR') {
+            if (!selectedGear.rightHand && !selectedGear.armor) return "Select at least a Weapon or Armor.";
+        }
+
+        return "";
+    };
+
+    const attemptNext = () => {
+        const msg = getValidationMessage();
+        if (msg) {
+            setStatus(msg);
+            // Clear status after 3 seconds
+            setTimeout(() => setStatus(''), 3000);
+            return;
+        }
+        setStatus('');
+        handleNext();
+    };
 
     return (
         <div className="h-full flex flex-col bg-[#0b0c10] text-stone-300">
@@ -615,7 +662,7 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                         <div className="text-[10px] text-stone-400">Phase {Math.floor(currentStepIndex / 5) + 1}: {currentStep.label}</div>
                     </div>
                 </div>
-                <div className="flex gap-0.5">
+                <div className="flex gap-0.5 max-w-[50%] overflow-hidden">
                     {steps.map((s, i) => (
                         <div
                             key={s.id}
@@ -633,6 +680,13 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                     {currentStep.label}
                 </h3>
 
+                {status && currentStep.id !== 'FINALIZE' && (
+                    <div className="mb-4 p-3 bg-red-900/50 border border-red-500 text-white rounded text-center font-bold animate-pulse">
+                        <AlertTriangle className="inline mr-2 -mt-1" size={16} />
+                        {status}
+                    </div>
+                )}
+
                 {currentStep.id === 'CLASS' && renderClassStep()}
                 {BASE_STEPS.some(s => s.id === currentStep.id) && currentStep.id !== 'CLASS' && renderComponentOptions()}
                 {backgroundSteps.some(b => b.id === currentStep.id) && renderBackgroundStep()}
@@ -642,22 +696,28 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
             </div>
 
             {/* Navigation */}
-            <div className="p-4 bg-[#1f2833] border-t border-stone-800 flex justify-between">
+            <div className="p-4 bg-[#1f2833] border-t border-stone-800 flex justify-between items-center">
                 <button
                     onClick={handleBack}
                     disabled={currentStepIndex === 0}
-                    className="flex items-center gap-2 px-4 py-2 text-stone-400 hover:text-white disabled:opacity-30"
+                    className="flex items-center gap-2 px-4 py-2 text-stone-400 hover:text-white disabled:opacity-30 disabled:hover:text-stone-400 transition-colors"
                 >
                     <ArrowLeft size={16} /> Back
                 </button>
-                <button
-                    onClick={handleNext}
-                    disabled={!canProceed() || currentStepIndex === steps.length - 1} // Disable Next on last step
-                    className="flex items-center gap-2 px-6 py-2 bg-[#66fcf1] text-black font-bold rounded hover:bg-[#45a29e] disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                    {currentStepIndex === steps.length - 1 ? 'Finish' : 'Next'} <ArrowRight size={16} />
-                </button>
+
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={attemptNext}
+                        className={`flex items-center gap-2 px-6 py-2 font-bold rounded transition-all
+                            ${currentStepIndex === steps.length - 1
+                                ? 'bg-stone-700 text-stone-500 cursor-not-allowed hidden'
+                                : 'bg-[#66fcf1] text-black hover:bg-[#45a29e]'}`}
+                    >
+                        Next <ArrowRight size={16} />
+                    </button>
+                </div>
             </div>
         </div>
     );
+
 }

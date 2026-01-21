@@ -115,9 +115,9 @@
     ]
   },
   {
-    "id": "Childhood",
+    "id": "Utility Skills",
     "title": "Step 9: Childhood",
-    "description": "What did you learn growing up? (Choose a Tool or Utility Skill)",
+    "description": "What did you do as a child? (Choose a Utility Skill)",
     "options": [
       {
         "name": "Athletics",
@@ -126,15 +126,6 @@
         "grants": [
           "Utility",
           "Athletics"
-        ]
-      },
-      {
-        "name": "Shield",
-        "category": "Tool",
-        "narrative": "Mastery of bucklers heaters and tower shields for active cover and bashing.",
-        "grants": [
-          "Tool",
-          "Shield"
         ]
       },
       {
@@ -156,30 +147,12 @@
         ]
       },
       {
-        "name": "Snares",
-        "category": "Tool",
-        "narrative": "Mastery of caltrops tripwires and smoke bombs to control the ground.",
-        "grants": [
-          "Tool",
-          "Snares"
-        ]
-      },
-      {
         "name": "Motion",
         "category": "Utility",
         "narrative": "Acrobatics stealth balancing. Lore: Ballistics and physics of speed.",
         "grants": [
           "Utility",
           "Motion"
-        ]
-      },
-      {
-        "name": "Tinctures",
-        "category": "Tool",
-        "narrative": "Mastery of non-magical aids like herbal salves bandages and stimulants.",
-        "grants": [
-          "Tool",
-          "Tinctures"
         ]
       },
       {
@@ -198,15 +171,6 @@
         "grants": [
           "Utility",
           "Craft"
-        ]
-      },
-      {
-        "name": "Catalysts",
-        "category": "Tool",
-        "narrative": "Mastery of items that channel magic such as scrolls wands and staves.",
-        "grants": [
-          "Tool",
-          "Catalysts"
         ]
       },
       {
@@ -237,15 +201,6 @@
         ]
       },
       {
-        "name": "Curios",
-        "category": "Tool",
-        "narrative": "Mastery of gaming sets dice tarot and tokens of luck/fate.",
-        "grants": [
-          "Tool",
-          "Curios"
-        ]
-      },
-      {
         "name": "Mysticism",
         "category": "Utility",
         "narrative": "Gut-feeling pathfinding. Lore: Folklore spirits and omens.",
@@ -264,15 +219,6 @@
         ]
       },
       {
-        "name": "Regalia",
-        "category": "Tool",
-        "narrative": "Mastery of banners warhorns and badges to signal and rally troops.",
-        "grants": [
-          "Tool",
-          "Regalia"
-        ]
-      },
-      {
         "name": "Command",
         "category": "Utility",
         "narrative": "Leadership interrogation. Lore: Religion theology and cults.",
@@ -284,8 +230,69 @@
     ]
   },
   {
-    "id": "Coming of Age",
-    "title": "Step 10: Coming of Age",
+    "id": "Tool Skills",
+    "title": "Step 10: Apprenticeship",
+    "description": "What trade did you learn? (Choose a Tool Skill)",
+    "options": [
+      {
+        "name": "Shield",
+        "category": "Tool",
+        "narrative": "Mastery of bucklers heaters and tower shields for active cover and bashing.",
+        "grants": [
+          "Tool",
+          "Shield"
+        ]
+      },
+      {
+        "name": "Snares",
+        "category": "Tool",
+        "narrative": "Mastery of caltrops tripwires and smoke bombs to control the ground.",
+        "grants": [
+          "Tool",
+          "Snares"
+        ]
+      },
+      {
+        "name": "Tinctures",
+        "category": "Tool",
+        "narrative": "Mastery of non-magical aids like herbal salves bandages and stimulants.",
+        "grants": [
+          "Tool",
+          "Tinctures"
+        ]
+      },
+      {
+        "name": "Catalysts",
+        "category": "Tool",
+        "narrative": "Mastery of items that channel magic such as scrolls wands and staves.",
+        "grants": [
+          "Tool",
+          "Catalysts"
+        ]
+      },
+      {
+        "name": "Curios",
+        "category": "Tool",
+        "narrative": "Mastery of gaming sets dice tarot and tokens of luck/fate.",
+        "grants": [
+          "Tool",
+          "Curios"
+        ]
+      },
+      {
+        "name": "Regalia",
+        "category": "Tool",
+        "narrative": "Mastery of banners warhorns and badges to signal and rally troops.",
+        "grants": [
+          "Tool",
+          "Regalia"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "Melee Access",
+    "title": "Step 11: Coming of Age",
     "description": "You learned to fight. (Choose a Melee Weapon Skill)",
     "options": [
       {
@@ -345,8 +352,8 @@
     ]
   },
   {
-    "id": "Training",
-    "title": "Step 11: Training",
+    "id": "Armor Access",
+    "title": "Step 12: Training",
     "description": "You learned to survive. (Choose an Armor Skill)",
     "options": [
       {
@@ -406,8 +413,8 @@
     ]
   },
   {
-    "id": "Catalyst",
-    "title": "Step 12: Catalyst",
+    "id": "Ranged Access",
+    "title": "Step 13: Catalyst",
     "description": "Something changed you. (Choose a Ranged Weapon Skill)",
     "options": [
       {

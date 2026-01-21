@@ -24,6 +24,12 @@ echo [3/3] Opening Dashboard...
 start http://localhost:5173
 
 echo.
-echo [4/4] Starting Server...
+
+echo [3/4] Starting Backend Server...
+start "BRQSE API" python scripts/simple_api.py
+timeout /t 2 >nul
+
+echo.
+echo [4/4] Starting Frontend...
 echo (Press Ctrl+C to stop)
 npm run dev
