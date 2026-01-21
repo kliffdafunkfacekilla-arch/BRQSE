@@ -49,6 +49,10 @@ class Combatant:
         return self.character.species
 
     @property
+    def ai_archetype(self):
+        return self.character.ai_archetype
+
+    @property
     def sprite(self):
         return self.character.sprite
 
@@ -85,6 +89,35 @@ class Combatant:
         self.character.current_hp = self.current_hp
         return self.current_hp - old
 
+    # --- Social/Composure Logic ---
+    @property
+    def max_composure(self):
+        return self.character.max_composure
+
+    @property
+    def current_composure(self):
+        return self.character.current_composure
+    
+    @current_composure.setter
+    def current_composure(self, value):
+        self.character.current_composure = max(0, min(value, self.max_composure))
+
+    @property
+    def is_broken(self): # Social equivalent of Dead
+        return self.current_composure <= 0
+
+    def take_social_damage(self, amount: int) -> int:
+        """Apply damage to Composure."""
+        # Reduce by Willpower/Composure defense? (Future)
+        self.current_composure -= amount
+        return amount
+
+    def regain_composure(self, amount: int) -> int:
+        """Heals Composure."""
+        old = self.current_composure
+        self.current_composure += amount
+        return self.current_composure - old
+
     def get_stat_mod(self, stat: str) -> int:
         val = self.character.get_stat(stat)
         return (val - 10) // 2
@@ -96,8 +129,8 @@ class Combatant:
         """
         base = 10
         dex_mod = self.get_stat_mod("Reflexes")
-        # TODO: Check inventory for Armor
-        return base + dex_mod
+        armor_bonus = self.character.get_equipped_armor_bonus()
+        return base + dex_mod + armor_bonus
 
     # --- Status Management ---
     

@@ -1,0 +1,12 @@
+Maneuver,Type,Cost,Roll,Effect
+Gaslight,Action,2 Focus,Logic vs Intuition,"Target becomes ""Confused"" (Disadvantage on next Logic/Awareness check)."
+Filibuster,Action,2 Stamina,Fortitude vs Endurance,Stall for time. Neither side takes damage, but the scene continues.
+Call Out,Action,1 Focus,Awareness vs Guile,"If target is Lying, deal Critical Composure Damage. If Truth, you take damage."
+Grandstand,Action,3 Focus,Charm vs Group Will,AoE Attack. Speak to the crowd to turn them against your opponent.
+Compose,Action,0 Focus,None,"Regain 1d4 Composure. (Standard ""Reload/Catch Breath"")."
+Scoff,Reaction,1 Focus,Vitality vs Attack,Reduce incoming Social Damage by your Charisma Mod.
+Interrupt,Reaction,2 Stamina,Alertness vs Alertness,Contested Initiative Roll. Force an opponent to stop talking and end their turn.
+Bribe,Bonus,1 Resource,Auto-Hit,Gain +5 to your next Persuasion roll (Cost: Gold/Favor).
+Gamble,Bonus,1 Focus,Finesse,Flip a coin/card. Distract target (Disadvantage on their Defense).
+Analyze,Bonus,0 Focus,Alertness vs Guile,Learn one of the opponent's Social Traits or current Composure level.
+Walk Away,Action,0 Focus,None,Attempt to leave the encounter. Opponent gets one Free Attack (Parting Shot).

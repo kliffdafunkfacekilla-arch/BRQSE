@@ -27,8 +27,8 @@ def generate_replay():
     
     # DEMO: Add Random Hazards
     print("Generating Hazards...")
-    hazards = ["fire", "ice", "mud", "water_deep", "wall_stone"]
-    for _ in range(15): # Add 15 random tiles
+    hazards = ["fire", "ice", "mud", "water_deep", "water_shallow", "wall_stone", "tree"]
+    for _ in range(25): # Add more tiles to show off assets
         hx = random.randint(0, 11)
         hy = random.randint(0, 11)
         h_type = random.choice(hazards)
@@ -73,10 +73,17 @@ def generate_replay():
         engine.add_combatant(c_enemy)
         print(f"Added Enemy: {enemy.name} (HP: {enemy.current_hp})")
     else:
-        print("No enemy saves found. Creating Default Enemy.")
-        default_data = {"Name": "Training Dummy", "Stats": {"Might": 10}, "Current_HP": 50}
+        print("No enemy saves found. Creating Default Enemy (Sniper).")
+        default_data = {
+            "Name": "Goblin Sniper", 
+            "Stats": {"Reflexes": 14, "Might": 8}, 
+            "Current_HP": 30,
+            "AI_Archetype": "Sniper",
+            "Sprite": "token_goblin_archer" # Assuming this exists or falls back
+        }
         enemy = Character(default_data)
-        c_enemy = Combatant(enemy, x=9, y=6, team="Red")
+        # Spawn closer to force kiting logic (Range < 3)
+        c_enemy = Combatant(enemy, x=3, y=6, team="Red") 
         engine.add_combatant(c_enemy)
 
     # 4. Start Combat

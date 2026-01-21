@@ -17,6 +17,7 @@ TERRAIN_DATA = {
     "spikes": {"move_cost": 2, "damage_type": "Piercing", "damage_dice": "1d10"},
     "darkness": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "blinded"},
     "high_ground": {"move_cost": 1, "damage_type": None, "damage_dice": None, "effect": "ranged_bonus"},
+    "tree": {"move_cost": 99, "damage_type": None, "damage_dice": None, "effect": "cover"}, # Impassable/Cover
 }
 
 class Tile:
@@ -56,6 +57,21 @@ class CombatEngine:
         # Terrain Grid
         self.tiles = [[Tile("normal", x, y) for x in range(cols)] for y in range(rows)]
         self.walls = set()
+        
+        # Load Social Maneuvers
+        self.social_maneuvers = {}
+        self._load_social_data()
+
+    def _load_social_data(self):
+        """Loads Social_Maneuvers.csv"""
+        import csv
+        import os
+        path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Data", "Social_Maneuvers.csv")
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    self.social_maneuvers[row["Maneuver"]] = row
 
     def add_combatant(self, combatant: Combatant):
         self.combatants.append(combatant)
@@ -359,12 +375,20 @@ class CombatEngine:
         if log_entries: result["log"] += " " + " ".join(log_entries)
         
         if hit:
-            # Roll Damage (Hardcoded 1d6 for now - needs Weapon lookap)
-            dmg_roll, _, _ = Dice.roll("1d6") 
+            # 5. Resolve Damage
+            # Fetch equipped weapon (or unarmed)
+            weapon = attacker.character.get_equipped_weapon()
+            dmg_dice = weapon.get("Damage", "1d4")
+            
+            # Roll Damage
+            dmg_roll, _, _ = Dice.roll(dmg_dice)
             dmg = dmg_roll + mod
+            
             if critical:
                 dmg *= 2 # Simple crit rule
-                result["log"] += " CRITICAL HIT!"
+                result["log"] += f" CRITICAL HIT! ({dmg_dice}*2 + {mod})"
+            else:
+                result["log"] += f" ({dmg_dice} + {mod})"
                 
             damage_took = target.take_damage(dmg) # Apply damage
             result["damage"] = dmg
@@ -388,4 +412,52 @@ class CombatEngine:
 
     def log(self, message: str):
         self.log_history.append(message)
-        # print("[Engine]", message) # Debug logging
+        # Also record as info event for replay
+        self.record_event("info", "System", description=message)
+
+    def execute_social_maneuver(self, attacker: Combatant, target: Combatant, maneuver_name: str) -> bool:
+        """
+        Executes a Social Maneuver (Gaslight, Filibuster, etc).
+        """
+        maneuver = self.social_maneuvers.get(maneuver_name)
+        if not maneuver:
+             self.log(f"Unknown maneuver: {maneuver_name}")
+             return False
+
+        self.log(f"{attacker.name} uses {maneuver_name} on {target.name}!")
+        
+        # Parse Roll (e.g. "Logic vs Intuition")
+        roll_str = maneuver.get("Roll", "None")
+        if " vs " in roll_str:
+             att_stat, def_stat = roll_str.split(" vs ")
+             
+             # Roll Off
+             r1, _, _ = Dice.roll("1d20")
+             r2, _, _ = Dice.roll("1d20")
+             
+             att_total = r1 + attacker.get_stat_mod(att_stat)
+             def_total = r2 + target.get_stat_mod(def_stat)
+             
+             self.log(f"{attacker.name} rolls {att_stat} ({att_total}) vs {target.name}'s {def_stat} ({def_total}).")
+             
+             if att_total > def_total:
+                 self.log(f"Success! {maneuver['Effect']}")
+                 
+                 effect_desc = maneuver['Effect']
+                 if "Composure" in effect_desc or "Structure" in effect_desc: # Treat 'Structure' as Composure for now?
+                      dmg, _, _ = Dice.roll("1d6") # Default Social Dmg
+                      if "Critical" in effect_desc: dmg *= 2
+                      
+                      taken = target.take_social_damage(dmg)
+                      self.log(f"{target.name} loses {taken} Composure. (Current: {target.current_composure})")
+                      
+                      if target.is_broken:
+                           self.log(f"{target.name} is BROKEN! (Social Defeat)")
+                           self.record_event("social_defeat", target.name)
+                 
+                 return True
+             else:
+                 self.log("Failed.")
+                 return False
+        
+        return True

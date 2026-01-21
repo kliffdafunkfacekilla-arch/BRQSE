@@ -75,16 +75,28 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
     const [mapTiles, setMapTiles] = useState<string[][]>([]);
 
     // Terrain colors for visual rendering
+    // IMAGE ASSETS MAPPING
+    const TERRAIN_ASSETS: Record<string, string> = {
+        'normal': '/floor/grass_0_new.png',
+        'grass': '/floor/grass_0_new.png',
+        'difficult': '/floor/mud_0.png',
+        'mud': '/floor/mud_0.png',
+        'water': '/water/shallow_water.png',
+        'water_shallow': '/water/shallow_water.png',
+        'water_deep': '/water/deep_water.png',
+        'ice': '/floor/ice_0_new.png',
+        'wall': '/wall/stone_brick_1.png',
+        'wall_stone': '/wall/stone_brick_1.png',
+        'tree': '/trees/tree_1_red.png',
+        'door': '/doors/closed_door.png',
+        'door_open': '/doors/open_door.png',
+    };
+
+    // Color fallbacks for non-image tiles (e.g. Hazards)
     const TERRAIN_COLORS: Record<string, string> = {
-        'floor_stone': '',  // transparent - use background
         'fire': 'bg-orange-600/60',
-        'water': 'bg-blue-500/50',
-        'water_shallow': 'bg-blue-500/50',
-        'ice': 'bg-cyan-300/50',
-        'mud': 'bg-amber-800/50',
-        'rubble': 'bg-stone-600/50',
-        'difficult': 'bg-stone-600/50',
-        'wall_stone': 'bg-stone-900',
+        'acid': 'bg-green-600/60',
+        'darkness': 'bg-black/80',
     };
 
     // LOAD DATA WRAPPER
@@ -178,9 +190,11 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
         } else if (event.type === 'dot_damage') {
             // DoT damage event
             msg = `🔥 ${event.actor} takes ${event.damage} ${event.effect?.toUpperCase()} damage`;
-        } else if (event.type === 'move') {
-            msg = `${actorTeam} ${event.actor} moves`;
+        } else if (event.type === 'death') {
+            msg = `💀 ${event.actor} has been SLAIN!`;
         } else {
+            // Filter out boring info
+            if (event.type === 'info' || event.description?.includes("Turn Starts") || event.type === 'move') return;
             msg = `${actorTeam} ${event.actor}: ${event.type.toUpperCase()}`;
         }
 
@@ -350,12 +364,15 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                     {/* TERRAIN TILES */}
                     {mapTiles.map((row, y) =>
                         row.map((tile, x) => {
-                            const colorClass = TERRAIN_COLORS[tile] || '';
-                            if (!colorClass) return null; // Skip floor_stone (use background)
+                            const asset = TERRAIN_ASSETS[tile];
+                            const colorClass = TERRAIN_COLORS[tile];
+
+                            if (!asset && !colorClass) return null;
+
                             return (
                                 <div
                                     key={`${x}-${y}`}
-                                    className={`absolute ${colorClass} pointer-events-none`}
+                                    className={`absolute pointer-events-none ${!asset ? colorClass : ''} flex items-center justify-center`}
                                     style={{
                                         width: `${100 / gridSize}%`,
                                         height: `${100 / gridSize}%`,
@@ -363,8 +380,11 @@ export default function Arena({ onStatsUpdate }: ArenaProps) {
                                         top: `${y * (100 / gridSize)}%`,
                                     }}
                                 >
+                                    {asset && (
+                                        <img src={asset} alt={tile} className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
+                                    )}
                                     {tile === 'fire' && (
-                                        <div className="w-full h-full animate-pulse opacity-80" />
+                                        <div className="absolute inset-0 w-full h-full animate-pulse bg-orange-500/30" />
                                     )}
                                 </div>
                             );

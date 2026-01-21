@@ -10,20 +10,105 @@
       "sprite": "wolf"
     },
     {
-      "name": "Blaze",
-      "max_hp": 36,
-      "hp": 36,
+      "name": "Goblin Sniper",
+      "max_hp": 10,
+      "hp": 30,
       "team": "Red",
-      "x": 9,
+      "x": 3,
       "y": 6,
-      "sprite": "wolf"
+      "sprite": "token_goblin_archer"
     }
   ],
   "log": [
     {
       "type": "info",
       "actor": "System",
+      "description": "Combat Started! Round 1"
+    },
+    {
+      "type": "info",
+      "actor": "System",
       "description": "Round 1 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Turn Order: ['Hero', 'Goblin Sniper']"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 8 vs AC 12. MISS."
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 8,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Goblin Sniper",
+      "from": [
+        3,
+        6
+      ],
+      "to": [
+        4,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 14 vs AC 10. HIT! Dealt 7 damage."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
+      "target": "Hero",
+      "attack_roll": 14,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 7
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 2 Begins!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 2 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Hero",
+      "description": "Turn Starts"
     },
     {
       "type": "move",
@@ -39,25 +124,78 @@
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 11 vs AC 12. MISS."
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 11,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Blaze",
+      "actor": "Goblin Sniper",
       "from": [
-        9,
+        4,
         6
       ],
       "to": [
-        8,
+        5,
         6
       ]
     },
     {
       "type": "info",
       "actor": "System",
-      "description": "Round 2 Begins"
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 15 vs AC 10. HIT! Dealt 7 damage."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
+      "target": "Hero",
+      "attack_roll": 15,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 7
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 3 Begins!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 3 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
@@ -78,25 +216,78 @@
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 7 vs AC 12. MISS."
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 7,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Blaze",
+      "actor": "Goblin Sniper",
       "from": [
-        8,
+        5,
         6
       ],
       "to": [
-        7,
+        6,
         6
       ]
     },
     {
       "type": "info",
       "actor": "System",
-      "description": "Round 3 Begins"
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 10 vs AC 10. HIT! Dealt 5 damage."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
+      "target": "Hero",
+      "attack_roll": 10,
+      "defense_roll": 10,
+      "result": "HIT",
+      "damage": 5
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 4 Begins!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 4 Begins"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
@@ -117,26 +308,60 @@
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 4 vs AC 12. MISS."
+    },
+    {
+      "type": "attack",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 4,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
       "description": "Turn Starts"
     },
     {
       "type": "move",
-      "actor": "Blaze",
+      "actor": "Goblin Sniper",
       "from": [
-        7,
+        6,
         6
       ],
       "to": [
-        6,
+        7,
         6
       ]
     },
     {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 6 vs AC 10. MISS."
+    },
+    {
       "type": "attack",
-      "actor": "Blaze",
+      "actor": "Goblin Sniper",
       "target": "Hero",
-      "attack_roll": 8,
+      "attack_roll": 6,
       "defense_roll": 10,
       "result": "MISS",
       "damage": 0
@@ -144,35 +369,7 @@
     {
       "type": "info",
       "actor": "System",
-      "description": "Round 4 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 8,
-      "defense_roll": 9,
-      "result": "MISS",
-      "damage": 0
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 10,
-      "defense_roll": 10,
-      "result": "HIT",
-      "damage": 6
+      "description": "Round 5 Begins!"
     },
     {
       "type": "info",
@@ -181,31 +378,90 @@
     },
     {
       "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 10,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 3
+      "actor": "System",
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "Hero",
       "description": "Turn Starts"
     },
     {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        5,
+        6
+      ],
+      "to": [
+        6,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 5 vs AC 12. MISS."
+    },
+    {
       "type": "attack",
-      "actor": "Blaze",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 5,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Goblin Sniper",
+      "from": [
+        7,
+        6
+      ],
+      "to": [
+        8,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 22 vs AC 10. HIT! CRITICAL HIT! Dealt 6 damage."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
       "target": "Hero",
-      "attack_roll": 19,
+      "attack_roll": 22,
       "defense_roll": 10,
-      "result": "HIT",
-      "damage": 4
+      "result": "CRITICAL",
+      "damage": 6
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 6 Begins!"
     },
     {
       "type": "info",
@@ -214,31 +470,90 @@
     },
     {
       "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 3,
-      "defense_roll": 9,
-      "result": "MISS",
-      "damage": 0
+      "actor": "System",
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "Hero",
       "description": "Turn Starts"
     },
     {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        6,
+        6
+      ],
+      "to": [
+        7,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 16 vs AC 12. HIT! Dealt 2 damage."
+    },
+    {
       "type": "attack",
-      "actor": "Blaze",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 16,
+      "defense_roll": 12,
+      "result": "HIT",
+      "damage": 2
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Goblin Sniper",
+      "from": [
+        8,
+        6
+      ],
+      "to": [
+        9,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 13 vs AC 10. HIT! Dealt 4 damage."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
       "target": "Hero",
-      "attack_roll": 11,
+      "attack_roll": 13,
       "defense_roll": 10,
       "result": "HIT",
-      "damage": 1
+      "damage": 4
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 7 Begins!"
     },
     {
       "type": "info",
@@ -247,31 +562,90 @@
     },
     {
       "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 9,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 5
+      "actor": "System",
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "Hero",
       "description": "Turn Starts"
     },
     {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        7,
+        6
+      ],
+      "to": [
+        8,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 7 vs AC 12. MISS."
+    },
+    {
       "type": "attack",
-      "actor": "Blaze",
+      "actor": "Hero",
+      "target": "Goblin Sniper",
+      "attack_roll": 7,
+      "defense_roll": 12,
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
+      "description": "Turn Starts"
+    },
+    {
+      "type": "move",
+      "actor": "Goblin Sniper",
+      "from": [
+        9,
+        6
+      ],
+      "to": [
+        10,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 5 vs AC 10. MISS."
+    },
+    {
+      "type": "attack",
+      "actor": "Goblin Sniper",
       "target": "Hero",
-      "attack_roll": 18,
+      "attack_roll": 5,
       "defense_roll": 10,
-      "result": "HIT",
-      "damage": 1
+      "result": "MISS",
+      "damage": 0
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 8 Begins!"
     },
     {
       "type": "info",
@@ -280,31 +654,96 @@
     },
     {
       "type": "info",
+      "actor": "System",
+      "description": "Hero's Turn."
+    },
+    {
+      "type": "info",
       "actor": "Hero",
       "description": "Turn Starts"
     },
     {
+      "type": "move",
+      "actor": "Hero",
+      "from": [
+        8,
+        6
+      ],
+      "to": [
+        9,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero advances."
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Hero attacks Goblin Sniper: 3 vs AC 12. MISS."
+    },
+    {
       "type": "attack",
       "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 6,
-      "defense_roll": 9,
+      "target": "Goblin Sniper",
+      "attack_roll": 3,
+      "defense_roll": 12,
       "result": "MISS",
       "damage": 0
     },
     {
       "type": "info",
-      "actor": "Blaze",
+      "actor": "System",
+      "description": "Goblin Sniper's Turn."
+    },
+    {
+      "type": "info",
+      "actor": "Goblin Sniper",
       "description": "Turn Starts"
     },
     {
+      "type": "move",
+      "actor": "Goblin Sniper",
+      "from": [
+        10,
+        6
+      ],
+      "to": [
+        11,
+        6
+      ]
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper retreats!"
+    },
+    {
+      "type": "death",
+      "actor": "Hero",
+      "x": 9,
+      "y": 6
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Goblin Sniper attacks Hero: 22 vs AC 10. HIT! CRITICAL HIT! Dealt 8 damage. Hero is DOWN!"
+    },
+    {
       "type": "attack",
-      "actor": "Blaze",
+      "actor": "Goblin Sniper",
       "target": "Hero",
-      "attack_roll": 20,
+      "attack_roll": 22,
       "defense_roll": 10,
       "result": "CRITICAL",
-      "damage": 12
+      "damage": 8
+    },
+    {
+      "type": "info",
+      "actor": "System",
+      "description": "Round 9 Begins!"
     },
     {
       "type": "info",
@@ -313,207 +752,8 @@
     },
     {
       "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 17,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 5
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 1,
-      "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
-    },
-    {
-      "type": "info",
       "actor": "System",
-      "description": "Round 10 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 4,
-      "defense_roll": 9,
-      "result": "MISS",
-      "damage": 0
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 8,
-      "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
-    },
-    {
-      "type": "info",
-      "actor": "System",
-      "description": "Round 11 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 16,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 1
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 8,
-      "defense_roll": 10,
-      "result": "MISS",
-      "damage": 0
-    },
-    {
-      "type": "info",
-      "actor": "System",
-      "description": "Round 12 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 17,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 1
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 17,
-      "defense_roll": 10,
-      "result": "HIT",
-      "damage": 4
-    },
-    {
-      "type": "info",
-      "actor": "System",
-      "description": "Round 13 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 17,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 4
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 18,
-      "defense_roll": 10,
-      "result": "HIT",
-      "damage": 5
-    },
-    {
-      "type": "info",
-      "actor": "System",
-      "description": "Round 14 Begins"
-    },
-    {
-      "type": "info",
-      "actor": "Hero",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "attack",
-      "actor": "Hero",
-      "target": "Blaze",
-      "attack_roll": 9,
-      "defense_roll": 9,
-      "result": "HIT",
-      "damage": 6
-    },
-    {
-      "type": "info",
-      "actor": "Blaze",
-      "description": "Turn Starts"
-    },
-    {
-      "type": "death",
-      "actor": "Hero",
-      "x": 5,
-      "y": 6
-    },
-    {
-      "type": "attack",
-      "actor": "Blaze",
-      "target": "Hero",
-      "attack_roll": 15,
-      "defense_roll": 10,
-      "result": "HIT",
-      "damage": 4
-    },
-    {
-      "type": "info",
-      "actor": "System",
-      "description": "Round 15 Begins"
+      "description": "Hero's Turn."
     },
     {
       "type": "info",
@@ -525,88 +765,131 @@
     [
       "normal",
       "normal",
-      "normal",
-      "normal",
-      "ice",
-      "normal",
-      "normal",
-      "normal",
-      "water_deep",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "wall_stone"
-    ],
-    [
-      "ice",
-      "normal",
-      "normal",
-      "normal",
-      "water_deep",
-      "normal",
-      "wall_stone",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "ice",
-      "water_deep",
-      "normal",
-      "normal",
-      "wall_stone",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "mud"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
       "fire",
       "normal",
+      "normal",
+      "ice",
+      "normal",
+      "normal",
+      "water_shallow",
+      "normal",
+      "normal",
+      "fire"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "wall_stone",
+      "normal",
+      "ice",
+      "normal",
+      "mud",
+      "normal",
+      "normal",
+      "normal",
+      "water_shallow"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "ice",
+      "water_deep",
+      "normal",
+      "water_deep",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ],
     [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "tree",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "ice",
+      "water_shallow",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "mud",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "fire",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "wall_stone",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    [
+      "normal",
       "mud",
       "normal",
       "normal",
@@ -617,7 +900,6 @@
       "normal",
       "normal",
       "normal",
-      "normal",
       "normal"
     ],
     [
@@ -636,52 +918,10 @@
     ],
     [
       "normal",
+      "wall_stone",
       "normal",
       "normal",
-      "normal",
-      "normal",
-      "mud",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "fire",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "water_deep",
-      "normal",
-      "normal"
-    ],
-    [
-      "normal",
-      "normal",
-      "normal",
-      "normal",
-      "normal",
+      "ice",
       "normal",
       "normal",
       "normal",

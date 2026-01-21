@@ -16,7 +16,7 @@ def main():
     
     # 1. Setup
     # Vitality 10 -> Max HP = 10 + 10 = 20.
-    char_data = {"Name": "Tester", "Stats": {"Might": 10, "Vitality": 10}, "Current_HP": 20}
+    char_data = {"Name": "Tester", "Stats": {"Might": 50, "Vitality": 10}, "Current_HP": 20}
     hero = Character(char_data)
     c_hero = Combatant(hero, x=0, y=0, team="Blue")
     
@@ -81,6 +81,39 @@ def main():
              print("FAIL: Healing not applied.")
     else:
         print("FAIL: Ability activation returned False.")
+
+    # --- TEST 4: GEAR INTEGRATION ---
+    print("\n[Test 4] Gear Damage")
+    # Equip Hero with Greatsword (2d6)
+    greatsword = {
+        "Name": "Greatsword",
+        "Type": "Weapon",
+        "Damage": "2d6",
+        "AC_Bonus": 0,
+        "Equipped": True
+    }
+    c_hero.character.inventory.append(type('Item', (object,), {"data": greatsword, "is_equipped": True, "type": "Weapon"})()) # Mock Item
+    
+    # Needs a target
+    dummy_data = {"Name": "Dummy", "Stats": {"Reflexes": 10}, "Current_HP": 50}
+    c_dummy = Combatant(Character(dummy_data), x=1, y=0, team="Red")
+    engine.add_combatant(c_dummy)
+    
+    current_hp = c_dummy.current_hp
+    print("Attacking Dummy with Greatsword (2d6)...")
+    # Force hit if possible (hard to force with dice, but we check log)
+    result = engine.execute_attack(c_hero, c_dummy, "Might")
+    
+    if result["hit"]:
+        dmg = result["damage"]
+        print(f"Hit! Damage dealt: {dmg}")
+        print(f"Log: {result['log']}")
+        if "2d6" in result.get("log", ""):
+            print("PASS: Used 2d6 damage dice.")
+        else:
+            print("FAIL: Did not use 2d6 damage dice.")
+    else:
+        print("Missed (Bad RNG). Unable to verify damage dice this run.")
 
 if __name__ == "__main__":
     main()
