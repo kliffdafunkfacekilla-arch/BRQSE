@@ -13,8 +13,9 @@ class GameLoopController:
     - Scene Transitions
     """
     
-    def __init__(self, chaos_manager: ChaosManager):
+    def __init__(self, chaos_manager: ChaosManager, game_state: Any = None):
         self.chaos = chaos_manager
+        self.game_state = game_state
         self.scene_stack = SceneStack(self.chaos)
         self.map_gen = MapGenerator(self.chaos)
         self.combat_engine = CombatEngine(20, 20)
@@ -22,6 +23,7 @@ class GameLoopController:
         self.state = "EXPLORE"
         self.player_pos = (1, 10)
         self.player_combatant = None
+        self.load_player()
         self.active_scene = None
         self.interactables = {}
         self.explored_tiles = set()
@@ -45,7 +47,12 @@ class GameLoopController:
             for x, tile in enumerate(row):
                 if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
         
-        if scene.entrances: self.player_pos = scene.entrances[0]
+        if scene.entrances: 
+            self.player_pos = scene.entrances[0]
+            # --- SAFE SPAWN CHECK ---
+            if self._is_blocked(*self.player_pos):
+                self.player_pos = self._find_safe_spawn(scene)
+        
         self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
         self.explored_tiles = set()
         self._update_visibility()
@@ -54,10 +61,37 @@ class GameLoopController:
             self.player_combatant.elevation = 0
             self.player_combatant.is_behind_cover = False
             self.player_combatant.facing = "N"
+        else:
+            self.load_player() # Attempt reload if missing
             
         self.state = "EXPLORE"
         self.current_event = "SCENE_STARTED"
         return scene
+
+    def load_player(self):
+        """Loads or reloads the player character from GameState."""
+        if not self.game_state: return
+        
+        player_data = self.game_state.get_player()
+        if player_data:
+            from brqse_engine.models.character import Character
+            self.player_combatant = Combatant(Character(player_data))
+            self.player_combatant.team = "Player"
+
+    def handle_staged_battle(self):
+        """Checks for a staged battle config and loads it."""
+        if not self.game_state: return
+        path = self.game_state.get_staged_config_path()
+        if os.path.exists(path):
+            try:
+                with open(path, 'r') as f:
+                    config = json.load(f)
+                # Process config (Blue team vs Red team)
+                # For now, we'll just set up the current scene to use this
+                self.state = "COMBAT"
+                # ... (Additional logic would go here to transition to battle view)
+            except Exception as e:
+                 print(f"Error loading staged battle: {e}")
 
     def handle_action(self, action_type: str, x: int, y: int) -> Dict[str, Any]:
         """Generic handler for player intent."""
@@ -100,8 +134,10 @@ class GameLoopController:
             else: result = {"success": False, "reason": "Fail"}
             
         if not self.player_combatant:
-            from brqse_engine.models.character import Character
-            self.player_combatant = Combatant(Character("Player"))
+            self.load_player()
+            if not self.player_combatant:
+                from brqse_engine.models.character import Character
+                self.player_combatant = Combatant(Character({"Name": "Player"}))
 
         self._update_tactical_status()
         
@@ -154,6 +190,25 @@ class GameLoopController:
              for x in range(max(0, px-radius), min(20, px+radius+1)):
                  if abs(x-px) + abs(y-py) <= radius + 1:
                      self.explored_tiles.add((x,y))
+
+    def _is_blocked(self, x, y) -> bool:
+        if not (0 <= x < 20 and 0 <= y < 20): return True
+        tile = self.active_scene.grid[y][x]
+        if tile == TILE_WALL: return True
+        if (x, y) in self.interactables and self.interactables[x,y].get("is_blocking"):
+             return True
+        return False
+
+    def _find_safe_spawn(self, scene) -> Tuple[int, int]:
+        """BFS or scanning for nearest floor tile."""
+        for dist in range(1, 10):
+            for dy in range(-dist, dist + 1):
+                for dx in range(-dist, dist + 1):
+                    nx, ny = self.player_pos[0] + dx, self.player_pos[1] + dy
+                    if 0 <= nx < 20 and 0 <= ny < 20:
+                        if scene.grid[ny][nx] == TILE_FLOOR:
+                            return (nx, ny)
+        return self.player_pos # Fallback
 
     def get_state(self):
         return {

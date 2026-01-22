@@ -105,6 +105,7 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
 
     // Phase 3: Magic
     const [selectedSpells, setSelectedSpells] = useState<Spell[]>([]);
+    useEffect(() => { console.log("Selected Spells Update:", selectedSpells); }, [selectedSpells]);
 
     // Phase 4: Gear
     const [selectedGear, setSelectedGear] = useState<{
@@ -226,6 +227,14 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                 effect: o["Mechanic / Trait"]
             }));
     }, [compSelections]);
+
+    const validSpells = useMemo(() => {
+        return spellData.filter(spell => {
+            const attr = spell["Attribute"];
+            const statVal = stats.total[attr] || stats.total[attr.toUpperCase()] || 0;
+            return statVal >= 12;
+        });
+    }, [spellData, stats]);
 
     const warnings = useMemo(() => {
         const w: string[] = [];
@@ -408,12 +417,6 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
     };
 
     const renderMagicStep = () => {
-        const validSpells = spellData.filter(spell => {
-            const attr = spell["Attribute"];
-            const statVal = stats.total[attr.toUpperCase()] || stats.total[attr] || 0;
-            return statVal >= 12;
-        });
-
         const grouped: Record<string, Spell[]> = {};
         validSpells.forEach(s => {
             if (!grouped[s.School]) grouped[s.School] = [];
@@ -432,12 +435,12 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
                         <h4 className="text-[#92400e] font-serif font-bold border-b border-stone-900 pb-1 uppercase tracking-widest text-xs">{school}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {spells.map((spell, i) => {
-                                const isSel = selectedSpells.includes(spell);
+                                const isSel = selectedSpells.some(s => s.Name === spell.Name);
                                 return (
                                     <button
                                         key={i}
                                         onClick={() => {
-                                            if (isSel) setSelectedSpells(p => p.filter(s => s !== spell));
+                                            if (isSel) setSelectedSpells(p => p.filter(s => s.Name !== spell.Name));
                                             else if (selectedSpells.length < 2) setSelectedSpells(p => [...p, spell]);
                                         }}
                                         className={`p-3 rounded-sm border text-left transition-all h-full flex flex-col justify-between
@@ -558,7 +561,13 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
         }
         const bgStep = backgroundSteps.find(b => b.id === currentStep.id);
         if (bgStep && !bgSelections[currentStep.id]) return "Your past is shrouded. Select an origin.";
-        if (currentStep.id === 'MAGIC' && selectedSpells.length !== 2) return `You must master exactly two arts (${selectedSpells.length}/2).`;
+
+        if (currentStep.id === 'MAGIC') {
+            const hasEnoughValid = validSpells.length >= 2;
+            if (hasEnoughValid && selectedSpells.length < 2) return `You must master exactly two arts (${selectedSpells.length}/2).`;
+            if (!hasEnoughValid && selectedSpells.length < validSpells.length) return `You must select all available arts you qualify for (${selectedSpells.length}/${validSpells.length}).`;
+        }
+
         if (currentStep.id === 'GEAR' && !selectedGear.rightHand && !selectedGear.armor) return "Prepare yourself with at least steel or hide.";
         return "";
     };

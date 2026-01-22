@@ -24,7 +24,7 @@ from scripts.world_engine import ChaosManager
 from brqse_engine.core.game_loop import GameLoopController
 
 CHAOS_MANAGER = ChaosManager()
-GAME_LOOP = GameLoopController(CHAOS_MANAGER)
+GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE)
 
 @app.route('/api/player', methods=['GET'])
 def get_player(): return jsonify(GAME_STATE.get_player())
@@ -78,6 +78,36 @@ def game_action():
             "tension_threshold": CHAOS_MANAGER.tension_threshold
         }
     })
+
+@app.route('/api/character/save', methods=['POST'])
+def save_character():
+    data = request.get_json()
+    name = data.get("Name")
+    if not name:
+        return jsonify({"error": "Name is required"}), 400
+    
+    saves_dir = GAME_STATE.get_saves_dir()
+    if not os.path.exists(saves_dir):
+        os.makedirs(saves_dir)
+    
+    fpath = os.path.join(saves_dir, f"{name}.json")
+    with open(fpath, 'w') as f:
+        json.dump(data, f, indent=4)
+    
+    # Also update current player if it's the one being saved
+    GAME_STATE.update_player(data)
+    
+    return jsonify({"status": "saved", "path": fpath})
+
+@app.route('/api/battle/staged', methods=['POST'])
+def staged_battle():
+    data = request.get_json()
+    staged_path = GAME_STATE.get_staged_config_path()
+    with open(staged_path, 'w') as f:
+        json.dump(data, f, indent=4)
+    
+    # Optional: trigger a game loop reset or state change
+    return jsonify({"status": "staged"})
 
 @app.route('/api/health', methods=['GET'])
 def health(): return jsonify({"status": "online", "version": "2.7 - Action Engine"})

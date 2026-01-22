@@ -6,7 +6,10 @@ class Character:
     Represents a Player Character or NPC.
     Holds Stats, Skills, Powers, and Inventory.
     """
-    def __init__(self, data: Dict[str, Any]):
+    def __init__(self, data: Any):
+        if isinstance(data, str):
+            data = {"Name": data}
+        
         # Keep original data for passthrough of specialized fields (Traits, Backstory, etc.)
         self.raw_data = data.copy()
         

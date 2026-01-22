@@ -29,9 +29,9 @@ class MapGenerator:
         
         grid = self._generate_shape(shape_type)
         
-        # 2. Ports
-        start_pos = (1, self.ROWS//2)
-        end_pos = (self.COLS-2, self.ROWS//2)
+        # 2. Ports (Inside the Floor area: 2 to COLS-3)
+        start_pos = (2, self.ROWS//2)
+        end_pos = (self.COLS-3, self.ROWS//2)
         grid[end_pos[1]][end_pos[0]] = TILE_DOOR
         grid[start_pos[1]][start_pos[0]] = TILE_ENTRANCE
         
