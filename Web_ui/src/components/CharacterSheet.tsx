@@ -5,24 +5,22 @@ interface CharacterSheetProps {
     equipment?: Record<string, string>;
     stats?: Record<string, number>;
     onUnequip?: (slot: string) => void;
+    sprite?: string;
+    name?: string;
 }
 
-export default function CharacterSheet({ equipment, stats: propStats, onUnequip }: CharacterSheetProps) {
-    // Use props if available, else fallback
+export default function CharacterSheet({ equipment, stats: propStats, onUnequip, sprite, name }: CharacterSheetProps) {
     const gear = equipment || {
-        "Main Hand": "Empty", "Off Hand": "Empty", "Head": "Empty",
-        "Body": "Empty", "Feet": "Empty", "Ring 1": "Empty"
+        "Main Hand": "Empty", "Off Hand": "Empty", "Armor": "Empty"
     };
 
-    // Use passed stats or fallback to defaults
     const stats = propStats && Object.keys(propStats).length > 0 ? propStats : {
-        Might: 10, Reflexes: 10, Endurance: 12, Vitality: 10, Fortitude: 14, Finesse: 12,
-        Knowledge: 12, Logic: 10, Awareness: 10, Intuition: 10, Charm: 12, Willpower: 10
+        Might: 10, Reflexes: 10, Endurance: 10, Vitality: 10, Fortitude: 10, Finesse: 10,
+        Knowledge: 10, Logic: 10, Awareness: 10, Intuition: 10, Charm: 10, Willpower: 10
     };
 
-    // Calculate derived stats from formulas
     const getScore = (name: string) => stats[name] || 10;
-    const derivedHP = 10 + getScore('Might') + getScore('Reflexes') + getScore('Vitality');
+    const derivedHP = getScore('Might') + getScore('Reflexes') + getScore('Vitality');
     const derivedSP = getScore('Endurance') + getScore('Finesse') + getScore('Fortitude');
     const derivedFP = getScore('Knowledge') + getScore('Charm') + getScore('Intuition');
 
@@ -36,45 +34,31 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip 
             <span className="text-stone-500 font-bold text-xs">{label}</span>
             <div className="flex gap-2 items-end">
                 <span className="text-white font-mono text-lg leading-none">{val}</span>
-                <span className="text-[#00f2ff] text-xs font-mono">({getMod(val)})</span>
+                <span className="text-[#92400e] text-xs font-mono">({getMod(val)})</span>
             </div>
         </div>
     );
 
     const EquipSlot = ({ slot, item }: { slot: string; item: string }) => (
-        <div
-            className={`flex items-center gap-3 p-2 border transition-colors group relative
-            ${item !== 'Empty' ? 'bg-stone-900/80 border-stone-700' : 'bg-[#0a0a0f] border-stone-800 hover:border-stone-600'}
-        `}
-        >
-            <div className="w-10 h-10 bg-black border border-stone-800 flex items-center justify-center shrink-0">
-                {item === "Empty" ? <span className="text-stone-700 text-xs">.</span> : <ItemIcon name={item} />}
+        <div className={`p-2 border bg-stone-900/80 border-stone-800 transition-colors group relative flex items-center gap-3`}>
+            <div className="w-8 h-8 bg-black border border-stone-700 flex items-center justify-center">
+                {item && item !== 'Empty' ? <ItemIcon name={item} /> : <span className="text-stone-800">.</span>}
             </div>
-            <div className="flex-1 overflow-hidden">
-                <div className="text-[9px] text-stone-500 uppercase tracking-wider mb-0.5">{slot}</div>
-                <div className={`text-xs truncate ${item === 'Empty' ? 'text-stone-700' : 'text-stone-300 group-hover:text-white'}`}>{item}</div>
+            <div className="flex-1">
+                <div className="text-[8px] text-stone-600 uppercase tracking-tighter">{slot}</div>
+                <div className="text-xs font-bold text-stone-300 truncate">{item || "Empty"}</div>
             </div>
-
-            {/* UNEQUIP BUTTON */}
-            {item !== "Empty" && onUnequip && (
-                <button
-                    onClick={() => onUnequip(slot)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-stone-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Unequip"
-                >
-                    <X size={14} />
-                </button>
+            {item && item !== 'Empty' && onUnequip && (
+                <button onClick={() => onUnequip(slot)} className="text-stone-700 hover:text-red-500 opacity-0 group-hover:opacity-100"><X size={12} /></button>
             )}
         </div>
     );
 
     return (
-        <div className="flex gap-6 h-full p-6 text-stone-300 justify-center overflow-auto">
-
-            {/* LEFT: PHYSICAL */}
+        <div className="flex gap-6 h-full p-6 text-stone-300 justify-center overflow-auto bg-[#050505] font-serif">
             <div className="w-64 space-y-4">
-                <div className="bg-[#080808] p-4 border border-stone-800 rounded">
-                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><User size={14} /> Physical</h3>
+                <div className="bg-[#0a0a0a] p-4 border border-stone-900">
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><User size={12} /> Physical Attributes</h3>
                     <div className="space-y-1">
                         <StatBlock label="MIGHT" val={stats.Might} />
                         <StatBlock label="REFLEXES" val={stats.Reflexes} />
@@ -86,10 +70,9 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip 
                 </div>
             </div>
 
-            {/* CENTER: MENTAL + DERIVED */}
             <div className="w-64 space-y-4">
-                <div className="bg-[#080808] p-4 border border-stone-800 rounded">
-                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><Brain size={14} /> Mental</h3>
+                <div className="bg-[#0a0a0a] p-4 border border-stone-900">
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Brain size={12} /> Mental Attributes</h3>
                     <div className="space-y-1">
                         <StatBlock label="KNOWLEDGE" val={stats.Knowledge} />
                         <StatBlock label="LOGIC" val={stats.Logic} />
@@ -100,47 +83,31 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip 
                     </div>
                 </div>
 
-                <div className="bg-[#080808] p-4 border border-stone-800 rounded">
-                    <h3 className="text-stone-500 font-bold uppercase text-xs mb-3 flex items-center gap-2"><Crosshair size={14} /> Derived</h3>
+                <div className="bg-[#0a0a0a] p-4 border border-stone-900">
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Crosshair size={12} /> Derived Capacity</h3>
                     <div className="grid grid-cols-3 gap-2 text-center">
-                        <div className="bg-stone-900 p-2">
-                            <div className="text-[10px] text-stone-500">HP</div>
-                            <div className="text-xl text-white font-mono">{derivedHP}</div>
-                        </div>
-                        <div className="bg-stone-900 p-2">
-                            <div className="text-[10px] text-stone-500">SP</div>
-                            <div className="text-xl text-white font-mono">{derivedSP}</div>
-                        </div>
-                        <div className="bg-stone-900 p-2">
-                            <div className="text-[10px] text-stone-500">FP</div>
-                            <div className="text-xl text-white font-mono">{derivedFP}</div>
-                        </div>
+                        <div className="bg-stone-900 p-2"><div className="text-[9px] text-stone-600">HP</div><div className="text-lg text-white font-mono">{derivedHP}</div></div>
+                        <div className="bg-stone-900 p-2"><div className="text-[9px] text-stone-600">SP</div><div className="text-lg text-white font-mono">{derivedSP}</div></div>
+                        <div className="bg-stone-900 p-2"><div className="text-[9px] text-stone-600">FP</div><div className="text-lg text-white font-mono">{derivedFP}</div></div>
                     </div>
                 </div>
             </div>
 
-            {/* RIGHT: EQUIPMENT */}
-            <div className="w-80 bg-[#080808] p-4 border border-stone-800 rounded flex flex-col">
-                <h3 className="text-stone-500 font-bold uppercase text-xs mb-4 flex items-center gap-2"><Shield size={14} /> Equipment</h3>
-
+            <div className="w-80 bg-[#0a0a0a] p-4 border border-stone-900 flex flex-col">
+                <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Shield size={12} /> Active Equipment</h3>
                 <div className="space-y-2 flex-1">
                     {Object.entries(gear).map(([slot, item]) => (
                         <EquipSlot key={slot} slot={slot} item={item} />
                     ))}
                 </div>
-
-                {/* PORTRAIT */}
-                <div className="mt-4 pt-4 border-t border-stone-800 flex items-center gap-4">
-                    <div className="w-16 h-16 bg-black border border-stone-700 shrink-0 overflow-hidden">
-                        <img src="/tokens/badger_front.png" alt="portrait" className="w-full h-full object-contain opacity-80" />
+                <div className="mt-4 pt-4 border-t border-stone-900 flex items-center gap-4">
+                    <div className="w-16 h-20 bg-black border border-stone-800 shrink-0 overflow-hidden relative p-1">
+                        <img src={sprite ? `/tokens/${sprite}` : '/tokens/badger_front.png'} alt="portrait" className="w-full h-full object-cover grayscale-[0.2]" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
-                    <div>
-                        <h1 className="text-lg font-bold text-white">HERO</h1>
-                        <p className="text-[#00f2ff] font-mono text-xs">Mammal</p>
-                    </div>
+                    <div><h1 className="text-md font-bold text-white uppercase tracking-wider">{name || "HERO"}</h1><p className="text-[#92400e] font-mono text-[10px] uppercase tracking-widest">Master of Fate</p></div>
                 </div>
             </div>
-
         </div>
     );
 }

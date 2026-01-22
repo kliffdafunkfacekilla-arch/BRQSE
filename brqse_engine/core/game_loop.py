@@ -1,224 +1,170 @@
 from typing import Dict, Any, Tuple, List
+import random
 from brqse_engine.combat.combat_engine import CombatEngine
-from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_ENEMY
+from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_ENEMY, TILE_HAZARD, TILE_DOOR
 from brqse_engine.combat.combatant import Combatant
 from scripts.world_engine import SceneStack, ChaosManager, Scene
 
 class GameLoopController:
     """
     Manages the active game session:
-    - Exploration Mode (Free move, real-time-ish interact)
-    - Combat Mode (Turn-based, Initiative)
-    - Transitions between them
+    - Exploration Mode (Move, Search, Interact)
+    - Combat Mode (Turn-based)
+    - Scene Transitions
     """
     
     def __init__(self, chaos_manager: ChaosManager):
         self.chaos = chaos_manager
         self.scene_stack = SceneStack(self.chaos)
         self.map_gen = MapGenerator(self.chaos)
-        self.combat_engine = CombatEngine(20, 20) # Updated to 20x20
+        self.combat_engine = CombatEngine(20, 20)
         
-        self.state = "EXPLORE" # EXPLORE, COMBAT, DIALOGUE
-        self.player_pos = (1, 10) # Default
-        self.step_counter = 0 # For tension rolls
-        
+        self.state = "EXPLORE"
+        self.player_pos = (1, 10)
+        self.player_combatant = None
         self.active_scene = None
         self.interactables = {}
         self.explored_tiles = set()
+        self.current_event = "SCENE_STARTED"
         
-        # Load initial quest
         self.scene_stack.generate_quest()
         self.advance_scene()
 
     def advance_scene(self) -> Scene:
-        """Moves to next scene, generates map, places player."""
+        """Moves to next scene, resets visibility."""
         scene = self.scene_stack.advance()
-        
-        # Generate Map Data (modifies scene in-place)
+        if scene.text == "QUEST COMPLETE":
+            self.active_scene = scene
+            self.current_event = "QUEST_COMPLETE"
+            return scene
+
         scene = self.map_gen.generate_map(scene)
         self.active_scene = scene
-        
-        # Setup Combat Engine Grid (for Combat Mode usage)
         self.combat_engine = CombatEngine(20, 20)
-        
-        # 1. Apply Walls to Combat Engine (for potential combat checks later)
         for y, row in enumerate(scene.grid):
             for x, tile in enumerate(row):
-                if tile == TILE_WALL:
-                    self.combat_engine.create_wall(x, y)
-                elif tile == TILE_ENEMY and scene.encounter_type == "COMBAT":
-                    pass
-
-        # 2. Place Player
-        if scene.entrances:
-            self.player_pos = scene.entrances[0]
-        else:
-            self.player_pos = (1, 10)
+                if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
         
-        # 3. Setup Interactables
-        self.interactables = {
-            (node["x"], node["y"]): node for node in scene.loot_nodes
-        }
-        
-        # 4. Initialize Visibility
+        if scene.entrances: self.player_pos = scene.entrances[0]
+        self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
         self.explored_tiles = set()
         self._update_visibility()
+        
+        if self.player_combatant:
+            self.player_combatant.elevation = 0
+            self.player_combatant.is_behind_cover = False
+            self.player_combatant.facing = "N"
             
-        self.current_scene_text = scene.text
         self.state = "EXPLORE"
+        self.current_event = "SCENE_STARTED"
         return scene
 
-    def _update_visibility(self):
-        # Reveal radius around player (e.g. 5 tiles)
+    def handle_action(self, action_type: str, x: int, y: int) -> Dict[str, Any]:
+        """Generic handler for player intent."""
+        if self.state != "EXPLORE": return {"success": False, "reason": "Combat Lock"}
+
+        # Update Facing for all actions
         px, py = self.player_pos
-        radius = 5 # Should come from Character Awareness
-        for y in range(max(0, py-radius), min(20, py+radius+1)):
-             for x in range(max(0, px-radius), min(20, px+radius+1)):
-                 # Simple Euclidean-ish or Chebyshev
-                 if abs(x-px) + abs(y-py) <= radius + 1: # Manhattan with buffer?
-                     self.explored_tiles.add((x,y))
+        if x > px: self._set_facing("E")
+        elif x < px: self._set_facing("W")
+        elif y > py: self._set_facing("S")
+        elif y < py: self._set_facing("N")
 
-    def handle_move(self, target_x: int, target_y: int, traits: List[str] = None) -> Dict[str, Any]:
-        """
-        Attempts to move player to target.
-        Returns result dict for UI.
-        """
-        if traits is None: traits = []
+        result = {"success": True, "action": action_type}
+        obj = self.interactables.get((x, y))
         
-        if self.state != "EXPLORE":
-            return {"success": False, "reason": "Not in Exploration Mode"}
+        if action_type == "move":
+            move_res = self._process_move(x, y)
+            if not move_res["success"]: return move_res
+            result.update(move_res)
+        
+        elif action_type == "inspect":
+            result["log"] = f"A sturdy {obj['type']}." if obj else "An ordinary patch of ground."
+
+        elif action_type == "search":
+            result["log"] = f"Search {obj['type']}... nothing." if obj else "Scoured the ground... dust."
             
-        # 1. Distance Check (1 tile only)
-        dx = abs(target_x - self.player_pos[0])
-        dy = abs(target_y - self.player_pos[1])
-        if dx > 1 or dy > 1 or (dx == 0 and dy == 0):
-             return {"success": False, "reason": "Too far"}
-             
-        # 2. Collision Check (Grid)
-        if not (0 <= target_x < 20 and 0 <= target_y < 20):
-             return {"success": False, "reason": "Out of bounds"}
+        elif action_type == "smash":
+            if obj and "smash" in obj.get("tags", []):
+                result["log"] = f"Smashed {obj['type']}!"
+                self.active_scene.grid[y][x] = TILE_FLOOR
+                del self.interactables[x,y]
+            else: result = {"success": False, "reason": "Fail"}
+            
+        elif action_type in ["push", "pull", "climb", "vault", "flip", "open"]:
+            if obj and action_type in obj.get("tags", []):
+                result["log"] = f"{action_type} {obj['type']}."
+                if action_type in ["climb", "vault"] and "elevation" in obj.get("tags", []):
+                    self.player_pos = (x, y)
+                    if self.player_combatant: self.player_combatant.elevation = 1
+            else: result = {"success": False, "reason": "Fail"}
+            
+        if not self.player_combatant:
+            from brqse_engine.models.character import Character
+            self.player_combatant = Combatant(Character("Player"))
 
-        tile = self.active_scene.grid[target_y][target_x]
+        self._update_tactical_status()
         
-        # WALL LOGIC
-        if tile == TILE_WALL:
-             if "Sticky Pads" in traits:
-                 pass # Climb!
-             else:
-                 return {"success": False, "reason": "Blocked"}
-                 
-        # HAZARD LOGIC
-        if tile == TILE_HAZARD:
-             # Wings allow flying over hazards safely
-             pass 
+        if self.chaos:
+            result["tension"] = self.chaos.roll_tension()
 
-        # HUGE SIZE LOGIC (Squeeze penalty/check)
-        if "Huge Size" in traits:
-             # Check for 1-tile narrow corridor
-             # If moving horizontally, check up/down walls
-             blocked_v = False
-             blocked_h = False
-             
-             # Check vertical squeeze (walls above and below)
-             if (target_y > 0 and self.active_scene.grid[target_y-1][target_x] == TILE_WALL) and \
-                (target_y < 19 and self.active_scene.grid[target_y+1][target_x] == TILE_WALL):
-                 blocked_v = True
-                 
-             # Check horizontal squeeze (walls left and right)
-             if (target_x > 0 and self.active_scene.grid[target_y][target_x-1] == TILE_WALL) and \
-                (target_x < 19 and self.active_scene.grid[target_y][target_x+1] == TILE_WALL):
-                 blocked_h = True
-                 
-             if blocked_v or blocked_h:
-                 # Apply penalty or block? User said "Cannot fit ... without squeezing (Movement penalty)"
-                 # For now, we'll just log it as an event, or maybe consume extra tension step?
-                 self.step_counter += 1 # Double step cost
-        
-        # 3. Object Collision (Interactables)
-        if (target_x, target_y) in self.interactables and tile != TILE_LOOT: # Loot is walkable-ish if we decide so, but usually interact first
-             return {"success": False, "reason": "Object in way (Click to Interact)"}
-             
-        # 4. Execute Move
-        self.player_pos = (target_x, target_y)
-        self.step_counter += 1
-        
-        # UPDATE VISIBILITY
+        return result
+
+    def _set_facing(self, direction: str):
+        if self.player_combatant:
+            self.player_combatant.facing = direction
+
+    def _process_move(self, tx, ty) -> Dict[str, Any]:
+        if not (0 <= tx < 20 and 0 <= ty < 20): return {"success": False, "reason": "Void"}
+        tile = self.active_scene.grid[ty][tx]
+        if tile == TILE_WALL: return {"success": False, "reason": "Stone"}
+        if (tx, ty) in self.interactables and self.interactables[tx,ty].get("is_blocking"):
+             return {"success": False, "reason": "Blocked"}
+            
+        self.player_pos = (tx, ty)
+        if self.player_combatant: self.player_combatant.elevation = 0
         self._update_visibility()
         
-        # 5. Check Tension (Every 10 steps)
-        tension_result = "SAFE"
-        if self.step_counter >= 10:
-            self.step_counter = 0
-            if "Wings" in traits and tile == TILE_HAZARD:
-                 # Flying over hazard is safe? Maybe reduce tension risk?
-                 pass
-            elif tile == TILE_HAZARD:
-                 # Walking in hazard triggers tension immediately?
-                 tension_result = self.chaos.roll_tension() # Hazard triggers check
-            else:
-                 tension_result = self.chaos.roll_tension()
-            
-        # 6. Check Combat Trigger
-        if self.active_scene.encounter_type == "COMBAT":
-             for y in range(max(0, target_y-3), min(20, target_y+4)):
-                 for x in range(max(0, target_x-3), min(20, target_x+4)):
-                     if self.active_scene.grid[y][x] == TILE_ENEMY:
-                          self.start_combat()
-                          return {
-                             "success": True, 
-                             "player_pos": self.player_pos,
-                             "tension": tension_result,
-                             "event": "COMBAT_STARTED"
-                          }
+        if tile == TILE_DOOR:
+            self.advance_scene()
+            return {"success": True, "event": "SCENE_ADVANCED"}
+        return {"success": True}
 
-        return {
-            "success": True, 
-            "player_pos": self.player_pos,
-            "tension": tension_result
-        }
-
-        
-    def handle_interact(self, target_x: int, target_y: int) -> Dict[str, Any]:
-        # Check adjacency
+    def _update_tactical_status(self):
+        """Checks surroundings for cover."""
+        if not self.player_combatant: return
         px, py = self.player_pos
-        if abs(target_x - px) > 1 or abs(target_y - py) > 1:
-            return {"success": False, "reason": "Too far"}
-            
-        if (target_x, target_y) in self.interactables:
-            obj = self.interactables.pop((target_x, target_y))
-            
-            # Remove from grid so it's walkable? Or replace with open chest?
-            # For simplicity, just remove logic blocking
-            if self.active_scene.grid[target_y][target_x] == TILE_LOOT:
-                 self.active_scene.grid[target_y][target_x] = TILE_FLOOR
-                 
-            return {"success": True, "effect": f"Interacted with {obj['type']}"}
-            
-        return {"success": False, "reason": "Nothing there"}
+        has_cover = False
+        # Improved cover detection: check adjacent tiles for 'cover' tag
+        for dy in [-1, 0, 1]:
+            for dx in [-1, 0, 1]:
+                if dx == 0 and dy == 0: continue
+                nx, ny = px + dx, py + dy
+                if (nx, ny) in self.interactables:
+                    obj = self.interactables[nx, ny]
+                    if "cover" in obj.get("tags", []):
+                        has_cover = True; break
+            if has_cover: break
+        self.player_combatant.is_behind_cover = has_cover
 
-    def start_combat(self):
-        self.state = "COMBAT"
-        # Logic to init combatants in engine
-        # self.combat_engine.start_combat()
+    def _update_visibility(self):
+        px, py = self.player_pos
+        radius = 5
+        for y in range(max(0, py-radius), min(20, py+radius+1)):
+             for x in range(max(0, px-radius), min(20, px+radius+1)):
+                 if abs(x-px) + abs(y-py) <= radius + 1:
+                     self.explored_tiles.add((x,y))
 
     def get_state(self):
-        # Construct backward compatible wall list for now?
-        # Or just rely on grid. Let's send everything.
-        walls = []
-        if self.active_scene:
-            for y, row in enumerate(self.active_scene.grid):
-                for x, tile in enumerate(row):
-                    if tile == TILE_WALL:
-                        walls.append((x, y))
-
         return {
             "mode": self.state,
             "player_pos": self.player_pos,
-            "scene": self.current_scene_text if self.active_scene else "",
-            "grid": self.active_scene.grid if self.active_scene else [],
+            "grid": self.active_scene.grid if self.active_scene and hasattr(self.active_scene, 'grid') else [],
             "explored": list(self.explored_tiles),
-            "walls": walls, # Legacy support
             "objects": list(self.interactables.values()),
-            "grid_w": 20,
-            "grid_h": 20
+            "grid_w": 20, "grid_h": 20,
+            "scene_text": self.active_scene.text if self.active_scene else "",
+            "elevation": self.player_combatant.elevation if self.player_combatant else 0,
+            "is_behind_cover": self.player_combatant.is_behind_cover if self.player_combatant else False,
+            "facing": self.player_combatant.facing if self.player_combatant else "N"
         }

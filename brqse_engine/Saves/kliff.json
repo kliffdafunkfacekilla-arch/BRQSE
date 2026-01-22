@@ -1,154 +1,43 @@
 {
-  "Name": "kliff",
-  "Species": "Avian",
+  "Name": "Kliff",
+  "Species": "Mammal",
   "Stats": {
-    "Might": 9,
+    "Might": 10,
     "Endurance": 11,
-    "Finesse": 10,
-    "Reflexes": 14,
-    "Vitality": 13,
-    "Fortitude": 10,
-    "Knowledge": 13,
-    "Logic": 9,
-    "Awareness": 14,
-    "Intuition": 8,
+    "Finesse": 12,
+    "Reflexes": 9,
+    "Vitality": 10,
+    "Fortitude": 8,
+    "Knowledge": 12,
+    "Logic": 8,
+    "Awareness": 9,
+    "Intuition": 10,
     "Charm": 11,
     "Willpower": 10
   },
-  "Traits": [
-    {
-      "Name": "Large",
-      "Type": "SIZE 4",
-      "Effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.",
-      "BodyPart": "Heavy Frame"
-    },
-    {
-      "Name": "The Parrot",
-      "Type": "ANCESTRY",
-      "Effect": "Includes: Crushing Beak, Zygodactyl Feet (Climb), Vocal Mimicry.",
-      "BodyPart": "Psittacine Anatomy"
-    },
-    {
-      "Name": "Stabilizer",
-      "Type": "SENSES",
-      "Effect": "Active: Lock-On (Move at full speed while keeping Aim on a target).",
-      "BodyPart": "Gyro-Head"
-    },
-    {
-      "Name": "Silent",
-      "Type": "ARMS",
-      "Effect": "Passive: Owl-Flight (Flight makes 0 sound. Advantage on Stealth).",
-      "BodyPart": "Serrated Fringes"
-    },
-    {
-      "Name": "Wader",
-      "Type": "LEGS",
-      "Effect": "Passive: Marsh-Walk (Ignore difficult terrain in water/mud/snow).",
-      "BodyPart": "Stilt Legs"
-    },
-    {
-      "Name": "Oily",
-      "Type": "BODY",
-      "Effect": "Passive: Waterproof (Cannot be waterlogged. Float automatically).",
-      "BodyPart": "Preen Gland"
-    },
-    {
-      "Name": "Song",
-      "Type": "SPECIAL",
-      "Effect": "Active: Bardic-Chirp (Allies within 30ft gain +1d4 to next Save).",
-      "BodyPart": "Song-Throat"
-    },
-    {
-      "Name": "The Ledger",
-      "Type": "Social Offense",
-      "Effect": "Skill Mastery"
-    },
-    {
-      "Name": "Motion",
-      "Type": "Utility",
-      "Effect": "Skill Mastery"
-    },
-    {
-      "Name": "Catalysts",
-      "Type": "Tool",
-      "Effect": "Skill Mastery"
-    },
-    {
-      "Name": "Medium",
-      "Type": "Weapon Skill",
-      "Effect": "Skill Mastery"
-    },
-    {
-      "Name": "Cloth",
-      "Type": "Armor Skill",
-      "Effect": "Skill Mastery"
-    },
-    {
-      "Name": "Blast",
-      "Type": "Weapon Skill",
-      "Effect": "Skill Mastery"
-    }
-  ],
+  "Traits": [],
   "Powers": [
     {
-      "School": "Vita",
-      "Attribute": "Vitality",
+      "School": "Aura",
+      "Attribute": "Charm",
       "Tier": "1",
-      "Type": "Defense",
-      "Name": "Clot",
-      "Damage_Type": "Poison",
-      "Description": "Stop Bleeding immediately."
+      "Type": "Offense",
+      "Name": "Mock",
+      "Damage_Type": "Spirit",
+      "Description": "Psychic Damage."
     },
     {
       "School": "Motus",
       "Attribute": "Reflexes",
       "Tier": "1",
-      "Type": "Offense",
-      "Name": "Snap",
+      "Type": "Defense",
+      "Name": "Duck",
       "Damage_Type": "Sonic",
-      "Description": "Quick low-damage hit."
+      "Description": "Reaction AC bonus."
     }
   ],
-  "Inventory": [
-    {
-      "Name": "Katana",
-      "Type": "Weapon",
-      "Cost": "150",
-      "Related_Skill": "Medium",
-      "Description": "Masterwork curved blade.",
-      "Effect": "Deal 1d8 (1d10) Slashing damage.",
-      "Logic_Tags": "DMG:1d8:Slash|PROP:Versatile"
-    },
-    {
-      "Name": "Highborn Robes",
-      "Type": "Armor",
-      "Cost": "200",
-      "Related_Skill": "Cloth",
-      "Description": "Silk vestments of nobility.",
-      "Effect": "Advantage on Etiquette/Persuasion.",
-      "Logic_Tags": "BUFF:Advantage:Social|PROP:Fancy"
-    }
-  ],
-  "Gear": {
-    "rightHand": {
-      "Name": "Katana",
-      "Type": "Weapon",
-      "Cost": "150",
-      "Related_Skill": "Medium",
-      "Description": "Masterwork curved blade.",
-      "Effect": "Deal 1d8 (1d10) Slashing damage.",
-      "Logic_Tags": "DMG:1d8:Slash|PROP:Versatile"
-    },
-    "armor": {
-      "Name": "Highborn Robes",
-      "Type": "Armor",
-      "Cost": "200",
-      "Related_Skill": "Cloth",
-      "Description": "Silk vestments of nobility.",
-      "Effect": "Advantage on Etiquette/Persuasion.",
-      "Logic_Tags": "BUFF:Advantage:Social|PROP:Fancy"
-    }
-  },
-  "Backstory": "The Argument. Using facts, laws, and logical fallacies to dismantle their point. \"Actually, regulation 4.B clearly states...\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of items that channel magic such as scrolls wands and staves.\n\nParry. Technical fighting. Analyzing the duel.\n\nMana-Weave. Warding patterns that require academic understanding.\n\nSplash.  Calculating arc, fuse time, and chemical mix.",
-  "Portrait": "donkey_front.png"
+  "Inventory": [],
+  "Gear": {},
+  "Backstory": "",
+  "Portrait": "squirrel_right.png"
 }

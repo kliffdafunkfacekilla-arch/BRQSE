@@ -1,0 +1,154 @@
+{
+  "Name": "pig",
+  "Species": "Mammal",
+  "Stats": {
+    "Might": 13,
+    "Endurance": 14,
+    "Finesse": 13,
+    "Reflexes": 10,
+    "Vitality": 12,
+    "Fortitude": 9,
+    "Knowledge": 12,
+    "Logic": 8,
+    "Awareness": 9,
+    "Intuition": 11,
+    "Charm": 11,
+    "Willpower": 10
+  },
+  "Traits": [
+    {
+      "Name": "Medium",
+      "Type": "SIZE 3",
+      "Effect": "Standard: No penalties. Can use standard gear.",
+      "BodyPart": "Balanced Frame"
+    },
+    {
+      "Name": "The Bear",
+      "Type": "ANCESTRY",
+      "Effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail.",
+      "BodyPart": "Ursine Anatomy"
+    },
+    {
+      "Name": "Blood-Scent",
+      "Type": "SENSES",
+      "Effect": "Passive: Scent-Track (Track unseen enemies).",
+      "BodyPart": "Wet Nose"
+    },
+    {
+      "Name": "Grappler",
+      "Type": "ARMS",
+      "Effect": "Active: Choke-Slam (Throw target Prone + Dmg).",
+      "BodyPart": "Opposable Thumbs"
+    },
+    {
+      "Name": "Jumper",
+      "Type": "LEGS",
+      "Effect": "Active: Bound (Jump distance tripled).",
+      "BodyPart": "Spring Tendons"
+    },
+    {
+      "Name": "Insulated",
+      "Type": "BODY",
+      "Effect": "Passive: Winter-Coat (Resist Cold/Fire).",
+      "BodyPart": "Dense Wool"
+    },
+    {
+      "Name": "Flight",
+      "Type": "SPECIAL",
+      "Effect": "Active: Glide (Negate fall dmg, Travel).",
+      "BodyPart": "Skin Flaps"
+    },
+    {
+      "Name": "The Gaze",
+      "Type": "Social Offense",
+      "Effect": "Skill Mastery"
+    },
+    {
+      "Name": "Athletics",
+      "Type": "Utility",
+      "Effect": "Skill Mastery"
+    },
+    {
+      "Name": "Regalia",
+      "Type": "Tool",
+      "Effect": "Skill Mastery"
+    },
+    {
+      "Name": "Large",
+      "Type": "Weapon Skill",
+      "Effect": "Skill Mastery"
+    },
+    {
+      "Name": "Light",
+      "Type": "Armor Skill",
+      "Effect": "Skill Mastery"
+    },
+    {
+      "Name": "Exotic Ranged",
+      "Type": "Weapon Skill",
+      "Effect": "Skill Mastery"
+    }
+  ],
+  "Powers": [
+    {
+      "School": "Vita",
+      "Attribute": "Vitality",
+      "Tier": "1",
+      "Type": "Utility",
+      "Name": "Mend",
+      "Damage_Type": "Poison",
+      "Description": "Heal minor wounds."
+    },
+    {
+      "School": "Mass",
+      "Attribute": "Might",
+      "Tier": "1",
+      "Type": "Offense",
+      "Name": "Push",
+      "Damage_Type": "Force",
+      "Description": "Shove target away (Knockback)."
+    }
+  ],
+  "Inventory": [
+    {
+      "Name": "Acrobat's Leathers",
+      "Type": "Armor",
+      "Cost": "60",
+      "Related_Skill": "Light",
+      "Description": "Tight, grip-enhanced leather.",
+      "Effect": "Gain Climbing Speed equal to Walking Speed.",
+      "Logic_Tags": "SPEED:Climb|PROP:Light"
+    },
+    {
+      "Name": "Spear",
+      "Type": "Weapon",
+      "Cost": "1",
+      "Related_Skill": "Large",
+      "Description": "Simple pointed pole.",
+      "Effect": "Deal 1d6 (1d8) Piercing damage.",
+      "Logic_Tags": "DMG:1d6:Pierce|PROP:Reach|PROP:Versatile"
+    }
+  ],
+  "Gear": {
+    "armor": {
+      "Name": "Acrobat's Leathers",
+      "Type": "Armor",
+      "Cost": "60",
+      "Related_Skill": "Light",
+      "Description": "Tight, grip-enhanced leather.",
+      "Effect": "Gain Climbing Speed equal to Walking Speed.",
+      "Logic_Tags": "SPEED:Climb|PROP:Light"
+    },
+    "rightHand": {
+      "Name": "Spear",
+      "Type": "Weapon",
+      "Cost": "1",
+      "Related_Skill": "Large",
+      "Description": "Simple pointed pole.",
+      "Effect": "Deal 1d6 (1d8) Piercing damage.",
+      "Logic_Tags": "DMG:1d6:Pierce|PROP:Reach|PROP:Versatile"
+    }
+  },
+  "Backstory": "The Pressure. Relentless, unblinking pressure. Not shouting, just refusing to back down until they crack. \"I can wait all day.\"\n\nSwimming climbing breaking objects. Lore: War tactics and sieges.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nReach. Spatial awareness. Keeping the enemy at exact range.\n\nSilent. Armor that allows you to dodge and twist.\n\nDebilitate. Tricky, annoying, and stylish tools.",
+  "Portrait": "bear_front.png"
+}

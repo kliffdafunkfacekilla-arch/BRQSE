@@ -1,0 +1,43 @@
+{
+  "Name": "Stonefang",
+  "Species": "Aquatic",
+  "Stats": {
+    "Might": 9,
+    "Endurance": 12,
+    "Finesse": 11,
+    "Reflexes": 10,
+    "Vitality": 8,
+    "Fortitude": 10,
+    "Knowledge": 9,
+    "Logic": 10,
+    "Awareness": 11,
+    "Intuition": 10,
+    "Charm": 8,
+    "Willpower": 12
+  },
+  "Traits": [],
+  "Powers": [
+    {
+      "School": "Anumis",
+      "Attribute": "Knowledge",
+      "Tier": "1",
+      "Type": "Offense",
+      "Name": "Mark",
+      "Damage_Type": "Arcane",
+      "Description": "Prevent Stealth."
+    },
+    {
+      "School": "Ordo",
+      "Attribute": "Endurance",
+      "Tier": "1",
+      "Type": "Defense",
+      "Name": "Stand",
+      "Damage_Type": "Cold",
+      "Description": "Stand up from Prone instantly."
+    }
+  ],
+  "Inventory": [],
+  "Gear": {},
+  "Backstory": "",
+  "Portrait": "horse2_front.png"
+}

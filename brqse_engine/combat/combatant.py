@@ -1,239 +1,163 @@
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Tuple, Any
 from brqse_engine.models.character import Character
 from brqse_engine.core.dice import Dice
+from brqse_engine.core.status_manager import StatusManager
+from brqse_engine.core.constants import Conditions, Stats
 
 class Combatant:
     """
     Runtime wrapper for a Character in combat.
-    Manages Position, Initiative, Current HP, and Status Effects.
+    Manages Position, Initiative, and tactical status (Elevation, Cover, Facing).
     """
-    def __init__(self, character: Character, x: int = 0, y: int = 0, team: str = "Neutral"):
+    def __init__(self, character: Any, x: int = 0, y: int = 0, team: str = "Neutral"):
         self.character = character
         self.x = x
         self.y = y
         self.team = team
         self.initiative = 0
         
-        # Runtime State
-        self.current_hp = character.current_hp
-        self.max_hp = character.max_hp
+        # Tactical State
+        self.elevation = 0
+        self.is_behind_cover = False
+        self.facing = "N" # N, S, E, W
         
+        # Runtime Resource State
+        self.hp = getattr(character, "current_hp", 30)
+        self.max_hp_val = getattr(character, "max_hp", 30)
+        self.sp = getattr(character, "current_stamina", 30)
+        self.max_sp = getattr(character, "max_stamina", 30)
+        self.cmp = getattr(character, "current_composure", 30)
+        self.max_cmp = getattr(character, "max_composure", 30)
+        self.fp = getattr(character, "current_focus", 30)
+        self.max_fp = getattr(character, "max_focus", 30)
+        
+        # Action Economy
         self.action_used = False
         self.bonus_action_used = False
         self.reaction_used = False
+        self.movement_max = getattr(character, "base_movement", 30)
+        self.movement_remaining = self.movement_max
+
+        self.status = StatusManager(self)
+        self.is_dead = False
+        self.is_broken = False
+        self.is_exhausted = False
+        self.is_drained = False
         
-        # Status Effects (Simplified list of strings or dicts for now)
-        self.conditions: List[str] = []
-        self.active_effects: List[Dict] = [] # {name, duration, ...}
+        # Armor Attribute Mapping
+        self.armor_attr_map = {
+            "Light": "Reflexes",
+            "Medium": "Willpower",
+            "Heavy": "Endurance",
+            "Natural": "Vitality",
+            "Cloth": "Knowledge",
+            "Utility": "Intuition"
+        }
 
-    def has_condition(self, condition_name: str) -> bool:
-        """Check if combatant has a specific condition."""
-        return condition_name in self.conditions
-    
-    def add_condition(self, condition_name: str):
-        """Add a condition if not already present."""
-        if condition_name not in self.conditions:
-            self.conditions.append(condition_name)
-            
-    def remove_condition(self, condition_name: str):
-        """Remove a condition if present."""
-        if condition_name in self.conditions:
-            self.conditions.remove(condition_name)
+    @property
+    def name(self): return getattr(self.character, "name", "Unknown")
+    @property
+    def species(self): return getattr(self.character, "species", "Unknown")
+    @property
+    def sprite(self): return getattr(self.character, "sprite", "badger_front.png")
 
-        # Resources (Calculated from Stats for compatibility)
-        self.sp = self._calc_resource("Endurance") + self._calc_resource("Finesse") + self._calc_resource("Fortitude")
-        self.fp = self._calc_resource("Knowledge") + self._calc_resource("Charm") + self._calc_resource("Intuition")
-        self.cmp = 10 + self._calc_resource("Willpower") + self._calc_resource("Logic") + self._calc_resource("Awareness")
+    def reset_turn(self):
+        self.action_used = False
+        self.bonus_action_used = False
+        self.movement_remaining = self.movement_max
+
+    def get_stat(self, stat_name: str) -> int:
+        if hasattr(self.character, "get_stat"):
+             return self.character.get_stat(stat_name)
+        stats = getattr(self.character, "stats", {})
+        return stats.get(stat_name, 10)
+
+    def get_stat_mod(self, stat_name: str) -> int:
+        val = self.get_stat(stat_name)
+        return (val - 10) // 2
+
+    def get_skill_rank(self, skill_name: str) -> int:
+        """Returns the character's rank in a specific skill."""
+        skills = getattr(self.character, "skills", {})
+        if isinstance(skills, dict):
+            return skills.get(skill_name, 0)
+        elif isinstance(skills, list):
+            # If it's a list [Skill1, Skill2], rank is 1 if present
+            return 1 if skill_name in skills else 0
+        return 0
+
+    def get_defense_info(self) -> Tuple[str, str]:
+        """Returns (Stat_Name, Skill_Name) for defense roll."""
+        # 1. Check for explicit armor_type override on character (useful for mocks)
+        explicit_armor = getattr(self.character, "armor_type", None)
+        if explicit_armor:
+            return self.armor_attr_map.get(explicit_armor, "Reflexes"), explicit_armor
+
+        # 2. Check inventory
+        inventory = getattr(self.character, "inventory", None)
+        if not inventory:
+            return "Reflexes", "Light" # Default unarmored/light
+
+        # 3. Check equipped armor
+        # Handle both list-based and dict-based inventory
+        armor_item = None
+        if hasattr(inventory, "equipped"):
+            armor_item = inventory.equipped.get("Armor")
         
-    def _calc_resource(self, stat_name):
-        return self.character.get_stat(stat_name)
+        if not armor_item:
+            return "Reflexes", "Light"
 
-    @property
-    def hp(self): return self.current_hp
-    @hp.setter
-    def hp(self, val): self.current_hp = val
+        # 4. Get armor family
+        family = getattr(armor_item, "family", "Light")
+        stat = self.armor_attr_map.get(family, "Reflexes")
+        return stat, family
 
+    def get_weapon_skill_name(self) -> str:
+        """Returns the skill name for the currently equipped weapon."""
+        inventory = getattr(self.character, "inventory", None)
+        if not inventory:
+            return "Simple" # Default/Unarmed
+
+        # Handle both list/dict inventory
+        weapon_item = None
+        if hasattr(inventory, "equipped"):
+            weapon_item = inventory.equipped.get("Main Hand")
         
-    @property
-    def name(self):
-        return self.character.name
+        if not weapon_item:
+            return "Simple"
 
-    @property
-    def species(self):
-        return self.character.species
-
-    @property
-    def ai_archetype(self):
-        return self.character.ai_archetype
-
-    @property
-    def sprite(self):
-        return self.character.sprite
+        return getattr(weapon_item, "family", "Simple")
 
     def roll_initiative(self) -> int:
-        """Rolls initiative based on Intuition + Reflexes."""
-        intuit = self.character.get_stat("Intuition")
-        reflex = self.character.get_stat("Reflexes")
+        intuit = self.get_stat("Intuition")
+        reflex = self.get_stat("Reflexes")
         alertness = intuit + reflex
-        
         roll, _, _ = Dice.roll("1d20")
-        
-        # TODO: Handle advantage/bonuses from Traits if needed
         self.initiative = roll + alertness
         return self.initiative
 
-    def take_damage(self, amount: int) -> int:
-        """
-        Applies damage to Condition. Returns actual damage taken.
-        Triggers Critical State if Condition hits 0.
-        """
-        actual = min(amount, self.current_hp)
-        self.current_hp -= actual
-        if self.current_hp < 0:
-            self.current_hp = 0
-        
-        # Sync to character model
-        self.character.current_condition = self.current_hp
-        self.character.current_hp = self.current_hp
-        
-        # Check for critical state
-        if self.current_hp == 0 and not self.is_dying:
-            self.enter_critical_state()
-        
-        return actual
-    
-    def enter_critical_state(self):
-        """Triggers when Condition reaches 0. Start death clock."""
-        self.is_dying = True
-        self.character.is_dying = True
-        self.add_condition("Prone")
-        self.add_condition("Dying")
-        # Death clock already initialized from character
-        
-    def tick_death_clock(self, amount: int = 1) -> bool:
-        """Reduces death clock. Returns True if character dies."""
-        self.character.death_clock -= amount
-        if self.character.death_clock <= 0:
-            self.character.death_clock = 0
+    def take_damage(self, amount: int, damage_type: str = "Physical") -> int:
+        actual = min(amount, self.hp)
+        self.hp -= actual
+        if self.hp <= 0:
+            self.hp = 0
             self.is_dead = True
-            return True
-        return False
-    
-    @property
-    def is_dying(self) -> bool:
-        return self.character.is_dying
-    
-    @is_dying.setter
-    def is_dying(self, val: bool):
-        self.character.is_dying = val
-        
-    @property
-    def death_clock(self) -> int:
-        return self.character.death_clock
-    
-    @property
-    def is_bloodied(self) -> bool:
-        return self.character.is_bloodied
-    
-    @property
-    def injuries(self):
-        return self.character.injuries
-    
-    def add_injury(self, injury_name: str):
-        """Adds an injury to the character's injury list."""
-        if injury_name not in self.character.injuries:
-            self.character.injuries.append(injury_name)
-
-    def heal(self, amount: int) -> int:
-        """Heals HP up to Max."""
-        old = self.current_hp
-        self.current_hp = min(self.current_hp + amount, self.max_hp)
-        self.character.current_hp = self.current_hp
-        return self.current_hp - old
-
-    # --- Social/Composure Logic ---
-    @property
-    def max_composure(self):
-        return self.character.max_composure
-
-    @property
-    def current_composure(self):
-        return self.character.current_composure
-    
-    @current_composure.setter
-    def current_composure(self, value):
-        self.character.current_composure = max(0, min(value, self.max_composure))
-
-    @property
-    def is_broken(self): # Social equivalent of Dead
-        return self.current_composure <= 0
+        return actual
 
     def take_social_damage(self, amount: int) -> int:
-        """Apply damage to Composure."""
-        # Reduce by Willpower/Composure defense? (Future)
-        self.current_composure -= amount
-        return amount
+        actual = min(amount, self.cmp)
+        self.cmp -= actual
+        if self.cmp <= 0:
+            self.cmp = 0
+            self.is_broken = True
+        return actual
 
-    def regain_composure(self, amount: int) -> int:
-        """Heals Composure."""
-        old = self.current_composure
-        self.current_composure += amount
-        return self.current_composure - old
+    def add_condition(self, condition: str, duration: int = 1):
+        self.status.add_condition(condition, duration)
 
-    def get_stat_mod(self, stat: str) -> int:
-        val = self.character.get_stat(stat)
-        return (val - 10) // 2
-
-    def get_ac(self) -> int:
-        """
-        Calculates Armor Class.
-        Base 10 + Reflex Mod + (TODO: Armor/Shield/Buffs)
-        """
-        base = 10
-        dex_mod = self.get_stat_mod("Reflexes")
-        armor_bonus = self.character.get_equipped_armor_bonus()
-        return base + dex_mod + armor_bonus
-
-    # --- Status Management ---
-    
-    # --- Status Management ---
-    
-    def add_condition(self, condition: str):
-        if condition not in self.conditions:
-            self.conditions.append(condition)
-            
-    def remove_condition(self, condition: str):
-        if condition in self.conditions:
-            self.conditions.remove(condition)
-            
-    def has_condition(self, condition: str) -> bool:
-        return condition in self.conditions
-
-    def add_timed_effect(self, name: str, duration: int):
-        """Adds an effect that expires after X rounds."""
-        self.active_effects.append({"name": name, "duration": duration})
-        
     def tick_effects(self) -> List[str]:
-        """
-        Decrements duration of effects. Returns list of expired effects.
-        """
-        expired = []
-        active = []
-        for effect in self.active_effects:
-            effect["duration"] -= 1
-            if effect["duration"] <= 0:
-                expired.append(effect["name"])
-            else:
-                active.append(effect)
-        self.active_effects = active
-        return expired
+        return self.status.tick()
 
     @property
     def is_alive(self) -> bool:
-        return self.current_hp > 0
-        
-    @property
-    def is_prone(self): return self.has_condition("Prone")
-    
-    @property
-    def is_stunned(self): return self.has_condition("Stunned")
+        return self.hp > 0 and not self.is_dead

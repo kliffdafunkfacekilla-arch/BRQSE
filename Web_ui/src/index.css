@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Scrollbar for that Sci-Fi feel */
+/* Ensure root containers fill the screen */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #050505;
+  overflow: hidden;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -42,113 +52,8 @@
     opacity: 0;
     transform: translateY(5px);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* --- COMBAT ANIMATIONS --- */
-
-.animate-sim-shake {
-  animation: simShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
-}
-
-@keyframes simShake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-    filter: drop-shadow(0 0 5px red);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-    filter: drop-shadow(0 0 5px red);
-  }
-}
-
-.animate-sim-lunge-up {
-  animation: simLungeUp 0.3s ease-in-out;
-}
-
-.animate-sim-lunge-down {
-  animation: simLungeDown 0.3s ease-in-out;
-}
-
-.animate-sim-lunge-left {
-  animation: simLungeLeft 0.3s ease-in-out;
-}
-
-.animate-sim-lunge-right {
-  animation: simLungeRight 0.3s ease-in-out;
-}
-
-@keyframes simLungeUp {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-30%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes simLungeDown {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(30%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes simLungeLeft {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateX(-30%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes simLungeRight {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateX(30%);
-  }
-
-  100% {
     transform: translateY(0);
   }
 }

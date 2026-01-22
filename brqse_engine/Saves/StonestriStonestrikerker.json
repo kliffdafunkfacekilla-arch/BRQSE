@@ -1,0 +1,43 @@
+{
+  "Name": "StonestriStonestrikerker",
+  "Species": "Plant",
+  "Stats": {
+    "Might": 11,
+    "Endurance": 10,
+    "Finesse": 9,
+    "Reflexes": 8,
+    "Vitality": 12,
+    "Fortitude": 10,
+    "Knowledge": 8,
+    "Logic": 10,
+    "Awareness": 10,
+    "Intuition": 9,
+    "Charm": 12,
+    "Willpower": 11
+  },
+  "Traits": [],
+  "Powers": [
+    {
+      "School": "Flux",
+      "Attribute": "Finesse",
+      "Tier": "1",
+      "Type": "Offense",
+      "Name": "Pierce",
+      "Damage_Type": "Acid",
+      "Description": "Ignore Armor Rating (AR)."
+    },
+    {
+      "School": "Mass",
+      "Attribute": "Might",
+      "Tier": "1",
+      "Type": "Offense",
+      "Name": "Push",
+      "Damage_Type": "Force",
+      "Description": "Shove target away (Knockback)."
+    }
+  ],
+  "Inventory": [],
+  "Gear": {},
+  "Backstory": "",
+  "Portrait": "monkey2_right.png"
+}

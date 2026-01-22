@@ -1,45 +1,8 @@
-==================================================
-COMPREHENSIVE DATA FILE INTEGRATION TEST
-==================================================
-=== DataLoader Tests ===
-  [PASS] Talents
-  [PASS] Schools
-  [PASS] Skills
-  [PASS] Power Tiers
-  [PASS] Power Shapes
-  [PASS] Weapon Mastery
-  [PASS] Armor Mastery
-  [PASS] Tool Mastery
-  [PASS] Universal Traits
-  [PASS] General Skill Unlocks
-  [PASS] Generic Species Traits
+--- Testing Combat Symmetry (Great Atk vs Heavy Def) ---
 
-=== Mastery Combat Tests ===
-  [PASS] Target is bloodied
-  [PASS] Target is prone
-  [PASS] Mastery lookup works
-  [PASS] Mastery grants advantage
-  Logs: ['[Target Prone] Melee Advantage.', '[Executioner] Advantage (target incapacitated).']
+--- Log Output ---
+LOG: Great Attacker attack: 9 + 2(Might) + 4(Great) = 15
+LOG: Heavy Defender defense: 7 + 4(Endurance) + 3(Heavy) = 14
+ATTACK: Great Attacker -> Heavy Defender | Result: HIT
 
-=== Progression Tests ===
-  [PASS] Level set
-  [PASS] Tier calculated
-  [PASS] Max Stamina > 0
-  [PASS] Max Focus > 0
-  [PASS] Magic Tier > 0
-  Level 10 | Tier: Master | Magic Tier: 5
-
-=== Injury System Tests ===
-  [PASS] Max Condition > 0
-  [PASS] Max Composure > 0
-  [PASS] Death Clock = Vitality
-  [PASS] Not dying initially
-
-=== Trauma System Tests ===
-  [PASS] Trauma table loaded
-  [PASS] Has physical traumas
-  [PASS] Has mental traumas
-
-==================================================
-RESULTS: 5/5 test suites passed
-ALL DATA FILES PROPERLY INTEGRATED!
+--- Verification Complete ---
