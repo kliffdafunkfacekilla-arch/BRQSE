@@ -1,0 +1,35 @@
+{
+    "Name": "Raptor Aerial",
+    "Species": "Avian",
+    "Stats": {
+        "Might": 8,
+        "Endurance": 8,
+        "Finesse": 16,
+        "Reflexes": 16,
+        "Vitality": 8,
+        "Fortitude": 8,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Awareness": 16,
+        "Intuition": 14,
+        "Charm": 10,
+        "Willpower": 10
+    },
+    "Derived": {
+        "HP": 44,
+        "Speed": 50,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Raptor Aerial",
+        "Avian"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

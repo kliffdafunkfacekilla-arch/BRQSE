@@ -3,10 +3,11 @@ import { Sword, Zap, Shield, Heart, Sparkles, Activity } from 'lucide-react';
 interface ActionBarProps {
     powers?: string[];
     skills?: string[];
+    onAction?: (action: string) => void;
 }
 
-export default function ActionBar({ powers = [], skills = [] }: ActionBarProps) {
-    // Combine base actions with character powers
+export default function ActionBar({ powers = [], skills = [], onAction }: ActionBarProps) {
+    // Combine base actions with character powers and skills
     const actions = [
         { icon: Sword, label: 'Attack', hotkey: '1', color: 'hover:border-red-500' },
         ...powers.map((p, i) => ({
@@ -15,8 +16,14 @@ export default function ActionBar({ powers = [], skills = [] }: ActionBarProps) 
             hotkey: (i + 2).toString(),
             color: 'hover:border-yellow-500'
         })),
+        ...skills.map((s, i) => ({
+            icon: Activity,
+            label: s,
+            hotkey: (powers.length + i + 2).toString(),
+            color: 'hover:border-stone-500'
+        })),
         { icon: Shield, label: 'Defend', hotkey: '7', color: 'hover:border-blue-500' },
-        { icon: Heart, label: 'Heal', hotkey: '8', color: 'hover:border-green-500' },
+        { icon: Heart, label: 'Wait', hotkey: '8', color: 'hover:border-green-500' },
     ];
 
     return (
@@ -24,11 +31,12 @@ export default function ActionBar({ powers = [], skills = [] }: ActionBarProps) 
             {actions.map((action, i) => (
                 <button
                     key={i}
-                    className={`min-w-[48px] h-12 bg-stone-900 border border-stone-700 ${action.color} transition-all flex flex-col items-center justify-center gap-1 group px-2`}
+                    onClick={() => onAction && onAction(action.label)}
+                    className={`min-w-[48px] h-12 bg-stone-900 border border-stone-700 ${action.color} transition-all flex flex-col items-center justify-center gap-1 group px-2 relative`}
                     title={action.label}
                 >
                     <action.icon size={18} className="text-stone-400 group-hover:text-white" />
-                    <span className="text-[8px] text-stone-200 font-mono font-bold uppercase truncate max-w-[40px] text-center">{action.label}</span>
+                    <span className="text-[8px] text-stone-300 font-mono font-bold uppercase truncate max-w-[40px] text-center">{action.label}</span>
                     <span className="text-[8px] text-stone-600 font-mono absolute top-0.5 right-1">{action.hotkey}</span>
                 </button>
             ))}

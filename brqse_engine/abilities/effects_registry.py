@@ -219,6 +219,10 @@ class EffectRegistry:
         self.register_pattern(r"Reveal.*?stats|Analyze", self._handle_analyze)
         self.register_pattern(r"Push all enemies.*?(\d+)ft|Tsunami", self._handle_aoe_push)
         
+        # --- EXPLORATION UTILITIES ---
+        self.register_pattern(r"Search|Perception|Scout|Keen eyes", self._handle_search)
+        self.register_pattern(r"Rest|Wait|Camp|Breathe", self._handle_rest)
+        
         # --- SAVE EFFECTS ---
         self.register_pattern(r"save.*?or.*?(Prone|Frightened|Charmed|Blinded|Paralyzed|Poisoned|Stunned|Restrained|Deafened)", self._handle_save_condition)
         self.register_pattern(r"save.*?or.*?pushed.*?(\d+)ft", self._handle_save_push)
@@ -4254,6 +4258,24 @@ class EffectRegistry:
     def _handle_auto_hit(self, match, ctx):
         """Log Auto-Hit status"""
         if "log" in ctx: ctx["log"].append("Effect: Auto-Hit!")
+
+    def _handle_search(self, match, ctx):
+        """Increase vision radius (Scouting/Search)"""
+        engine = ctx.get("engine")
+        if engine and hasattr(engine, "_update_visibility"):
+            # Boost vision radius to 8 for this turn/action
+            engine._update_visibility(radius=8)
+            if "log" in ctx: ctx["log"].append("Your perception sharpens, revealing more of the surroundings.")
+
+    def _handle_rest(self, match, ctx):
+        """Rest/Wait - recover a bit of health/stamina"""
+        user = ctx.get("attacker") or ctx.get("target")
+        if user:
+            heal_amt = 1
+            user.hp = min(user.hp + heal_amt, user.max_hp)
+            if hasattr(user, "sp"):
+                user.sp = min(user.sp + heal_amt, user.max_sp)
+            if "log" in ctx: ctx["log"].append(f"You take a moment to breathe and recover (+{heal_amt} HP/SP).")
 
 # Singleton instance for easy access
 registry = EffectRegistry()

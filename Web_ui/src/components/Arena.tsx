@@ -7,7 +7,7 @@ const TILE_SIZE = 64;
 
 interface ArenaProps {
     onStatsUpdate?: (currentHp: number, maxHp: number, name: string) => void;
-    onLog?: (msg: string, type: 'info' | 'combat' | 'error') => void;
+    onLog?: (source: string, msg: string, type: 'info' | 'combat' | 'error') => void;
     sceneVersion?: number;
     playerSprite?: string;
 }
@@ -57,7 +57,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                     setExplorationMode(true);
                     updateExplorationState(data);
                     if (data.event === 'SCENE_STARTED' && onLog) {
-                        onLog(`Entered: ${data.scene_text}`, 'info');
+                        onLog('EXPLORE', `Entered: ${data.scene_text}`, 'info');
                     }
                 } else {
                     setExplorationMode(false);
@@ -115,7 +115,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                 if (res.success) {
                     updateExplorationState(data.state);
 
-                    if (res.log && onLog) onLog(res.log, 'info');
+                    if (res.log && onLog) onLog('SYSTEM', res.log, 'info');
 
                     // Tension Trigger
                     if (res.tension && res.tension !== 'SAFE') {
@@ -123,10 +123,10 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                     }
 
                     if (res.event === 'SCENE_ADVANCED' && onLog) {
-                        onLog(`Advancing: ${res.text}`, 'info');
+                        onLog('EXPLORE', `Advancing: ${res.text}`, 'info');
                     }
                     if (res.event === 'QUEST_COMPLETE' && onLog) {
-                        onLog("Quest Complete! Returning to Tavern...", 'info');
+                        onLog('EXPLORE', "Quest Complete! Returning to Tavern...", 'info');
                     }
                     if (res.event === 'COMBAT_STARTED') fetchData();
                 }
@@ -137,7 +137,8 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         setTensionEvent({ type, visible: true });
         if (onLog) {
             const msg = type === 'EVENT' ? 'Something stirs in the dark...' : 'The Chaos clock ticks...';
-            onLog(`TENSION: ${msg}`, type === 'CHAOS_EVENT' ? 'error' : 'info');
+            const source = type === 'CHAOS_EVENT' ? 'CHAOS' : 'TENSION';
+            onLog(source, msg, type === 'CHAOS_EVENT' ? 'error' : 'info');
         }
         setTimeout(() => setTensionEvent(prev => ({ ...prev, visible: false })), 2000);
     };

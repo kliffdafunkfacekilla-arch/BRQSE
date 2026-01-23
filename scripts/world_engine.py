@@ -131,6 +131,9 @@ class SceneStack:
         self.chaos = chaos_manager
         self.stack = []
         self.rules = self._load_rules()
+        self.quest_title = "Unknown Mission"
+        self.quest_description = "Follow the path."
+        self.total_steps = 0
         
     def _load_rules(self):
         try:
@@ -158,7 +161,15 @@ class SceneStack:
         self.stack = []
         
         # Select Quest Template
-        q_type = random.choice([QuestType.INFILTRATION, QuestType.RESCUE, QuestType.ASSASSINATION, QuestType.COLLECT])
+        q_templates = [
+            (QuestType.INFILTRATION, "Infiltration", "Bypass security and reach the inner sanctum."),
+            (QuestType.RESCUE, "Rescue Mission", "Locate and extract the captured VIP."),
+            (QuestType.ASSASSINATION, "Elimination", "Track down and neutralize the target."),
+            (QuestType.COLLECT, "Data Recovery", "Secure the ancient artifacts hidden here.")
+        ]
+        q_type, title, desc = random.choice(q_templates)
+        self.quest_title = f"{biome.capitalize()} {title}"
+        self.quest_description = desc
         
         def make_scene(label, force_combat=False):
             # Weighted Encounter Types
@@ -185,6 +196,8 @@ class SceneStack:
             # Plot Point
             is_combat = (i % 2 == 0) # Every other plot point is combat-heavy
             self.stack.append(make_scene(f"GOAL: {q_type[i]}", force_combat=is_combat))
+            
+        self.total_steps = len(self.stack)
 
     def advance(self):
         if not self.stack: return Scene("QUEST COMPLETE")

@@ -143,6 +143,24 @@ function App() {
     addLog('GEAR', `Equipped ${itemName}`);
   };
 
+  const handleAbilityAction = async (abilityName: string) => {
+    try {
+      const res = await fetch('/api/game/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: abilityName.toLowerCase() })
+      });
+      const data = await res.json();
+      if (data.result && data.result.log) {
+        addLog('ACTION', data.result.log);
+      }
+      // Refresh state to show resource changes if any
+      fetchData();
+    } catch (e) {
+      addLog('SYSTEM', 'Failed to channel power', 'error');
+    }
+  };
+
   if (currentView === 'start') {
     return (
       <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
@@ -226,10 +244,23 @@ function App() {
             {currentView === 'gameplay' && (
               <div className="h-full flex flex-col">
                 <div className="flex-1 min-h-0"><Arena playerSprite={p.sprite} onLog={addLog} /></div>
-                <ActionBar powers={p.powers} skills={p.skills} />
+                <ActionBar
+                  powers={p.powers}
+                  skills={p.skills}
+                  onAction={(name) => handleAbilityAction(name)}
+                />
               </div>
             )}
-            {currentView === 'character' && <CharacterSheet equipment={p.equipment} stats={p.stats} name={p.name} sprite={p.sprite} />}
+            {currentView === 'character' && (
+              <CharacterSheet
+                equipment={p.equipment}
+                stats={p.stats}
+                name={p.name}
+                sprite={p.sprite}
+                powers={p.powers}
+                skills={p.skills}
+              />
+            )}
             {currentView === 'inventory' && <InventoryPanel characterItems={p.inventory} onEquip={handleEquip} />}
             {currentView === 'builder' && <BattleBuilder onBattleStart={() => setCurrentView('gameplay')} />}
             {currentView === 'create' && <CharacterBuilder onSave={() => { loadPlayerState(); setCurrentView('tavern'); }} />}

@@ -1,9 +1,13 @@
 from typing import Dict, Any, Tuple, List
 import random
+import json
+import os
 from brqse_engine.combat.combat_engine import CombatEngine
 from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_ENEMY, TILE_HAZARD, TILE_DOOR
 from brqse_engine.combat.combatant import Combatant
 from scripts.world_engine import SceneStack, ChaosManager, Scene
+from brqse_engine.abilities import engine_hooks
+from brqse_engine.abilities.effects_registry import registry
 
 class GameLoopController:
     """
@@ -111,12 +115,15 @@ class GameLoopController:
             move_res = self._process_move(x, y)
             if not move_res["success"]: return move_res
             result.update(move_res)
+            if "log" not in result:
+                result["log"] = f"Moved to {x}, {y}."
         
         elif action_type == "inspect":
             result["log"] = f"A sturdy {obj['type']}." if obj else "An ordinary patch of ground."
 
-        elif action_type == "search":
-            result["log"] = f"Search {obj['type']}... nothing." if obj else "Scoured the ground... dust."
+        elif action_type == "search" or action_type == "perception":
+            result["log"] = f"Searched {obj['type']}... nothing." if obj else "You scour the area with keen eyes."
+            self._update_visibility(radius=7) # Temporary vision boost
             
         elif action_type == "smash":
             if obj and "smash" in obj.get("tags", []):
@@ -159,7 +166,7 @@ class GameLoopController:
 
         elif action_type in ["climb", "pull", "flip", "open"]:
             if obj and action_type in obj.get("tags", []):
-                result["log"] = f"{action_type} {obj['type']}."
+                result["log"] = f"{action_type.capitalize()}ed the {obj['type']}."
                 if action_type == "climb" and "elevation" in obj.get("tags", []):
                     self.player_pos = (x, y)
                     if self.player_combatant: self.player_combatant.elevation = 1
@@ -170,7 +177,7 @@ class GameLoopController:
                     result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
                 elif action_type == "drink" and obj["type"] == "Mystic Fountain":
                     if self.player_combatant:
-                        self.player_combatant.hp = min(self.player_combatant.hp + 5, self.player_combatant.max_hp)
+                        self.player_combatant.hp = min(self.player_combatant.hp + 5, self.player_combatant.max_hp_val)
                         result["log"] = "The cool water restores your spirit (+5 HP)."
                 elif action_type == "pray" and obj["type"] == "Altar":
                     result["log"] = "You feel a brief moment of divine protection."
@@ -179,7 +186,54 @@ class GameLoopController:
                     result["log"] = "You free a traveler! They reward you with a scrap of map."
                     del self.interactables[x,y]
                     self.active_scene.grid[y][x] = TILE_FLOOR
+        
+        elif action_type == "wait" or action_type == "rest":
+            result["log"] = "You take a moment to steady your breath."
+            if self.player_combatant:
+                self.player_combatant.hp = min(self.player_combatant.hp + 1, self.player_combatant.max_hp_val)
+
+        # Catch-all for Spell/Skill usage
+        else:
+            known_abilities = []
+            if self.player_combatant:
+                known_abilities = [a.lower() for a in self.player_combatant.character.powers] + [s.lower() for s in self.player_combatant.character.skills]
             
+            if action_type in known_abilities:
+                # 1. Get Ability Data (Description/Effects) from loader
+                ability_data = engine_hooks.get_ability_data(action_type)
+                if ability_data:
+                    desc = ability_data.get("Description") or ability_data.get("Effect") or ability_data.get("Effect Description")
+                    
+                    # 2. Build Context for EffectRegistry
+                    log_messages = []
+                    ctx = {
+                        "attacker": self.player_combatant,
+                        "engine": self,
+                        "log": log_messages,
+                        "state": self.state # Exploration or Combat
+                    }
+                    
+                    # 3. Resolve Mechanics using Central Registry
+                    try:
+                        registry.resolve(desc, ctx)
+                        result["success"] = True
+                        if log_messages:
+                            result["log"] = " ".join(log_messages)
+                        else:
+                            result["log"] = f"You use {action_type}."
+                    except Exception as e:
+                        result["success"] = False
+                        result["reason"] = str(e)
+                else:
+                    # Fallback if no specific data found but known (e.g. built-in string)
+                    if "wait" in action_type or "rest" in action_type:
+                        registry.resolve("Rest", {"attacker": self.player_combatant, "log": result.setdefault("log_list", [])})
+                        result["log"] = " ".join(result.pop("log_list", ["You rest."]))
+                    else:
+                        result["log"] = f"You use {action_type}."
+            else:
+                return {"success": False, "reason": f"Unknown action: {action_type}"}
+                
         if not self.player_combatant:
             self.load_player()
             if not self.player_combatant:
@@ -193,34 +247,44 @@ class GameLoopController:
             result["tension"] = t_res
             if t_res == "EVENT":
                 self._spawn_tension_consequence(result)
+            elif t_res == "SAFE":
+                if "log" in result:
+                    result["log"] += " The tension in the air thickens..."
+                else:
+                    result["log"] = "Tension grows with every step."
 
         return result
 
     def _spawn_tension_consequence(self, result: Dict):
-        """Spawns monsters or hazards on Tension Event."""
+        """Spawns monsters or hazards on Tension Event using EncounterTable."""
+        from brqse_engine.world.encounter_table import EncounterTable
+        
+        biome = getattr(self.active_scene, 'biome', 'DUNGEON')
+        lvl = getattr(self.player_combatant, 'level', 1) if self.player_combatant else 1
+        
+        # Get random encounter definition
+        encounter = EncounterTable.get_random_encounter(biome, lvl)
+        etype = encounter["type"]
+        
         px, py = self.player_pos
         spots = []
         for dy in [-1, 0, 1]:
             for dx in [-1, 0, 1]:
                 nx, ny = px + dx, py + dy
-                if 0 <= nx < 20 and 0 <= ny < 20 and self.active_scene.grid[ny][nx] == TILE_FLOOR:
+                if 0 <= nx < 20 and 0 <= ny < 20 and self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and (nx, ny) != (px, py):
                     spots.append((nx, ny))
         
         if not spots: return
 
-        etype = random.choice(["AMBUSH", "HAZARD", "LOOMING_DREAD"])
         sx, sy = random.choice(spots)
+        result["log"] = encounter["log"]
 
         if etype == "AMBUSH":
             from brqse_engine.combat.enemy_spawner import spawner
             from brqse_engine.combat.combatant import Combatant
             from brqse_engine.models.character import Character
             
-            # Spawn a beast based on biome
-            biome = getattr(self.active_scene, 'biome', 'DUNGEON')
-            lvl = getattr(self.player_combatant, 'level', 1) if self.player_combatant else 1
             path = spawner.spawn_beast(biome=biome, level=lvl)
-            
             with open(path, 'r') as f:
                 enemy_data = json.load(f)
             
@@ -235,14 +299,43 @@ class GameLoopController:
                 self.combat_engine.add_combatant(self.player_combatant)
             
             self.state = "COMBAT"
-            result["log"] = f"A {enemy.name} detaches from the shadows! AMBUSH!"
             result["event"] = "COMBAT_STARTED"
             
         elif etype == "HAZARD":
             self.active_scene.grid[sy][sx] = TILE_HAZARD
-            result["log"] = "The floor cracks and leaks toxic bile!"
-        else:
-            result["log"] = "The air turns cold... something is watching."
+            
+        elif etype == "TREASURE":
+            # Add a lootable object
+            subtype = encounter.get("subtype", "Ancient Crate")
+            self.interactables[(sx, sy)] = {
+                "type": subtype,
+                "x": sx, "y": sy,
+                "tags": ["search", "smash"],
+                "is_blocking": True
+            }
+            self.active_scene.grid[sy][sx] = TILE_LOOT
+
+        elif etype == "SOCIAL":
+            # Add a social interactable
+            subtype = encounter.get("subtype", "Mystic Fountain")
+            tags = ["inspect"]
+            if "Altar" in subtype: tags.append("pray")
+            elif "Fountain" in subtype: tags.append("drink")
+            elif "Merchant" in subtype: tags.append("talk")
+            
+            self.interactables[(sx, sy)] = {
+                "type": subtype,
+                "x": sx, "y": sy,
+                "tags": tags,
+                "is_blocking": True
+            }
+            self.active_scene.grid[sy][sx] = TILE_LOOT # Represent with loot/interactable tile
+        
+        elif etype == "FLAVOR":
+            # Potentially escalate Chaos
+            if random.random() < 0.3:
+                self.chaos.chaos_clock = min(12, self.chaos.chaos_clock + 1)
+                result["log"] += " The chaos in the air thickens..."
 
     def _set_facing(self, direction: str):
         if self.player_combatant:
@@ -281,9 +374,8 @@ class GameLoopController:
             if has_cover: break
         self.player_combatant.is_behind_cover = has_cover
 
-    def _update_visibility(self):
+    def _update_visibility(self, radius=5):
         px, py = self.player_pos
-        radius = 5
         for y in range(max(0, py-radius), min(20, py+radius+1)):
              for x in range(max(0, px-radius), min(20, px+radius+1)):
                  if abs(x-px) + abs(y-py) <= radius + 1:
@@ -309,6 +401,10 @@ class GameLoopController:
         return self.player_pos # Fallback
 
     def get_state(self):
+        # Calculate progress
+        current_step = self.scene_stack.total_steps - len(self.scene_stack.stack)
+        progress = f"{current_step}/{self.scene_stack.total_steps}"
+        
         return {
             "mode": self.state,
             "player_pos": self.player_pos,
@@ -319,5 +415,9 @@ class GameLoopController:
             "scene_text": self.active_scene.text if self.active_scene else "",
             "elevation": self.player_combatant.elevation if self.player_combatant else 0,
             "is_behind_cover": self.player_combatant.is_behind_cover if self.player_combatant else False,
-            "facing": self.player_combatant.facing if self.player_combatant else "N"
+            "facing": self.player_combatant.facing if self.player_combatant else "N",
+            "quest_title": self.scene_stack.quest_title,
+            "quest_description": self.scene_stack.quest_description,
+            "quest_progress": progress,
+            "quest_objective": self.active_scene.text if self.active_scene else "Explore"
         }

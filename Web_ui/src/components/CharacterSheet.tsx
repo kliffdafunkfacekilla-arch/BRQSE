@@ -1,4 +1,4 @@
-import { Shield, User, Crosshair, Brain, X } from 'lucide-react';
+import { Shield, User, Crosshair, Brain, X, Sparkles, Activity } from 'lucide-react';
 import ItemIcon from './ItemIcon';
 
 interface CharacterSheetProps {
@@ -7,9 +7,11 @@ interface CharacterSheetProps {
     onUnequip?: (slot: string) => void;
     sprite?: string;
     name?: string;
+    powers?: string[];
+    skills?: string[];
 }
 
-export default function CharacterSheet({ equipment, stats: propStats, onUnequip, sprite, name }: CharacterSheetProps) {
+export default function CharacterSheet({ equipment, stats: propStats, onUnequip, sprite, name, powers = [], skills = [] }: CharacterSheetProps) {
     const gear = equipment || {
         "Main Hand": "Empty", "Off Hand": "Empty", "Armor": "Empty"
     };
@@ -68,9 +70,7 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip,
                         <StatBlock label="FINESSE" val={stats.Finesse} />
                     </div>
                 </div>
-            </div>
 
-            <div className="w-64 space-y-4">
                 <div className="bg-[#0a0a0a] p-4 border border-stone-900">
                     <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Brain size={12} /> Mental Attributes</h3>
                     <div className="space-y-1">
@@ -82,7 +82,9 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip,
                         <StatBlock label="WILLPOWER" val={stats.Willpower} />
                     </div>
                 </div>
+            </div>
 
+            <div className="w-80 space-y-4 flex flex-col">
                 <div className="bg-[#0a0a0a] p-4 border border-stone-900">
                     <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Crosshair size={12} /> Derived Capacity</h3>
                     <div className="grid grid-cols-3 gap-2 text-center">
@@ -91,11 +93,37 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip,
                         <div className="bg-stone-900 p-2"><div className="text-[9px] text-stone-600">FP</div><div className="text-lg text-white font-mono">{derivedFP}</div></div>
                     </div>
                 </div>
+
+                <div className="bg-[#0a0a0a] p-4 border border-stone-900 flex-1 flex flex-col min-h-0">
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Sparkles size={12} /> Known Secrets (Powers)</h3>
+                    <div className="space-y-1 overflow-y-auto pr-2">
+                        {powers.length > 0 ? powers.map((p, i) => (
+                            <div key={i} className="flex items-center gap-3 p-2 bg-stone-900 border border-stone-800">
+                                <Sparkles size={12} className="text-[#92400e]" />
+                                <span className="text-stone-300 text-xs font-bold uppercase tracking-wide">{p}</span>
+                            </div>
+                        )) : (
+                            <div className="text-[10px] text-stone-700 italic text-center p-4">No secrets learned.</div>
+                        )}
+                    </div>
+
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mt-6 mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Activity size={12} /> Proficiencies (Skills)</h3>
+                    <div className="space-y-1 overflow-y-auto pr-2">
+                        {skills.length > 0 ? skills.map((s, i) => (
+                            <div key={i} className="flex items-center gap-3 p-2 bg-stone-900 border border-stone-800">
+                                <Activity size={12} className="text-stone-500" />
+                                <span className="text-stone-300 text-xs font-bold uppercase tracking-wide">{s}</span>
+                            </div>
+                        )) : (
+                            <div className="text-[10px] text-stone-700 italic text-center p-4">Fundamental skills only.</div>
+                        )}
+                    </div>
+                </div>
             </div>
 
             <div className="w-80 bg-[#0a0a0a] p-4 border border-stone-900 flex flex-col">
                 <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Shield size={12} /> Active Equipment</h3>
-                <div className="space-y-2 flex-1">
+                <div className="space-y-1 flex-1 overflow-y-auto pr-2">
                     {Object.entries(gear).map(([slot, item]) => (
                         <EquipSlot key={slot} slot={slot} item={item} />
                     ))}

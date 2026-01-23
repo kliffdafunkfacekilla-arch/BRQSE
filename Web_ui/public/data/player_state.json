@@ -1,35 +1,35 @@
 {
-    "Name": "bob",
-    "Species": "Avian",
+    "Name": "Blaze",
+    "Species": "Plant",
     "Stats": {
-        "Awareness": 12,
-        "Charm": 10,
-        "Endurance": 10,
-        "Finesse": 10,
-        "Fortitude": 10,
-        "Intuition": 8,
-        "Knowledge": 11,
+        "Might": 11,
+        "Reflexes": 9,
+        "Endurance": 11,
+        "Vitality": 13,
+        "Fortitude": 13,
+        "Knowledge": 8,
         "Logic": 10,
-        "Might": 18,
-        "Reflexes": 12,
-        "Vitality": 11,
-        "Willpower": 10
+        "Awareness": 11,
+        "Intuition": 11,
+        "Charm": 12,
+        "Willpower": 13,
+        "Finesse": 10
     },
     "Traits": [
-        "Hooked Beak",
-        "Wide Wings",
-        "Large Talons",
-        "Wide Eyes",
-        "Head Crest",
-        "Large Pupils"
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
     ],
     "Powers": [
-        "Bolt",
-        "Shock"
+        "Burn",
+        "Chill"
     ],
     "Inventory": [
-        "Compound Bow",
-        "Acrobat's Leathers"
+        "Cestus",
+        "Ceramic Plate"
     ],
     "Gear": {
         "armor": {
@@ -55,30 +55,30 @@
     "Portrait": "bear_front.png",
     "sprite": "squirrel_right.png",
     "Skills": [
-        "Large Weapons",
-        "The Ballistics",
-        "Intimidation",
+        "Fist Weapons",
+        "Exotic Ranged",
+        "Insight",
         "Stoicism",
-        "Light ",
-        "Athletics",
-        "Snares",
-        "Tear Flesh"
+        "Heavy",
+        "Mechanism",
+        "Catalysts",
+        "Signal"
     ],
     "current_hp": 41,
     "equipment": {
         "Armor": "Acrobat's Leathers",
-        "Main Hand": "Acrobat's Leathers"
+        "Main Hand": "Spear"
     },
     "inventory": [
-        "Compound Bow",
-        "Acrobat's Leathers"
+        "Acrobat's Leathers",
+        "Spear"
     ],
     "level": 1,
-    "max_hp": 41,
-    "name": "bob",
+    "max_hp": 35,
+    "name": "pig",
     "powers": [
-        "Bolt",
-        "Shock"
+        "Mend",
+        "Push"
     ],
     "skills": [
         "Large Weapons",
@@ -90,27 +90,93 @@
         "Snares",
         "Tear Flesh"
     ],
-    "species": "Avian",
+    "species": "Mammal",
     "stats": {
-        "Awareness": 12,
-        "Charm": 10,
-        "Endurance": 10,
-        "Finesse": 10,
-        "Fortitude": 10,
-        "Intuition": 8,
-        "Knowledge": 11,
-        "Logic": 10,
-        "Might": 18,
-        "Reflexes": 12,
-        "Vitality": 11,
+        "Awareness": 9,
+        "Charm": 11,
+        "Endurance": 14,
+        "Finesse": 13,
+        "Fortitude": 9,
+        "Intuition": 11,
+        "Knowledge": 12,
+        "Logic": 8,
+        "Might": 13,
+        "Reflexes": 10,
+        "Vitality": 12,
         "Willpower": 10
     },
     "traits": [
-        "Hooked Beak",
-        "Wide Wings",
-        "Large Talons",
-        "Wide Eyes",
-        "Head Crest",
-        "Large Pupils"
+        {
+            "BodyPart": "Balanced Frame",
+            "Effect": "Standard: No penalties. Can use standard gear.",
+            "Name": "Medium",
+            "Type": "SIZE 3"
+        },
+        {
+            "BodyPart": "Ursine Anatomy",
+            "Effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail.",
+            "Name": "The Bear",
+            "Type": "ANCESTRY"
+        },
+        {
+            "BodyPart": "Wet Nose",
+            "Effect": "Passive: Scent-Track (Track unseen enemies).",
+            "Name": "Blood-Scent",
+            "Type": "SENSES"
+        },
+        {
+            "BodyPart": "Opposable Thumbs",
+            "Effect": "Active: Choke-Slam (Throw target Prone + Dmg).",
+            "Name": "Grappler",
+            "Type": "ARMS"
+        },
+        {
+            "BodyPart": "Spring Tendons",
+            "Effect": "Active: Bound (Jump distance tripled).",
+            "Name": "Jumper",
+            "Type": "LEGS"
+        },
+        {
+            "BodyPart": "Dense Wool",
+            "Effect": "Passive: Winter-Coat (Resist Cold/Fire).",
+            "Name": "Insulated",
+            "Type": "BODY"
+        },
+        {
+            "BodyPart": "Skin Flaps",
+            "Effect": "Active: Glide (Negate fall dmg, Travel).",
+            "Name": "Flight",
+            "Type": "SPECIAL"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "The Gaze",
+            "Type": "Social Offense"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "Athletics",
+            "Type": "Utility"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "Regalia",
+            "Type": "Tool"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "Large",
+            "Type": "Weapon Skill"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "Light",
+            "Type": "Armor Skill"
+        },
+        {
+            "Effect": "Skill Mastery",
+            "Name": "Exotic Ranged",
+            "Type": "Weapon Skill"
+        }
     ]
 }
