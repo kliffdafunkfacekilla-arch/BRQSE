@@ -36,13 +36,17 @@ class MapGenerator:
         grid[start_pos[1]][start_pos[0]] = TILE_ENTRANCE
         
         # 3. Furnish with enriched objects
-        grid, objects = self._furnish_biome(grid, scene.biome)
+        grid, objects = self._furnish_biome(grid, scene.biome, scene.encounter_type)
         
         # 4. Save
         scene.set_grid(grid, [start_pos], [end_pos], objects)
         
-        if scene.encounter_type == "COMBAT":
-            self._place_enemies(grid)
+        if scene.encounter_type == "COMBAT" or "FINALE" in scene.text:
+            count = random.randint(3, 6) if "FINALE" in scene.text else random.randint(1, 4)
+            self._place_enemies(grid, count)
+        elif scene.encounter_type == "STEALTH":
+            # Fewer enemies, but they are stationary or in key spots
+            self._place_enemies(grid, 2)
             
         return scene
 
@@ -52,11 +56,10 @@ class MapGenerator:
             for x in range(2, self.COLS-2): grid[y][x] = TILE_FLOOR
         return grid
 
-    def _furnish_biome(self, grid: List[List[int]], biome: str) -> Tuple[List[List[int]], List[Dict]]:
+    def _furnish_biome(self, grid: List[List[int]], biome: str, enc_type: str = "EMPTY") -> Tuple[List[List[int]], List[Dict]]:
         interactables = []
         
-        # Object Bank with Tags
-        # added 'cover' and 'elevation' tags
+        # Standard Obstacles
         BANK = {
             "Barrel": ["smash", "search", "push", "cover"],
             "Crate": ["smash", "search", "push", "vault", "cover", "elevation"],
@@ -67,14 +70,35 @@ class MapGenerator:
             "Chest": ["open", "search", "smash", "cover"]
         }
 
+        # Special Objects by Encounter Type
+        SPECIALS = {
+            "SOCIAL": {"NPC": ["talk", "trade"], "Campfire": ["rest", "cook"]},
+            "PUZZLE": {"Lever": ["pull"], "Statue": ["inspect", "rotate"], "Pedestal": ["place"]},
+            "DECISION": {"Altar": ["pray", "defile"], "Cage": ["open", "unlock"], "Mystic Fountain": ["drink"]},
+            "STEALTH": {"Curtain": ["hide", "peek"], "Wardrobe": ["hide", "search"]},
+            "TREASURE": {"Ornate Chest": ["unlock", "search"], "Pile of Gold": ["loot"]},
+            "SAFE_HAVEN": {"Bedroll": ["rest"], "Repair Kit": ["repair"]}
+        }
+
         object_types = list(BANK.keys())
+        specials = SPECIALS.get(enc_type, {})
 
         for y in range(len(grid)):
             for x in range(len(grid[0])):
                 if grid[y][x] == TILE_FLOOR:
                     r = random.random()
                     
-                    if r > 0.95:
+                    # Place Specials with higher priority but lower frequency
+                    if specials and r > 0.98:
+                        obj_type = random.choice(list(specials.keys()))
+                        interactables.append({
+                            "x": x, "y": y, 
+                            "type": obj_type, 
+                            "tags": specials[obj_type],
+                            "is_blocking": True
+                        })
+                        grid[y][x] = TILE_LOOT
+                    elif r > 0.95:
                         obj_type = random.choice(object_types)
                         interactables.append({
                             "x": x, "y": y, 
@@ -86,8 +110,7 @@ class MapGenerator:
                         
         return grid, interactables
 
-    def _place_enemies(self, grid: List[List[int]]):
-        count = random.randint(1, 4)
+    def _place_enemies(self, grid: List[List[int]], count: int = 1):
         placed = 0
         while placed < count:
             ex, ey = random.randint(5, self.COLS-2), random.randint(2, self.ROWS-2)

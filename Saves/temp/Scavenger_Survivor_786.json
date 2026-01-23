@@ -1,0 +1,35 @@
+{
+    "Name": "Scavenger Survivor",
+    "Species": "Mammal",
+    "Stats": {
+        "Might": 14,
+        "Endurance": 16,
+        "Finesse": 16,
+        "Reflexes": 16,
+        "Vitality": 20,
+        "Fortitude": 18,
+        "Knowledge": 14,
+        "Logic": 14,
+        "Awareness": 16,
+        "Intuition": 16,
+        "Charm": 12,
+        "Willpower": 10
+    },
+    "Derived": {
+        "HP": 80,
+        "Speed": 30,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Scavenger Survivor",
+        "Mammal"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

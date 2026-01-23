@@ -17,6 +17,7 @@ import MainMenu from './components/MainMenu';
 import TavernHub from './components/TavernHub';
 import WorldMap from './components/WorldMap';
 import ChaosHUD from './components/ChaosHUD';
+import HeroSelector from './components/HeroSelector';
 
 interface PlayerState {
   name: string;
@@ -42,7 +43,7 @@ interface WorldStatus {
 }
 
 function App() {
-  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'arena' | 'character' | 'inventory' | 'journal' | 'builder' | 'create'>('start');
+  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'arena' | 'character' | 'inventory' | 'journal' | 'builder' | 'create' | 'selector'>('start');
   const [apiOnline, setApiOnline] = useState(false);
   const [showDevTools, setShowDevTools] = useState(false);
   const [playerState, setPlayerState] = useState<PlayerState | null>(null);
@@ -145,7 +146,19 @@ function App() {
   if (currentView === 'start') {
     return (
       <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
-        <MainMenu onStart={() => setCurrentView('tavern')} onLoad={() => { loadPlayerState(); setCurrentView('tavern'); }} onCreate={() => setCurrentView('create')} />
+        <MainMenu onStart={() => setCurrentView('selector')} onCreate={() => setCurrentView('create')} />
+      </div>
+    );
+  }
+
+  if (currentView === 'selector') {
+    return (
+      <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
+        <HeroSelector
+          onSelect={() => { loadPlayerState(); setCurrentView('tavern'); }}
+          onCreate={() => setCurrentView('create')}
+          onBack={() => setCurrentView('start')}
+        />
       </div>
     );
   }

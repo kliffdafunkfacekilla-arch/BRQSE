@@ -45,7 +45,13 @@ def list_characters():
         try:
             with open(f, 'r') as fp:
                 data = json.load(fp)
-                characters.append({"name": name, "species": data.get("Species", "Unknown")})
+                characters.append({
+                    "name": data.get("Name", name),
+                    "species": data.get("Species", "Unknown"),
+                    "sprite": data.get("Sprite", "badger_front.png"),
+                    "level": data.get("Level", 1),
+                    "filename": name
+                })
         except: pass
     return jsonify({"characters": characters})
 
@@ -96,8 +102,33 @@ def save_character():
     
     # Also update current player if it's the one being saved
     GAME_STATE.update_player(data)
+    GAME_LOOP.load_player()
     
     return jsonify({"status": "saved", "path": fpath})
+
+@app.route('/api/character/load', methods=['POST'])
+def load_character_api():
+    data = request.get_json()
+    name = data.get("name") # This is the filename without .json
+    if not name:
+        return jsonify({"error": "Name is required"}), 400
+    
+    fpath = os.path.join(GAME_STATE.get_saves_dir(), f"{name}.json")
+    if not os.path.exists(fpath):
+        return jsonify({"error": "Character file not found"}), 404
+        
+    try:
+        with open(fpath, 'r') as f:
+            char_data = json.load(f)
+        
+        # Update current game state player
+        GAME_STATE.update_player(char_data)
+        # Force game loop to refresh player instance
+        GAME_LOOP.load_player()
+        
+        return jsonify({"status": "loaded", "character": char_data})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/battle/staged', methods=['POST'])
 def staged_battle():

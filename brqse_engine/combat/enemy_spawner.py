@@ -34,22 +34,85 @@ class EnemySpawner:
         for sp in ["Mammal", "Avian", "Reptile", "Aquatic", "Insect", "Plant"]:
             rows = load_csv(os.path.join(DATA_DIR, f"{sp}.csv"))
             if rows:
-                # First row is base stats usually for the species.
                 self.species_stats[sp] = rows[0] if rows else {}
-                # Evolution rows
                 self.evolutions[sp] = rows
                 
-        # Skills
+        # Skills & Talents
         self.skills = load_csv(os.path.join(DATA_DIR, "Skills.csv"))
-        
-        # Talents
         self.talents = load_csv(os.path.join(DATA_DIR, "Talents.csv"))
-        
-        # Tool Types
         self.tool_types = load_csv(os.path.join(DATA_DIR, "Tool_types.csv"))
-        
-        # Weapon Groups
         self.weapon_groups = load_csv(os.path.join(DATA_DIR, "Weapon_Groups.csv"))
+        
+        # --- NEW: BEAST DATA ---
+        beast_path = os.path.join(BASE_DIR, "../../Web_ui/public/data/Beast_Encounter.json")
+        try:
+            with open(beast_path, 'r') as f:
+                self.beast_data = json.load(f)
+        except:
+            self.beast_data = []
+
+    def spawn_beast(self, beast_id=None, biome="DUNGEON", level=1):
+        """
+        Spawns a specific or random beast from the JSON encounter table.
+        """
+        if not self.beast_data: return self.generate() # Fallback
+        
+        selected = None
+        if beast_id:
+            for b in self.beast_data:
+                if b.get("Entity_ID") == beast_id:
+                    selected = b; break
+        
+        if not selected:
+            from brqse_engine.world.encounter_table import EncounterTable
+            selected = EncounterTable.get_weighted_beast(self.beast_data, biome, level)
+            
+        if not selected: return self.generate()
+
+        name = f"{selected.get('Family_Name')} {selected.get('Role')}"
+        species = selected.get("Type", "Mammal")
+        
+        # Hydrate Stats from Beast JSON
+        stats = {
+            "Might": int(float(selected.get("Might", 10))),
+            "Endurance": int(float(selected.get("Endure", 10))),
+            "Finesse": int(float(selected.get("Finesse", 10))),
+            "Reflexes": int(float(selected.get("Reflex", 10))),
+            "Vitality": int(float(selected.get("Vitality", 10))),
+            "Fortitude": int(float(selected.get("Fortitude", 10))),
+            "Knowledge": int(float(selected.get("Knowledge", 5))),
+            "Logic": int(float(selected.get("Logic", 5))),
+            "Awareness": int(float(selected.get("Aware", 5))),
+            "Intuition": int(float(selected.get("Intuit", 5))),
+            "Charm": int(float(selected.get("Charm", 5))),
+            "Willpower": int(float(selected.get("Will", 5)))
+        }
+        
+        # Scaling
+        if level > 1:
+            for k in stats: stats[k] += (level - 1)
+
+        # Derive
+        hp = 20 + stats["Vitality"] * 3
+        speed = int(float(selected.get("Move_Speed", "30").split()[0]))
+        
+        data = {
+            "Name": name,
+            "Species": species,
+            "Stats": stats,
+            "Derived": {"HP": hp, "Speed": speed, "SP": 20, "FP": 20, "CMP": 20},
+            "Traits": [name, species],
+            "Powers": [],
+            "Skills": ["Natural Weapons"],
+            "Inventory": [],
+            "AI": "Aggressive"
+        }
+        
+        # Save
+        filepath = os.path.join(TEMP_DIR, f"{name.replace(' ', '_')}_{random.randint(100,999)}.json")
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=4)
+        return filepath
 
     def generate(self, ai_template="Aggressive"):
         """

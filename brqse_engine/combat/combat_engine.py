@@ -77,6 +77,11 @@ class CombatEngine:
         elif has_dis and not has_adv: atk_roll, _, _ = Dice.roll_disadvantage()
         else: atk_roll = random.randint(1, 20)
 
+        # --- ABILITY HOOKS (Trigger before roll if needed, or after) ---
+        from brqse_engine.abilities import engine_hooks
+        ctx = {"attacker": attacker, "target": target, "engine": self, "roll": atk_roll}
+        engine_hooks.apply_hooks(attacker, "ON_ATTACK", ctx)
+
         atk_skill_name = attacker.get_weapon_skill_name()
         atk_stat_mod = attacker.get_stat_mod(stat)
         atk_skill_rank = attacker.get_skill_rank(atk_skill_name)
@@ -86,6 +91,9 @@ class CombatEngine:
         
         # DEFENSE RESOLUTION (Armor-based d20 + Skill + Stat)
         def_roll = random.randint(1, 20)
+        ctx["roll"] = def_roll
+        engine_hooks.apply_hooks(target, "ON_DEFEND", ctx)
+
         def_stat_name, def_skill_name = target.get_defense_info()
         def_stat_mod = target.get_stat_mod(def_stat_name)
         def_skill_rank = target.get_skill_rank(def_skill_name)
@@ -104,6 +112,11 @@ class CombatEngine:
         dmg = int((random.randint(1, 6) + attacker.get_stat_mod(stat)) * scaling)
         target.take_damage(max(1, dmg))
         self.record_event("attack", attacker.name, target=target.name, result="HIT", damage=dmg, margin=margin)
+
+        # --- HIT HOOKS ---
+        ctx["damage"] = dmg
+        engine_hooks.apply_hooks(attacker, "ON_HIT", ctx)
+
         return {"hit": True, "damage": dmg}
 
     def _trigger_clash(self, attacker, target, stat):

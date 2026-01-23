@@ -120,25 +120,71 @@ class SceneStack:
             "Level": self.chaos.chaos_clock + 1
         }
 
+class QuestType:
+    INFILTRATION = ["Infiltrate Perimeter", "Disable Sensors", "The Vault", "Extraction"]
+    RESCUE = ["Locate Holding Cell", "Eliminate Guard Post", "Rescue VIP", "Defend Extraction"]
+    ASSASSINATION = ["Track Target", "Infiltrate Stronghold", "The Mark", "Eliminate & Vanish"]
+    COLLECT = ["Survey Area", "Locate Artifact 1", "Locate Artifact 2", "The Core"]
+
+class SceneStack:
+    def __init__(self, chaos_manager):
+        self.chaos = chaos_manager
+        self.stack = []
+        self.rules = self._load_rules()
+        
+    def _load_rules(self):
+        try:
+            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Data/chaos_core.json")
+            with open(path, 'r', encoding='utf-8') as f: return json.load(f)
+        except: return {}
+
+    def generate_enemy(self):
+        species_list = list(self.rules.get("Species", {}).keys())
+        if not species_list: species_list = list(self.rules.get("species", {}).keys())
+        s_name = random.choice(species_list) if species_list else "Mammal"
+        
+        w_list = list(self.rules.get("Weapons", {}).keys())
+        if not w_list: w_list = list(self.rules.get("weapons", {}).keys())
+        w_name = random.choice(w_list) if w_list else "Club"
+        
+        return {
+            "Species": s_name,
+            "Weapon": w_name,
+            "Armor": "Leather",
+            "Level": self.chaos.chaos_clock + 1
+        }
+
     def generate_quest(self, biome="DUNGEON"):
         self.stack = []
+        
+        # Select Quest Template
+        q_type = random.choice([QuestType.INFILTRATION, QuestType.RESCUE, QuestType.ASSASSINATION, QuestType.COLLECT])
+        
         def make_scene(label, force_combat=False):
-            enc = "EMPTY"
+            # Weighted Encounter Types
+            pool = ["COMBAT"] * 4 + ["SOCIAL", "PUZZLE", "STEALTH", "TREASURE", "SAFE_HAVEN", "DECISION"]
+            enc = random.choice(pool)
+            
+            if force_combat: enc = "COMBAT"
+            
             enemy = None
-            if force_combat or random.random() < 0.4:
-                enc = "COMBAT"
+            if enc == "COMBAT":
                 enemy = self.generate_enemy()
             return Scene(label, enc, enemy, biome=biome)
 
-        self.stack.append(make_scene("FINALE BOSS", force_combat=True))
-        for i in range(random.randint(1, 4)):
-            self.stack.append(make_scene(f"{biome} Deep {i}"))
-        self.stack.append(make_scene("PLOT POINT 2: THE TWIST"))
-        for i in range(random.randint(1, 4)):
-            self.stack.append(make_scene(f"{biome} Path {i}"))
-        self.stack.append(make_scene("PLOT POINT 1: THE GATE"))
-        for i in range(random.randint(1, 4)):
-            self.stack.append(make_scene(f"{biome} Entrance {i}"))
+        # Build Stack (Plot Points with dynamic 1d4 gaps)
+        # Reverse order for stack popping
+        self.stack.append(make_scene(f"FINALE: {q_type[-1]}", force_combat=True))
+        
+        for i in range(len(q_type) - 2, -1, -1):
+            # Dynamic gap for EACH segment
+            gap_size = random.randint(1, 4)
+            for j in range(gap_size):
+                self.stack.append(make_scene(f"{biome} Exploration {i}_{j}"))
+            
+            # Plot Point
+            is_combat = (i % 2 == 0) # Every other plot point is combat-heavy
+            self.stack.append(make_scene(f"GOAL: {q_type[i]}", force_combat=is_combat))
 
     def advance(self):
         if not self.stack: return Scene("QUEST COMPLETE")

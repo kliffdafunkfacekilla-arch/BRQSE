@@ -125,13 +125,60 @@ class GameLoopController:
                 del self.interactables[x,y]
             else: result = {"success": False, "reason": "Fail"}
             
-        elif action_type in ["push", "pull", "climb", "vault", "flip", "open"]:
+        elif action_type == "push":
+            if obj and "push" in obj.get("tags", []):
+                dx, dy = x - px, y - py
+                tx, ty = x + dx, y + dy
+                # Check landing spot
+                if 0 <= tx < 20 and 0 <= ty < 20 and self.active_scene.grid[ty][tx] == TILE_FLOOR and (tx, ty) not in self.interactables:
+                    # Move the object
+                    self.interactables[tx, ty] = obj
+                    del self.interactables[x, y]
+                    obj["x"], obj["y"] = tx, ty
+                    # Update grid representation
+                    self.active_scene.grid[y][x] = TILE_FLOOR
+                    self.active_scene.grid[ty][tx] = TILE_LOOT
+                    result["log"] = f"Pushed the {obj['type']} forward."
+                else:
+                    result = {"success": False, "reason": "Blocked"}
+            else: result = {"success": False, "reason": "Cannot push this"}
+
+        elif action_type == "vault":
+            if obj and "vault" in obj.get("tags", []):
+                dx, dy = x - px, y - py
+                tx, ty = x + dx, y + dy
+                # Check landing spot past the object
+                if 0 <= tx < 20 and 0 <= ty < 20 and self.active_scene.grid[ty][tx] == TILE_FLOOR and (tx, ty) not in self.interactables:
+                    self.player_pos = (tx, ty)
+                    if self.player_combatant: self.player_combatant.elevation = 0
+                    result["log"] = f"Vaulted over the {obj['type']}!"
+                    self._update_visibility()
+                else:
+                    result = {"success": False, "reason": "No landing space"}
+            else: result = {"success": False, "reason": "Cannot vault this"}
+
+        elif action_type in ["climb", "pull", "flip", "open"]:
             if obj and action_type in obj.get("tags", []):
                 result["log"] = f"{action_type} {obj['type']}."
-                if action_type in ["climb", "vault"] and "elevation" in obj.get("tags", []):
+                if action_type == "climb" and "elevation" in obj.get("tags", []):
                     self.player_pos = (x, y)
                     if self.player_combatant: self.player_combatant.elevation = 1
-            else: result = {"success": False, "reason": "Fail"}
+                    self._update_visibility()
+                
+                # --- NEW INTERACTION LOGIC ---
+                elif action_type == "talk":
+                    result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
+                elif action_type == "drink" and obj["type"] == "Mystic Fountain":
+                    if self.player_combatant:
+                        self.player_combatant.hp = min(self.player_combatant.hp + 5, self.player_combatant.max_hp)
+                        result["log"] = "The cool water restores your spirit (+5 HP)."
+                elif action_type == "pray" and obj["type"] == "Altar":
+                    result["log"] = "You feel a brief moment of divine protection."
+                    if self.player_combatant: self.player_combatant.is_blessed = True
+                elif action_type == "unlock" and obj["type"] == "Cage":
+                    result["log"] = "You free a traveler! They reward you with a scrap of map."
+                    del self.interactables[x,y]
+                    self.active_scene.grid[y][x] = TILE_FLOOR
             
         if not self.player_combatant:
             self.load_player()
@@ -142,9 +189,60 @@ class GameLoopController:
         self._update_tactical_status()
         
         if self.chaos:
-            result["tension"] = self.chaos.roll_tension()
+            t_res = self.chaos.roll_tension()
+            result["tension"] = t_res
+            if t_res == "EVENT":
+                self._spawn_tension_consequence(result)
 
         return result
+
+    def _spawn_tension_consequence(self, result: Dict):
+        """Spawns monsters or hazards on Tension Event."""
+        px, py = self.player_pos
+        spots = []
+        for dy in [-1, 0, 1]:
+            for dx in [-1, 0, 1]:
+                nx, ny = px + dx, py + dy
+                if 0 <= nx < 20 and 0 <= ny < 20 and self.active_scene.grid[ny][nx] == TILE_FLOOR:
+                    spots.append((nx, ny))
+        
+        if not spots: return
+
+        etype = random.choice(["AMBUSH", "HAZARD", "LOOMING_DREAD"])
+        sx, sy = random.choice(spots)
+
+        if etype == "AMBUSH":
+            from brqse_engine.combat.enemy_spawner import spawner
+            from brqse_engine.combat.combatant import Combatant
+            from brqse_engine.models.character import Character
+            
+            # Spawn a beast based on biome
+            biome = getattr(self.active_scene, 'biome', 'DUNGEON')
+            lvl = getattr(self.player_combatant, 'level', 1) if self.player_combatant else 1
+            path = spawner.spawn_beast(biome=biome, level=lvl)
+            
+            with open(path, 'r') as f:
+                enemy_data = json.load(f)
+            
+            enemy = Combatant(Character(enemy_data))
+            enemy.team = "Enemies"
+            enemy.x, enemy.y = sx, sy
+            
+            self.active_scene.grid[sy][sx] = TILE_ENEMY
+            self.combat_engine.add_combatant(enemy)
+            if self.player_combatant:
+                self.player_combatant.x, self.player_combatant.y = px, py
+                self.combat_engine.add_combatant(self.player_combatant)
+            
+            self.state = "COMBAT"
+            result["log"] = f"A {enemy.name} detaches from the shadows! AMBUSH!"
+            result["event"] = "COMBAT_STARTED"
+            
+        elif etype == "HAZARD":
+            self.active_scene.grid[sy][sx] = TILE_HAZARD
+            result["log"] = "The floor cracks and leaks toxic bile!"
+        else:
+            result["log"] = "The air turns cold... something is watching."
 
     def _set_facing(self, direction: str):
         if self.player_combatant:
