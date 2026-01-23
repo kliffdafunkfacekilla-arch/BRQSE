@@ -95,28 +95,14 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip,
                 </div>
 
                 <div className="bg-[#0a0a0a] p-4 border border-stone-900 flex-1 flex flex-col min-h-0">
-                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Sparkles size={12} /> Known Secrets (Powers)</h3>
-                    <div className="space-y-1 overflow-y-auto pr-2">
-                        {powers.length > 0 ? powers.map((p, i) => (
-                            <div key={i} className="flex items-center gap-3 p-2 bg-stone-900 border border-stone-800">
-                                <Sparkles size={12} className="text-[#92400e]" />
-                                <span className="text-stone-300 text-xs font-bold uppercase tracking-wide">{p}</span>
-                            </div>
-                        )) : (
-                            <div className="text-[10px] text-stone-700 italic text-center p-4">No secrets learned.</div>
-                        )}
-                    </div>
-
-                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mt-6 mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Activity size={12} /> Proficiencies (Skills)</h3>
-                    <div className="space-y-1 overflow-y-auto pr-2">
-                        {skills.length > 0 ? skills.map((s, i) => (
-                            <div key={i} className="flex items-center gap-3 p-2 bg-stone-900 border border-stone-800">
-                                <Activity size={12} className="text-stone-500" />
-                                <span className="text-stone-300 text-xs font-bold uppercase tracking-wide">{s}</span>
-                            </div>
-                        )) : (
-                            <div className="text-[10px] text-stone-700 italic text-center p-4">Fundamental skills only.</div>
-                        )}
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-4 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Sparkles size={12} /> Essence & Soul</h3>
+                    <p className="text-[10px] text-stone-500 leading-relaxed italic">
+                        The physical body is but a vessel for the ancient secrets you carry.
+                        Your attributes define the limits of your mortality, while your secrets (Skills Tab) define your transcendence.
+                    </p>
+                    <div className="mt-4 pt-4 border-t border-stone-900/50">
+                        <div className="flex justify-between text-[10px] uppercase font-bold text-stone-600"><span>Corruption</span><span>0%</span></div>
+                        <div className="h-1 bg-stone-950 w-full mt-1"><div className="h-full bg-stone-800 w-0" /></div>
                     </div>
                 </div>
             </div>

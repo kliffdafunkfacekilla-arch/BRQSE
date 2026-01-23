@@ -92,12 +92,21 @@ class GameLoopController:
         return scene
 
     def _trigger_scene_entry_event(self):
-        """Triggers the primary encounter for a room upon entry using EventEngine v2."""
-        # Reset resolution flag for new room
-        self.is_event_resolved = False
-        
+        """Triggers the primary encounter for a room upon entry."""
+        self.trigger_event(is_entry=True)
+
+    def trigger_event(self, is_entry: bool = False, force_type: str = None):
+        """Unified event trigger for Entry and Tension events."""
+        # Reset resolution flag if a significant new event occurs
+        # or if we are entering a room.
+        if is_entry:
+            self.is_event_resolved = False
+
         biome = getattr(self.active_scene, 'biome', 'DUNGEON')
         scenario = self.event_engine.generate_scenario(biome)
+        
+        # If we handle force_type (like HAZARD for Chaos), we should let EventEngine know
+        # but for now we'll stick to the 5xD20 logic
         
         self.active_scenario = scenario
         self.journal.log_event(
@@ -110,11 +119,12 @@ class GameLoopController:
         for item in scenario["setup"]:
             self._manifest_v2_entity(item, scenario, res)
         
-        # If it's an AMBUSH, it might not be resolved until combat over
-        # If it's a "LOCATION_REACHED", we might resolve on move
-        if scenario["win_condition"]["type"] == "LOCATION_REACHED":
-            # Some rooms might be auto-resolved if they are just flavor
-            pass
+        # If the new event is significant, re-block the exit
+        if scenario["win_condition"]["type"] in ["ENEMIES_KILLED", "PUZZLE_SOLVED"]:
+            self.is_event_resolved = False
+        
+        # Update the result log if this was called from handle_action
+        return res
 
     def _manifest_v2_entity(self, setup_item: Dict, scenario: Dict, result: Dict):
         """Helper to place entities defined by the EventEngine."""
@@ -364,15 +374,19 @@ class GameLoopController:
             t_res = self.chaos.roll_tension()
             result["tension"] = t_res
             if t_res == "EVENT":
-                self._spawn_tension_consequence(result)
+                event_res = self.trigger_event()
+                if "log" in result: result["log"] += " " + event_res["log"]
+                else: result["log"] = event_res["log"]
+                if "event" in event_res: result["event"] = event_res["event"]
             elif t_res == "CHAOS_EVENT":
                 from brqse_engine.world.encounter_table import EncounterTable
                 twist = EncounterTable.get_chaos_twist()
                 msg = f"CHAOS SURGE: {twist['Domain']} - {twist['Description']}"
                 if "log" in result: result["log"] += f" {msg}"
                 else: result["log"] = msg
-                # Apply mechanical effect (e.g. spawn hazard)
-                self._spawn_tension_consequence(result, force_type="HAZARD")
+                # Trigger a specific Hazard/Scenario on surge
+                event_res = self.trigger_event() # Could refine this to force Hazard 
+                if "log" in result: result["log"] += " " + event_res["log"]
             elif t_res == "SAFE":
                 if random.random() < 0.2:
                     atm = self.chaos.get_atmosphere()
@@ -384,85 +398,6 @@ class GameLoopController:
                     result["log"] = "Tension grows with every step."
 
         return result
-
-    def _spawn_tension_consequence(self, result: Dict, force_type: str = None):
-        """Spawns monsters or hazards on Tension/Chaos Event."""
-        from brqse_engine.world.encounter_table import EncounterTable
-        biome = getattr(self.active_scene, 'biome', 'DUNGEON')
-        lvl = getattr(self.player_combatant, 'level', 1) if self.player_combatant else 1
-        encounter = EncounterTable.get_random_encounter(biome, lvl, force_type=force_type)
-        self._manifest_encounter(encounter, result)
-
-    def _manifest_encounter(self, encounter: Dict, result: Dict):
-        """Physically places an encounter on the map."""
-        etype = encounter["type"]
-        px, py = self.player_pos
-        spots = []
-        for dy in range(-2, 3):
-            for dx in range(-2, 3):
-                nx, ny = px + dx, py + dy
-                if 0 <= nx < 20 and 0 <= ny < 20:
-                    if self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and (nx, ny) != (px, py):
-                        spots.append((nx, ny))
-        
-        msg = encounter["log"]
-        if result.get("log"):
-            if msg not in result["log"]: result["log"] += " " + msg
-        else: result["log"] = msg
-
-        if not spots or etype == "FLAVOR": return
-        sx, sy = random.choice(spots)
-        
-        if etype in ["AMBUSH", "COMBAT"]:
-            from brqse_engine.combat.enemy_spawner import spawner
-            from brqse_engine.combat.combatant import Combatant
-            from brqse_engine.models.character import Character
-            
-            path = spawner.spawn_beast(biome=encounter.get("biome", "DUNGEON"), level=encounter.get("level", 1))
-            with open(path, 'r') as f:
-                enemy_data = json.load(f)
-            
-            enemy = Combatant(Character(enemy_data))
-            enemy.team = "Enemies"
-            enemy.x, enemy.y = sx, sy
-            self.active_scene.grid[sy][sx] = TILE_ENEMY
-            self.combat_engine.add_combatant(enemy)
-            if self.player_combatant:
-                self.player_combatant.x, self.player_combatant.y = px, py
-                self.combat_engine.add_combatant(self.player_combatant)
-            self.state = "COMBAT"
-            result["event"] = "COMBAT_STARTED"
-            
-        elif etype == "HAZARD":
-            self.active_scene.grid[sy][sx] = TILE_HAZARD
-            self.interactables[(sx, sy)] = {
-                "type": encounter.get("subtype", "Trap"), "x": sx, "y": sy,
-                "tags": ["disarm", "search", "inspect"], "is_blocking": False, "is_hidden": True
-            }
-        elif etype == "TREASURE":
-            self.interactables[(sx, sy)] = {
-                "type": encounter.get("subtype", "Treasure"), "x": sx, "y": sy,
-                "tags": ["search", "smash", "open"], "is_blocking": True
-            }
-            self.active_scene.grid[sy][sx] = TILE_LOOT
-        elif etype == "SOCIAL":
-            self.interactables[(sx, sy)] = {
-                "type": encounter.get("subtype", "NPC"), "x": sx, "y": sy,
-                "tags": ["talk", "inspect", "trade"], "is_blocking": True
-            }
-            self.active_scene.grid[sy][sx] = TILE_LOOT
-        elif etype == "PUZZLE":
-            self.interactables[(sx, sy)] = {
-                "type": encounter.get("subtype", "Puzzle"), "x": sx, "y": sy,
-                "tags": ["solve", "inspect"], "is_blocking": True
-            }
-            self.active_scene.grid[sy][sx] = TILE_LOOT
-        elif etype == "SAFE_HAVEN":
-            self.interactables[(sx, sy)] = {
-                "type": encounter.get("subtype", "Sanctuary"), "x": sx, "y": sy,
-                "tags": ["rest", "inspect"], "is_blocking": False
-            }
-            self.active_scene.grid[sy][sx] = TILE_ENTRANCE
 
     def _set_facing(self, direction: str):
         if self.player_combatant:

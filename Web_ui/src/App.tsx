@@ -43,7 +43,7 @@ interface WorldStatus {
 }
 
 function App() {
-  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'arena' | 'character' | 'inventory' | 'journal' | 'builder' | 'create' | 'selector'>('start');
+  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'character' | 'inventory' | 'journal' | 'skills' | 'builder' | 'create' | 'selector'>('start');
   const [apiOnline, setApiOnline] = useState(false);
   const [showDevTools, setShowDevTools] = useState(false);
   const [playerState, setPlayerState] = useState<PlayerState | null>(null);
@@ -55,10 +55,11 @@ function App() {
   });
   const [tacticalStatus, setTacticalStatus] = useState({ elevation: 0, is_behind_cover: false, facing: "N" });
   const [systemLogs, setSystemLogs] = useState<any[]>([]);
+  const [engineState, setEngineState] = useState<any>(null);
 
   useEffect(() => {
     checkHealth();
-    const interval = setInterval(checkHealth, 5000);
+    const interval = setInterval(checkHealth, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -67,7 +68,7 @@ function App() {
       const res = await fetch('/api/health');
       if (res.ok) {
         setApiOnline(true);
-        loadStateDeep();
+        fetchData();
       } else {
         setApiOnline(false);
       }
@@ -76,13 +77,14 @@ function App() {
     }
   };
 
-  const loadStateDeep = async () => {
+  const fetchData = async () => {
     try {
-      // 1. Fetch Game State (Events)
+      // 1. Fetch Game State (Events, Journal, Grid)
       const res = await fetch('/api/game/state');
       const data = await res.json();
+      setEngineState(data);
 
-      if (data.event === 'QUEST_COMPLETE') {
+      if (data.event === 'QUEST_COMPLETE' && currentView === 'gameplay') {
         addLog('SYSTEM', 'Quest Complete! Safe passage back to town.');
         setCurrentView('tavern');
       }
@@ -154,12 +156,18 @@ function App() {
       if (data.result && data.result.log) {
         addLog('ACTION', data.result.log);
       }
-      // Refresh state to show resource changes if any
       fetchData();
     } catch (e) {
       addLog('SYSTEM', 'Failed to channel power', 'error');
     }
   };
+
+  useEffect(() => {
+    if (currentView === 'world' || currentView === 'gameplay' || currentView === 'character' || currentView === 'inventory' || currentView === 'journal' || currentView === 'skills') {
+      const interval = setInterval(fetchData, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [currentView]);
 
   if (currentView === 'start') {
     return (
@@ -181,7 +189,9 @@ function App() {
     );
   }
 
-  const p = playerState || { name: "Awaiting Soul", species: "Unknown", stats: {}, equipment: {}, inventory: [], powers: [], sprite: "badger_front.png", max_hp: 20, current_hp: 20 };
+  const p = playerState || { name: "Awaiting Soul", species: "Unknown", stats: {}, equipment: {}, inventory: [], powers: [], skills: [], sprite: "badger_front.png", max_hp: 20, current_hp: 20 };
+
+  const isQuestActive = engineState && engineState.quest_progress && engineState.quest_progress !== "0/0";
 
   return (
     <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
@@ -192,13 +202,47 @@ function App() {
             <span className="text-xs font-bold uppercase tracking-widest text-stone-200">Shadowfall Chronicles</span>
           </div>
           <nav className="flex gap-1 bg-black border border-stone-800 p-1 rounded-sm">
-            <button onClick={() => setCurrentView('tavern')} className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'tavern' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}>Hub</button>
-            <button onClick={() => setCurrentView('gameplay')} className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'gameplay' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}>World</button>
-            <button onClick={() => setCurrentView('inventory')} className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'inventory' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}>Gear</button>
-            <button onClick={() => setCurrentView('character')} className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'character' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}>Hero</button>
+            <button
+              onClick={() => setCurrentView('gameplay')}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'gameplay' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+            >
+              World View
+            </button>
+            <button
+              onClick={() => setCurrentView('character')}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'character' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+            >
+              Character Sheet
+            </button>
+            <button
+              onClick={() => setCurrentView('inventory')}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'inventory' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+            >
+              Inventory
+            </button>
+            <button
+              onClick={() => setCurrentView('skills')}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'skills' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+            >
+              Skills
+            </button>
+            <button
+              onClick={() => setCurrentView('journal')}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'journal' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+            >
+              Journal
+            </button>
           </nav>
         </div>
         <div className="flex gap-3">
+          {(!isQuestActive || engineState?.event === 'QUEST_COMPLETE') && (
+            <button
+              onClick={() => setCurrentView('tavern')}
+              className="px-3 py-1 bg-stone-900 border border-stone-800 text-[10px] font-bold uppercase text-stone-400 hover:text-white hover:border-[#92400e] transition-colors"
+            >
+              Return to Tavern
+            </button>
+          )}
           <button onClick={() => setShowDevTools(!showDevTools)} className={`transition-colors ${showDevTools ? 'text-[#92400e]' : 'text-stone-800 hover:text-white'}`}><Eye size={14} /></button>
           <button onClick={() => setCurrentView('start')} className="text-stone-800 hover:text-red-900"><Power size={14} /></button>
         </div>
@@ -215,7 +259,6 @@ function App() {
             <p className="text-[10px] text-[#92400e] font-bold uppercase tracking-widest mt-1">{p.species}</p>
           </div>
 
-          {/* CHAOS AND TENSION HUD */}
           <ChaosHUD
             chaosLevel={worldStatus.chaos_level}
             chaosClock={worldStatus.chaos_clock}
@@ -233,6 +276,7 @@ function App() {
           {showDevTools && (
             <div className="p-2 space-y-1">
               <button onClick={() => setCurrentView('builder')} className="w-full py-1 text-[9px] bg-stone-900 border border-stone-800 hover:border-[#92400e] uppercase font-bold text-stone-500">Battle Builder</button>
+              <button onClick={() => setCurrentView('world')} className="w-full py-1 text-[9px] bg-stone-900 border border-stone-800 hover:border-[#92400e] uppercase font-bold text-stone-400">Force World Map</button>
             </div>
           )}
         </aside>
@@ -262,6 +306,16 @@ function App() {
               />
             )}
             {currentView === 'inventory' && <InventoryPanel characterItems={p.inventory} onEquip={handleEquip} />}
+            {currentView === 'skills' && <SkillsPanel skills={p.skills} powers={p.powers} />}
+            {currentView === 'journal' && (
+              <Journal
+                entries={engineState?.journal || []}
+                questTitle={engineState?.quest_title}
+                questDescription={engineState?.quest_description}
+                questProgress={engineState?.quest_progress}
+                questObjective={engineState?.quest_objective}
+              />
+            )}
             {currentView === 'builder' && <BattleBuilder onBattleStart={() => setCurrentView('gameplay')} />}
             {currentView === 'create' && <CharacterBuilder onSave={() => { loadPlayerState(); setCurrentView('tavern'); }} />}
           </div>
