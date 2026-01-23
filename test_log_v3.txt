@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 57, in <module>
+    test_ability_usage()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 44, in test_ability_usage
+    assert "perception sharpens" in res.get("log")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+--- Testing Ability Usage ---
+Known abilities: ['heat', 'mend']
+Using 'mend'...
+Result keys: dict_keys(['success', 'action', 'log', 'tension'])
+Log: 'Test Hero heals 10 HP (Minor)! The tension in the air thickens...'
+HP after Mend: 20
+Using 'scouting'...
+Log: Effect: Track
+Vision radius check (if possible): N/A
+
+--- TEST FAILED ---

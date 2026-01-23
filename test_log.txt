@@ -1,0 +1,15 @@
+--- Testing Ability Usage ---
+Known abilities: ['fire', 'mend']
+Using 'mend'...
+DEBUG: Handle Heal Triggered with (None, None, None)
+Result keys: dict_keys(['success', 'action', 'log', 'tension'])
+Log: 'Healed 1 HP! Test Hero heals 8 HP (Minor)! The tension in the air thickens...'
+HP after Mend: 19
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 55, in <module>
+    test_ability_usage()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 37, in test_ability_usage
+    assert gl.player_combatant.hp == 11
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

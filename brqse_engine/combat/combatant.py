@@ -61,6 +61,14 @@ class Combatant:
     @property
     def sprite(self): return getattr(self.character, "sprite", "badger_front.png")
 
+    @property
+    def max_hp(self): return self.max_hp_val
+
+    @property
+    def skills(self): return getattr(self.character, "skills", [])
+    @property
+    def powers(self): return getattr(self.character, "powers", [])
+
     def reset_turn(self):
         self.action_used = False
         self.bonus_action_used = False

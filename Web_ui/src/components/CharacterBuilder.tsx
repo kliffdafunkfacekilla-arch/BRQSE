@@ -160,7 +160,6 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
             .then(res => res.json())
             .then(data => {
                 setClassOptions(data);
-                setCompSelections({});
             });
     }, [selectedClass]);
 
@@ -304,10 +303,37 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
         }
     };
 
-    const randomizeCharacter = () => {
+    const randomizeCharacter = async () => {
         const speciesChoices = ['Mammal', 'Reptile', 'Avian', 'Insect', 'Aquatic', 'Plant'];
         const randSpecies = speciesChoices[Math.floor(Math.random() * speciesChoices.length)];
         setSelectedClass(randSpecies);
+
+        // Fetch component data manually to randomize immediately
+        try {
+            const res = await fetch(`/data/${randSpecies}.json`);
+            const data: ClassOption[] = await res.json();
+            setClassOptions(data);
+
+            const newCompSelections: Record<string, ClassOption> = {};
+            ['1_SIZE', '2_BIO', '3_HEAD', '4_ARMS', '5_LEGS', '6_BODY', '7_SPEC'].forEach(stepId => {
+                const options = data.filter(o => o.STEP === stepId);
+                if (options.length > 0) {
+                    newCompSelections[stepId] = options[Math.floor(Math.random() * options.length)];
+                }
+            });
+            setCompSelections(newCompSelections);
+        } catch (err) {
+            console.error("Manual randomization fetch failed", err);
+        }
+
+        // Randomize Backgrounds
+        const newBgSelections: Record<string, BackgroundOption> = {};
+        backgroundSteps.forEach(step => {
+            if (step.options.length > 0) {
+                newBgSelections[step.id] = step.options[Math.floor(Math.random() * step.options.length)];
+            }
+        });
+        setBgSelections(newBgSelections);
 
         const prefixes = ['Shadow', 'Storm', 'Iron', 'Swift', 'Crimson', 'Wild', 'Stone', 'Flame', 'Frost', 'Night'];
         const suffixes = ['claw', 'fang', 'wing', 'heart', 'runner', 'striker', 'walker', 'stalker', 'hunter', 'blade'];
@@ -336,7 +362,10 @@ export default function CharacterBuilder({ onSave }: CharacterBuilderProps) {
             {['Mammal', 'Reptile', 'Avian', 'Insect', 'Aquatic', 'Plant'].map(cls => (
                 <button
                     key={cls}
-                    onClick={() => setSelectedClass(cls)}
+                    onClick={() => {
+                        setSelectedClass(cls);
+                        setCompSelections({});
+                    }}
                     className={`p-6 rounded-sm border-2 text-left transition-all hover:scale-[1.02]
                         ${selectedClass === cls ? 'border-[#b45309] bg-[#1a140f] shadow-[0_0_15px_rgba(180,83,9,0.2)]' : 'border-stone-800 bg-[#0a0a0a]'}`}
                 >

@@ -42,8 +42,8 @@ class DataLoader:
                 with open(path, 'r', encoding=encoding) as f:
                     reader = csv.DictReader(f)
                     for row in reader:
-                        # Clean keys/values
-                        clean_row = {k.strip(): v.strip() for k, v in row.items() if k}
+                        # Clean keys/values and normalize spaces to underscores
+                        clean_row = {k.strip().replace(" ", "_"): v.strip() for k, v in row.items() if k}
                         data.append(clean_row)
                 break # Success
             except UnicodeDecodeError:
@@ -166,12 +166,12 @@ class DataLoader:
             if "Description" in s: effects.add(f"School: {s.get('School')} -> {s['Description']}")
 
         for s in self.skills:
-            if "Description" in s: effects.add(f"Skill: {s.get('Skill Name')} -> {s['Description']}")
+            if "Description" in s: effects.add(f"Skill: {s.get('Skill_Name')} -> {s['Description']}")
 
         for sp, skill_list in self.species_skills.items():
             for s in skill_list:
                 desc = s.get("Effect Description") or s.get("Effect")
-                name = s.get("Skill Name") or s.get("Skill")
+                name = s.get("Skill_Name") or s.get("Skill")
                 if desc: effects.add(f"Species_{sp}: {name} -> {desc}")
                 
         return sorted(list(effects))

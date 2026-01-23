@@ -1,0 +1,12 @@
+d20,Archetype,Description
+1-3,Hostile (Skirmish),Standard combat against a group of equal strength.
+4-5,Hostile (Ambush),The enemy has the advantage (surprise/position).
+6-7,Hostile (Elite),A fight against a single powerful "Boss" entity.
+8-9,Social (Transaction),Someone wants to buy sell or trade information.
+10-11,Social (Conflict),A tense standoff or negotiation (e.g. checkpoint shakedown).
+12-13,Social (Aid),Someone is in distress and requires non-combat help.
+14-15,Puzzle (Physical),An obstacle blocks the path (bridge out landslide lock).
+16-17,Puzzle (Logic),A cipher ancient mechanism or riddle needs solving.
+18,Mystery (Forensic),A crime scene or old ruin with clues to analyze.
+19,Hazard (Environmental),Weather or terrain is the enemy (storm flood fire).
+20,The Wildcard,Roll twice and combine them (e.g. Combat during a Puzzle).

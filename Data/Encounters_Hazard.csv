@@ -1,0 +1,21 @@
+Roll,Encounter_Structure,Suggested_Setup
+1,Bad Weather,Heavy rain/sandstorm slows travel and obscures vision.
+2,Equipment Failure,"A vehicle breaks down, a strap snaps, or a weapon jams."
+3,Spoiled Rations,Food is found to be rotten or infested. Lose supplies.
+4,The Minor Illness,A party member gets a cold/fever (stat penalty).
+5,The Lost Path,The party gets turned around; lose time or gain exhaustion.
+6,The Thief,An item goes missing during a rest (stolen by animal or NPC).
+7,The Pest Infestation,Bugs/vermin get into the gear; annoyance and minor damage.
+8,The False Trail,The party follows a lead that turns out to be a dead end.
+9,The Mount Injury,A horse/vehicle throws a shoe or breaks a wheel.
+10,The Bad Omen,A spooky event lowers party morale (save vs Fear).
+11,The Noise,A loud accident gives away the party's position to nearby enemies.
+12,The Obstinate Official,"A bureaucrat ties the party up in red tape, wasting time."
+13,The Terrain Trap,Quicksand/mud slows progress and requires strength to escape.
+14,The Sleepless Night,Noisy environment prevents a good rest (no healing).
+15,The Accidental Insult,"The party offends a local NPC, increasing prices/hostility."
+16,The Leak,"Water/fuel container leaks, losing valuable resources."
+17,The Flash Flood,"Sudden water forces a retreat to high ground, abandoning the path."
+18,The Allergen,Pollen/spores cause blinding sneezing or rashes.
+19,The Corrosive Rain,Acidic rain damages armor/exposed gear.
+20,The Bounty,Players see a Wanted poster for themselves; stealth is harder.

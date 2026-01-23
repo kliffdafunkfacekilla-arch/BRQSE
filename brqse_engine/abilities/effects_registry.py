@@ -146,7 +146,7 @@ class EffectRegistry:
         self.register_pattern(r"Deafen", self._handle_deafen)
         
         # --- HEALING & RESOURCES ---
-        self.register_pattern(r"Heal (?!HP every|minor)(\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
+        self.register_pattern(r"Heal (\d+)d?(\d+)? ?(HP)?", self._handle_heal)
         self.register_pattern(r"Regain (\d+)?d?(\d+)? ?(HP)?", self._handle_heal)
         self.register_pattern(r"Regain (\d+) (Stamina|Focus|FP|SP)", self._handle_restore_resource)
         self.register_pattern(r"(?<!Stasis )Temp(?:orary)? HP", self._handle_temp_hp)
@@ -220,7 +220,7 @@ class EffectRegistry:
         self.register_pattern(r"Push all enemies.*?(\d+)ft|Tsunami", self._handle_aoe_push)
         
         # --- EXPLORATION UTILITIES ---
-        self.register_pattern(r"Search|Perception|Scout|Keen eyes", self._handle_search)
+        self.register_pattern(r"Search|Perception|Scout|Keen eyes|Track", self._handle_search)
         self.register_pattern(r"Rest|Wait|Camp|Breathe", self._handle_rest)
         
         # --- SAVE EFFECTS ---

@@ -1,0 +1,21 @@
+d20,Power_Effect,Mechanical_Twist
+1,Mass (Gravity),Heavy/Light: Jump distance tripled OR movement speed halved. Knockback is doubled.
+2,Ordo (Stasis),Lag: Actions resolve at the end of the round not on the player's turn.
+3,Motus (Speed),Hyper-Reflex: All participants have +2 Initiative and +10ft movement.
+4,Flux (Matter),Phase-Shift: Walls/Cover act as difficult terrain (permeable) instead of solid obstacles.
+5,Vita (Life),Overgrowth: Healing is maxed but vines grow on the target (Grappled condition).
+6,Nexus (Heat),Superheat: Metal armor deals 1d4 fire damage to the wearer each round.
+7,Anumis (Arcane),Wild Magic: Any spell cast triggers a random side effect (visual or auditory).
+8,Ratio (Logic),Grid-Lock: No curves. Movement and range must be in straight lines/right angles only.
+9,Lux (Light),Prism: No stealth possible. Invisible creatures are revealed. Illusions are solid.
+10,Omen (Entropy),Rot: A critical fail breaks a weapon. Potions spoil if not used immediately.
+11,Aura (Charm),Empathy: Damage is linked. Dealing damage causes the attacker to take 1 Psychic damage.
+12,Lex (Command),The Rule: A law appears (e.g. "No Metal"). Breaking it causes 2d6 damage.
+13,The Bleed,Double Trouble: Roll twice on this table and apply both effects.
+14,Null-Zone,Silence: No Magic or Aether-Tech functions here. Mundane gear only.
+15,The Surge,Power-Up: All Spells/Attacks deal double damage but cost double resources.
+16,Reality Lag,Time Skip: Every 1d4 rounds the combat resets to the positions of the previous round.
+17,The Whisper,Paranoia: Players cannot see each other's health/status. Communication is garbled.
+18,The Convergence,Physics Failure: Up is Down. Ranged attacks hit random targets. Chaos reigns.
+19,The Eye,Perfect Calm: No Chaos effects. Magic is stable. A rare moment of peace.
+20,The Blowout,Catastrophe: A massive explosion or warp event occurs in 1d4 rounds. Escape is the only goal.

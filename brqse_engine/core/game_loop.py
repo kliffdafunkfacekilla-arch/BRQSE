@@ -8,6 +8,8 @@ from brqse_engine.combat.combatant import Combatant
 from scripts.world_engine import SceneStack, ChaosManager, Scene
 from brqse_engine.abilities import engine_hooks
 from brqse_engine.abilities.effects_registry import registry
+from brqse_engine.core.event_engine import EventEngine
+from brqse_engine.models.journal import Journal
 
 class GameLoopController:
     """
@@ -33,11 +35,23 @@ class GameLoopController:
         self.explored_tiles = set()
         self.current_event = "SCENE_STARTED"
         
+        # v2 Event System initialization
+        data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../Data")
+        self.event_engine = EventEngine(data_dir)
+        self.journal = Journal()
+        self.active_scenario = None
+        self.is_event_resolved = True # Start resolved for the very first room
+        
         self.scene_stack.generate_quest()
         self.advance_scene()
 
     def advance_scene(self) -> Scene:
         """Moves to next scene, resets visibility."""
+        if not self.is_event_resolved:
+            # We can't really return a Scene here, but we can prevent the update.
+            # In handle_action, we already block the call to this.
+            return self.active_scene
+
         scene = self.scene_stack.advance()
         if scene.text == "QUEST COMPLETE":
             self.active_scene = scene
@@ -47,18 +61,20 @@ class GameLoopController:
         scene = self.map_gen.generate_map(scene)
         self.active_scene = scene
         self.combat_engine = CombatEngine(20, 20)
+        
+        # Setup interactables and walls
+        self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
         for y, row in enumerate(scene.grid):
             for x, tile in enumerate(row):
                 if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
         
+        self.explored_tiles = set()
+        
         if scene.entrances: 
             self.player_pos = scene.entrances[0]
-            # --- SAFE SPAWN CHECK ---
             if self._is_blocked(*self.player_pos):
                 self.player_pos = self._find_safe_spawn(scene)
         
-        self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
-        self.explored_tiles = set()
         self._update_visibility()
         
         if self.player_combatant:
@@ -66,11 +82,87 @@ class GameLoopController:
             self.player_combatant.is_behind_cover = False
             self.player_combatant.facing = "N"
         else:
-            self.load_player() # Attempt reload if missing
+            self.load_player()
             
+        # Trigger Entry Event
+        self._trigger_scene_entry_event()
+        
         self.state = "EXPLORE"
         self.current_event = "SCENE_STARTED"
         return scene
+
+    def _trigger_scene_entry_event(self):
+        """Triggers the primary encounter for a room upon entry using EventEngine v2."""
+        # Reset resolution flag for new room
+        self.is_event_resolved = False
+        
+        biome = getattr(self.active_scene, 'biome', 'DUNGEON')
+        scenario = self.event_engine.generate_scenario(biome)
+        
+        self.active_scenario = scenario
+        self.journal.log_event(
+            scenario["archetype"], scenario["subject"], scenario["context"],
+            scenario["reward"], scenario["chaos_twist"], scenario["narrative"]
+        )
+        
+        # Manifest scenario entities
+        res = {"log": scenario["narrative"]}
+        for item in scenario["setup"]:
+            self._manifest_v2_entity(item, scenario, res)
+        
+        # If it's an AMBUSH, it might not be resolved until combat over
+        # If it's a "LOCATION_REACHED", we might resolve on move
+        if scenario["win_condition"]["type"] == "LOCATION_REACHED":
+            # Some rooms might be auto-resolved if they are just flavor
+            pass
+
+    def _manifest_v2_entity(self, setup_item: Dict, scenario: Dict, result: Dict):
+        """Helper to place entities defined by the EventEngine."""
+        etype = setup_item["type"]
+        px, py = self.player_pos
+        
+        # Find spot
+        spots = []
+        for dy in range(-4, 5):
+            for dx in range(-4, 5):
+                nx, ny = px + dx, py + dy
+                if 0 <= nx < 20 and 0 <= ny < 20:
+                    if self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and abs(dx)+abs(dy) > 2:
+                        spots.append((nx, ny))
+        
+        if not spots: return
+        sx, sy = random.choice(spots)
+
+        if etype == "ENEMY_SPAWN":
+            from brqse_engine.combat.enemy_spawner import spawner
+            from brqse_engine.combat.combatant import Combatant
+            from brqse_engine.models.character import Character
+            
+            path = spawner.spawn_beast(biome=getattr(self.active_scene, 'biome', 'DUNGEON'), level=1)
+            with open(path, 'r') as f: enemy_data = json.load(f)
+            enemy = Combatant(Character(enemy_data))
+            enemy.team = "Enemies"
+            enemy.x, enemy.y = sx, sy
+            self.active_scene.grid[sy][sx] = TILE_ENEMY
+            self.combat_engine.add_combatant(enemy)
+            self.state = "COMBAT"
+            result["event"] = "COMBAT_STARTED"
+
+        elif etype == "NPC_SPAWN":
+            self.interactables[(sx, sy)] = {
+                "type": setup_item.get("subtype", "Stranger"), "x": sx, "y": sy,
+                "tags": ["talk", "inspect"], "is_blocking": True
+            }
+            self.active_scene.grid[sy][sx] = TILE_LOOT
+
+        elif etype == "OBJECT_SPAWN":
+            self.interactables[(sx, sy)] = {
+                "type": setup_item.get("subtype", "Object"), "x": sx, "y": sy,
+                "tags": setup_item.get("tags", ["inspect"]),
+                "is_blocking": setup_item.get("is_blocking", True),
+                "is_locked": setup_item.get("is_locked", False)
+            }
+            self.active_scene.grid[sy][sx] = TILE_LOOT
 
     def load_player(self):
         """Loads or reloads the player character from GameState."""
@@ -122,9 +214,38 @@ class GameLoopController:
             result["log"] = f"A sturdy {obj['type']}." if obj else "An ordinary patch of ground."
 
         elif action_type == "search" or action_type == "perception":
-            result["log"] = f"Searched {obj['type']}... nothing." if obj else "You scour the area with keen eyes."
+            if obj:
+                tags = obj.get("tags", [])
+                if "search" in tags or "open" in tags:
+                    result["log"] = f"You search the {obj['type']} and find something useful!"
+                    # Potential for actual item drop logic here
+                    del self.interactables[x, y]
+                    self.active_scene.grid[y][x] = TILE_FLOOR
+                elif "disarm" in tags:
+                    result["log"] = f"You search the area and find a hidden {obj['type']}! Use 'disarm' to neutralize it."
+                    obj["is_hidden"] = False
+                else:
+                    result["log"] = f"You search the {obj['type']} but find nothing unusual."
+            else:
+                result["log"] = "You scour the area with keen eyes."
             self._update_visibility(radius=7) # Temporary vision boost
             
+        elif action_type == "disarm":
+            if obj and "disarm" in obj.get("tags", []):
+                result["log"] = f"You carefully disarm the {obj['type']}."
+                del self.interactables[x, y]
+                self.active_scene.grid[y][x] = TILE_FLOOR
+            else: result = {"success": False, "reason": "Nothing to disarm"}
+
+        elif action_type == "solve":
+            if obj and "solve" in obj.get("tags", []):
+                result["log"] = f"You concentrate and solve the {obj['type']}! A mechanism clicks."
+                if self.active_scenario and self.active_scenario["win_condition"]["type"] == "PUZZLE_SOLVED":
+                    self._resolve_active_event("Solved")
+                del self.interactables[x, y]
+                self.active_scene.grid[y][x] = TILE_FLOOR
+            else: result = {"success": False, "reason": "Nothing to solve"}
+
         elif action_type == "smash":
             if obj and "smash" in obj.get("tags", []):
                 result["log"] = f"Smashed {obj['type']}!"
@@ -172,20 +293,17 @@ class GameLoopController:
                     if self.player_combatant: self.player_combatant.elevation = 1
                     self._update_visibility()
                 
-                # --- NEW INTERACTION LOGIC ---
-                elif action_type == "talk":
-                    result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
-                elif action_type == "drink" and obj["type"] == "Mystic Fountain":
-                    if self.player_combatant:
-                        self.player_combatant.hp = min(self.player_combatant.hp + 5, self.player_combatant.max_hp_val)
-                        result["log"] = "The cool water restores your spirit (+5 HP)."
-                elif action_type == "pray" and obj["type"] == "Altar":
-                    result["log"] = "You feel a brief moment of divine protection."
-                    if self.player_combatant: self.player_combatant.is_blessed = True
                 elif action_type == "unlock" and obj["type"] == "Cage":
                     result["log"] = "You free a traveler! They reward you with a scrap of map."
                     del self.interactables[x,y]
                     self.active_scene.grid[y][x] = TILE_FLOOR
+
+        elif action_type == "talk":
+            if obj and "talk" in obj.get("tags", []):
+                result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
+                if self.active_scenario and self.active_scenario["win_condition"]["type"] == "TALKED_TO_NPC":
+                    self._resolve_active_event("Negotiated/Contacted")
+            else: result = {"success": False, "reason": "Nobody to talk to"}
         
         elif action_type == "wait" or action_type == "rest":
             result["log"] = "You take a moment to steady your breath."
@@ -247,95 +365,104 @@ class GameLoopController:
             result["tension"] = t_res
             if t_res == "EVENT":
                 self._spawn_tension_consequence(result)
+            elif t_res == "CHAOS_EVENT":
+                from brqse_engine.world.encounter_table import EncounterTable
+                twist = EncounterTable.get_chaos_twist()
+                msg = f"CHAOS SURGE: {twist['Domain']} - {twist['Description']}"
+                if "log" in result: result["log"] += f" {msg}"
+                else: result["log"] = msg
+                # Apply mechanical effect (e.g. spawn hazard)
+                self._spawn_tension_consequence(result, force_type="HAZARD")
             elif t_res == "SAFE":
-                if "log" in result:
-                    result["log"] += " The tension in the air thickens..."
+                if random.random() < 0.2:
+                    atm = self.chaos.get_atmosphere()
+                    if "log" in result: result["log"] += f" {atm['descriptor']}"
+                    else: result["log"] = atm["descriptor"]
+                elif "log" in result:
+                    result["log"] += " Tension grows..."
                 else:
                     result["log"] = "Tension grows with every step."
 
         return result
 
-    def _spawn_tension_consequence(self, result: Dict):
-        """Spawns monsters or hazards on Tension Event using EncounterTable."""
+    def _spawn_tension_consequence(self, result: Dict, force_type: str = None):
+        """Spawns monsters or hazards on Tension/Chaos Event."""
         from brqse_engine.world.encounter_table import EncounterTable
-        
         biome = getattr(self.active_scene, 'biome', 'DUNGEON')
         lvl = getattr(self.player_combatant, 'level', 1) if self.player_combatant else 1
-        
-        # Get random encounter definition
-        encounter = EncounterTable.get_random_encounter(biome, lvl)
+        encounter = EncounterTable.get_random_encounter(biome, lvl, force_type=force_type)
+        self._manifest_encounter(encounter, result)
+
+    def _manifest_encounter(self, encounter: Dict, result: Dict):
+        """Physically places an encounter on the map."""
         etype = encounter["type"]
-        
         px, py = self.player_pos
         spots = []
-        for dy in [-1, 0, 1]:
-            for dx in [-1, 0, 1]:
+        for dy in range(-2, 3):
+            for dx in range(-2, 3):
                 nx, ny = px + dx, py + dy
-                if 0 <= nx < 20 and 0 <= ny < 20 and self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and (nx, ny) != (px, py):
-                    spots.append((nx, ny))
+                if 0 <= nx < 20 and 0 <= ny < 20:
+                    if self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and (nx, ny) != (px, py):
+                        spots.append((nx, ny))
         
-        if not spots: return
+        msg = encounter["log"]
+        if result.get("log"):
+            if msg not in result["log"]: result["log"] += " " + msg
+        else: result["log"] = msg
 
+        if not spots or etype == "FLAVOR": return
         sx, sy = random.choice(spots)
-        result["log"] = encounter["log"]
-
-        if etype == "AMBUSH":
+        
+        if etype in ["AMBUSH", "COMBAT"]:
             from brqse_engine.combat.enemy_spawner import spawner
             from brqse_engine.combat.combatant import Combatant
             from brqse_engine.models.character import Character
             
-            path = spawner.spawn_beast(biome=biome, level=lvl)
+            path = spawner.spawn_beast(biome=encounter.get("biome", "DUNGEON"), level=encounter.get("level", 1))
             with open(path, 'r') as f:
                 enemy_data = json.load(f)
             
             enemy = Combatant(Character(enemy_data))
             enemy.team = "Enemies"
             enemy.x, enemy.y = sx, sy
-            
             self.active_scene.grid[sy][sx] = TILE_ENEMY
             self.combat_engine.add_combatant(enemy)
             if self.player_combatant:
                 self.player_combatant.x, self.player_combatant.y = px, py
                 self.combat_engine.add_combatant(self.player_combatant)
-            
             self.state = "COMBAT"
             result["event"] = "COMBAT_STARTED"
             
         elif etype == "HAZARD":
             self.active_scene.grid[sy][sx] = TILE_HAZARD
-            
-        elif etype == "TREASURE":
-            # Add a lootable object
-            subtype = encounter.get("subtype", "Ancient Crate")
             self.interactables[(sx, sy)] = {
-                "type": subtype,
-                "x": sx, "y": sy,
-                "tags": ["search", "smash"],
-                "is_blocking": True
+                "type": encounter.get("subtype", "Trap"), "x": sx, "y": sy,
+                "tags": ["disarm", "search", "inspect"], "is_blocking": False, "is_hidden": True
+            }
+        elif etype == "TREASURE":
+            self.interactables[(sx, sy)] = {
+                "type": encounter.get("subtype", "Treasure"), "x": sx, "y": sy,
+                "tags": ["search", "smash", "open"], "is_blocking": True
             }
             self.active_scene.grid[sy][sx] = TILE_LOOT
-
         elif etype == "SOCIAL":
-            # Add a social interactable
-            subtype = encounter.get("subtype", "Mystic Fountain")
-            tags = ["inspect"]
-            if "Altar" in subtype: tags.append("pray")
-            elif "Fountain" in subtype: tags.append("drink")
-            elif "Merchant" in subtype: tags.append("talk")
-            
             self.interactables[(sx, sy)] = {
-                "type": subtype,
-                "x": sx, "y": sy,
-                "tags": tags,
-                "is_blocking": True
+                "type": encounter.get("subtype", "NPC"), "x": sx, "y": sy,
+                "tags": ["talk", "inspect", "trade"], "is_blocking": True
             }
-            self.active_scene.grid[sy][sx] = TILE_LOOT # Represent with loot/interactable tile
-        
-        elif etype == "FLAVOR":
-            # Potentially escalate Chaos
-            if random.random() < 0.3:
-                self.chaos.chaos_clock = min(12, self.chaos.chaos_clock + 1)
-                result["log"] += " The chaos in the air thickens..."
+            self.active_scene.grid[sy][sx] = TILE_LOOT
+        elif etype == "PUZZLE":
+            self.interactables[(sx, sy)] = {
+                "type": encounter.get("subtype", "Puzzle"), "x": sx, "y": sy,
+                "tags": ["solve", "inspect"], "is_blocking": True
+            }
+            self.active_scene.grid[sy][sx] = TILE_LOOT
+        elif etype == "SAFE_HAVEN":
+            self.interactables[(sx, sy)] = {
+                "type": encounter.get("subtype", "Sanctuary"), "x": sx, "y": sy,
+                "tags": ["rest", "inspect"], "is_blocking": False
+            }
+            self.active_scene.grid[sy][sx] = TILE_ENTRANCE
 
     def _set_facing(self, direction: str):
         if self.player_combatant:
@@ -353,9 +480,17 @@ class GameLoopController:
         self._update_visibility()
         
         if tile == TILE_DOOR:
+            if not self.is_event_resolved:
+                return {"success": False, "reason": "The way is barred until the current situation is resolved."}
             self.advance_scene()
             return {"success": True, "event": "SCENE_ADVANCED"}
         return {"success": True}
+
+    def _resolve_active_event(self, reason: str):
+        """Called when a win condition is met."""
+        self.is_event_resolved = True
+        self.journal.resolve_last_event(reason)
+        # Potential for reward spawning here
 
     def _update_tactical_status(self):
         """Checks surroundings for cover."""
@@ -401,7 +536,16 @@ class GameLoopController:
         return self.player_pos # Fallback
 
     def get_state(self):
-        # Calculate progress
+        # 1. Check for Auto-Resolution (e.g. Combat Over)
+        if not self.is_event_resolved and self.active_scenario:
+            win_type = self.active_scenario["win_condition"]["type"]
+            if win_type == "ENEMIES_KILLED":
+                enemies = [c for c in self.combat_engine.combatants if c.team == "Enemies" and c.hp > 0]
+                if not enemies and self.state == "COMBAT" or (not enemies and self.active_scene.grid_has_no_enemies()):
+                    self._resolve_active_event("Combat Victory")
+                    self.state = "EXPLORE"
+
+        # 2. Calculate progress
         current_step = self.scene_stack.total_steps - len(self.scene_stack.stack)
         progress = f"{current_step}/{self.scene_stack.total_steps}"
         
@@ -419,5 +563,9 @@ class GameLoopController:
             "quest_title": self.scene_stack.quest_title,
             "quest_description": self.scene_stack.quest_description,
             "quest_progress": progress,
-            "quest_objective": self.active_scene.text if self.active_scene else "Explore"
+            "quest_objective": self.active_scene.text if self.active_scene else "Explore",
+            # v2 Event System info
+            "is_event_resolved": self.is_event_resolved,
+            "active_scenario": self.active_scenario,
+            "journal": self.journal.get_summary()
         }

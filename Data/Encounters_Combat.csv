@@ -1,0 +1,21 @@
+Roll,Encounter_Structure,Suggested_Setup
+1,The Pincer Ambush,Enemies attack from both front and rear simultaneously.
+2,High-Ground Harassment,Ranged enemies fire from inaccessible cliffs/rooftops; players must climb or take cover.
+3,The Feigned Victim,An enemy pretends to be wounded/trapped to lure players into a kill zone.
+4,Chokepoint Defense,Heavy enemies block a narrow bridge/tunnel; players must break the line.
+5,The Beast-Master,A sentient handler commands a pack of non-sapient beasts to attack.
+6,Wave Survival,Weak enemies swarm endlessly for X rounds until a spawner/leader is destroyed.
+7,Escort Intercept,Enemies are attacking a neutral NPC; players must protect the NPC during the fight.
+8,Environmental Hazard,"The battle takes place in a dangerous area (rising water, fire, toxic gas)."
+9,The Duelist,A single powerful enemy challenges one player to single combat; others intervene at a cost.
+10,Hit and Run,"Fast enemies strike, retreat out of range, and strike again (kiting)."
+11,The Ritual,Enemies ignore players to focus on completing a spell/device; stop them before the timer ends.
+12,Mounted Charge,Enemies on mounts/vehicles attempt to trample or drive-by attack the players.
+13,Invisible Stalkers,Enemies act from stealth or camouflage; players must detect them to hit them.
+14,The Juggernaut,"One massive, slow enemy with high defense; requires flanking or heavy damage to drop."
+15,Friendly Fire,Three-way battle. Two rival factions are fighting; players are caught in the middle.
+16,The Sapper,Enemies attempt to destroy the players' vehicle/camp/gear rather than kill the players.
+17,Mirror Match,Enemies possess abilities/gear eerily similar to the party's own.
+18,The Sniper,One enemy deals massive damage from extreme range; players must close the gap under fire.
+19,Mutating Threat,The enemy changes forms/stats when it reaches 50% health (Phase 2).
+20,The Suicide Squad,Enemies are rigged to explode on death; players must kill them at range.

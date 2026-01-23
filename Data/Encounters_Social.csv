@@ -1,0 +1,21 @@
+Roll,Encounter_Structure,Suggested_Setup
+1,The Toll Collector,A faction demands a tax/fee to pass. It might be a scam or legitimate.
+2,The Desperate Beggar,Someone asks for food/medicine. Helping them grants intel; ignoring them has consequences.
+3,The Merchant’s Dilemma,A trader has a broken wagon/ship. Helping them unlocks a unique shop inventory.
+4,Mistaken Identity,An NPC mistakes the party for someone else (heroes or criminals).
+5,The Information Broker,An NPC knows a secret but requires a favor or specific item in exchange.
+6,The Checkpoint,"Authorities demand papers/inspection. Players must bluff, bribe, or show credentials."
+7,The Rival Adventurers,"A competing party is resting nearby. They boast, spy, or offer a friendly wager."
+8,The Religious Proselytizer,A zealot demands the party perform a small ritual or accept a blessing/curse.
+9,The Escaped Prisoner,Someone in chains asks for help getting free. Are they innocent or dangerous?
+10,The Drunken Master,"An NPC is intoxicated and causing a scene, blocking progress or seeking a brawl."
+11,The Silent Observer,An NPC watches the party from a distance but flees if approached (scout/spy).
+12,The Arbitration,Two NPCs are arguing (over loot/land). They ask the party to judge who is right.
+13,The Gambler,An NPC challenges the party to a game of chance for high stakes.
+14,The Seducer/Spy,An attractive/charming NPC tries to get close to a party member to steal something.
+15,The Dying Messenger,"An NPC dies at the party's feet, handing them a macguffin or cryptic note."
+16,The Animal Whisperer,An NPC is tending to a dangerous beast and asks the party not to startle it.
+17,The Xenophobe,An NPC refuses to speak to a specific species/class in the party.
+18,The Old Flame,An NPC from a character's backstory appears in an unexpected role.
+19,The Double Agent,An NPC claims to work for the villain but offers to defect for a price.
+20,The Festival,A local celebration is blocking the street; players must participate to pass.

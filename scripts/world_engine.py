@@ -92,6 +92,12 @@ class Scene:
         self.exits = exits
         self.interactables = interactables 
 
+    def grid_has_no_enemies(self) -> bool:
+        """Returns True if no tiles on the grid have TILE_ENEMY (3)."""
+        for row in self.grid:
+            if 3 in row: return False
+        return True
+
 class SceneStack:
     def __init__(self, chaos_manager):
         self.chaos = chaos_manager

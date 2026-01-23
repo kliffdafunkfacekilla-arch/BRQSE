@@ -1,0 +1,13 @@
+Roll,Domain,Description
+1,Mass (Gravity),Heavy/Light: Gravity fluctuates. Jump distance is tripled OR movement speed is halved. Projectiles drop instantly or fly forever.
+2,Ordo (Stasis),"Lag/Freeze: Objects stop in mid-air for seconds before falling. Combat rounds have a ""cooldown"" where no one can move."
+3,Motus (Speed),"Hyper-Reflex: Everything moves faster. +2 to Initiative, but if you roll a 1 on a check, you drop your weapon due to vibration."
+4,Flux (Matter),"Phase-Shift: Solid objects (walls, floor) become permeable 50% of the time. You might sink into the floor or walk through a door."
+5,Vita (Life),"Overgrowth: Plants grapple anyone standing still. Wounds heal 1HP per round, but grow flowers/moss that must be cut off."
+6,Nexus (Energy),Volatility: Any metal spark or spell causes a small explosion (1d4 fire damage). The air is uncomfortably hot.
+7,Anumis (Magic),"Wild Magic: Every spell or special ability triggers a random side effect (color change, voice pitch shift, random teleport)."
+8,Ratio (Logic),Geometry: Curves are impossible. You can only move in straight lines (Grid movement enforced). Ranged attacks cannot arc.
+9,Lux (Light),Prism: It is blindingly bright. Invisible creatures are revealed. Illusions become solid/real. Stealth is impossible.
+10,Omen (Entropy),Decay: Items degrade. A natural 1 on an attack breaks the weapon. Potions spoil if not used immediately.
+11,Aura (Emotion),"Empathy: Damage is shared. If you hit an enemy, you take 1 psychic damage. If you heal an ally, you gain 1 HP."
+12,Lex (Command),"The Rule: A random law is imposed (e.g., ""No Metal,"" ""Silence,"" ""Only Truth""). Breaking it deals automatic psychic damage."

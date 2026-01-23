@@ -1,0 +1,21 @@
+Roll,Encounter_Structure,Suggested_Setup
+1,Physical Blockage,"A landslide, collapsed bridge, or fallen tree blocks the path."
+2,The Logic Lock,"A door/chest requires a code, pattern, or sequence to open."
+3,Environmental Hazard (Gas),Toxic air fills the room; players must plug vents or find fresh air pockets.
+4,The Weight Puzzle,Pressure plates must be triggered simultaneously or with specific weights.
+5,The Mirror Puzzle,Light beams must be reflected/refracted to hit a specific sensor.
+6,The Riddle Guardian,A statue/voice demands the answer to a riddle to open the way.
+7,The Maze,A confusing area where wrong turns teleport/loop players back to the start.
+8,The Timer,A room is filling with water/sand; players must find the exit mechanism quickly.
+9,The Missing Piece,A mechanism is broken; players must find/craft a replacement part.
+10,The Floor is Lava,The ground is dangerous; players must traverse via furniture/platforms.
+11,Magnetic/Gravity Shift,The room's orientation changes; players must navigate walls/ceilings.
+12,The Sound Lock,A door opens only when a specific tone/song is played or silence is maintained.
+13,The Language Barrier,Instructions are in a dead language; players must decipher context clues.
+14,The Separation,The party is split by a falling gate; they must work together from separate sides.
+15,The Moral Choice,"Two levers: one saves the loot, one saves an NPC. Can't choose both."
+16,The Illusion,A bridge looks broken but is solid (or vice versa). Players must see through it.
+17,The Gear-Work,A complex machine is jammed; players must remove debris in the right order.
+18,The Element Key,"A lock requires fire, ice, or lightning damage to activate."
+19,The Perspective Shift,Clues are only visible from a specific height or viewing angle.
+20,The Sacrifice,"The door requires a small amount of blood, gold, or magic to open."

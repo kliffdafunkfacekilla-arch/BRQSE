@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+--- Testing Ability Usage ---
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 57, in <module>
+Known abilities: ['fire', 'mend']
+    test_ability_usage()
+    ~~~~~~~~~~~~~~~~~~^^
+Using 'mend'...
+Result keys: dict_keys(['success', 'action', 'log', 'tension'])
+Log: 'Test Hero heals 9 HP (Minor)! The tension in the air thickens...'
+HP after Mend: 19
+Using 'scouting'...
+Log: None
+Vision radius check (if possible): N/A
+
+--- TEST FAILED ---
+  File "C:\Users\krazy\Desktop\BRQSE\test_ability_usage.py", line 44, in test_ability_usage
+    assert "perception sharpens" in res.get("log")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable

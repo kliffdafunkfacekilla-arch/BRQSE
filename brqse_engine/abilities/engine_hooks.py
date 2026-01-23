@@ -9,21 +9,28 @@ def get_entity_effects(combatant):
     """
     Collects all effect strings from a combatant's species, skills, and talents.
     """
+    if not combatant: return []
     effects = []
     
     # Species Skills
-    sp_skills = loader.species_skills.get(combatant.species, [])
-    for skill_name in combatant.skills:
+    species = getattr(combatant, "species", "Unknown")
+    sp_skills = loader.species_skills.get(species, [])
+    
+    skills = getattr(combatant, "skills", []) or []
+    powers = getattr(combatant, "powers", []) or []
+    traits = getattr(combatant, "traits", []) or []
+
+    for skill_name in skills:
         # Check species skills
         for s in sp_skills:
-             name = s.get("Skill Name") or s.get("Skill")
+             name = s.get("Skill_Name") or s.get("Skill")
              if name == skill_name:
                  eff = s.get("Effect Description") or s.get("Effect")
                  if eff: effects.append(eff)
                  
     # Generic Skills
     for s_row in loader.skills:
-        if s_row.get("Skill Name") in combatant.skills:
+        if s_row.get("Skill_Name") in skills:
             if s_row.get("Description"): effects.append(s_row.get("Description"))
             
     # Talents (Stored in combatant.traits)
@@ -67,17 +74,17 @@ def get_ability_data(ability_name):
     """
     # Check Talents
     for t in loader.talents:
-        if t.get("Talent_Name") == ability_name:
+        if t.get("Talent_Name", "").lower() == ability_name.lower():
              return t
     
-    # Check Schools/Powers - match by "Name" column NOT "School"
+    # Check Schools/Powers
     for s in loader.schools: 
-        if s.get("Name") == ability_name: 
+        if s.get("Name", "").lower() == ability_name.lower(): 
             return s
                 
     # Check Generic Skills
     for sk in loader.skills:
-        if sk.get("Skill Name") == ability_name:
+        if sk.get("Skill_Name", "").lower() == ability_name.lower():
             return sk
             
     return None

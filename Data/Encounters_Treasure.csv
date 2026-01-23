@@ -1,0 +1,21 @@
+Roll,Encounter_Structure,Suggested_Setup
+1,The Cache,A hidden supply drop (food/ammo) left by smugglers or soldiers.
+2,The Rare Herb,A patch of valuable alchemical plants ready for harvest.
+3,The Courier's Bag,A lost satchel containing money and undelivered mail.
+4,The Salvage,A wrecked vehicle/structure with usable parts or scrap metal.
+5,The Weapon Rack,An armory locker containing a weapon slightly better than current gear.
+6,The Gold Vein,A natural deposit of precious ore or gems exposed by weather.
+7,The Magic Item,"A minor magical trinket found in a strange place (e.g., inside a fish)."
+8,The Art Object,"A painting, statue, or jewelry piece valuable to collectors."
+9,The Skill Book,A manual that grants a temporary or permanent bonus to a specific skill.
+10,The Map Fragment,A piece of a map leading to a larger dungeon or treasure.
+11,The Key,A mysterious key that doesn't fit any lock nearby (future plot item).
+12,The Trophy,"A rare animal part (pelt, horn) worth gold."
+13,The Consumables,"A crate of potions, food, or repair kits."
+14,The Luxury Goods,"Fine silk, spices, or wine worth a lot but heavy to carry."
+15,The Secret Stash,Loose floorboards or a hollow tree containing personal savings.
+16,The Heirloom,An item with a family crest; valuable to the right NPC.
+17,The Blueprint,A schematic for crafting a new item or upgrade.
+18,The Currency Exchange,A box of foreign coins that need to be exchanged but are high value.
+19,The Lucky Charm,An item that grants a one-time reroll or luck bonus.
+20,The Motherlode,An untouched chest containing high-tier loot (roll 3x).

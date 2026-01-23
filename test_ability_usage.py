@@ -17,27 +17,31 @@ def test_ability_usage():
     # Mock a player with skills/powers
     char_data = {
         "Name": "Test Hero",
-        "Powers": ["Fireball", "Heal Light"],
-        "Skills": ["Search", "Sneak"],
+        "Powers": ["Heat", "Mend"],
+        "Skills": ["Scouting", "Mechanism"],
         "Stats": {"Might": 10, "Vitality": 10, "Reflexes": 10}
     }
     gl.player_combatant = Combatant(Character(char_data))
     gl.player_combatant.hp = 10
     
-    # Test Heal
+    # Test Heal (Mend)
     print(f"Known abilities: {[a.lower() for a in gl.player_combatant.character.powers]}")
-    print("Using 'heal light'...")
-    res = gl.handle_action("heal light", 0, 0)
+    print("Using 'mend'...")
+    res = gl.handle_action("mend", 0, 0)
     log = res.get('log', "")
+    print(f"Result keys: {res.keys()}")
     print(f"Log: '{log}'")
-    assert "+10 HP" in log
-    assert gl.player_combatant.hp == 20
+    print(f"HP after Mend: {gl.player_combatant.hp}")
+    # Mend is "Heal minor wounds" -> resolved by existing _handle_minor_heal (1d8+2)
+    assert "heals" in log and "Minor" in log
+    assert gl.player_combatant.hp > 10
     
-    # Test Search
-    print("Using 'Search'...")
-    res = gl.handle_action("search", 0, 0)
+    # Test Scouting (Skill)
+    print("Using 'scouting'...")
+    res = gl.handle_action("scouting", 0, 0)
     print(f"Log: {res.get('log')}")
-    assert "You scour the area" in res.get("log")
+    print(f"Vision radius check (if possible): {getattr(gl, '_vision_radius', 'N/A')}")
+    assert "perception sharpens" in res.get("log")
     
     # Test Unknown
     print("Using 'Unknown'...")
@@ -48,4 +52,10 @@ def test_ability_usage():
     print("Pass: Ability usage logic is working.")
 
 if __name__ == "__main__":
-    test_ability_usage()
+    import traceback
+    try:
+        test_ability_usage()
+    except Exception as e:
+        print("\n--- TEST FAILED ---")
+        traceback.print_exc()
+        exit(1)

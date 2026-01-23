@@ -1,0 +1,21 @@
+d20,Context,Description
+1,Lying in Wait,Camouflaged or hiding to spring a trap.
+2,Scavenging,"Picking through a wreck, corpse, or ruin for loot."
+3,Battling,Locked in combat with a Third Party (Roll Table 2 again).
+4,Guarding,"Protecting a location, object, or VIP."
+5,Trapped,"Stuck in terrain, a trap, or a magical anomaly."
+6,Traveling,Moving from Point A to B (has momentum).
+7,Ritual / Casting,Performing a ceremony or complex technical repair.
+8,Resting,Camped sleeping or eating (Low alert).
+9,Fleeing,Running away from something bigger (Roll Table 2 again).
+10,Negotiating,Arguing or trading with another group.
+11,Transforming,"Mid-mutation, molting, or powering up (Phase change)."
+12,Hunting/Tracking,Actively searching for the Players (Bounty/Food).
+13,Celebration,Drinking dancing or observing a holiday (Shadow Week).
+14,Dying,Mortally wounded or sick; desperation logic applies.
+15,Building,"Constructing a fort, bridge, or nest."
+16,Patrolling,Walking a set perimeter; highly alert.
+17,Theft,In the process of stealing something or breaking in.
+18,Instruction,An elder teaching a younger group (Training/Drill).
+19,Lost/Confused,Disoriented by Chaos or bad maps; erratic behavior.
+20,Sleeping (Magical),In stasis or supernatural slumber (waking them is bad).
