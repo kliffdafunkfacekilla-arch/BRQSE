@@ -1,11 +1,9 @@
 import { Sword, Zap, Shield, Heart, Sparkles, Activity } from 'lucide-react';
 
 interface ActionBarProps {
-interface ActionBarProps {
     powers?: any[];
     skills?: any[];
     onAction?: (action: string) => void;
-}
 }
 
 export default function ActionBar({ powers = [], skills = [], onAction }: ActionBarProps) {
@@ -25,6 +23,7 @@ export default function ActionBar({ powers = [], skills = [], onAction }: Action
             color: 'hover:border-stone-500'
         })),
         { icon: Shield, label: 'Defend', hotkey: '7', color: 'hover:border-blue-500' },
+        { icon: Zap, label: 'Channel', hotkey: 'C', color: 'hover:border-purple-500' },
         { icon: Heart, label: 'Wait', hotkey: '8', color: 'hover:border-green-500' },
     ];
 

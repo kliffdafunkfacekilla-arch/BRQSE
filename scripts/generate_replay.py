@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from brqse_engine.core.game_state import GameState
 from brqse_engine.core.data_loader import DataLoader
 from brqse_engine.models.character import Character
-from brqse_engine.combat.combat_engine import CombatEngine
+from brqse_engine.combat.mechanics import CombatEngine
 from brqse_engine.combat.combatant import Combatant
 from brqse_engine.combat.simple_ai import SimpleAI
 
@@ -107,7 +107,7 @@ def generate_replay():
     round_count = 0
     
     while round_count < MAX_ROUNDS:
-        active = engine.get_active_combatant()
+        active = engine.get_active_char()
         
         # Check Win Condition
         blue_alive = any(c.is_alive for c in engine.combatants if c.team == "Blue")
@@ -120,7 +120,7 @@ def generate_replay():
         if getattr(active, "is_alive", True): # Check if active is alive
             SimpleAI.execute_turn(active, engine)
         
-        engine.next_turn()
+        engine.end_turn()
         if engine.current_turn_index == 0:
             round_count += 1
 
@@ -149,7 +149,7 @@ def generate_replay():
 
     final_data = {
         "combatants": combatant_data,
-        "log": engine.events,
+        "log": engine.replay_log,
         "map": map_tiles,
         "winner": winner
     }

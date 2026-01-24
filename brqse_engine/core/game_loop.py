@@ -103,11 +103,18 @@ class GameLoopController:
         """Unified event trigger for Entry and Tension events."""
         # Reset resolution flag if a significant new event occurs
         # or if we are entering a room.
-        if is_entry:
-            self.is_event_resolved = False
-
         biome = getattr(self.active_scene, 'biome', 'DUNGEON')
         scenario = self.event_engine.generate_scenario(biome)
+        
+        # Decide if this event locks the doors
+        win_type = scenario["win_condition"]["type"]
+        is_challenge = win_type in ["ENEMIES_KILLED", "PUZZLE_SOLVED", "TALKED_TO_NPC"]
+        
+        if is_entry:
+            self.is_event_resolved = not is_challenge
+        elif is_challenge:
+            # If a challenge spawns dynamically (Tension), lock down
+            self.is_event_resolved = False
         
         # If we handle force_type (like HAZARD for Chaos), we should let EventEngine know
         # but for now we'll stick to the 5xD20 logic
@@ -144,7 +151,30 @@ class GameLoopController:
                     if self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and abs(dx)+abs(dy) > 2:
                         spots.append((nx, ny))
         
-        if not spots: return
+        if not spots:
+            # Fallback 1: Try adjacent/closer tiles (dist > 0)
+            for dy in range(-4, 5):
+                for dx in range(-4, 5):
+                    nx, ny = px + dx, py + dy
+                    if 0 <= nx < 20 and 0 <= ny < 20:
+                        if self.active_scene.grid[ny][nx] == TILE_FLOOR and (nx, ny) not in self.interactables and (nx,ny) != (px,py):
+                            spots.append((nx, ny))
+                            
+        if not spots:
+            # Fallback 2: Scan ENTIRE grid for any open floor
+            for r in range(20):
+                for c in range(20):
+                    if self.active_scene.grid[r][c] == TILE_FLOOR and (c, r) not in self.interactables and (c,r) != (px,py):
+                        spots.append((c, r))
+                        
+        if not spots:
+            # Critical Failsafe: No room to spawn.
+            # We MUST auto-resolve if this was a blocking event, otherwise the game softlocks.
+            if scenario.get("win_condition", {}).get("type") in ["ENEMIES_KILLED", "PUZZLE_SOLVED", "TALKED_TO_NPC"]:
+                self.is_event_resolved = True
+                result["log"] += " (The conceptual weight of the event collapses. The path opens.)"
+            return
+
         sx, sy = random.choice(spots)
 
         if etype == "ENEMY_SPAWN":
@@ -164,7 +194,8 @@ class GameLoopController:
                 "type": setup_item.get("subtype", "Stranger"), "x": sx, "y": sy,
                 "tags": ["talk", "inspect"], "is_blocking": True
             }
-            self.active_scene.grid[sy][sx] = TILE_LOOT
+            # Don't change tile to LOOT, keep as existing (likely FLOOR) to avoid rendering a chest under them
+            # self.active_scene.grid[sy][sx] = TILE_LOOT
 
         elif etype == "OBJECT_SPAWN":
             self.interactables[(sx, sy)] = {
@@ -205,12 +236,13 @@ class GameLoopController:
             return self._handle_combat_action(action_type, x, y)
         if self.state != "EXPLORE": return {"success": False, "reason": "Locked"}
 
-        # Update Facing for all actions
-        px, py = self.player_pos
-        if x > px: self._set_facing("E")
-        elif x < px: self._set_facing("W")
-        elif y > py: self._set_facing("S")
-        elif y < py: self._set_facing("N")
+        # Update Facing for all actions (only if coords provided)
+        if x is not None and y is not None:
+            px, py = self.player_pos
+            if x > px: self._set_facing("E")
+            elif x < px: self._set_facing("W")
+            elif y > py: self._set_facing("S")
+            elif y < py: self._set_facing("N")
 
         result = {"success": True, "action": action_type}
         obj = self.interactables.get((x, y))
@@ -223,7 +255,26 @@ class GameLoopController:
                 result["log"] = f"Moved to {x}, {y}."
         
         elif action_type == "inspect":
-            result["log"] = f"A sturdy {obj['type']}." if obj else "An ordinary patch of ground."
+            if obj:
+                if "talk" in obj.get("tags", []):
+                    result["log"] = f"You see {obj['type']}."
+                else:
+                    result["log"] = f"A sturdy {obj['type']}."
+            else:
+                # Check for combatant at x,y
+                entity = None
+                if self.combat_engine and self.combat_engine.combatants:
+                    for c in self.combat_engine.combatants:
+                        if c.x == x and c.y == y:
+                            entity = c
+                            break
+                            
+                if entity:
+                    result["log"] = f"You see {entity.name} ({entity.species})."
+                    if entity.team == "Enemies":
+                        result["log"] += " It looks hostile."
+                else:
+                    result["log"] = "An ordinary patch of ground."
 
         elif action_type == "search" or action_type == "perception":
             if obj:
@@ -248,6 +299,58 @@ class GameLoopController:
                 del self.interactables[x, y]
                 self.active_scene.grid[y][x] = TILE_FLOOR
             else: result = {"success": False, "reason": "Nothing to disarm"}
+
+        elif action_type == "track":
+            # Tracking / Forensics Logic
+            if not self.chaos:
+                result = {"success": False, "reason": "No Chaos Manager"}
+            else:
+                # 1. Determine Difficulty
+                difficulty = 10 + self.chaos.chaos_level
+                
+                # 2. Roll (Simulated Survival/Perception)
+                # TODO: Check for actual player skills if available
+                roll = random.randint(1, 20)
+                bonus = 0
+                if self.player_combatant:
+                    # quick check for skill keywords in powers/skills
+                    skills = [s.lower() for s in self.player_combatant.character.skills]
+                    if "survival" in skills: bonus += 3
+                    elif "perception" in skills: bonus += 2
+                
+                total = roll + bonus
+                
+                result["log"] = f"Tracking (DC {difficulty})... Rolled {total} ({roll}+{bonus})."
+                
+                if total >= difficulty:
+                    result["success"] = True
+                    # If there's a specific object being tracked
+                    if obj and "track" in obj.get("tags", []):
+                        result["log"] += f" SUCCESS: You find distinct signs leading away from the {obj['type']}."
+                    else:
+                        # Generic Scene Tracking
+                        biomes = getattr(self.active_scene, 'biome', 'DUNGEON')
+                        result["log"] += " SUCCESS: You discern a path through the debris/foliage."
+                        
+                    if self.active_scenario:
+                         # Check context - if it's a forensic encounter, this MUST progress it.
+                         narrative = str(self.active_scenario.get("narrative", "")).lower()
+                         win_type = self.active_scenario["win_condition"].get("type", "")
+                         
+                         if "track" in narrative or "clues" in narrative or "footprints" in narrative:
+                             self._resolve_active_event("Tracked Successfully")
+                             result["log"] += " You found the target!"
+                         elif win_type == "PUZZLE_SOLVED": # fallback
+                             self._resolve_active_event("Mystery Solved via Tracking")
+                
+                else:
+                    result["success"] = False
+                    result["log"] += " FAILURE: The signs are too faint or corrupted to follow."
+                    # Tension penalty for wasting time?
+                    self.chaos.chaos_clock += 1
+                    result["log"] += " FAILURE: The signs are too faint or corrupted to follow."
+                    # Tension penalty for wasting time?
+                    self.chaos.chaos_clock += 1
 
         elif action_type == "solve":
             if obj and "solve" in obj.get("tags", []):
@@ -322,6 +425,34 @@ class GameLoopController:
             if self.player_combatant:
                 self.player_combatant.hp = min(self.player_combatant.hp + 1, self.player_combatant.max_hp)
 
+        elif action_type == "channel":
+            # CHAOS CHANNELING (Separate Mechanic)
+            if not self.chaos:
+                result = {"success": False, "reason": "No Chaos Manager"}
+            else:
+                # Roll d10 vs Chaos Level (Design Bible IV)
+                roll = random.randint(1, 10)
+                level = self.chaos.chaos_level
+                
+                result["log"] = f"Channeling Chaos... Rolled {roll} vs Level {level}."
+                
+                # Logic Fix: Roll > Level (High Roll vs Difficulty)
+                if roll > level:
+                    # Success: Manifest Effect
+                    # TODO: Add specific spell selection? For now, just a generic blast or mana restore
+                    result["log"] += " SUCCESS! Pure chaos energy surges under your control."
+                    if self.player_combatant:
+                        self.player_combatant.fp = self.player_combatant.max_fp # Refill Focus
+                else:
+                    # Failure: Backfire (Roll <= Level)
+                    result["log"] += " BACKFIRE! The energy writhes uncontrollably."
+                    self.chaos.chaos_clock += 1 # Advance Clock
+                    if self.player_combatant:
+                        # Damage = Amount failed by? Or just flat? Design Bible implies severity.
+                        dmg = (level - roll) + 1
+                        self.player_combatant.take_damage(dmg) 
+                        result["log"] += f" You take {dmg} damage!"
+
         # Catch-all for Spell/Skill usage
         else:
             known_abilities = []
@@ -374,7 +505,7 @@ class GameLoopController:
         self._update_tactical_status()
         
         # Tension Rules: Only in EXPLORE mode, and only on time-consuming actions
-        if self.chaos and self.state == "EXPLORE" and action_type in ["move", "search", "disarm", "solve", "smash", "push", "vault", "climb", "pull", "open", "rest", "wait"]:
+        if self.chaos and self.state == "EXPLORE" and action_type in ["search", "disarm", "solve", "smash", "push", "vault", "climb", "pull", "open", "rest", "wait"]:
             t_res = self.chaos.roll_tension()
             result["tension"] = t_res
             if t_res == "EVENT":
@@ -382,6 +513,14 @@ class GameLoopController:
                 if "log" in result: result["log"] += " " + event_res["log"]
                 else: result["log"] = event_res["log"]
                 if "event" in event_res: result["event"] = event_res["event"]
+                # Store event data for frontend modal
+                if event_res.get("event") == "EVENT_TRIGGERED":
+                    self.active_event_data = event_res.get("data")
+                    self.is_event_resolved = False
+                # Store event data for frontend modal
+                if event_res.get("event") == "EVENT_TRIGGERED":
+                    self.active_event_data = event_res.get("data")
+                    self.is_event_resolved = False
             elif t_res == "CHAOS_EVENT":
                 from brqse_engine.world.encounter_table import EncounterTable
                 twist = EncounterTable.get_chaos_twist()
@@ -490,7 +629,7 @@ class GameLoopController:
             res = {"success": True, "action": action}
             
             # 1. Player Turn
-            if action == "move":
+            if action in ["move", "attack"]:
                 # Check if clicking on an enemy -> Attack
                 target = self.combat_engine.get_combatant_at(x, y)
                 if target and target.team != "Player":
@@ -519,6 +658,11 @@ class GameLoopController:
                                 })
                     else: 
                          return {"success": False, "reason": "Too far to attack"}
+                
+                elif action == "attack":
+                     # Explicit attack on empty/friendly tile -> Fail
+                     return {"success": False, "reason": "Nothing to attack here"}
+
                 else:
                     # Move logic (mechanics.py might not have move validation exposed same way, using existing _process_move)
                     dist = abs(x - self.player_pos[0]) + abs(y - self.player_pos[1])
@@ -661,7 +805,8 @@ class GameLoopController:
                     "hp": c.hp,
                     "max_hp": c.max_hp,
                     "sprite": c.data.get("sprite") or c.data.get("Sprite") or c.data.get("Portrait", 'badger_front.png'),
-                    "facing": getattr(c, 'facing', 'S')
+                    "facing": getattr(c, 'facing', 'S'),
+                    "tags": ["attack", "inspect"] if c.team == "Enemies" else ["talk", "inspect"]
                 }
                 for c in self.combat_engine.combatants if c.hp > 0
             ]

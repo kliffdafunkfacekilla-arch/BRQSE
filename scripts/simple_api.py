@@ -56,6 +56,20 @@ def get_player():
             
         enriched_skills.append({"name": s_name, "active": is_active, "type": "Skill"})
         
+    # Add Resource Pools from active combatant if available
+    if GAME_LOOP.player_combatant:
+        c = GAME_LOOP.player_combatant
+        p_data.update({
+            "sp": c.sp,
+            "max_sp": c.max_sp,
+            "fp": c.fp,
+            "max_fp": c.max_fp,
+            "cmp": c.cmp,
+            "max_cmp": c.max_cmp,
+            # Ensure sprite is consistent with active combatant
+            "sprite": c.data.get("Sprite") or c.data.get("sprite") or p_data.get("sprite")
+        })
+
     p_data["powers"] = enriched_powers
     p_data["skills"] = enriched_skills
     return jsonify(p_data)

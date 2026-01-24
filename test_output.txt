@@ -1,8 +1,0 @@
---- Testing Combat Symmetry (Great Atk vs Heavy Def) ---
-
---- Log Output ---
-LOG: Great Attacker attack: 9 + 2(Might) + 4(Great) = 15
-LOG: Heavy Defender defense: 7 + 4(Endurance) + 3(Heavy) = 14
-ATTACK: Great Attacker -> Heavy Defender | Result: HIT
-
---- Verification Complete ---

@@ -310,6 +310,10 @@ class Combatant:
         self.initiative = 0
         self.team = "Neutral" # Default team
         
+        # TACTICAL PROPS (Required by GameLoop)
+        self.elevation = 0
+        self.is_behind_cover = False
+        
     def _load_data(self, filepath):
         try:
             with open(filepath, 'r') as f: return json.load(f)

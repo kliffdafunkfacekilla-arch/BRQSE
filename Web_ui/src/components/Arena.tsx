@@ -10,9 +10,11 @@ interface ArenaProps {
     onLog?: (source: string, msg: string, type: 'info' | 'combat' | 'error') => void;
     sceneVersion?: number;
     playerSprite?: string;
+    activeAbility?: string | null;
+    onAbilityComplete?: () => void;
 }
 
-export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSprite }: ArenaProps) {
+export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSprite, activeAbility, onAbilityComplete }: ArenaProps) {
     const [combatants, setCombatants] = useState<any[]>([]);
     const [gridSize, setGridSize] = useState(20);
     const [mapTiles, setMapTiles] = useState<string[][]>([]);
@@ -23,6 +25,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
 
     // UI State
     const [tensionEvent, setTensionEvent] = useState<{ type: string, visible: boolean }>({ type: '', visible: false });
+    const [activeEvent, setActiveEvent] = useState<{ title: string, description: string, choices: any[] } | null>(null);
     const [menu, setMenu] = useState<{ x: number, y: number, tx: number, ty: number, tags: string[] } | null>(null);
 
     const TERRAIN_ASSETS: Record<string, string> = {
@@ -40,13 +43,13 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
 
     // Mapping for specific object types
     const OBJECT_ASSETS: Record<string, string> = {
-        'Barrel': '/items/chest_closed.png', // Placeholder
-        'Crate': '/items/chest_closed.png',  // Placeholder
-        'Chest': '/items/chest_closed.png',
-        'Table': '/tiles/wall_stone.png',   // Placeholder
+        'Barrel': '/objects/barrel.png',
+        'Crate': '/objects/crate.png',
+        'Chest': '/objects/chest.png',
+        'Table': '/objects/table.png',
         'Stone': '/traps/pressure_plate.png',
         'Logs': '/trees/mangrove_1.png',
-        'Chandelier': '/icons/weapon/bloodbane.png' // Visual placeholder
+        'Chandelier': '/icons/weapon/bloodbane.png'
     };
 
     const fetchData = () => {
@@ -58,6 +61,11 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                     updateExplorationState(data);
                     if (data.event === 'SCENE_STARTED' && onLog) {
                         onLog('EXPLORE', `Entered: ${data.scene_text}`, 'info');
+                    }
+                    if (data.active_event) {
+                        setActiveEvent(data.active_event);
+                    } else {
+                        setActiveEvent(null);
                     }
                 } else {
                     setExplorationMode(false);
@@ -105,18 +113,27 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
 
     const handleAction = (action: string, tx: number, ty: number) => {
         if (!explorationMode) return;
+
+        // If we have an active ability (aiming), override the action
+        const finalAction = activeAbility ? activeAbility.toLowerCase() : action;
+
         fetch('/api/game/action', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action, x: tx, y: ty })
+            body: JSON.stringify({ action: finalAction, x: tx, y: ty })
         })
             .then(res => res.json())
             .then(data => {
                 const res = data.result;
+                // If we used an ability, clear the aiming state
+                if (activeAbility && onAbilityComplete) {
+                    onAbilityComplete();
+                }
+
                 if (res.success) {
                     updateExplorationState(data.state);
 
-                    if (res.log && onLog) onLog('SYSTEM', res.log, 'info');
+                    if (res.log && onLog) onLog(activeAbility ? 'COMBAT' : 'SYSTEM', res.log, 'info');
 
                     // Tension Trigger
                     if (res.tension && res.tension !== 'SAFE') {
@@ -130,8 +147,29 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                         onLog('EXPLORE', "Quest Complete! Returning to Tavern...", 'info');
                     }
                     if (res.event === 'COMBAT_STARTED') fetchData();
+                    if (res.event === 'EVENT_TRIGGERED' && data.state.active_event) {
+                        setActiveEvent(data.state.active_event);
+                    }
+                } else if (res.reason) {
+                    if (onLog) onLog('ERROR', res.reason, 'error');
                 }
             });
+    };
+
+    const handleEventChoice = (choiceId: string) => {
+        // Resolve event via generic action (needs backend support or simple 'resolve' action)
+        // For now, let's assume 'resolve_event' action or similar.
+        // Actually, trigger_event in backend usually just requires any valid move or specific resolution? 
+        // Logic says "The way is barred until... resolved".
+        // Let's implement a 'resolve' action.
+        fetch('/api/game/action', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'resolve_event', selection: choiceId })
+        }).then(() => {
+            setActiveEvent(null);
+            fetchData();
+        });
     };
 
     const triggerTensionFX = (type: string) => {
@@ -148,109 +186,178 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         e.preventDefault();
         if (!explorationMode) return;
 
-        // Find object at this position
+        // Check for object first, then combatant
         const obj = objects.find(o => o.x === tx && o.y === ty);
+        const combatant = combatants.find(c => c.x === tx && c.y === ty);
+
+        // If neither, return (unless we want to inspect empty tiles)
+        // Actually, we should allow interactions on combatants too
+
+        let tags: string[] = [];
+        if (obj) tags = obj.tags || [];
+        if (combatant) {
+            // Use tags from backend if available, otherwise default
+            tags = combatant.tags || ['inspect'];
+
+            // Legacy fallback if backend doesn't define them yet
+            if (tags.length === 0 || (tags.length === 1 && tags[0] === 'inspect')) {
+                tags = ['inspect'];
+                if (combatant.team !== 'Player' && explorationMode) {
+                    // This block can be removed once backend is fully trusted, 
+                    // but keeping as safety for now.
+                }
+            }
+        }
+
+        if (!obj && !combatant) return;
+
         setMenu({
             x: e.clientX,
             y: e.clientY,
             tx,
             ty,
-            tags: obj?.tags || []
+            tags: tags
         });
     };
 
     useEffect(() => { fetchData(); }, [sceneVersion]);
 
     return (
-        <div className="flex h-full w-full gap-4 p-4 overflow-hidden relative">
-            <div className="flex-1 flex flex-col items-center relative">
+        <div className="w-full h-full relative flex items-center justify-center p-4 bg-[#050505] overflow-hidden">
 
-                {menu && (
-                    <ContextMenu
-                        {...menu}
-                        tileX={menu.tx}
-                        tileY={menu.ty}
-                        objectTags={menu.tags}
-                        onAction={handleAction}
-                        onClose={() => setMenu(null)}
-                    />
-                )}
+            {/* OVERLAYS & UI */}
+            {menu && (
+                <ContextMenu
+                    {...menu}
+                    tileX={menu.tx}
+                    tileY={menu.ty}
+                    objectTags={menu.tags}
+                    onAction={handleAction}
+                    onClose={() => setMenu(null)}
+                />
+            )}
 
-                {tensionEvent.visible && (
-                    <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-red-900/10 animate-fade-in">
-                        <div className="bg-black/80 border-2 border-red-900 p-6 flex flex-col items-center gap-4 animate-sim-shake scale-150">
-                            <Target size={32} className={tensionEvent.type === 'CHAOS_EVENT' ? 'text-orange-500' : 'text-red-600'} />
-                            <div className="flex flex-col items-center">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-stone-500">Tension Roll</span>
-                                <span className={`text-xl font-black uppercase tracking-widest ${tensionEvent.type === 'CHAOS_EVENT' ? 'text-orange-500' : 'text-red-600'}`}>
-                                    {tensionEvent.type.replace('_', ' ')}
-                                </span>
-                            </div>
+            {tensionEvent.visible && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-red-900/10 animate-fade-in">
+                    <div className="bg-black/80 border-2 border-red-900 p-6 flex flex-col items-center gap-4 animate-sim-shake scale-150">
+                        <Target size={32} className={tensionEvent.type === 'CHAOS_EVENT' ? 'text-orange-500' : 'text-red-600'} />
+                        <div className="flex flex-col items-center">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-stone-500">Tension Roll</span>
+                            <span className={`text-xl font-black uppercase tracking-widest ${tensionEvent.type === 'CHAOS_EVENT' ? 'text-orange-500' : 'text-red-600'}`}>
+                                {tensionEvent.type.replace('_', ' ')}
+                            </span>
                         </div>
                     </div>
-                )}
-
-                <div
-                    className="relative border-4 border-stone-900 shadow-[0_0_50px_rgba(0,0,0,0.8)] aspect-square max-w-full overflow-hidden bg-stone-950"
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-                        width: 'min(calc(100vh - 300px), 100%)'
-                    }}
-                    onContextMenu={(e) => e.preventDefault()}
-                >
-                    {mapTiles.map((row, y) => row.map((tile, x) => {
-                        const isVisible = explored.has(`${x},${y}`) || !explorationMode;
-
-                        // Check if an object exists on this tile
-                        const obj = objects.find(o => o.x === x && o.y === y);
-                        const terrainAsset = TERRAIN_ASSETS[tile] || TERRAIN_ASSETS['normal'];
-                        const objectAsset = obj ? OBJECT_ASSETS[obj.type] : null;
-
-                        return (
-                            <div
-                                key={`${x}-${y}`}
-                                onContextMenu={(e) => isVisible && onRightClick(e, x, y)}
-                                onClick={() => isVisible && handleAction('move', x, y)}
-                                className="relative flex items-center justify-center cursor-pointer transition-all duration-300"
-                                style={{ opacity: isVisible ? 1 : 0.05 }}
-                            >
-                                {/* Base Terrain */}
-                                <img src={terrainAsset} className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
-
-                                {/* Object Overlay (Enriched) */}
-                                {isVisible && objectAsset && (
-                                    <div className="absolute inset-0 z-10 p-1">
-                                        <img src={objectAsset} className="w-full h-full object-contain drop-shadow-lg" />
-                                    </div>
-                                )}
-
-                                {/* Player Token */}
-                                {isVisible && explorationMode && x === playerPos.x && y === playerPos.y && (
-                                    <div className="absolute inset-0 z-20 scale-125 pointer-events-none">
-                                        <Token name="Kliff" facing="down" team="Blue" sprite={playerSprite} />
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    }))}
-
-                    {/* Render Combatants (Both in Live and Replay) */}
-                    {combatants.map((c, i) => (
-                        <div
-                            key={i}
-                            className="absolute transition-all duration-500 pointer-events-none"
-                            style={{
-                                width: `${100 / gridSize}%`,
-                                height: `${100 / gridSize}%`,
-                                left: `${c.x * (100 / gridSize)}%`,
-                                top: `${c.y * (100 / gridSize)}%`
-                            }}
-                        >
-                            <Token name={c.name} facing={c.facing || 'down'} team={c.team} sprite={c.sprite} dead={c.hp <= 0} />
-                        </div>
-                    ))}
                 </div>
+            )}
+
+            {activeEvent && (
+                <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+                    <div className="w-full max-w-lg bg-[#0a0a0a] border border-[#92400e] p-8 flex flex-col gap-6 shadow-[0_0_50px_rgba(146,64,14,0.3)]">
+                        <div className="text-center space-y-2">
+                            <span className="text-xs font-bold uppercase tracking-[0.3em] text-[#92400e]">Event Triggered</span>
+                            <h3 className="text-2xl font-black text-white uppercase tracking-widest">{activeEvent.title || "Unknown Event"}</h3>
+                        </div>
+                        <p className="text-stone-300 font-serif text-lg leading-relaxed text-center italic">
+                            "{activeEvent.description || "The shadows shift..."}"
+                        </p>
+                        <div className="flex flex-col gap-3 mt-4">
+                            {(activeEvent.choices || []).map((choice: any, i: number) => (
+                                <button
+                                    key={i}
+                                    onClick={() => handleEventChoice(choice.id || i)}
+                                    className="py-4 px-6 bg-stone-900 border border-stone-800 hover:border-[#92400e] hover:bg-[#92400e]/10 transition-all group flex items-center justify-between"
+                                >
+                                    <span className="text-sm font-bold uppercase tracking-wider text-stone-400 group-hover:text-white transition-colors">{choice.label || "Continue"}</span>
+                                    <div className="w-2 h-2 bg-stone-800 group-hover:bg-[#92400e] rotate-45 transition-colors" />
+                                </button>
+                            ))}
+                            {(!activeEvent.choices || activeEvent.choices.length === 0) && (
+                                <button
+                                    onClick={() => handleEventChoice("continue")}
+                                    className="py-4 px-6 bg-stone-900 border border-stone-800 hover:border-[#92400e] hover:bg-[#92400e]/10 transition-all group flex items-center justify-between"
+                                >
+                                    <span className="text-sm font-bold uppercase tracking-wider text-stone-400 group-hover:text-white transition-colors">Continue</span>
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* MAP CONTAINER */}
+            <div
+                className="relative border-4 border-stone-900 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden bg-stone-950"
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+                    aspectRatio: '1/1',
+                    height: '100%',
+                    maxHeight: '100%',
+                    maxWidth: '100%'
+                }}
+                onContextMenu={(e) => e.preventDefault()}
+            >
+                {mapTiles.map((row, y) => row.map((tile, x) => {
+                    const isVisible = explored.has(`${x},${y}`) || !explorationMode;
+
+                    // Check if an object exists on this tile
+                    const obj = objects.find(o => o.x === x && o.y === y);
+                    const terrainAsset = TERRAIN_ASSETS[tile] || TERRAIN_ASSETS['normal'];
+                    let objectAsset = obj ? OBJECT_ASSETS[obj.type] : null;
+
+                    // Fallback for unmapped types (e.g. Social NPCs like "Industrialists")
+                    if (obj && !objectAsset) {
+                        // Default to NPC sprite for now
+                        objectAsset = '/objects/npc.png';
+                    }
+
+                    return (
+                        <div
+                            key={`${x}-${y}`}
+                            onContextMenu={(e) => isVisible && onRightClick(e, x, y)}
+                            onClick={() => isVisible && handleAction('move', x, y)}
+                            className="relative flex items-center justify-center cursor-pointer transition-all duration-300"
+                            style={{ opacity: isVisible ? 1 : 0.05 }}
+                        >
+                            {/* Base Terrain */}
+                            <img src={terrainAsset} className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
+
+                            {/* Object Overlay (Enriched) */}
+                            {isVisible && objectAsset && (
+                                <div className="absolute inset-0 z-10 p-1 flex items-center justify-center">
+                                    <img
+                                        src={objectAsset}
+                                        className="w-full h-full object-contain drop-shadow-lg"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Player Token */}
+                            {isVisible && explorationMode && x === playerPos.x && y === playerPos.y && (
+                                <div className="absolute inset-0 z-20 scale-125 pointer-events-none">
+                                    <Token name="Kliff" facing="down" team="Blue" sprite={playerSprite} />
+                                </div>
+                            )}
+                        </div>
+                    );
+                }))}
+
+                {/* Render Combatants (Both in Live and Replay) */}
+                {combatants.map((c, i) => (
+                    <div
+                        key={i}
+                        className="absolute transition-all duration-500 pointer-events-none"
+                        style={{
+                            width: `${100 / gridSize}%`,
+                            height: `${100 / gridSize}%`,
+                            left: `${c.x * (100 / gridSize)}%`,
+                            top: `${c.y * (100 / gridSize)}%`
+                        }}
+                    >
+                        <Token name={c.name} facing={c.facing || 'down'} team={c.team} sprite={c.sprite} dead={c.hp <= 0} />
+                    </div>
+                ))}
             </div>
         </div>
     );

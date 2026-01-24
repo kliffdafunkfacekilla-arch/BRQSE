@@ -32,6 +32,9 @@ interface PlayerState {
   sprite?: string;
   max_hp?: number;
   current_hp?: number;
+  sp?: number; max_sp?: number;
+  fp?: number; max_fp?: number;
+  cmp?: number; max_cmp?: number;
 }
 
 interface WorldStatus {
@@ -147,7 +150,19 @@ function App() {
     addLog('GEAR', `Equipped ${itemName}`);
   };
 
+  const [activeAbility, setActiveAbility] = useState<string | null>(null);
+
+  // ... (existing state)
+
   const handleAbilityAction = async (abilityName: string) => {
+    // Check if ability requires a target
+    const instantActions = ['wait', 'rest', 'channel', 'defend'];
+    if (!instantActions.includes(abilityName.toLowerCase())) {
+      setActiveAbility(abilityName);
+      addLog('COMBAT', `Select target for ${abilityName}...`, 'info');
+      return;
+    }
+
     try {
       const res = await fetch('/api/game/action', {
         method: 'POST',
@@ -208,7 +223,10 @@ function App() {
     skills: [],
     sprite: "badger_front.png",
     max_hp: 20,
-    current_hp: 20
+    current_hp: 20,
+    sp: 10, max_sp: 10,
+    fp: 10, max_fp: 10,
+    cmp: 10, max_cmp: 10
   };
 
   const isQuestActive = engineState && engineState.quest_progress && engineState.quest_progress !== "0/0";
@@ -289,9 +307,30 @@ function App() {
             facing={tacticalStatus.facing}
           />
 
-          <div className="p-4 border-b border-stone-900">
-            <div className="flex justify-between text-[9px] font-bold uppercase mb-1"><span>Integrity</span><span>{p.current_hp}/{p.max_hp}</span></div>
-            <div className="h-1 bg-stone-900 w-full mb-1"><div className="h-full bg-red-900" style={{ width: `${(p.current_hp! / p.max_hp!) * 100}%` }} /></div>
+          <div className="p-4 border-b border-stone-900 space-y-3">
+            {/* HP - Integrity */}
+            <div>
+              <div className="flex justify-between text-[9px] font-bold uppercase mb-1"><span>Integrity</span><span>{p.current_hp}/{p.max_hp}</span></div>
+              <div className="h-1 bg-stone-900 w-full"><div className="h-full bg-red-900" style={{ width: `${(p.current_hp! / p.max_hp!) * 100}%` }} /></div>
+            </div>
+
+            {/* SP - Stamina */}
+            <div>
+              <div className="flex justify-between text-[9px] font-bold uppercase mb-1 text-stone-400"><span>Stamina</span><span>{p.sp}/{p.max_sp}</span></div>
+              <div className="h-1 bg-stone-900 w-full"><div className="h-full bg-green-700" style={{ width: `${(p.sp! / p.max_sp!) * 100}%` }} /></div>
+            </div>
+
+            {/* FP - Focus */}
+            <div>
+              <div className="flex justify-between text-[9px] font-bold uppercase mb-1 text-stone-400"><span>Focus</span><span>{p.fp}/{p.max_fp}</span></div>
+              <div className="h-1 bg-stone-900 w-full"><div className="h-full bg-blue-700" style={{ width: `${(p.fp! / p.max_fp!) * 100}%` }} /></div>
+            </div>
+
+            {/* CMP - Composure */}
+            <div>
+              <div className="flex justify-between text-[9px] font-bold uppercase mb-1 text-stone-400"><span>Composure</span><span>{p.cmp}/{p.max_cmp}</span></div>
+              <div className="h-1 bg-stone-900 w-full"><div className="h-full bg-purple-900" style={{ width: `${(p.cmp! / p.max_cmp!) * 100}%` }} /></div>
+            </div>
           </div>
           {showDevTools && (
             <div className="p-2 space-y-1">
@@ -310,7 +349,7 @@ function App() {
             {currentView === 'world' && <WorldMap onBack={() => setCurrentView('tavern')} onArrive={() => setCurrentView('gameplay')} />}
             {currentView === 'gameplay' && (
               <div className="h-full flex flex-col">
-                <div className="flex-1 min-h-0"><Arena playerSprite={p.sprite} onLog={addLog} /></div>
+                <div className="flex-1 min-h-0"><Arena playerSprite={p.sprite} onLog={addLog} activeAbility={activeAbility} onAbilityComplete={() => setActiveAbility(null)} /></div>
                 <ActionBar
                   powers={p.powers}
                   skills={p.skills}

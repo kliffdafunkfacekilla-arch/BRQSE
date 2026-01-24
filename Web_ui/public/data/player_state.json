@@ -1,189 +1,52 @@
 {
-    "Name": "bobby",
-    "Species": "Aquatic",
+    "Name": "Hero",
+    "Species": "Mammal",
     "Stats": {
-        "Might": 9,
-        "Endurance": 16,
-        "Finesse": 12,
-        "Reflexes": 11,
-        "Vitality": 9,
-        "Fortitude": 11,
-        "Knowledge": 10,
-        "Logic": 12,
-        "Awareness": 11,
-        "Intuition": 11,
-        "Charm": 8,
-        "Willpower": 12
+        "Might": 10,
+        "Reflexes": 10,
+        "Endurance": 12,
+        "Vitality": 10,
+        "Fortitude": 14,
+        "Knowledge": 12,
+        "Logic": 10,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 12,
+        "Willpower": 10,
+        "Finesse": 12
     },
     "Traits": [
-        {
-            "Name": "Large",
-            "Type": "SIZE 4",
-            "Effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.",
-            "BodyPart": "Heavy Frame"
-        },
-        {
-            "Name": "The Eel",
-            "Type": "ANCESTRY",
-            "Effect": "Includes: Elongated Limbs, Slippery Skin, Needle Teeth.",
-            "BodyPart": "Anguilliform Anatomy"
-        },
-        {
-            "Name": "Beak",
-            "Type": "SENSES",
-            "Effect": "Active: Crunch (Ignore Armor/Shell Hardness on Bite attacks).",
-            "BodyPart": "Parrot-Beak"
-        },
-        {
-            "Name": "Stingers",
-            "Type": "ARMS",
-            "Effect": "Passive: Touch-Pain (Anyone touching you takes 1d4 Acid/Poison).",
-            "BodyPart": "Nematocysts"
-        },
-        {
-            "Name": "Hover",
-            "Type": "LEGS",
-            "Effect": "Passive: Drift (Float 1ft off ground. Ignore caltrops/liquids).",
-            "BodyPart": "Gas Bladder"
-        },
-        {
-            "Name": "Spined",
-            "Type": "BODY",
-            "Effect": "Passive: Barbed (Grapplers take 1d4 Pierce Dmg).",
-            "BodyPart": "Urchin Spines"
-        },
-        {
-            "Name": "Regen",
-            "Type": "SPECIAL",
-            "Effect": "Active: Regrow (Heal limb or massive HP over Short Rest).",
-            "BodyPart": "Starfish DNA"
-        },
-        {
-            "Name": "The Badge",
-            "Type": "Social Defense",
-            "Effect": "Skill Mastery"
-        },
-        {
-            "Name": "Command",
-            "Type": "Utility",
-            "Effect": "Skill Mastery"
-        },
-        {
-            "Name": "Regalia",
-            "Type": "Tool",
-            "Effect": "Skill Mastery"
-        },
-        {
-            "Name": "The Blades",
-            "Type": "Weapon Skill",
-            "Effect": "Skill Mastery"
-        },
-        {
-            "Name": "Rigs",
-            "Type": "Armor Skill",
-            "Effect": "Skill Mastery"
-        },
-        {
-            "Name": "The Thrown",
-            "Type": "Weapon Skill",
-            "Effect": "Skill Mastery"
-        }
+        "Long Arms",
+        "Spiked Fur",
+        "Square Jaw",
+        "Thick Throat",
+        "Silky Fur",
+        "Swivel Ears"
     ],
     "Powers": [
-        {
-            "School": "Ordo",
-            "Attribute": "Endurance",
-            "Tier": "1",
-            "Type": "Offense",
-            "Name": "Halt",
-            "Damage_Type": "Cold",
-            "Description": "Stop target movement completely."
-        },
-        {
-            "School": "Flux",
-            "Attribute": "Finesse",
-            "Tier": "1",
-            "Type": "Offense",
-            "Name": "Pierce",
-            "Damage_Type": "Acid",
-            "Description": "Ignore Armor Rating (AR)."
-        }
+        "Bolt",
+        "Push"
     ],
     "Inventory": [
-        {
-            "Name": "Throwing Knife",
-            "Type": "Weapon",
-            "Cost": "2",
-            "Related_Skill": "The Thrown",
-            "Description": "Balanced knife.",
-            "Effect": "Deal 1d4 Piercing damage.",
-            "Logic_Tags": "DMG:1d4:Pierce|RANGE:20/60|PROP:Thrown"
-        },
-        {
-            "Name": "Tactical Vest",
-            "Type": "Armor",
-            "Cost": "100",
-            "Related_Skill": "Rigs",
-            "Description": "Vest with many pouches.",
-            "Effect": "Hold 2 Consumables for Instant Use.",
-            "Logic_Tags": "SLOTS:2|USE:Instant"
-        },
-        {
-            "Name": "Rapier",
-            "Type": "Weapon",
-            "Cost": "25",
-            "Related_Skill": "The Blades",
-            "Description": "Elegant thrusting blade.",
-            "Effect": "Deal 1d8 Piercing damage.",
-            "Logic_Tags": "DMG:1d8:Pierce|PROP:Finesse"
-        }
+        "Cane Sword",
+        "Troll Hide"
     ],
-    "Gear": {
-        "leftHand": {
-            "Name": "Throwing Knife",
-            "Type": "Weapon",
-            "Cost": "2",
-            "Related_Skill": "The Thrown",
-            "Description": "Balanced knife.",
-            "Effect": "Deal 1d4 Piercing damage.",
-            "Logic_Tags": "DMG:1d4:Pierce|RANGE:20/60|PROP:Thrown"
-        },
-        "armor": {
-            "Name": "Tactical Vest",
-            "Type": "Armor",
-            "Cost": "100",
-            "Related_Skill": "Rigs",
-            "Description": "Vest with many pouches.",
-            "Effect": "Hold 2 Consumables for Instant Use.",
-            "Logic_Tags": "SLOTS:2|USE:Instant"
-        },
-        "rightHand": {
-            "Name": "Rapier",
-            "Type": "Weapon",
-            "Cost": "25",
-            "Related_Skill": "The Blades",
-            "Description": "Elegant thrusting blade.",
-            "Effect": "Deal 1d8 Piercing damage.",
-            "Logic_Tags": "DMG:1d8:Pierce|PROP:Finesse"
-        }
-    },
-    "Backstory": "The Wall. Iron will. Refusing to be baited or broken by sheer mental fortitude. \"Your orders are irrelevant.\"\n\nLeadership interrogation. Lore: Religion theology and cults.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nPrecision. Hand-eye coordination and dexterity.\n\nDeep Pockets. Preparedness. Having the right tool in the right pocket by instinct.\n\nDual-Utility. Flick of the wrist and balance.",
-    "Portrait": "blank_2.png",
+    "Gear": {},
+    "Backstory": "The Argument. Using facts, laws, and logical fallacies to dismantle their point. \"Actually, regulation 4.B clearly states...\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nPrecision. Hand-eye coordination and dexterity.\n\nMana-Weave. Warding patterns that require academic understanding.\n\nMobile Fire. Cardio. Running and gunning without shaking.",
+    "Portrait": "tiger_back_2.png",
     "sprite": "squirrel_right.png",
     "Skills": [
-        "Fist Weapons",
-        "Exotic Ranged",
-        "Insight",
-        "Stoicism",
-        "Heavy",
-        "Mechanism",
-        "Catalysts",
-        "Signal"
+        "Small Weapons",
+        "Natural",
+        "Performance",
+        "Tinctures",
+        "Quill Shot"
     ],
     "current_hp": 41,
     "equipment": {
-        "Armor": "Acrobat's Leathers",
-        "Main Hand": "Spear"
+        "Armor": "Tactical Vest",
+        "Main Hand": "Rapier",
+        "Off Hand": "Throwing Knife"
     },
     "inventory": [
         "Acrobat's Leathers",
@@ -294,5 +157,6 @@
             "Name": "Exotic Ranged",
             "Type": "Weapon Skill"
         }
-    ]
+    ],
+    "AI": "Ranged"
 }

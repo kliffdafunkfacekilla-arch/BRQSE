@@ -7,7 +7,7 @@ import random
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from char_engine import Character
-from combat_engine import resolve_attack, resolve_clash_effect, resolve_channeling
+from brqse_engine.combat.mechanics import CombatEngine, Combatant
 from world_engine import ChaosManager, SceneStack
 
 # CONSTANTS
@@ -38,6 +38,16 @@ class Game:
         self.player = Character("Mammal", "Greatsword", "Plate")
         self.enemy = None
         self.current_scene = self.world.advance()
+        
+        # Init Combat Engine
+        self.combat_engine = CombatEngine()
+        # Note: In a real app, we'd sync player/enemy to combat engine entities
+        # For this visualizer, we might need to wrap them or just use the engine for resolution.
+        # But wait, mechanics.py uses internal state extensively.
+        # Ideally main.py should defer ALL logic to game_loop.py, but that's a bigger refactor.
+        # For now, let's instantiate a Combatant wrapper for the player.
+        self.c_player = Combatant(data={"Name": "Player", "Stats": self.player.attributes})
+        self.combat_engine.add_combatant(self.c_player, 5, 5)
 
     def log(self, text):
         self.logs.append(text)
@@ -82,9 +92,21 @@ class Game:
                 # --- STATE: COMBAT ---
                 elif self.state == "COMBAT":
                     if event.key == pygame.K_a: # Attack
-                        res = resolve_attack(self.player, self.enemy)
+                        # Use Engine
+                        # Need to update wrapper stats from legacy char object? (Skipping for brevity, assuming sync)
                         
-                        if res["outcome"] == "THE CLASH":
+                        # We need an enemy combatant in the engine
+                        if not any(c.name == self.enemy.species_name for c in self.combat_engine.combatants):
+                             # Lazy add enemy to engine
+                             self.c_enemy = Combatant(data={"Name": self.enemy.species_name, "Stats": self.enemy.attributes})
+                             self.combat_engine.add_combatant(self.c_enemy, 6, 5) # Adjacent
+                        
+                        # Execute Attack
+                        log = self.combat_engine.attack_target(self.c_player, self.c_enemy)
+                        self.log(f"Action: {log[-1]}") # Log last line
+                        
+                        # Check for Clash in log
+                        if any("CLASH" in l for l in log):
                             self.state = "CLASH"
                             self.log("!!! CLASH TRIGGERED !!!")
                             self.log("Press [1] PRESS or [2] DISENGAGE")
@@ -103,12 +125,17 @@ class Game:
 
                 # --- STATE: CLASH ---
                 elif self.state == "CLASH":
+                    # We need to manually invoke the resolve_physical_clash method since it's internal to attack_target usually.
+                    # mechanics.py doesn't expose "resolve_clash_effect" directly as a public stateless utility.
+                    # It relies on internal state or immediate resolution.
+                    
+                    # WORKAROUND: Call execute_clash_technique directly
                     if event.key == pygame.K_1: # PRESS (Weapon Stat)
-                        effect = resolve_clash_effect("MIGHT", self.player, self.enemy)
+                        effect = self.combat_engine.execute_clash_technique(self.c_player, self.c_enemy, "MIGHT")
                         self.log(f"PRESS: {effect}")
                         self.state = "COMBAT"
                     elif event.key == pygame.K_2: # DISENGAGE (Armor Stat)
-                        effect = resolve_clash_effect("REFLEXES", self.player, self.enemy)
+                        effect = self.combat_engine.execute_clash_technique(self.c_player, self.c_enemy, "REFLEXES")
                         self.log(f"DISENGAGE: {effect}")
                         self.state = "COMBAT"
 

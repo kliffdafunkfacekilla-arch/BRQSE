@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import {
     Move, Search, Hammer, RotateCw,
     ArrowUp, LogOut, Package, Eye,
-    ArrowDown, Scissors, Play
+    ArrowDown, Scissors, Play, Footprints,
+    Sword, MessageSquare
 } from 'lucide-react';
 
 interface Action {
@@ -41,6 +42,9 @@ export default function ContextMenu({ x, y, tileX, tileY, objectTags, onAction, 
     ];
 
     // Map tags to actions
+    if (objectTags.includes('attack')) actions.push({ id: 'attack', label: 'Attack', icon: Sword });
+    if (objectTags.includes('talk')) actions.push({ id: 'talk', label: 'Talk', icon: MessageSquare });
+
     if (objectTags.includes('smash')) actions.push({ id: 'smash', label: 'Smash', icon: Hammer });
     if (objectTags.includes('push')) actions.push({ id: 'push', label: 'Push', icon: ArrowUp });
     if (objectTags.includes('pull')) actions.push({ id: 'pull', label: 'Pull', icon: ArrowDown });
@@ -50,6 +54,15 @@ export default function ContextMenu({ x, y, tileX, tileY, objectTags, onAction, 
     if (objectTags.includes('open')) actions.push({ id: 'open', label: 'Open', icon: Package });
     if (objectTags.includes('break')) actions.push({ id: 'break', label: 'Break', icon: Scissors });
     if (objectTags.includes('drop')) actions.push({ id: 'drop', label: 'Drop', icon: ArrowDown });
+
+    // Tracking Rule: Only show on Floor (no object) OR objects tagged 'clue' or 'track'
+    // 'objectTags' comes from the object. If it's a floor click, objectTags might be empty (Arena logic).
+    const isFloor = objectTags.length === 0;
+    const isTrackable = objectTags.includes('clue') || objectTags.includes('track');
+
+    if (isFloor || isTrackable) {
+        actions.push({ id: 'track', label: 'Track', icon: Footprints });
+    }
 
     return (
         <div

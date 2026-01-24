@@ -1,0 +1,116 @@
+{
+    "Name": "Wildstalker",
+    "Species": "Reptile",
+    "Stats": {
+        "Might": 11,
+        "Endurance": 9,
+        "Finesse": 9,
+        "Reflexes": 16,
+        "Vitality": 10,
+        "Fortitude": 13,
+        "Knowledge": 10,
+        "Logic": 13,
+        "Awareness": 8,
+        "Intuition": 13,
+        "Charm": 10,
+        "Willpower": 10
+    },
+    "Traits": [
+        {
+            "Name": "Huge",
+            "Type": "SIZE 5",
+            "Effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.",
+            "BodyPart": "Siege Frame"
+        },
+        {
+            "Name": "The Monitor",
+            "Type": "ANCESTRY",
+            "Effect": "Includes: Forked Tongue (Tracker), Rending Claws, Whip Tail.",
+            "BodyPart": "Varanid Anatomy"
+        },
+        {
+            "Name": "Panic",
+            "Type": "SENSES",
+            "Effect": "Passive: Third Eye (Cannot be Surprised or Flanked).",
+            "BodyPart": "Parietal Eye"
+        },
+        {
+            "Name": "Basher",
+            "Type": "ARMS",
+            "Effect": "Active: Smash (Melee Attack. Knock target back 10ft).",
+            "BodyPart": "Club-Fists"
+        },
+        {
+            "Name": "Silent",
+            "Type": "LEGS",
+            "Effect": "Passive: Stalk (No penalty to Stealth for moving at full speed).",
+            "BodyPart": "Soft Scales"
+        },
+        {
+            "Name": "Iron-Scale",
+            "Type": "BODY",
+            "Effect": "Passive: Heavy Plate (+3 Natural AC, -5 Speed).",
+            "BodyPart": "Osteoderms"
+        },
+        {
+            "Name": "Drop",
+            "Type": "SPECIAL",
+            "Effect": "Active: Decoy (Reaction. Drop tail. It wiggles. You turn Invisible).",
+            "BodyPart": "Autotomy Tail"
+        },
+        {
+            "Name": "The Ledger",
+            "Type": "Social Offense",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Motion",
+            "Type": "Utility",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Regalia",
+            "Type": "Tool",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Small",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Cloth",
+            "Type": "Armor Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Simple",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        }
+    ],
+    "Powers": [
+        {
+            "School": "Omen",
+            "Attribute": "Intuition",
+            "Tier": "1",
+            "Type": "Offense",
+            "Name": "Jinx",
+            "Damage_Type": "Necrotic",
+            "Description": "-1d4 to Hit."
+        },
+        {
+            "School": "Nexus",
+            "Attribute": "Fortitude",
+            "Tier": "1",
+            "Type": "Utility",
+            "Name": "Shape",
+            "Damage_Type": "Fire",
+            "Description": "Mold clay/stone/wood."
+        }
+    ],
+    "Inventory": [],
+    "Gear": {},
+    "Backstory": "The Argument. Using facts, laws, and logical fallacies to dismantle their point. \"Actually, regulation 4.B clearly states...\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nPrecision. Hand-eye coordination and dexterity.\n\nMana-Weave. Warding patterns that require academic understanding.\n\nMobile Fire. Cardio. Running and gunning without shaking.",
+    "Portrait": "tiger_back_2.png"
+}
