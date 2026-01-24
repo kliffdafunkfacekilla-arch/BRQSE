@@ -1,10 +1,12 @@
 from typing import Dict, Any, Tuple, List
 import random
+import math
+import math
+import traceback
 import json
 import os
-from brqse_engine.combat.combat_engine import CombatEngine
+from brqse_engine.combat.mechanics import CombatEngine, Combatant
 from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_ENEMY, TILE_HAZARD, TILE_DOOR
-from brqse_engine.combat.combatant import Combatant
 from scripts.world_engine import SceneStack, ChaosManager, Scene
 from brqse_engine.abilities import engine_hooks
 from brqse_engine.abilities.effects_registry import registry
@@ -33,7 +35,9 @@ class GameLoopController:
         self.active_scene = None
         self.interactables = {}
         self.explored_tiles = set()
+        self.explored_tiles = set()
         self.current_event = "SCENE_STARTED"
+        self.dice_log = []
         
         # v2 Event System initialization
         data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../Data")
@@ -145,16 +149,13 @@ class GameLoopController:
 
         if etype == "ENEMY_SPAWN":
             from brqse_engine.combat.enemy_spawner import spawner
-            from brqse_engine.combat.combatant import Combatant
-            from brqse_engine.models.character import Character
             
             path = spawner.spawn_beast(biome=getattr(self.active_scene, 'biome', 'DUNGEON'), level=1)
             with open(path, 'r') as f: enemy_data = json.load(f)
-            enemy = Combatant(Character(enemy_data))
+            enemy = Combatant(data=enemy_data)
             enemy.team = "Enemies"
-            enemy.x, enemy.y = sx, sy
             self.active_scene.grid[sy][sx] = TILE_ENEMY
-            self.combat_engine.add_combatant(enemy)
+            self.combat_engine.add_combatant(enemy, sx, sy)
             self.state = "COMBAT"
             result["event"] = "COMBAT_STARTED"
 
@@ -180,8 +181,7 @@ class GameLoopController:
         
         player_data = self.game_state.get_player()
         if player_data:
-            from brqse_engine.models.character import Character
-            self.player_combatant = Combatant(Character(player_data))
+            self.player_combatant = Combatant(data=player_data)
             self.player_combatant.team = "Player"
 
     def handle_staged_battle(self):
@@ -201,7 +201,9 @@ class GameLoopController:
 
     def handle_action(self, action_type: str, x: int, y: int) -> Dict[str, Any]:
         """Generic handler for player intent."""
-        if self.state != "EXPLORE": return {"success": False, "reason": "Combat Lock"}
+        if self.state == "COMBAT":
+            return self._handle_combat_action(action_type, x, y)
+        if self.state != "EXPLORE": return {"success": False, "reason": "Locked"}
 
         # Update Facing for all actions
         px, py = self.player_pos
@@ -318,7 +320,7 @@ class GameLoopController:
         elif action_type == "wait" or action_type == "rest":
             result["log"] = "You take a moment to steady your breath."
             if self.player_combatant:
-                self.player_combatant.hp = min(self.player_combatant.hp + 1, self.player_combatant.max_hp_val)
+                self.player_combatant.hp = min(self.player_combatant.hp + 1, self.player_combatant.max_hp)
 
         # Catch-all for Spell/Skill usage
         else:
@@ -365,12 +367,14 @@ class GameLoopController:
         if not self.player_combatant:
             self.load_player()
             if not self.player_combatant:
-                from brqse_engine.models.character import Character
-                self.player_combatant = Combatant(Character({"Name": "Player"}))
+                self.player_combatant = Combatant(data={"Name": "Player"})
 
         self._update_tactical_status()
         
-        if self.chaos:
+        self._update_tactical_status()
+        
+        # Tension Rules: Only in EXPLORE mode, and only on time-consuming actions
+        if self.chaos and self.state == "EXPLORE" and action_type in ["move", "search", "disarm", "solve", "smash", "push", "vault", "climb", "pull", "open", "rest", "wait"]:
             t_res = self.chaos.roll_tension()
             result["tension"] = t_res
             if t_res == "EVENT":
@@ -411,7 +415,9 @@ class GameLoopController:
              return {"success": False, "reason": "Blocked"}
             
         self.player_pos = (tx, ty)
-        if self.player_combatant: self.player_combatant.elevation = 0
+        if self.player_combatant: 
+            self.player_combatant.elevation = 0
+            self.player_combatant.x, self.player_combatant.y = tx, ty
         self._update_visibility()
         
         if tile == TILE_DOOR:
@@ -470,37 +476,193 @@ class GameLoopController:
                             return (nx, ny)
         return self.player_pos # Fallback
 
+    def force_combat(self):
+        """Debug method to trigger combat."""
+        res = {"log": "DEBUG: Forcing combat..."}
+        self._manifest_v2_entity({"type": "ENEMY_SPAWN"}, {}, res)
+        if self.state == "COMBAT":
+             self.active_scenario = {"win_condition": {"type": "ENEMIES_KILLED"}, "narrative": "Forced Battle"}
+        return res
+
+    def _handle_combat_action(self, action: str, x: int, y: int) -> Dict[str, Any]:
+        """Turn-based combat logic."""
+        try:
+            res = {"success": True, "action": action}
+            
+            # 1. Player Turn
+            if action == "move":
+                # Check if clicking on an enemy -> Attack
+                target = self.combat_engine.get_combatant_at(x, y)
+                if target and target.team != "Player":
+                    # Synchorize play pos just in case
+                    px, py = self.player_pos
+                    self.player_combatant.x, self.player_combatant.y = px, py
+                    
+                    # Check range (assume melee 1.5 tiles (diagonals ok) for now)
+                    dist = math.hypot(x - px, y - py)
+                    if dist <= 1.5:
+                        # Use mechanics.py attack method
+                        log_lines = self.combat_engine.attack_target(self.player_combatant, target)
+                        res["log"] = " ".join(log_lines)
+                        
+                        # Extract details from replay log for Dice Log
+                        if self.combat_engine.replay_log:
+                            last_entry = self.combat_engine.replay_log[-1]
+                            # Format based on entry type
+                            if last_entry.get("type") in ["attack", "clash"]:
+                                self.dice_log.append({
+                                    "source": "Player",
+                                    "action": last_entry.get("type", "Action").capitalize(),
+                                    "roll": last_entry.get("attack_roll", 0),
+                                    "details": last_entry.get("description", str(log_lines)),
+                                    "result": last_entry.get("result", "INFO").upper()
+                                })
+                    else: 
+                         return {"success": False, "reason": "Too far to attack"}
+                else:
+                    # Move logic (mechanics.py might not have move validation exposed same way, using existing _process_move)
+                    dist = abs(x - self.player_pos[0]) + abs(y - self.player_pos[1])
+                    # Combatant from mechanics uses data.get("Stats") dict directly
+                    stats = getattr(self.player_combatant, 'stats', {})
+                    # Mechanics combatant calculates base_movement in init
+                    speed = getattr(self.player_combatant, "base_movement", 6)
+                    
+                    if dist * 5 > speed * 5: # mechanics uses ft? No, grid units usually. Let's assume tiles.
+                        # mechanics.py base_movement is usually 25+ (ft). 5 ft per tile.
+                        # So speed in tiles = base_movement / 5
+                        speed_tiles = speed / 5
+                        if dist > speed_tiles:
+                             return {"success": False, "reason": "Too far"}
+                    
+                    move_res = self._process_move(x, y) 
+                    if not move_res["success"]: return move_res
+                    
+                    res["log"] = f"Moved to {x}, {y}."
+            
+            elif action in ["wait", "rest"]:
+                 res["log"] = "You hold your ground."
+                 if self.player_combatant:
+                     heal = max(1, int(self.player_combatant.max_hp * 0.05))
+                     self.player_combatant.hp = min(self.player_combatant.hp + heal, self.player_combatant.max_hp)
+                     res["log"] += f" (+{heal} HP)"
+            
+            elif action == "Attack": 
+                 res["log"] = "Select a target."
+                 return {"success": False, "reason": "Select target"}
+    
+            # 2. Enemy Turn
+            self._process_enemy_turns(res)
+            
+            # 3. Check State
+            self._check_combat_end()
+            
+            return res
+        except Exception as e:
+            traceback.print_exc()
+            return {"success": False, "reason": f"Combat Error: {str(e)}", "log": f"System Error: {str(e)}"}
+
+    def _process_enemy_turns(self, result_log):
+        """Simple enemy AI."""
+        enemies = [c for c in self.combat_engine.combatants if c.team == "Enemies" and c.hp > 0]
+        if not enemies: return
+        
+        log_entries = []
+        for e in enemies:
+            # Simple AI: Move to player
+            px, py = self.player_pos
+            dist = math.hypot(px - e.x, py - e.y)
+            
+            if dist <= 1.5: # Adjacent-ish
+                # Attack using mechanics engine
+                # mechanics.py attack_target(attacker, target)
+                log_lines = self.combat_engine.attack_target(e, self.player_combatant)
+                log_entries.extend(log_lines)
+            else:
+                # Move towards player
+                # Basic pathfinding towards player
+                dx = 1 if px > e.x else -1 if px < e.x else 0
+                dy = 1 if py > e.y else -1 if py < e.y else 0
+                
+                # Desired new pos
+                nx, ny = e.x + dx, e.y + dy
+                
+                # Check collision (Walls, Player, Other Enemies)
+                is_blocked = False
+                if not (0 <= nx < 20 and 0 <= ny < 20): is_blocked = True
+                elif self.active_scene.grid[ny][nx] == 0: is_blocked = True # Wall
+                elif (nx, ny) == (px, py): is_blocked = True # Player
+                elif self.combat_engine.get_combatant_at(nx, ny): is_blocked = True # Other enemy
+                
+                if not is_blocked:
+                     e.x, e.y = nx, ny
+        
+        if log_entries:
+            combined_log = " ".join(log_entries)
+            if "log" in result_log: result_log["log"] += " " + combined_log
+            else: result_log["log"] = combined_log
+
+    def _check_combat_end(self):
+        enemies = [c for c in self.combat_engine.combatants if c.team == "Enemies" and c.hp > 0]
+        if not enemies:
+            self.state = "EXPLORE"
+            if self.active_scenario and self.active_scenario["win_condition"]["type"] == "ENEMIES_KILLED":
+                 self._resolve_active_event("Victory")
+
     def get_state(self):
         # 1. Check for Auto-Resolution (e.g. Combat Over)
         if not self.is_event_resolved and self.active_scenario:
             win_type = self.active_scenario["win_condition"]["type"]
             if win_type == "ENEMIES_KILLED":
                 enemies = [c for c in self.combat_engine.combatants if c.team == "Enemies" and c.hp > 0]
-                if not enemies and self.state == "COMBAT" or (not enemies and self.active_scene.grid_has_no_enemies()):
+                has_grid_enemies = self.active_scene.grid_has_no_enemies() if self.active_scene else True
+                if (not enemies and self.state == "COMBAT") or (not enemies and not has_grid_enemies):
                     self._resolve_active_event("Combat Victory")
                     self.state = "EXPLORE"
 
         # 2. Calculate progress
-        current_step = self.scene_stack.total_steps - len(self.scene_stack.stack)
-        progress = f"{current_step}/{self.scene_stack.total_steps}"
+        if self.scene_stack:
+            current_step = self.scene_stack.total_steps - len(self.scene_stack.stack)
+            progress = f"{current_step}/{self.scene_stack.total_steps}"
+            quest_title = self.scene_stack.quest_title
+            quest_description = self.scene_stack.quest_description
+        else:
+            progress = "0/0"
+            quest_title = "None"
+            quest_description = "No active quest."
         
         return {
             "mode": self.state,
             "player_pos": self.player_pos,
             "grid": self.active_scene.grid if self.active_scene and hasattr(self.active_scene, 'grid') else [],
-            "explored": list(self.explored_tiles),
+            "explored": [list(pos) for pos in self.explored_tiles],
             "objects": list(self.interactables.values()),
             "grid_w": 20, "grid_h": 20,
             "scene_text": self.active_scene.text if self.active_scene else "",
             "elevation": self.player_combatant.elevation if self.player_combatant else 0,
             "is_behind_cover": self.player_combatant.is_behind_cover if self.player_combatant else False,
             "facing": self.player_combatant.facing if self.player_combatant else "N",
-            "quest_title": self.scene_stack.quest_title,
-            "quest_description": self.scene_stack.quest_description,
+            "quest_title": quest_title,
+            "quest_description": quest_description,
             "quest_progress": progress,
             "quest_objective": self.active_scene.text if self.active_scene else "Explore",
             # v2 Event System info
             "is_event_resolved": self.is_event_resolved,
             "active_scenario": self.active_scenario,
-            "journal": self.journal.get_summary()
+            "is_event_resolved": self.is_event_resolved,
+            "active_scenario": self.active_scenario,
+            "journal": self.journal.get_summary(),
+            "dice_log": self.dice_log[-50:], # Return last 50 logs
+            # V2: Return combatants for rendering
+            "combatants": [
+                {
+                    "name": c.name,
+                    "x": c.x, "y": c.y,
+                    "team": c.team,
+                    "hp": c.hp,
+                    "max_hp": c.max_hp,
+                    "sprite": c.data.get("sprite") or c.data.get("Sprite") or c.data.get("Portrait", 'badger_front.png'),
+                    "facing": getattr(c, 'facing', 'S')
+                }
+                for c in self.combat_engine.combatants if c.hp > 0
+            ]
         }

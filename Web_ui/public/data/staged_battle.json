@@ -1,9 +1,9 @@
 {
-  "blue_team": [
-    "kliff"
-  ],
-  "red_team": [
-    "Iron"
-  ],
-  "terrain": []
+    "blue_team": [
+        "Blaze"
+    ],
+    "red_team": [
+        "bob"
+    ],
+    "terrain": []
 }

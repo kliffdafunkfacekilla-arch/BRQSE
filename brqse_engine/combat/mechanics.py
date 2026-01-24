@@ -117,8 +117,25 @@ class Combatant:
         else:
             self.skills = raw_skills # Assume dict
             
-        self.traits = self.data.get("Traits", []) # List of strings "TraitName"
-        self.powers = self.data.get("Powers", []) # List of strings "PowerName"
+        # Data Normalization: Traits (Ensure strings)
+        raw_traits = self.data.get("Traits", [])
+        self.traits = []
+        for t in raw_traits:
+            if isinstance(t, dict):
+                val = t.get("Name") or t.get("name")
+                if val: self.traits.append(val)
+            elif isinstance(t, str):
+                self.traits.append(t)
+
+        # Data Normalization: Powers (Ensure strings)
+        raw_powers = self.data.get("Powers", [])
+        self.powers = []
+        for p in raw_powers:
+            if isinstance(p, dict):
+                val = p.get("Name") or p.get("name")
+                if val: self.powers.append(val)
+            elif isinstance(p, str):
+                self.powers.append(p)
         
         # Initialize Inventory Manager
         # FIX: Ensure we use the class, not a raw list
@@ -126,8 +143,11 @@ class Combatant:
             self.inventory = Inventory()
             inv_data = self.data.get("Inventory", [])
             if isinstance(inv_data, list):
-                for item_name in inv_data:
-                    self.inventory.equip(item_name)
+                for item_entry in inv_data:
+                    if isinstance(item_entry, dict):
+                        self.inventory.equip(item_entry.get("Name", "Unknown"))
+                    else:
+                        self.inventory.equip(item_entry)
         else:
             self.inventory = None
             
@@ -164,15 +184,37 @@ class Combatant:
         """Auto-equip items from data if Inventory exists"""
         if not self.inventory: return
         
-        # Check 'Gear' or 'Weapons' list in data
-        # Assuming simple list of strings for now
-        gear = self.data.get("Inventory", []) + self.data.get("Gear", []) + self.data.get("Weapons", []) + self.data.get("Armor", [])
+    def _init_loadout(self):
+        """Auto-equip items from data if Inventory exists"""
+        if not self.inventory: return
         
-        for item_name in gear:
-            # Simple heuristic: try to equip everything
-            # The inventory engine handles lookup
-            self.inventory.equip(item_name) # Will slot into Armor/MainHand automatically
+        gear_items = []
+        
+        def collect(key):
+            val = self.data.get(key)
+            if isinstance(val, list):
+                gear_items.extend(val)
+            elif isinstance(val, dict):
+                for v in val.values():
+                    if v: gear_items.append(v)
+            elif isinstance(val, str):
+                gear_items.append(val)
 
+        collect("Inventory")
+        collect("Gear")
+        collect("Weapons")
+        collect("Armor")
+        collect("Equipment")
+
+        for item_entry in gear_items:
+            name = item_entry
+            if isinstance(item_entry, dict):
+                name = item_entry.get("Name", "Unknown")
+            
+            if name and isinstance(name, str):
+                self.inventory.equip(name)
+                
+        # Status Flags Init
         self.is_broken = False        # True = CMP at 0 (mental break)
         self.is_exhausted = False     # True = SP at 0 (physical exhaustion)
         self.is_drained = False       # True = FP at 0 (focus depleted)

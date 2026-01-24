@@ -68,7 +68,15 @@ class ProgressionEngine:
         new_unlocks = []
         skills = combatant.skills
         if isinstance(skills, list): skills = {k: 1 for k in skills}
-        existing_traits = set(combatant.traits)
+        if isinstance(skills, list): skills = {k: 1 for k in skills}
+        
+        # FIX: Ensure traits are strings not dicts
+        normalized_traits = []
+        for t in combatant.traits:
+            if isinstance(t, dict): normalized_traits.append(t.get("Name") or t.get("name", "Unknown"))
+            elif isinstance(t, str): normalized_traits.append(t)
+            
+        existing_traits = set(normalized_traits)
         
         for talent in self.loader.talents:
             t_name = talent.get("Talent_Name")

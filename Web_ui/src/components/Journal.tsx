@@ -63,7 +63,7 @@ export default function Journal({ entries = [], questTitle, questDescription, qu
                     )}
 
                     <div className="space-y-4">
-                        {entries.length > 0 ? [...entries].reverse().map((e, i) => (
+                        {(entries || []).length > 0 ? [...(entries || [])].reverse().map((e, i) => (
                             <div key={i} className="p-3 bg-stone-900/30 border border-stone-900 hover:border-stone-700 transition-colors">
                                 <div className="flex justify-between items-center mb-2">
                                     <div className="flex gap-2 items-center">

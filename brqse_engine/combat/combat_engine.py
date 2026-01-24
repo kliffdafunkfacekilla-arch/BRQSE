@@ -32,6 +32,12 @@ class CombatEngine:
     def record_event(self, event_type: str, actor: str, **kwargs): self.events.append({"type": event_type, "actor": actor, **kwargs})
     def log(self, msg: str): self.record_event("info", "System", description=msg)
 
+    def get_combatant_at(self, x: int, y: int) -> Optional[Combatant]:
+        """Returns the combatant at the given coordinates, or None."""
+        for c in self.combatants:
+            if c.x == x and c.y == y and c.hp > 0: return c
+        return None
+
     def is_behind(self, attacker: Combatant, target: Combatant) -> bool:
         """Returns True if attacker is in target's rear 180° arc."""
         dx, dy = attacker.x - target.x, attacker.y - target.y
@@ -87,7 +93,9 @@ class CombatEngine:
         atk_skill_rank = attacker.get_skill_rank(atk_skill_name)
         
         atk_total = atk_roll + atk_stat_mod + atk_skill_rank
-        self.log(f"{attacker.name} attack: {atk_roll} + {atk_stat_mod}({stat}) + {atk_skill_rank}({atk_skill_name}) = {atk_total}")
+        atk_total = atk_roll + atk_stat_mod + atk_skill_rank
+        log_detail = f"{attacker.name} attack: {atk_roll} (d20) + {atk_stat_mod} ({stat}) + {atk_skill_rank} ({atk_skill_name}) = {atk_total} vs "
+        self.log(log_detail)
         
         # DEFENSE RESOLUTION (Armor-based d20 + Skill + Stat)
         def_roll = random.randint(1, 20)
@@ -99,13 +107,14 @@ class CombatEngine:
         def_skill_rank = target.get_skill_rank(def_skill_name)
         
         def_total = def_roll + def_stat_mod + def_skill_rank
+        log_detail += f"{def_total} ({target.name} DEF)"
         self.log(f"{target.name} defense: {def_roll} + {def_stat_mod}({def_stat_name}) + {def_skill_rank}({def_skill_name}) = {def_total}")
 
         margin = atk_total - def_total
         if margin == 0: return self._trigger_clash(attacker, target, stat)
         if margin < 0:
             self.record_event("attack", attacker.name, target=target.name, result="MISS", damage=0)
-            return {"hit": False}
+            return {"hit": False, "roll_total": atk_total, "log_details": log_detail}
         
         # Damage scaling based on margin
         scaling = 0.5 if margin <= 5 else 1.0 if margin <= 10 else 2.0
@@ -117,7 +126,7 @@ class CombatEngine:
         ctx["damage"] = dmg
         engine_hooks.apply_hooks(attacker, "ON_HIT", ctx)
 
-        return {"hit": True, "damage": dmg}
+        return {"hit": True, "damage": dmg, "roll_total": atk_total, "log_details": log_detail}
 
     def _trigger_clash(self, attacker, target, stat):
         self.clash_active = True

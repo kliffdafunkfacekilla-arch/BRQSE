@@ -11,6 +11,7 @@ import InventoryPanel from './components/InventoryPanel';
 import ActionBar from './components/ActionBar';
 import CharacterSheet from './components/CharacterSheet';
 import Journal from './components/Journal';
+import SkillsPanel from './components/SkillsPanel';
 import BattleBuilder from './components/BattleBuilder';
 import CharacterBuilder from './components/CharacterBuilder';
 import MainMenu from './components/MainMenu';
@@ -18,6 +19,7 @@ import TavernHub from './components/TavernHub';
 import WorldMap from './components/WorldMap';
 import ChaosHUD from './components/ChaosHUD';
 import HeroSelector from './components/HeroSelector';
+import DiceLog from './components/DiceLog';
 
 interface PlayerState {
   name: string;
@@ -123,7 +125,7 @@ function App() {
   };
 
   const addLog = (source: string, message: string, type: string = 'info') => {
-    setSystemLogs(prev => [{ id: Date.now(), source, message, type, time: new Date().toLocaleTimeString() }, ...prev].slice(0, 30));
+    setSystemLogs(prev => [{ id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, source, message, type, time: new Date().toLocaleTimeString() }, ...prev].slice(0, 30));
   };
 
   const handleEquip = async (itemName: string) => {
@@ -189,7 +191,25 @@ function App() {
     );
   }
 
-  const p = playerState || { name: "Awaiting Soul", species: "Unknown", stats: {}, equipment: {}, inventory: [], powers: [], skills: [], sprite: "badger_front.png", max_hp: 20, current_hp: 20 };
+  const p = playerState ? {
+    ...playerState,
+    skills: playerState.skills || [],
+    powers: playerState.powers || [],
+    inventory: playerState.inventory || [],
+    equipment: playerState.equipment || {},
+    stats: playerState.stats || {},
+  } : {
+    name: "Awaiting Soul",
+    species: "Unknown",
+    stats: {},
+    equipment: {},
+    inventory: [],
+    powers: [],
+    skills: [],
+    sprite: "badger_front.png",
+    max_hp: 20,
+    current_hp: 20
+  };
 
   const isQuestActive = engineState && engineState.quest_progress && engineState.quest_progress !== "0/0";
 
@@ -279,6 +299,9 @@ function App() {
               <button onClick={() => setCurrentView('world')} className="w-full py-1 text-[9px] bg-stone-900 border border-stone-800 hover:border-[#92400e] uppercase font-bold text-stone-400">Force World Map</button>
             </div>
           )}
+          <div className="flex-1 min-h-0 border-t border-stone-900">
+            <DiceLog logs={engineState?.dice_log || []} />
+          </div>
         </aside>
 
         <main className="flex-1 flex flex-col relative bg-[#030303]">

@@ -14,8 +14,8 @@ export default function SkillsPanel({ skills = [], powers = [] }: SkillsPanelPro
                         <Zap size={12} className="text-[#92400e]" /> Known Secrets (Powers)
                     </h3>
                     <div className="space-y-1 overflow-y-auto pr-2">
-                        {powers.length > 0 ? (
-                            powers.map((p, i) => (
+                        {(powers || []).length > 0 ? (
+                            (powers || []).map((p, i) => (
                                 <div key={i} className="group flex flex-col p-3 bg-stone-900 border border-stone-800 hover:border-[#92400e] transition-colors">
                                     <div className="flex items-center gap-3">
                                         <Zap size={12} className="text-[#92400e]" />
@@ -37,8 +37,8 @@ export default function SkillsPanel({ skills = [], powers = [] }: SkillsPanelPro
                         <Activity size={12} className="text-stone-500" /> Proficiencies (Skills)
                     </h3>
                     <div className="space-y-1 overflow-y-auto pr-2">
-                        {skills.length > 0 ? (
-                            skills.map((s, i) => (
+                        {(skills || []).length > 0 ? (
+                            (skills || []).map((s, i) => (
                                 <div key={i} className="group flex flex-col p-3 bg-stone-900 border border-stone-800 hover:border-stone-600 transition-colors">
                                     <div className="flex items-center gap-3">
                                         <Activity size={12} className="text-stone-500" />

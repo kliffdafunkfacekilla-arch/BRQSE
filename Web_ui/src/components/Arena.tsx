@@ -53,7 +53,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         fetch('/api/game/state')
             .then(res => res.json())
             .then(data => {
-                if (data.mode === 'EXPLORE') {
+                if (data.mode === 'EXPLORE' || data.mode === 'COMBAT') {
                     setExplorationMode(true);
                     updateExplorationState(data);
                     if (data.event === 'SCENE_STARTED' && onLog) {
@@ -71,6 +71,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         setGridSize(state.grid_w || 20);
         setPlayerPos(state.player_pos ? { x: state.player_pos[0], y: state.player_pos[1] } : { x: 5, y: 5 });
         setObjects(state.objects || []);
+        if (state.combatants) setCombatants(state.combatants);
 
         if (state.grid) {
             const newMap = state.grid.map((row: number[]) => row.map((t: number) => {
@@ -234,7 +235,8 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                         );
                     }))}
 
-                    {!explorationMode && combatants.map((c, i) => (
+                    {/* Render Combatants (Both in Live and Replay) */}
+                    {combatants.map((c, i) => (
                         <div
                             key={i}
                             className="absolute transition-all duration-500 pointer-events-none"

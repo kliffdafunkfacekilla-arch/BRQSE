@@ -1,24 +1,26 @@
 import { Sword, Zap, Shield, Heart, Sparkles, Activity } from 'lucide-react';
 
 interface ActionBarProps {
-    powers?: string[];
-    skills?: string[];
+interface ActionBarProps {
+    powers?: any[];
+    skills?: any[];
     onAction?: (action: string) => void;
+}
 }
 
 export default function ActionBar({ powers = [], skills = [], onAction }: ActionBarProps) {
     // Combine base actions with character powers and skills
     const actions = [
         { icon: Sword, label: 'Attack', hotkey: '1', color: 'hover:border-red-500' },
-        ...powers.map((p, i) => ({
+        ...powers.filter(p => p.active).map((p, i) => ({
             icon: Sparkles,
-            label: p,
+            label: p.name,
             hotkey: (i + 2).toString(),
             color: 'hover:border-yellow-500'
         })),
-        ...skills.map((s, i) => ({
+        ...skills.filter(s => s.active).map((s, i) => ({
             icon: Activity,
-            label: s,
+            label: s.name,
             hotkey: (powers.length + i + 2).toString(),
             color: 'hover:border-stone-500'
         })),

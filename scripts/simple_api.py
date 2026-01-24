@@ -27,7 +27,38 @@ CHAOS_MANAGER = ChaosManager()
 GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE)
 
 @app.route('/api/player', methods=['GET'])
-def get_player(): return jsonify(GAME_STATE.get_player())
+def get_player(): 
+    p_data = GAME_STATE.get_player()
+    
+    # Enrich Powers/Skills with Active/Passive data
+    from brqse_engine.abilities import engine_hooks
+    
+    enriched_powers = []
+    for p_name in p_data.get("powers", []):
+        data = engine_hooks.get_ability_data(p_name)
+        # Default powers to active if not specified, or check for 'Action' type tags if available
+        # For now, assume all "Powers" are active abilities
+        enriched_powers.append({"name": p_name, "active": True, "type": "Power"})
+        
+    enriched_skills = []
+    for s_name in p_data.get("skills", []):
+        data = engine_hooks.get_ability_data(s_name)
+        # Check if skill has an active effect or is a known active skill
+        is_active = False
+        if data:
+            desc = data.get("Description", "").lower()
+            if "action" in desc or "cast" in desc or "perform" in desc:
+                is_active = True
+        
+        # Hardcoded overrides for common active skills if data missing
+        if s_name in ["Athletics", "Stealth", "Perception", "Medicine", "Interrogation"]:
+            is_active = True
+            
+        enriched_skills.append({"name": s_name, "active": is_active, "type": "Skill"})
+        
+    p_data["powers"] = enriched_powers
+    p_data["skills"] = enriched_skills
+    return jsonify(p_data)
 
 @app.route('/api/player', methods=['POST'])
 def update_player():
@@ -139,6 +170,10 @@ def staged_battle():
     
     # Optional: trigger a game loop reset or state change
     return jsonify({"status": "staged"})
+
+@app.route('/api/debug/force_combat', methods=['POST'])
+def debug_force_combat():
+    return jsonify(GAME_LOOP.force_combat())
 
 @app.route('/api/health', methods=['GET'])
 def health(): return jsonify({"status": "online", "version": "2.7 - Action Engine"})
