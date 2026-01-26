@@ -1,0 +1,116 @@
+{
+    "Name": "Nightwing",
+    "Species": "Mammal",
+    "Stats": {
+        "Might": 16,
+        "Endurance": 14,
+        "Finesse": 13,
+        "Reflexes": 10,
+        "Vitality": 11,
+        "Fortitude": 9,
+        "Knowledge": 12,
+        "Logic": 8,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 11,
+        "Willpower": 10
+    },
+    "Traits": [
+        {
+            "Name": "Huge",
+            "Type": "SIZE 5",
+            "Effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.",
+            "BodyPart": "Siege Frame"
+        },
+        {
+            "Name": "The Ox",
+            "Type": "ANCESTRY",
+            "Effect": "Includes: Flat Grinding Teeth, Hooves, Horn Stubs, Short Tail.",
+            "BodyPart": "Bovine Anatomy"
+        },
+        {
+            "Name": "Night-Eye",
+            "Type": "SENSES",
+            "Effect": "Passive: Darkvision (Black & White).",
+            "BodyPart": "Tapetum Lucidum"
+        },
+        {
+            "Name": "Grappler",
+            "Type": "ARMS",
+            "Effect": "Active: Choke-Slam (Throw target Prone + Dmg).",
+            "BodyPart": "Opposable Thumbs"
+        },
+        {
+            "Name": "Stomper",
+            "Type": "LEGS",
+            "Effect": "Active: Tremor-Stomp (AOE Knockdown 5ft).",
+            "BodyPart": "Pillar Legs"
+        },
+        {
+            "Name": "Slick",
+            "Type": "BODY",
+            "Effect": "Passive: Greased (Advantage vs Grapples/Nets).",
+            "BodyPart": "Oily Fur"
+        },
+        {
+            "Name": "Storage",
+            "Type": "SPECIAL",
+            "Effect": "Passive: Cache (Hide items in throat).",
+            "BodyPart": "Cheek Pouches"
+        },
+        {
+            "Name": "The Mask",
+            "Type": "Social Defense",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Command",
+            "Type": "Utility",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Tinctures",
+            "Type": "Tool",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Exotic Melee",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Medium",
+            "Type": "Armor Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Exotic Ranged",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        }
+    ],
+    "Powers": [
+        {
+            "School": "Mass",
+            "Attribute": "Might",
+            "Tier": "1",
+            "Type": "Offense",
+            "Name": "Push",
+            "Damage_Type": "Force",
+            "Description": "Shove target away (Knockback)."
+        },
+        {
+            "School": "Flux",
+            "Attribute": "Finesse",
+            "Tier": "1",
+            "Type": "Utility",
+            "Name": "Unlock",
+            "Damage_Type": "Acid",
+            "Description": "Open simple mechanism."
+        }
+    ],
+    "Inventory": [],
+    "Gear": {},
+    "Backstory": "The Dodge. Changing the subject, feigning ignorance, or hiding your true emotion. \"I haven't the faintest idea what you mean.\"\n\nLeadership interrogation. Lore: Religion theology and cults.\n\nMastery of non-magical aids like herbal salves bandages and stimulants.\n\nWrap. Performance. Flow. Distracting the enemy.\n\nCover. Scales or flexible metal that moves with you.\n\nDebilitate. Tricky, annoying, and stylish tools.",
+    "Portrait": "mole_front_dirt.png"
+}

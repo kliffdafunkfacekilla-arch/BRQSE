@@ -46,10 +46,14 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         'Barrel': '/objects/barrel.png',
         'Crate': '/objects/crate.png',
         'Chest': '/objects/chest.png',
+        'Loot Cache': '/objects/chest.png',
         'Table': '/objects/table.png',
         'Stone': '/traps/pressure_plate.png',
         'Logs': '/trees/mangrove_1.png',
-        'Chandelier': '/icons/weapon/bloodbane.png'
+        'Chandelier': '/icons/weapon/bloodbane.png',
+        'Footprints': '/traps/bear_trap.png', // Placeholder
+        'Strange Clue': '/items/scroll_map.png', // Placeholder
+        'Locked Cage': '/doors/gate_iron.png'
     };
 
     const fetchData = () => {

@@ -18,7 +18,7 @@ class Journal:
     def __init__(self):
         self.entries: List[JournalEntry] = []
 
-    def log_event(self, archetype: str, subject: str, context: str, reward: str, chaos: str, narrative: str) -> JournalEntry:
+    def log_event(self, archetype: str, subject: str, context: str, reward: str, chaos: str, narrative: str, goal: str = None) -> JournalEntry:
         entry = JournalEntry(
             timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             archetype=archetype,
@@ -26,7 +26,8 @@ class Journal:
             context=context,
             reward=reward,
             chaos_twist=chaos,
-            narrative=narrative
+            narrative=narrative,
+            metadata={"goal": goal} if goal else {}
         )
         self.entries.append(entry)
         return entry

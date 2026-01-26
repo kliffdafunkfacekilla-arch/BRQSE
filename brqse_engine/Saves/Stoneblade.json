@@ -1,0 +1,116 @@
+{
+    "Name": "Stoneblade",
+    "Species": "Aquatic",
+    "Stats": {
+        "Might": 9,
+        "Endurance": 13,
+        "Finesse": 11,
+        "Reflexes": 10,
+        "Vitality": 10,
+        "Fortitude": 11,
+        "Knowledge": 12,
+        "Logic": 10,
+        "Awareness": 11,
+        "Intuition": 13,
+        "Charm": 10,
+        "Willpower": 12
+    },
+    "Traits": [
+        {
+            "Name": "Large",
+            "Type": "SIZE 4",
+            "Effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.",
+            "BodyPart": "Heavy Frame"
+        },
+        {
+            "Name": "The Eel",
+            "Type": "ANCESTRY",
+            "Effect": "Includes: Elongated Limbs, Slippery Skin, Needle Teeth.",
+            "BodyPart": "Anguilliform Anatomy"
+        },
+        {
+            "Name": "Dark-Eye",
+            "Type": "SENSES",
+            "Effect": "Passive: Abyss-Sight (See perfectly in magical/deep darkness).",
+            "BodyPart": "Large Lenses"
+        },
+        {
+            "Name": "Nets",
+            "Type": "ARMS",
+            "Effect": "Active: Ensnare (Cone spray. Targets slowed/stuck).",
+            "BodyPart": "Mucus Webbing"
+        },
+        {
+            "Name": "Propel",
+            "Type": "LEGS",
+            "Effect": "Passive: Marathon (Swim Speed = Run Speed. Kick is 2x Dmg).",
+            "BodyPart": "Webbed Feet"
+        },
+        {
+            "Name": "Scale",
+            "Type": "BODY",
+            "Effect": "Passive: Hydro-Skin (+1 Natural AC. Drying out takes 2x longer).",
+            "BodyPart": "Placoid Scales"
+        },
+        {
+            "Name": "Regen",
+            "Type": "SPECIAL",
+            "Effect": "Active: Regrow (Heal limb or massive HP over Short Rest).",
+            "BodyPart": "Starfish DNA"
+        },
+        {
+            "Name": "The Mask",
+            "Type": "Social Defense",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Motion",
+            "Type": "Utility",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Catalysts",
+            "Type": "Tool",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Great",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Natural",
+            "Type": "Armor Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Long Shot",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        }
+    ],
+    "Powers": [
+        {
+            "School": "Anumis",
+            "Attribute": "Knowledge",
+            "Tier": "1",
+            "Type": "Defense",
+            "Name": "Shield",
+            "Damage_Type": "Arcane",
+            "Description": "Magic Armor (Temp AC)."
+        },
+        {
+            "School": "Ratio",
+            "Attribute": "Logic",
+            "Tier": "1",
+            "Type": "Defense",
+            "Name": "Predict",
+            "Damage_Type": "Shock",
+            "Description": "Small AC Bonus."
+        }
+    ],
+    "Inventory": [],
+    "Gear": {},
+    "Backstory": "The Dodge. Changing the subject, feigning ignorance, or hiding your true emotion. \"I haven't the faintest idea what you mean.\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of items that channel magic such as scrolls wands and staves.\n\nImpact. Raw muscle to swing heavy metal.\n\nReliable. \"Living Armor made of once living material\" \n\nPierce. Aim. Lining up the sights. The Sniper.",
+    "Portrait": "beaver_right.png"
+}

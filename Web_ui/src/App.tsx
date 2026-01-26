@@ -20,6 +20,7 @@ import WorldMap from './components/WorldMap';
 import ChaosHUD from './components/ChaosHUD';
 import HeroSelector from './components/HeroSelector';
 import DiceLog from './components/DiceLog';
+import SceneStack from './components/SceneStack';
 
 interface PlayerState {
   name: string;
@@ -156,7 +157,7 @@ function App() {
 
   const handleAbilityAction = async (abilityName: string) => {
     // Check if ability requires a target
-    const instantActions = ['wait', 'rest', 'channel', 'defend'];
+    const instantActions = ['wait', 'rest', 'channel', 'defend', 'search', 'track'];
     if (!instantActions.includes(abilityName.toLowerCase())) {
       setActiveAbility(abilityName);
       addLog('COMBAT', `Select target for ${abilityName}...`, 'info');
@@ -272,7 +273,37 @@ function App() {
             </button>
           </nav>
         </div>
-        <div className="flex gap-3">
+
+        <div className="flex gap-3 items-center">
+          {/* SYSTEM ACTIONS */}
+          <button
+            onClick={async () => {
+              if (!p) return;
+              await fetch('/api/character/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(p)
+              });
+              addLog('SYSTEM', 'Game Saved Successfully');
+            }}
+            className="text-stone-500 hover:text-green-500 transition-colors"
+            title="Save Game"
+          >
+            <Settings size={14} />
+          </button>
+
+          <button
+            onClick={async () => {
+              await fetch('/api/world/quest/generate', { method: 'POST' }); // Force regen/reset
+              addLog('SYSTEM', 'Quest Reset Initiated');
+              fetchData();
+            }}
+            className="text-stone-500 hover:text-red-500 transition-colors"
+            title="Force New Quest"
+          >
+            <Swords size={14} />
+          </button>
+
           {(!isQuestActive || engineState?.event === 'QUEST_COMPLETE') && (
             <button
               onClick={() => setCurrentView('tavern')}
@@ -284,7 +315,7 @@ function App() {
           <button onClick={() => setShowDevTools(!showDevTools)} className={`transition-colors ${showDevTools ? 'text-[#92400e]' : 'text-stone-800 hover:text-white'}`}><Eye size={14} /></button>
           <button onClick={() => setCurrentView('start')} className="text-stone-800 hover:text-red-900"><Power size={14} /></button>
         </div>
-      </header>
+      </header >
 
       <div className="flex flex-1 overflow-hidden">
         <aside className="w-64 bg-[#080808] border-r border-stone-900 flex flex-col shrink-0">
@@ -348,13 +379,23 @@ function App() {
             {currentView === 'tavern' && <TavernHub onTravel={() => setCurrentView('world')} onRest={() => { }} onShop={() => setCurrentView('inventory')} />}
             {currentView === 'world' && <WorldMap onBack={() => setCurrentView('tavern')} onArrive={() => setCurrentView('gameplay')} />}
             {currentView === 'gameplay' && (
-              <div className="h-full flex flex-col">
-                <div className="flex-1 min-h-0"><Arena playerSprite={p.sprite} onLog={addLog} activeAbility={activeAbility} onAbilityComplete={() => setActiveAbility(null)} /></div>
-                <ActionBar
-                  powers={p.powers}
-                  skills={p.skills}
-                  onAction={(name) => handleAbilityAction(name)}
-                />
+              <div className="h-full flex flex-col relative group">
+                {/* FORCE OVERLAY: z-50 to sit above Arena canvas */}
+                <div className="absolute top-0 left-0 w-full h-full z-50 pointer-events-none">
+                  <SceneStack onLog={addLog} />
+                </div>
+
+                <div className="flex-1 min-h-0 relative z-0">
+                  <Arena playerSprite={p.sprite} onLog={addLog} activeAbility={activeAbility} onAbilityComplete={() => setActiveAbility(null)} />
+                </div>
+
+                <div className="relative z-50">
+                  <ActionBar
+                    powers={p.powers}
+                    skills={p.skills}
+                    onAction={(name) => handleAbilityAction(name)}
+                  />
+                </div>
               </div>
             )}
             {currentView === 'character' && (
@@ -399,7 +440,7 @@ function App() {
           </div>
         </main>
       </div>
-    </div>
+    </div >
   );
 }
 

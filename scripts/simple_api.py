@@ -20,11 +20,14 @@ CORS(app)
 GAME_STATE = GameState(BASE_DIR)
 
 # --- WORLD & LOOP ---
+# --- WORLD & LOOP ---
 from scripts.world_engine import ChaosManager
 from brqse_engine.core.game_loop import GameLoopController
+from brqse_engine.core.sensory_layer import SensoryLayer
 
 CHAOS_MANAGER = ChaosManager()
-GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE)
+SENSORY_LAYER = SensoryLayer(model="qwen2.5:latest") # Detected user has qwen2.5
+GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE, sensory_layer=SENSORY_LAYER)
 
 @app.route('/api/player', methods=['GET'])
 def get_player(): 
@@ -102,33 +105,95 @@ def list_characters():
 
 @app.route('/api/world/status', methods=['GET'])
 def world_status():
+    # Calculate progress
+    stack_len = len(GAME_LOOP.scene_stack.stack)
+    total = GAME_LOOP.scene_stack.total_steps
+    
     return jsonify({
         "chaos_level": CHAOS_MANAGER.chaos_level,
         "chaos_clock": CHAOS_MANAGER.chaos_clock,
         "tension_threshold": CHAOS_MANAGER.tension_threshold,
-        "atmosphere": CHAOS_MANAGER.get_atmosphere()
+        "atmosphere": CHAOS_MANAGER.get_atmosphere(),
+        "daily_momentum": GAME_LOOP.game_state.daily_momentum if hasattr(GAME_LOOP.game_state, 'daily_momentum') else 0,
+        "quest": {
+            "title": GAME_LOOP.scene_stack.quest_title,
+            "description": GAME_LOOP.scene_stack.quest_description,
+            "progress": f"{total - stack_len}/{total}",
+            "completed": stack_len == 0 and total > 0
+        },
+        "current_scene": {
+            "text": GAME_LOOP.active_scene.text if GAME_LOOP.active_scene else "None",
+            "type": GAME_LOOP.active_scene.encounter_type if GAME_LOOP.active_scene else "EMPTY",
+            "remaining": stack_len
+        }
+    })
+
+@app.route('/api/world/tension/roll', methods=['POST'])
+def roll_tension_api():
+    result = CHAOS_MANAGER.roll_tension()
+    return jsonify({"result": result, "clock": CHAOS_MANAGER.chaos_clock})
+
+@app.route('/api/world/quest/generate', methods=['POST'])
+def generate_quest_api():
+    GAME_LOOP.scene_stack.generate_quest()
+    GAME_LOOP.advance_scene()
+    return jsonify({
+        "title": GAME_LOOP.scene_stack.quest_title,
+        "steps": GAME_LOOP.scene_stack.total_steps
+    })
+
+@app.route('/api/world/scene/advance', methods=['POST'])
+def advance_scene_api():
+    scene = GAME_LOOP.advance_scene()
+    return jsonify({
+        "text": scene.text,
+        "encounter_type": scene.encounter_type,
+        "remaining": len(GAME_LOOP.scene_stack.stack)
     })
 
 @app.route('/api/game/state', methods=['GET'])
-def game_state(): return jsonify(GAME_LOOP.get_state())
+def game_state(): 
+    try:
+        return jsonify(GAME_LOOP.get_state())
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "error": str(e),
+            "state": "CRASHED",
+            "log": "CRITICAL: Game Loop State Error. See Server Logs."
+        })
 
 @app.route('/api/game/action', methods=['POST'])
 def game_action():
     """Universal endpoint for all map interactions."""
-    data = request.get_json()
-    action = data.get('action') # 'move', 'search', 'smash', etc.
-    x, y = data.get('x'), data.get('y')
-    
-    result = GAME_LOOP.handle_action(action, x, y)
-    
-    return jsonify({
-        "result": result,
-        "state": GAME_LOOP.get_state(),
-        "world": {
-            "chaos_clock": CHAOS_MANAGER.chaos_clock,
-            "tension_threshold": CHAOS_MANAGER.tension_threshold
-        }
-    })
+    try:
+        data = request.get_json()
+        print(f"[API] Incoming Action: {json.dumps(data)}") # VERBOSE LOGGING
+        action = data.get('action') # 'move', 'search', 'smash', etc.
+        x, y = data.get('x'), data.get('y')
+        
+        result = GAME_LOOP.handle_action(action, x, y)
+        
+        return jsonify({
+            "result": result,
+            "state": GAME_LOOP.get_state(),
+            "world": {
+                "chaos_clock": CHAOS_MANAGER.chaos_clock,
+                "tension_threshold": CHAOS_MANAGER.tension_threshold
+            }
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            "result": {"success": False, "log": f"SYSTEM ERROR: {str(e)}"},
+            "state": GAME_LOOP.get_state() if GAME_LOOP else {},
+            "world": {
+                "chaos_clock": CHAOS_MANAGER.chaos_clock,
+                "tension_threshold": CHAOS_MANAGER.tension_threshold
+            }
+        })
 
 @app.route('/api/character/save', methods=['POST'])
 def save_character():

@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Skull, Clock, Dices, ChevronRight } from 'lucide-react';
+import { Skull, Clock, Dices, ChevronRight, Map, Flag } from 'lucide-react';
 
 interface Atmosphere {
     tone: string;
     descriptor: string;
+}
+
+interface Quest {
+    title: string;
+    description: string;
+    progress: string;
+    completed: boolean;
 }
 
 interface WorldState {
@@ -12,6 +19,7 @@ interface WorldState {
     tension_threshold: number;
     is_doomed: boolean;
     atmosphere: Atmosphere;
+    quest: Quest;
 }
 
 interface Scene {
@@ -34,6 +42,9 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
             const res = await fetch(`${API_BASE}/world/status`);
             const data = await res.json();
             setWorld(data);
+            if (data.current_scene) {
+                setCurrentScene(data.current_scene);
+            }
         } catch (e) {
             console.error("Failed to fetch world status");
         }
@@ -84,7 +95,11 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
         try {
             await fetch(`${API_BASE}/world/quest/generate`, { method: 'POST' });
             onLog("New Quest Generated", 'info');
-            handleAdvanceScene(); // Enter first room
+            // Slight delay to allow backend to process
+            setTimeout(() => {
+                fetchStatus();
+                onSceneChange?.();
+            }, 500);
         } catch (e) {
             onLog("Failed to generate quest", 'info');
         }
@@ -97,8 +112,10 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
         world.chaos_clock >= 9 ? 'text-orange-500' :
             'text-stone-400';
 
+    const hasQuest = world.quest && world.quest.title !== "None";
+
     return (
-        <div className="absolute top-4 left-4 z-20 w-64 bg-black/90 border border-stone-800 p-3 backdrop-blur-sm">
+        <div className="absolute top-4 left-4 z-[60] w-64 bg-black/90 border border-stone-800 p-3 backdrop-blur-sm pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.8)]">
 
             {/* ATMOSPHERE HEADER */}
             <div className={`text-xs font-bold uppercase tracking-widest mb-2 pb-2 border-b border-stone-800 ${clockColor}`}>
@@ -130,35 +147,55 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
                 </div>
             </div>
 
-            {/* CURRENT SCENE CARD */}
-            <div className="mb-3">
-                <div className="text-[9px] text-stone-500 uppercase mb-1 flex justify-between">
-                    <span>Current Scene</span>
-                    <span>{currentScene?.remaining || 0} Remaining</span>
-                </div>
+            {/* QUEST & SCENE CARD */}
+            <div className="mb-3 space-y-2">
 
-                {currentScene ? (
-                    <div className="bg-stone-900 border border-stone-700 p-3 relative overflow-hidden group">
-                        <div className="relative z-10">
-                            <div className="text-sm font-bold text-stone-200 mb-1">{currentScene.text}</div>
-                            <div className={`text-[10px] inline-block px-1 rounded ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
-                                'bg-stone-800 text-stone-400 border border-stone-700'
-                                }`}>
-                                {currentScene.encounter_type}
+                {/* Active Quest Header */}
+                {hasQuest ? (
+                    <div className="border border-stone-800 bg-stone-900/80 p-2 rounded">
+                        <div className="flex justify-between items-start mb-1">
+                            <div className="flex items-center gap-1 text-[10px] text-[#00f2ff] uppercase font-bold">
+                                <Flag size={10} /> {world.quest.title}
                             </div>
+                            <div className="text-[9px] text-stone-500">{world.quest.progress}</div>
                         </div>
-                        {/* Advance Button (Hover) */}
-                        <div className="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                            onClick={handleAdvanceScene}>
-                            <div className="flex items-center gap-1 text-xs font-bold text-[#00f2ff]">
-                                ADVANCE <ChevronRight size={14} />
-                            </div>
+                        <div className="text-[10px] text-stone-400 italic leading-tight">
+                            "{world.quest.description}"
                         </div>
                     </div>
                 ) : (
-                    <button onClick={generateQuest} disabled={loading} className="w-full py-6 border border-dashed border-stone-700 text-stone-500 text-xs hover:text-stone-300 hover:border-stone-500">
+                    <button onClick={generateQuest} disabled={loading} className="w-full py-3 border border-dashed border-stone-700 text-stone-500 text-xs hover:text-[#00f2ff] hover:border-[#00f2ff]">
                         + GENERATE NEW QUEST
                     </button>
+                )}
+
+                {/* Current Scene Node */}
+                {currentScene && hasQuest && (
+                    <div className="ml-2 relative border-l-2 border-stone-700 pl-3 py-1">
+                        <div className="absolute -left-[5px] top-3 w-2 h-2 rounded-full bg-stone-500" />
+
+                        <div className="text-[9px] text-stone-500 uppercase mb-0.5 flex justify-between">
+                            <span>Current Location</span>
+                        </div>
+
+                        <div className="bg-stone-900 border border-stone-700 p-2 relative overflow-hidden group">
+                            <div className="relative z-10">
+                                <div className="text-sm font-bold text-stone-200 mb-1">{currentScene.text}</div>
+                                <div className={`text-[10px] inline-block px-1 rounded ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
+                                    'bg-stone-800 text-stone-400 border border-stone-700'
+                                    }`}>
+                                    {currentScene.encounter_type}
+                                </div>
+                            </div>
+                            {/* Advance Button (Hover) */}
+                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                                onClick={handleAdvanceScene}>
+                                <div className="flex items-center gap-1 text-xs font-bold text-[#00f2ff]">
+                                    ADVANCE <ChevronRight size={14} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
 

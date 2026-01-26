@@ -21,9 +21,10 @@ class GameLoopController:
     - Scene Transitions
     """
     
-    def __init__(self, chaos_manager: ChaosManager, game_state: Any = None):
+    def __init__(self, chaos_manager: ChaosManager, game_state: Any = None, sensory_layer: Any = None):
         self.chaos = chaos_manager
         self.game_state = game_state
+        self.sensory_layer = sensory_layer
         self.scene_stack = SceneStack(self.chaos)
         self.map_gen = MapGenerator(self.chaos)
         self.combat_engine = CombatEngine(20, 20)
@@ -45,7 +46,9 @@ class GameLoopController:
         self.journal = Journal()
         self.active_scenario = None
         self.is_event_resolved = True # Start resolved for the very first room
+        self.inventory = [] # Player Inventory for Keys/Items
         
+        # Initial Quest Gen
         self.scene_stack.generate_quest()
         self.advance_scene()
 
@@ -103,8 +106,9 @@ class GameLoopController:
         """Unified event trigger for Entry and Tension events."""
         # Reset resolution flag if a significant new event occurs
         # or if we are entering a room.
-        biome = getattr(self.active_scene, 'biome', 'DUNGEON')
-        scenario = self.event_engine.generate_scenario(biome)
+        # v2: Generate Narrative/Mechanic Scenario via EventEngine
+        scenario = self.event_engine.generate_scenario(self.active_scene.biome, sensory_layer=self.sensory_layer)
+        self.active_scenario = scenario
         
         # Decide if this event locks the doors
         win_type = scenario["win_condition"]["type"]
@@ -122,11 +126,15 @@ class GameLoopController:
         self.active_scenario = scenario
         self.journal.log_event(
             scenario["archetype"], scenario["subject"], scenario["context"],
-            scenario["reward"], scenario["chaos_twist"], scenario["narrative"]
+            scenario["reward"], scenario["chaos_twist"], scenario["narrative"],
+            goal=scenario.get("goal_description", "Survive.")
         )
         
         # Manifest scenario entities
         res = {"log": scenario["narrative"]}
+        if "goal_description" in scenario:
+            res["log"] += f" GOAL: {scenario['goal_description']}"
+            
         for item in scenario["setup"]:
             self._manifest_v2_entity(item, scenario, res)
         
@@ -192,7 +200,8 @@ class GameLoopController:
         elif etype == "NPC_SPAWN":
             self.interactables[(sx, sy)] = {
                 "type": setup_item.get("subtype", "Stranger"), "x": sx, "y": sy,
-                "tags": ["talk", "inspect"], "is_blocking": True
+                "tags": ["talk", "inspect"], "is_blocking": True,
+                "dialogue_context": setup_item.get("dialogue_context")
             }
             # Don't change tile to LOOT, keep as existing (likely FLOOR) to avoid rendering a chest under them
             # self.active_scene.grid[sy][sx] = TILE_LOOT
@@ -202,7 +211,10 @@ class GameLoopController:
                 "type": setup_item.get("subtype", "Object"), "x": sx, "y": sy,
                 "tags": setup_item.get("tags", ["inspect"]),
                 "is_blocking": setup_item.get("is_blocking", True),
-                "is_locked": setup_item.get("is_locked", False)
+                "is_locked": setup_item.get("is_locked", False),
+                "has_key": setup_item.get("has_key"),
+                "key_name": setup_item.get("key_name"),
+                "required_key": setup_item.get("required_key")
             }
             self.active_scene.grid[sy][sx] = TILE_LOOT
 
@@ -280,7 +292,26 @@ class GameLoopController:
             if obj:
                 tags = obj.get("tags", [])
                 if "search" in tags or "open" in tags:
-                    result["log"] = f"You search the {obj['type']} and find something useful!"
+                    log = f"You search the {obj['type']}."
+                    if obj.get("is_locked"):
+                         log += " It is locked."
+                         if "required_key" in obj:
+                             has_key = any(k["id"] == obj["required_key"] for k in self.inventory)
+                             if has_key:
+                                 log += " You use the key to unlock it!"
+                                 obj["is_locked"] = False
+                             else:
+                                 result["log"] = log + " You need a specific key."
+                                 return result
+
+                    if obj.get("has_key"):
+                        item = {"id": obj["has_key"], "name": obj["key_name"]}
+                        self.inventory.append(item)
+                        log += f" You found: {item['name']}!"
+                    else:
+                        log += " You found some supplies."
+
+                    result["log"] = log
                     # Potential for actual item drop logic here
                     del self.interactables[x, y]
                     self.active_scene.grid[y][x] = TILE_FLOOR
@@ -340,6 +371,9 @@ class GameLoopController:
                          if "track" in narrative or "clues" in narrative or "footprints" in narrative:
                              self._resolve_active_event("Tracked Successfully")
                              result["log"] += " You found the target!"
+                         elif win_type == "FIND_CLUES": # explicit new type
+                             self._resolve_active_event("Evidence Recovered")
+                             result["log"] += " You uncovered the truth!"
                          elif win_type == "PUZZLE_SOLVED": # fallback
                              self._resolve_active_event("Mystery Solved via Tracking")
                 
@@ -408,14 +442,47 @@ class GameLoopController:
                     if self.player_combatant: self.player_combatant.elevation = 1
                     self._update_visibility()
                 
-                elif action_type == "unlock" and obj["type"] == "Cage":
-                    result["log"] = "You free a traveler! They reward you with a scrap of map."
-                    del self.interactables[x,y]
-                    self.active_scene.grid[y][x] = TILE_FLOOR
+                elif action_type == "unlock":
+                    if obj.get("required_key"):
+                         has_key = any(k["id"] == obj["required_key"] for k in self.inventory)
+                         if has_key:
+                             result["log"] = f"You unlock the {obj['type']}."
+                             obj["is_locked"] = False
+                             if obj.get("is_blocking"): obj["is_blocking"] = False
+                         else:
+                             result["log"] = "It won't budge. You need a key."
+                    elif obj["type"] == "Cage":
+                        result["log"] = "You free a traveler! They reward you with a scrap of map."
+                        del self.interactables[x,y]
+                        self.active_scene.grid[y][x] = TILE_FLOOR
 
         elif action_type == "talk":
             if obj and "talk" in obj.get("tags", []):
-                result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
+                if self.sensory_layer:
+                    # AI Dialogue Generation
+                    ai_context = {
+                        "actor_name": "Player",
+                        "target_name": obj['type'],
+                        "method": "Diplomacy",
+                        "defense": "Unknown",
+                        "result": "Success"
+                    }
+                    context_data = self.chaos.get_atmosphere()
+                    context_data["inventory"] = [i["name"] for i in self.inventory]
+                    
+                    narrative = self.sensory_layer.generate_narrative(
+                        context=context_data, 
+                        event_type="SOCIAL", 
+                        combat_data=ai_context,
+                        quest_context=obj.get("dialogue_context")
+                    )
+                    if "narrative" in narrative:
+                         result["log"] = f"Dialogue: {narrative['narrative']}"
+                    else:
+                         result["log"] = f"The {obj['type']} speaks: 'We must survive.'"
+                else:
+                    result["log"] = f"The {obj['type']} speaks: 'Fortune favors the bold!'"
+
                 if self.active_scenario and self.active_scenario["win_condition"]["type"] == "TALKED_TO_NPC":
                     self._resolve_active_event("Negotiated/Contacted")
             else: result = {"success": False, "reason": "Nobody to talk to"}
@@ -540,6 +607,60 @@ class GameLoopController:
                 else:
                     result["log"] = "Tension grows with every step."
 
+        # === ENEMY TURN (SIMPLIFIED) ===
+        if self.state == "COMBAT" and action_type in ["move", "attack", "wait", "rest", "defend"] and not result.get("event") == "COMBAT_STARTED":
+            try:
+                # Simple AI: Move closer, Attack if adjacent
+                if not "log" in result: result["log"] = ""
+                
+                enemies_acted = 0
+                # Get enemy combatants from combat engine
+                for c in self.combat_engine.combatants:
+                    # Check if combatant is valid
+                    if not c or not hasattr(c, "team"): continue
+                    
+                    if c.team != "Player" and not c.is_dead:
+                        enemies_acted += 1
+                        # SAFETY CHECK: positions
+                        if c.x is None or c.y is None or self.player_combatant.x is None or self.player_combatant.y is None:
+                            continue
+                            
+                        dist = abs(c.x - self.player_combatant.x) + abs(c.y - self.player_combatant.y)
+                        
+                        if dist <= 1:
+                            # Attack!
+                            # Check clash
+                            clash_roll = random.randint(1, 20)
+                            player_defence = random.randint(1, 20) + self.player_combatant.get_stat_modifier("Reflexes")
+                            
+                            if clash_roll > player_defence:
+                                dmg = random.randint(1, 6)
+                                self.player_combatant.take_damage(dmg)
+                                result["log"] += f" {c.name} attacks you for {dmg} damage!"
+                            else:
+                                 result["log"] += f" {c.name} attacks but you dodge!"
+                                 
+                        elif dist > 1:
+                             # Move closer
+                             dx = 1 if self.player_combatant.x > c.x else -1 if self.player_combatant.x < c.x else 0
+                             dy = 1 if self.player_combatant.y > c.y else -1 if self.player_combatant.y < c.y else 0
+                             
+                             # Check walls? For now, ghost movement to ensure they are scary
+                             c.x += dx
+                             c.y += dy
+                             result["log"] += f" {c.name} advances."
+            except Exception as e:
+                print(f"[GameLoop] Enemy Turn Error: {e}")
+                # traceback.print_exc()
+                result["log"] += f" [Enemy AI Error: {str(e)}]"
+            
+            # === END OF TURN RESET ===
+            # Since we use a Phase system (Player Action -> Enemy Reponse), we must reset the player for the next request.
+            if self.player_combatant:
+                self.player_combatant.action_used = False
+                self.player_combatant.bonus_action_used = False
+                self.player_combatant.reaction_used = False
+
         return result
 
     def _set_facing(self, direction: str):
@@ -570,7 +691,17 @@ class GameLoopController:
         """Called when a win condition is met."""
         self.is_event_resolved = True
         self.journal.resolve_last_event(reason)
-        # Potential for reward spawning here
+        
+        # UI Feedback
+        self.current_event = "EVENT_RESOLVED"
+        self.active_scene.text += " (CLEARED)"
+        
+        # If this was a Quest Goal, advance the stack logic
+        if "GOAL" in self.active_scene.text:
+             # Just a marker
+             pass
+
+        print(f"[GameLoop] Event Resolved: {reason}")
 
     def _update_tactical_status(self):
         """Checks surroundings for cover."""
@@ -626,6 +757,13 @@ class GameLoopController:
     def _handle_combat_action(self, action: str, x: int, y: int) -> Dict[str, Any]:
         """Turn-based combat logic."""
         try:
+            # RESET ACTION ECONOMY FLAGS at start of input processing
+            # This logic assumes "One Click = One Action Opportunity" for the player in this game loop model
+            if self.player_combatant:
+                self.player_combatant.action_used = False
+                self.player_combatant.bonus_action_used = False
+                self.player_combatant.reaction_used = False
+
             res = {"success": True, "action": action}
             
             # 1. Player Turn

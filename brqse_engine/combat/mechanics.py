@@ -679,6 +679,49 @@ class CombatEngine:
         self.clash_active = False
         self.clash_participants = (None, None)
         self.clash_stat = None
+        
+    def attack_target(self, attacker, target):
+        """
+        Resolves an attack from attacker to target.
+        Returns a list of log strings.
+        """
+        logs = []
+        
+        # 1. Roll to Hit
+        # Uses Reflexes or Finesse vs Reflexes (Defense)
+        atk_stat = "Finesse" # Default melee
+        def_stat = "Reflexes"
+        
+        atk_mod = attacker.get_stat_modifier(atk_stat)
+        def_mod = target.get_stat_modifier(def_stat)
+        
+        # Roll d20 + mod
+        atk_roll = random.randint(1, 20)
+        total_atk = atk_roll + atk_mod
+        
+        # Static Defense: 10 + Mod (or rolled defense?)
+        # Let's use Rolled Defense (Clash Style)
+        def_roll = random.randint(1, 20)
+        total_def = def_roll + def_mod
+        
+        logs.append(f"{attacker.name} attacks! (Rolled {atk_roll}+{atk_mod}={total_atk} vs {total_def})")
+        
+        if total_atk >= total_def:
+            # Hit!
+            # Damage Roll (Default 1d6 + Might for now)
+            dmg_roll = random.randint(1, 6)
+            dmg_mod = attacker.get_stat_modifier("Might")
+            total_dmg = max(1, dmg_roll + dmg_mod)
+            
+            target.take_damage(total_dmg)
+            logs.append(f"HIT! {target.name} takes {total_dmg} damage.")
+            
+            if target.hp <= 0:
+                logs.append(f"{target.name} collapses!")
+        else:
+            logs.append(f"MISS! {target.name} dodges.")
+            
+        return logs
     
     # === TERRAIN & TILE METHODS ===
     
@@ -859,34 +902,6 @@ class CombatEngine:
                     db[name] = dice
         except: pass
         return db
-
-    def attack_target(self, attacker, target):
-        """
-        CONTESTED COMBAT SYSTEM - No AC!
-        Attack: d20 + Weapon Skill + Stat
-        Defense: d20 + Armor Skill + Stat
-        Tie = Physical Clash
-        """
-        log = []
-        
-        # 1. Check Range
-        r_dist = max(abs(attacker.x - target.x), abs(attacker.y - target.y)) * 5
-        max_reach = attacker.get_attack_range()
-        
-        if r_dist > max_reach:
-            return [f"Out of Range! (Target: {r_dist}ft, Reach: {max_reach}ft)"]
-
-        # 2. Determine Attack Stat (Finesse swapping)
-        wep = getattr(attacker, "weapon_data", {})
-        tags = wep.get("tags", set())
-        
-        attack_stat = "Might"  # Default physical stat
-        if "Finesse" in tags:
-            might = attacker.get_stat("Might")
-            ref = attacker.get_stat("Reflexes")
-            if ref > might:
-                attack_stat = "Reflexes"
-        
         # 3. Get Weapon/Armor skill modifiers
         weapon_skill = attacker.get_weapon_skill() if hasattr(attacker, 'get_weapon_skill') else 0
         armor_skill = target.get_armor_skill() if hasattr(target, 'get_armor_skill') else 0
@@ -1214,6 +1229,13 @@ class CombatEngine:
         
         else:
             return (original_target, f"{winner.name} wins the magic clash!")
+
+    def get_combatant_at(self, x, y):
+        """Returns the living combatant at x,y or None."""
+        for c in self.combatants:
+            if c.x == x and c.y == y and c.hp > 0:
+                return c
+        return None
 
     def add_combatant(self, combatant, x, y):
         combatant.x = x
@@ -1578,6 +1600,8 @@ class CombatEngine:
         # Check if weapon is ranged
         is_ranged = False
         max_range = 1  # Default melee reach
+        weapon_name = "Unarmed"
+        armor_name = "Unarmored"
         
         if attacker.inventory:
             wpn = attacker.inventory.equipped.get("Main Hand")
@@ -1589,6 +1613,14 @@ class CombatEngine:
                 elif hasattr(wpn, "tags") and "RANGE" in getattr(wpn, "tags", {}):
                     is_ranged = True
                     max_range = 6  # Default ranged = 6 tiles (30ft)
+                
+                # Get name
+                weapon_name = getattr(wpn, "name", wpn) if hasattr(wpn, "name") else str(wpn)
+                    
+        if target.inventory:
+            arm = target.inventory.equipped.get("Armor")
+            if arm:
+                armor_name = getattr(arm, "name", arm) if hasattr(arm, "name") else str(arm)
         
         # Check for reach-extending effects (melee only)
         if not is_ranged:
@@ -1604,12 +1636,6 @@ class CombatEngine:
         if attacker.is_charmed and attacker.charmed_by == target.name:
             return [f"{attacker.name} is Charmed by {target.name} and cannot attack!"]
             
-        # Status Check: Frightened
-        # Disadvantage on attacks (-2)
-        # Status Check: Blinded
-        # Disadvantage on attacks (-5 presumably? or just fail?)
-        # Let's use Disadvantage = -4 (approx 2d20 keep low)
-
         # Action Check
         if attacker.action_used:
             return [f"{attacker.name} has already used their Action!"]
@@ -1618,6 +1644,196 @@ class CombatEngine:
         
         # Consume Action
         attacker.action_used = True
+        
+        # 1. Determine Damage Dice & Type
+        dmg_dice = "1d4"
+        damage_type = "Bludgeoning"
+        weapon_tags = {}
+        
+        if attacker.inventory:
+            dmg_dice, damage_type, weapon_tags = attacker.inventory.get_weapon_stats()
+            
+        # Parse Dice (e.g. "2d6")
+        if "d" in dmg_dice:
+            num, sides = map(int, dmg_dice.split("d"))
+            damage = sum(random.randint(1, sides) for _ in range(num))
+        else:
+            damage = int(dmg_dice)
+            
+        # 2. To Hit Calculation (Resource Clash)
+        # Attacker uses Might/Finesse vs Defender's Armor Stat
+        def_stat_name = "Reflexes"
+        if target.inventory: 
+            def_stat_name = target.inventory.get_defense_stat()
+            
+        # USE MODIFIERS
+        attack_stat = "Might"
+        skill_rank = 0
+        
+        if attacker.inventory:
+            attack_stat = attacker.inventory.get_weapon_main_stat()
+            # Get Skill Rank (e.g. "The Great Weapons")
+            wpn = attacker.inventory.equipped.get("Main Hand")
+            if wpn and hasattr(wpn, "family"):
+                 skill_rank = attacker.get_skill_rank(wpn.family)
+            if not wpn: # Unarmed
+                 skill_rank = attacker.get_skill_rank("The Fist")
+            
+        hit_mod = attacker.get_stat_modifier(attack_stat) + skill_rank
+
+        # === NEW ADVANTAGE/DISADVANTAGE SYSTEM ===
+        # Determine attacker's advantage/disadvantage
+        atk_adv = attacker.has_attack_advantage()
+        atk_dis = attacker.has_attack_disadvantage()
+        
+        # Factor in target's state (being prone gives attacker advantage, etc)
+        if target.is_attack_target_advantaged(attacker):
+            atk_adv = True
+        if target.is_attack_target_disadvantaged(attacker):
+            atk_dis = True
+        
+        # Prone attacking is disadvantage
+        if attacker.is_prone:
+            atk_dis = True
+        
+        # === TACTICAL ADVANTAGE CHECKS (REVISED) ===
+        
+        # Track attacks received for multi-attacker disadvantage
+        target.attacks_received_this_round += 1
+        
+        # Defender Disadvantage: 2nd+ attack against them this round
+        defender_disadvantage = target.attacks_received_this_round >= 2
+        
+        # Behind Attack: Advantage if attacker is in target's rear arc
+        if self.is_behind(attacker, target):
+            atk_adv = True
+            log.append("(Rear Attack!)")
+        
+        # 3+ Enemies: Advantage if target is engaged by 3+ enemies
+        adj_enemies = self.count_adjacent_enemies(target)
+        if adj_enemies >= 3:
+            atk_adv = True
+            log.append("(Surrounded!)")
+        
+        # High Ground: +2 bonus for ranged attacks
+        high_ground_bonus = 0
+        if self.has_high_ground(attacker, target):
+            high_ground_bonus = 2
+            log.append("(High Ground +2)")
+        
+        # Cover: Only Half and Full
+        cover_level = self.get_cover_between(attacker, target)
+        if cover_level == COVER_FULL:
+            return [f"{target.name} has Full Cover! Cannot target."]
+        # Half Cover = Defender gets Advantage (handled via defender_advantage below)
+        defender_advantage = cover_level == COVER_HALF
+            
+        # Roll with advantage/disadvantage
+        raw_d20 = attacker.roll_with_advantage(atk_adv, atk_dis)
+        hit_score = hit_mod + raw_d20 + high_ground_bonus
+        
+        # Invisibility breaks on attack
+        if attacker.is_invisible:
+            attacker.is_invisible = False
+            log.append(f"{attacker.name} appears from invisibility!")
+        
+        # Defender uses AC (Base 10 + Dex/Armor Mod)
+        def_mod = target.get_stat_modifier(def_stat_name)
+        
+        # Add Defender Skill Rank (Armor)
+        def_skill_rank = 0
+        if target.inventory:
+             armor = target.inventory.equipped.get("Armor")
+             if armor and hasattr(armor, "family"):
+                  def_skill_rank = target.get_skill_rank(armor.family)
+        
+        # User requested "Active Defense" with advantage/disadvantage.
+        # Defender also gets status-based advantage/disadvantage
+        def_adv = defender_advantage or target.has_defense_advantage()
+        def_dis = defender_disadvantage or target.has_defense_disadvantage()
+        
+        def_total_mod = def_mod + def_skill_rank
+        def_raw_d20 = target.roll_with_advantage(def_adv, def_dis)
+        def_roll = def_total_mod + def_raw_d20
+        
+        # MARGIN CALCULATION
+        margin = hit_score - def_roll
+        
+        # LOGIC: Check Hit
+        # CLASH CHECK (Equal rolls or within 1)
+        if abs(margin) <= 1:
+            self.clash_active = True
+            # Store participants for resolution
+            self.clash_participants = (attacker, target)
+            self.clash_stat = attack_stat # Stat used for the clash
+            
+            log.append(f"CLASH TRIGGERED! ({hit_score} vs {def_roll})")
+            
+            # Record Clash for Sensory Layer (AI will assume 'clash' result type means 0 margin event)
+            self.replay_log.append({
+                "type": "clash_trigger",
+                "actor": attacker.name,
+                "target": target.name,
+                "weapon": weapon_name,
+                "armor": armor_name,
+                "result": "clash",
+                "margin": margin,
+                "hit_score": hit_score,
+                "def_score": def_roll
+            })
+            return log
+
+        if hit_score >= def_roll:
+             # HIT
+             was_killed = target.take_damage(damage) 
+             log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
+             
+             # Calculate Crit visually
+             style = "hit"
+             if hit_score >= def_roll + 5: # Solid hit
+                 if random.random() < 0.2: style = "hit crit" 
+             if hit_score >= def_roll + 10: # Crushing hit
+                 style = "hit crit"
+
+             # --- RECORD EVENT (PROTOCOL 2) ---
+             self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "weapon": weapon_name,
+                "armor": armor_name,
+                "result": "hit",
+                "margin": margin,
+                "damage": damage,
+                "target_hp": target.hp,
+                "style": style
+             })
+             
+             if was_killed:
+                 log.append(f"{target.name} is SLAIN!")
+                 self.replay_log.append({
+                    "type": "death",
+                    "actor": target.name,
+                    "x": target.x,
+                    "y": target.y
+                 })
+             # ---------------------------------
+        else:
+             log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
+             # --- RECORD EVENT (PROTOCOL 2) ---
+             self.replay_log.append({
+                "type": "attack",
+                "actor": attacker.name,
+                "target": target.name,
+                "weapon": weapon_name,
+                "armor": armor_name,
+                "result": "miss",
+                "margin": margin,
+                "damage": 0
+             })
+             # ---------------------------------
+             
+        return log
 
         # 1. Determine Damage Dice & Type
         dmg_dice = "1d4"
