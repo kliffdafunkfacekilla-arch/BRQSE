@@ -192,6 +192,11 @@ class GameLoopController:
             with open(path, 'r') as f: enemy_data = json.load(f)
             enemy = Combatant(data=enemy_data)
             enemy.team = "Enemies"
+            # Propagate Key Data to Enemy
+            if setup_item.get("has_key"):
+                enemy.has_key = setup_item["has_key"]
+                enemy.key_name = setup_item["key_name"]
+            
             self.active_scene.grid[sy][sx] = TILE_ENEMY
             self.combat_engine.add_combatant(enemy, sx, sy)
             self.state = "COMBAT"
@@ -456,6 +461,25 @@ class GameLoopController:
                         del self.interactables[x,y]
                         self.active_scene.grid[y][x] = TILE_FLOOR
 
+                        self.active_scene.grid[y][x] = TILE_FLOOR
+
+        elif action_type == "use":
+            # Map generic use to contextual actions
+            if not obj:
+                 result = {"success": False, "reason": "Nothing to use"}
+            else:
+                tags = obj.get("tags", [])
+                if "solve" in tags:
+                    return self.handle_action("solve", x, y)
+                elif "open" in tags:
+                     return self.handle_action("open", x, y)
+                elif "unlock" in tags:
+                     return self.handle_action("unlock", x, y)
+                elif "talk" in tags:
+                     return self.handle_action("talk", x, y)
+                else:
+                     result = {"success": False, "reason": "Can't use this."}
+
         elif action_type == "talk":
             if obj and "talk" in obj.get("tags", []):
                 if self.sensory_layer:
@@ -610,6 +634,19 @@ class GameLoopController:
         # === ENEMY TURN (SIMPLIFIED) ===
         if self.state == "COMBAT" and action_type in ["move", "attack", "wait", "rest", "defend"] and not result.get("event") == "COMBAT_STARTED":
             try:
+                # 0. Check for Dead Enemies & Drops
+                # print(f"DEBUG: Checking {len(self.combat_engine.combatants)} combatants for death/drops")
+                dead_enemies = [c for c in self.combat_engine.combatants if c.team != "Player" and c.is_dead]
+                for dead in dead_enemies:
+                    # print(f"DEBUG: Found dead enemy {dead}. has_key? {getattr(dead, 'has_key', 'NoAttr')}")
+                    if hasattr(dead, "has_key") and dead.has_key:
+                        # Drop Key
+                        self.inventory.append({"id": dead.has_key, "name": dead.key_name})
+                        if "log" in result: result["log"] += f" The enemy dropped a {dead.key_name}!"
+                        else: result["log"] = f"The enemy dropped a {dead.key_name}!"
+                        # Prevent double drop
+                        dead.has_key = None
+                
                 # Simple AI: Move closer, Attack if adjacent
                 if not "log" in result: result["log"] = ""
                 
@@ -620,6 +657,9 @@ class GameLoopController:
                     if not c or not hasattr(c, "team"): continue
                     
                     if c.team != "Player" and not c.is_dead:
+                        # Force Reset Action Economy for AI (simplification for this loop style)
+                        c.action_used = False
+                        
                         enemies_acted += 1
                         # SAFETY CHECK: positions
                         if c.x is None or c.y is None or self.player_combatant.x is None or self.player_combatant.y is None:
@@ -766,6 +806,17 @@ class GameLoopController:
 
             res = {"success": True, "action": action}
             
+            # 0. Check for Dead Enemies & Drops (Before new actions)
+            dead_enemies = [c for c in self.combat_engine.combatants if c.team != "Player" and c.is_dead]
+            for dead in dead_enemies:
+                if hasattr(dead, "has_key") and dead.has_key:
+                    # Drop Key
+                    self.inventory.append({"id": dead.has_key, "name": dead.key_name})
+                    if "log" in res: res["log"] += f" The enemy dropped a {dead.key_name}!"
+                    else: res["log"] = f"The enemy dropped a {dead.key_name}!"
+                    # Prevent double drop
+                    dead.has_key = None
+            
             # 1. Player Turn
             if action in ["move", "attack"]:
                 # Check if clicking on an enemy -> Attack
@@ -850,6 +901,9 @@ class GameLoopController:
         
         log_entries = []
         for e in enemies:
+            # Force Reset Action Economy for AI
+            e.action_used = False
+            
             # Simple AI: Move to player
             px, py = self.player_pos
             dist = math.hypot(px - e.x, py - e.y)

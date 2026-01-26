@@ -83,6 +83,34 @@ def test_key_mechanism():
         print("SUCCESS: Door unlocked!")
     else:
         print("FAILURE: Door still locked.")
+        
+    # 6. Test Enemy Drop
+    print("\n[Step 4] Testing Enemy Drop...")
+    # Spawn Enemy with Key
+    enemy_data = {"type": "ENEMY_SPAWN", "has_key": "enemy_key", "key_name": "Skull Key"}
+    # Manually Manifest
+    gl.player_pos = (5, 5) 
+    # Hack: Inject into combat engine directly to simulate manifestation
+    class MockEnemy:
+        def __init__(self):
+            self.team = "Enemies"
+            self.is_dead = True
+            self.has_key = "enemy_key"
+            self.key_name = "Skull Key"
+            self.x, self.y = 0, 0
+            
+    mock_enemy = MockEnemy()
+    gl.combat_engine.combatants.append(mock_enemy)
+    
+    # Trigger a turn cycle (e.g. wait)
+    gl.state = "COMBAT"
+    gl.handle_action("wait", 5, 5)
+    
+    # Check inventory
+    if any(k["id"] == "enemy_key" for k in gl.inventory):
+        print("SUCCESS: Enemy dropped key on death.")
+    else:
+        print("FAILURE: Enemy key not in inventory.")
 
 if __name__ == "__main__":
     test_key_mechanism()
