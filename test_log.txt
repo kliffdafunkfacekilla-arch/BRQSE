@@ -1,0 +1,29 @@
+EE
+======================================================================
+ERROR: test_consult_rag_prompt (__main__.TestOracleRAG.test_consult_rag_prompt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\test_oracle_rag.py", line 36, in setUp
+    self.game_state = MockGameState()
+                      ~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\test_oracle_rag.py", line 15, in __init__
+    self.player = Entity("Hero", 10, 10, data={"hp": 20, "max_hp": 20})
+                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Entity.__init__() got an unexpected keyword argument 'data'
+
+======================================================================
+ERROR: test_inspect_entity (__main__.TestOracleRAG.test_inspect_entity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\test_oracle_rag.py", line 36, in setUp
+    self.game_state = MockGameState()
+                      ~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\test_oracle_rag.py", line 15, in __init__
+    self.player = Entity("Hero", 10, 10, data={"hp": 20, "max_hp": 20})
+                  ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Entity.__init__() got an unexpected keyword argument 'data'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (errors=2)

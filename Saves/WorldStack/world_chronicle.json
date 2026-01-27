@@ -1,0 +1,655 @@
+{
+  "entries": [
+    {
+      "id": 1,
+      "timestamp": "2026-01-26T19:15:40.458840",
+      "level": 0,
+      "category": "SYSTEM",
+      "text": "World Generation Started. Seed: 8609",
+      "tags": {}
+    },
+    {
+      "id": 2,
+      "timestamp": "2026-01-26T19:15:40.471773",
+      "level": 1,
+      "category": "THEME",
+      "text": "Level 1 established as a Dungeon.",
+      "tags": {}
+    },
+    {
+      "id": 3,
+      "timestamp": "2026-01-26T19:15:40.472579",
+      "level": 1,
+      "category": "QUEST_ITEM",
+      "text": "The Iron Key was hidden in Room 9.",
+      "tags": {
+        "item_id": "iron_key_1",
+        "room_id": 9
+      }
+    },
+    {
+      "id": 4,
+      "timestamp": "2026-01-26T19:15:40.473275",
+      "level": 1,
+      "category": "BOSS_SPAWN",
+      "text": "The Keykeeper (Orc Jailer) posted guard in Room 9.",
+      "tags": {
+        "entity_type": "orc_jailer",
+        "role": "guardian"
+      }
+    },
+    {
+      "id": 5,
+      "timestamp": "2026-01-26T19:15:40.473872",
+      "level": 1,
+      "category": "QUEST_GOAL",
+      "text": "The Exit is locked in Room 3.",
+      "tags": {
+        "room_id": 3,
+        "requires": "iron_key_1"
+      }
+    },
+    {
+      "id": 6,
+      "timestamp": "2026-01-26T19:15:40.474455",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 1: ",
+      "tags": {
+        "event_type": "hazard"
+      }
+    },
+    {
+      "id": 7,
+      "timestamp": "2026-01-26T19:15:40.475033",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 2: ",
+      "tags": {
+        "event_type": "social"
+      }
+    },
+    {
+      "id": 8,
+      "timestamp": "2026-01-26T19:15:40.475603",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 4: ",
+      "tags": {
+        "event_type": "treasure"
+      }
+    },
+    {
+      "id": 9,
+      "timestamp": "2026-01-26T19:15:40.479642",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 5: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 10,
+      "timestamp": "2026-01-26T19:15:40.480406",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 6: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 11,
+      "timestamp": "2026-01-26T19:15:40.481126",
+      "level": 1,
+      "category": "CHAOS",
+      "text": "Room 7: Overgrowth: Plants grapple anyone standing still. Wounds heal 1HP per round, but grow flowers/moss that must be cut off.",
+      "tags": {
+        "event_type": "chaos_twist"
+      }
+    },
+    {
+      "id": 12,
+      "timestamp": "2026-01-26T19:15:40.481794",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 8: ",
+      "tags": {
+        "event_type": "treasure"
+      }
+    },
+    {
+      "id": 13,
+      "timestamp": "2026-01-26T19:15:40.482424",
+      "level": 1,
+      "category": "ENCOUNTER",
+      "text": "Room 10: ",
+      "tags": {
+        "event_type": "social"
+      }
+    },
+    {
+      "id": 14,
+      "timestamp": "2026-01-26T19:15:40.497393",
+      "level": 2,
+      "category": "THEME",
+      "text": "Level 2 established as a Dungeon.",
+      "tags": {}
+    },
+    {
+      "id": 15,
+      "timestamp": "2026-01-26T19:15:40.498348",
+      "level": 2,
+      "category": "QUEST_ITEM",
+      "text": "The Iron Key was hidden in Room 9.",
+      "tags": {
+        "item_id": "iron_key_2",
+        "room_id": 9
+      }
+    },
+    {
+      "id": 16,
+      "timestamp": "2026-01-26T19:15:40.499186",
+      "level": 2,
+      "category": "BOSS_SPAWN",
+      "text": "The Keykeeper (Orc Jailer) posted guard in Room 9.",
+      "tags": {
+        "entity_type": "orc_jailer",
+        "role": "guardian"
+      }
+    },
+    {
+      "id": 17,
+      "timestamp": "2026-01-26T19:15:40.500049",
+      "level": 2,
+      "category": "QUEST_GOAL",
+      "text": "The Exit is locked in Room 2.",
+      "tags": {
+        "room_id": 2,
+        "requires": "iron_key_2"
+      }
+    },
+    {
+      "id": 18,
+      "timestamp": "2026-01-26T19:15:40.500873",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 1: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 19,
+      "timestamp": "2026-01-26T19:15:40.501898",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 3: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 20,
+      "timestamp": "2026-01-26T19:15:40.502900",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 4: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 21,
+      "timestamp": "2026-01-26T19:15:40.503700",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 5: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 22,
+      "timestamp": "2026-01-26T19:15:40.504818",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 6: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 23,
+      "timestamp": "2026-01-26T19:15:40.505586",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 7: ",
+      "tags": {
+        "event_type": "hazard"
+      }
+    },
+    {
+      "id": 24,
+      "timestamp": "2026-01-26T19:15:40.506389",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 8: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 25,
+      "timestamp": "2026-01-26T19:15:40.507232",
+      "level": 2,
+      "category": "ENCOUNTER",
+      "text": "Room 10: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 26,
+      "timestamp": "2026-01-26T19:15:40.508021",
+      "level": 2,
+      "category": "CHAOS",
+      "text": "Room 11: Decay: Items degrade. A natural 1 on an attack breaks the weapon. Potions spoil if not used immediately.",
+      "tags": {
+        "event_type": "chaos_twist"
+      }
+    },
+    {
+      "id": 27,
+      "timestamp": "2026-01-26T19:15:40.520608",
+      "level": 3,
+      "category": "THEME",
+      "text": "Level 3 established as a Dungeon.",
+      "tags": {}
+    },
+    {
+      "id": 28,
+      "timestamp": "2026-01-26T19:15:40.521726",
+      "level": 3,
+      "category": "QUEST_ITEM",
+      "text": "The Iron Key was hidden in Room 5.",
+      "tags": {
+        "item_id": "iron_key_3",
+        "room_id": 5
+      }
+    },
+    {
+      "id": 29,
+      "timestamp": "2026-01-26T19:15:40.522715",
+      "level": 3,
+      "category": "BOSS_SPAWN",
+      "text": "The Keykeeper (Orc Jailer) posted guard in Room 5.",
+      "tags": {
+        "entity_type": "orc_jailer",
+        "role": "guardian"
+      }
+    },
+    {
+      "id": 30,
+      "timestamp": "2026-01-26T19:15:40.523694",
+      "level": 3,
+      "category": "QUEST_GOAL",
+      "text": "The Exit is locked in Room 7.",
+      "tags": {
+        "room_id": 7,
+        "requires": "iron_key_3"
+      }
+    },
+    {
+      "id": 31,
+      "timestamp": "2026-01-26T19:15:40.524672",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 1: ",
+      "tags": {
+        "event_type": "hazard"
+      }
+    },
+    {
+      "id": 32,
+      "timestamp": "2026-01-26T19:15:40.525743",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 2: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 33,
+      "timestamp": "2026-01-26T19:15:40.526826",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 3: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 34,
+      "timestamp": "2026-01-26T19:15:40.527944",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 4: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 35,
+      "timestamp": "2026-01-26T19:15:40.529025",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 6: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 36,
+      "timestamp": "2026-01-26T19:15:40.530162",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 8: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 37,
+      "timestamp": "2026-01-26T19:15:40.531321",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 9: ",
+      "tags": {
+        "event_type": "treasure"
+      }
+    },
+    {
+      "id": 38,
+      "timestamp": "2026-01-26T19:15:40.532435",
+      "level": 3,
+      "category": "ENCOUNTER",
+      "text": "Room 10: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 39,
+      "timestamp": "2026-01-26T19:15:40.545376",
+      "level": 4,
+      "category": "THEME",
+      "text": "Level 4 established as a Dungeon.",
+      "tags": {}
+    },
+    {
+      "id": 40,
+      "timestamp": "2026-01-26T19:15:40.546743",
+      "level": 4,
+      "category": "QUEST_ITEM",
+      "text": "The Iron Key was hidden in Room 7.",
+      "tags": {
+        "item_id": "iron_key_4",
+        "room_id": 7
+      }
+    },
+    {
+      "id": 41,
+      "timestamp": "2026-01-26T19:15:40.547938",
+      "level": 4,
+      "category": "BOSS_SPAWN",
+      "text": "The Keykeeper (Orc Jailer) posted guard in Room 7.",
+      "tags": {
+        "entity_type": "orc_jailer",
+        "role": "guardian"
+      }
+    },
+    {
+      "id": 42,
+      "timestamp": "2026-01-26T19:15:40.549159",
+      "level": 4,
+      "category": "QUEST_GOAL",
+      "text": "The Exit is locked in Room 2.",
+      "tags": {
+        "room_id": 2,
+        "requires": "iron_key_4"
+      }
+    },
+    {
+      "id": 43,
+      "timestamp": "2026-01-26T19:15:40.550284",
+      "level": 4,
+      "category": "CHAOS",
+      "text": "Room 1: Volatility: Any metal spark or spell causes a small explosion (1d4 fire damage). The air is uncomfortably hot.",
+      "tags": {
+        "event_type": "chaos_twist"
+      }
+    },
+    {
+      "id": 44,
+      "timestamp": "2026-01-26T19:15:40.551434",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 3: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 45,
+      "timestamp": "2026-01-26T19:15:40.552613",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 4: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 46,
+      "timestamp": "2026-01-26T19:15:40.553907",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 5: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 47,
+      "timestamp": "2026-01-26T19:15:40.555151",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 6: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 48,
+      "timestamp": "2026-01-26T19:15:40.556323",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 8: ",
+      "tags": {
+        "event_type": "social"
+      }
+    },
+    {
+      "id": 49,
+      "timestamp": "2026-01-26T19:15:40.557537",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 9: ",
+      "tags": {
+        "event_type": "hazard"
+      }
+    },
+    {
+      "id": 50,
+      "timestamp": "2026-01-26T19:15:40.558928",
+      "level": 4,
+      "category": "ENCOUNTER",
+      "text": "Room 10: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 51,
+      "timestamp": "2026-01-26T19:15:40.573990",
+      "level": 5,
+      "category": "THEME",
+      "text": "Level 5 established as a Dungeon.",
+      "tags": {}
+    },
+    {
+      "id": 52,
+      "timestamp": "2026-01-26T19:15:40.575523",
+      "level": 5,
+      "category": "QUEST_ITEM",
+      "text": "The Iron Key was hidden in Room 5.",
+      "tags": {
+        "item_id": "iron_key_5",
+        "room_id": 5
+      }
+    },
+    {
+      "id": 53,
+      "timestamp": "2026-01-26T19:15:40.576962",
+      "level": 5,
+      "category": "BOSS_SPAWN",
+      "text": "The Keykeeper (Orc Jailer) posted guard in Room 5.",
+      "tags": {
+        "entity_type": "orc_jailer",
+        "role": "guardian"
+      }
+    },
+    {
+      "id": 54,
+      "timestamp": "2026-01-26T19:15:40.578286",
+      "level": 5,
+      "category": "QUEST_GOAL",
+      "text": "The Exit is locked in Room 3.",
+      "tags": {
+        "room_id": 3,
+        "requires": "iron_key_5"
+      }
+    },
+    {
+      "id": 55,
+      "timestamp": "2026-01-26T19:15:40.579669",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 1: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 56,
+      "timestamp": "2026-01-26T19:15:40.581059",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 2: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 57,
+      "timestamp": "2026-01-26T19:15:40.582423",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 4: ",
+      "tags": {
+        "event_type": "combat"
+      }
+    },
+    {
+      "id": 58,
+      "timestamp": "2026-01-26T19:15:40.584019",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 6: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 59,
+      "timestamp": "2026-01-26T19:15:40.585566",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 7: ",
+      "tags": {
+        "event_type": "hazard"
+      }
+    },
+    {
+      "id": 60,
+      "timestamp": "2026-01-26T19:15:40.588067",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 8: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 61,
+      "timestamp": "2026-01-26T19:15:40.589603",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 9: ",
+      "tags": {
+        "event_type": "flavor"
+      }
+    },
+    {
+      "id": 62,
+      "timestamp": "2026-01-26T19:15:40.591140",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 10: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 63,
+      "timestamp": "2026-01-26T19:15:40.592700",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 11: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 64,
+      "timestamp": "2026-01-26T19:15:40.594173",
+      "level": 5,
+      "category": "ENCOUNTER",
+      "text": "Room 12: ",
+      "tags": {
+        "event_type": "puzzle"
+      }
+    },
+    {
+      "id": 65,
+      "timestamp": "2026-01-26T19:15:40.597744",
+      "level": 0,
+      "category": "SYSTEM",
+      "text": "World Generation Complete.",
+      "tags": {}
+    }
+  ]
+}

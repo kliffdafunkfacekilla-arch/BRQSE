@@ -10,12 +10,16 @@ class StoryDirector:
     def __init__(self):
         self.events = EventManager()
 
-    def direct_scene(self, map_data, level_depth):
+    def direct_scene(self, map_data, level_depth, logger=None):
         """
         Injects story data into the map dictionary.
         """
         rooms = list(map_data["rooms"].values())
         if not rooms: return
+
+        # LOG THEME
+        if logger:
+            logger.log(level_depth, "THEME", f"Level {level_depth} established as a {map_data.get('theme', 'Dungeon')}.")
 
         # 1. Topology Analysis
         # Identify the "Entry Room" (where stairs up are) and "Exit Room"
@@ -50,6 +54,10 @@ class StoryDirector:
             "key_name": "Iron Key",
             "tags": ["search"]
         })
+        if logger:
+            logger.log(level_depth, "QUEST_ITEM", 
+                       f"The Iron Key was hidden in Room {key_room['id']}.", 
+                       tags={"item_id": key_id, "room_id": key_room['id']})
         
         # -- Place Guardian (Context Aware AI) --
         # This entity KNOWS it is guarding the key
@@ -64,6 +72,10 @@ class StoryDirector:
                 "patrol_room_id": key_room["id"]
             }
         })
+        if logger:
+            logger.log(level_depth, "BOSS_SPAWN", 
+                       f"The Keykeeper (Orc Jailer) posted guard in Room {key_room['id']}.", 
+                       tags={"entity_type": "orc_jailer", "role": "guardian"})
 
         # -- Place Locked Chest/Door at Goal --
         # Decide if it's the STAIRS or a CHEST. If this is the last room, likely stairs down are locked or guarded.
@@ -79,6 +91,10 @@ class StoryDirector:
             "loot_table": f"tier_{level_depth}_loot",
             "tags": ["open", "unlock", "inspect"]
         })
+        if logger:
+            logger.log(level_depth, "QUEST_GOAL", 
+                       f"The Exit is locked in Room {goal_room['id']}.", 
+                       tags={"room_id": goal_room['id'], "requires": key_id})
 
         # -- Place Boss --
         map_data["entities"].append({
@@ -96,8 +112,6 @@ class StoryDirector:
         # NEW: Populate remaining empty rooms with Random Events
         for room in rooms:
             # Skip if room is already critical (Start/End/Key)
-            # Logic: If center is occupied, skip?
-            # Better: Check against known locations
             cx, cy = room["center"]
             is_occupied = False
             # Check objects
@@ -111,6 +125,13 @@ class StoryDirector:
             # Roll an event (10% chance of Chaos)
             event = self.events.get_random_event(chaos_chance=0.1)
             self._apply_event_to_room(map_data, room, event)
+            
+            # LOG THE EVENT
+            if logger:
+                category = "CHAOS" if event['type'] == "chaos_twist" else "ENCOUNTER"
+                logger.log(level_depth, category, 
+                           f"Room {room['id']}: {event['description']}", 
+                           tags={"event_type": event['type']})
 
         print(f"   [ASI] Lvl {level_depth}: Key in Room {key_room['id']} -> Chest in Room {goal_room['id']}")
 
@@ -151,12 +172,17 @@ class StoryDirector:
                 "type": ent_type,
                 "team": "Enemies",
                 "name": ent_name,
-                "description": event["description"] 
+                "description": event["description"],
+                "tags": ["enemy", "combatant"]
             })
             
         elif event["type"] == "treasure":
             obj_data["subtype"] = "Lost Treasure"
-            obj_data["tags"] = ["search", "loot"]
+            # Tag Update: Ensure container/pickup semantics
+            # If it's just loot on the ground:
+            obj_data["tags"] = ["search", "loot", "pickup"]
+            obj_data["has_key"] = f"gold_{random.randint(10,100)}" # Placeholder value
+            obj_data["key_name"] = "Gold Coins"
             
         map_data["objects"].append(obj_data)
 

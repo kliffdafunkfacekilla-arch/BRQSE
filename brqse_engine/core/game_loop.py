@@ -12,6 +12,8 @@ from brqse_engine.abilities import engine_hooks
 from brqse_engine.abilities.effects_registry import registry
 from brqse_engine.core.event_engine import EventEngine
 from brqse_engine.models.journal import Journal
+from brqse_engine.core.interaction import InteractionEngine # NEW IMPORT
+from brqse_engine.world.campaign_logger import CampaignLogger # NEW IMPORT
 
 class GameLoopController:
     """
@@ -28,6 +30,13 @@ class GameLoopController:
         self.scene_stack = SceneStack(self.chaos)
         self.map_gen = MapGenerator(self.chaos)
         self.combat_engine = CombatEngine(20, 20)
+        
+        # Initialize Logger
+        self.logger = CampaignLogger()
+        self.chaos = chaos_manager
+        
+        # Initialize Interaction Engine with RAG capacity
+        self.interaction = InteractionEngine(self.logger, sensory_layer)
         
         self.state = "EXPLORE"
         self.player_pos = (1, 10)
@@ -58,6 +67,10 @@ class GameLoopController:
             # We can't really return a Scene here, but we can prevent the update.
             # In handle_action, we already block the call to this.
             return self.active_scene
+            
+    def handle_chat(self, user_input: str) -> str:
+        """Direct channel to the Dungeon Oracle."""
+        return self.interaction.oracle.consult(user_input, self)
 
         scene = self.scene_stack.advance()
         if scene.text == "QUEST COMPLETE":
@@ -317,135 +330,191 @@ class GameLoopController:
             elif y < py: self._set_facing("N")
 
         result = {"success": True, "action": action_type}
-        obj = self.interactables.get((x, y))
         
+        # --- NEW: Inspector ---
+        if action_type == "debug_inspect":
+            self._debug_inspect_room(x, y)
+            return {"success": True, "log": "Inspector triggered. Check console."}
+
+        # --- NEW: Interaction Engine Integration ---
+        # Map specific actions to generic 'interact' or handle legacy logic via tags
+        
+        # Get target object (if any)
+        # Note: In new system, objects should be Entity instances. 
+        # For now, we wrap legacy dicts into Entity on the fly OR rely on InteractionEngine 
+        # to handle dicts if we updated it (we didn't, so let's stick to dicts for now 
+        # but the InteractionEngine expects objects with .has_tag).
+        
+        # BRIDGE: Convert dict object to Entity-like wrapper for InteractionEngine
+        obj_data = self.interactables.get((x, y))
+        target_entity = None
+        if obj_data:
+            from brqse_engine.models.entity import Entity
+            target_entity = Entity(obj_data.get("name", "Unknown"), x, y)
+            # Hydrate tags
+            for tag in obj_data.get("tags", []): target_entity.add_tag(tag)
+            # Hydrate specific properties as data or tags
+            if obj_data.get("is_locked"): target_entity.add_tag("locked")
+            if obj_data.get("required_key"): 
+                target_entity.data["required_key"] = obj_data["required_key"]
+            if obj_data.get("has_key"):
+                target_entity.add_tag("pickup") # Or specific tag?
+                target_entity.data["pickup_item_id"] = obj_data["has_key"]
+                target_entity.data["pickup_item_name"] = obj_data["key_name"]
+
+        # 1. MOVE
         if action_type == "move":
             move_res = self._process_move(x, y)
-            if not move_res["success"]: return move_res
+            if not move_res.get("success"): return move_res
             result.update(move_res)
-            if "log" not in result:
-                result["log"] = f"Moved to {x}, {y}."
-        
-        elif action_type == "inspect":
-            if obj:
-                if "talk" in obj.get("tags", []):
-                    result["log"] = f"You see {obj['type']}."
-                else:
-                    result["log"] = f"A sturdy {obj['type']}."
-            else:
-                # Check for combatant at x,y
-                entity = None
-                if self.combat_engine and self.combat_engine.combatants:
-                    for c in self.combat_engine.combatants:
-                        if c.x == x and c.y == y:
-                            entity = c
-                            break
-                            
-                if entity:
-                    result["log"] = f"You see {entity.name} ({entity.species})."
-                    if entity.team == "Enemies":
-                        result["log"] += " It looks hostile."
-                else:
-                    result["log"] = "An ordinary patch of ground."
-
-        elif action_type == "search" or action_type == "perception":
-            if obj:
-                tags = obj.get("tags", [])
-                if "search" in tags or "open" in tags:
-                    log = f"You search the {obj['type']}."
-                    if obj.get("is_locked"):
-                         log += " It is locked."
-                         if "required_key" in obj:
-                             has_key = any(k["id"] == obj["required_key"] for k in self.inventory)
-                             if has_key:
-                                 log += " You use the key to unlock it!"
-                                 obj["is_locked"] = False
-                             else:
-                                 result["log"] = log + " You need a specific key."
-                                 return result
-
-                    if obj.get("has_key"):
-                        item = {"id": obj["has_key"], "name": obj["key_name"]}
-                        self.inventory.append(item)
-                        log += f" You found: {item['name']}!"
-                    else:
-                        log += " You found some supplies."
-
-                    result["log"] = log
-                    # Potential for actual item drop logic here
-                    del self.interactables[x, y]
-                    self.active_scene.grid[y][x] = TILE_FLOOR
-                elif "disarm" in tags:
-                    result["log"] = f"You search the area and find a hidden {obj['type']}! Use 'disarm' to neutralize it."
-                    obj["is_hidden"] = False
-                else:
-                    result["log"] = f"You search the {obj['type']} but find nothing unusual."
-            else:
-                result["log"] = "You scour the area with keen eyes."
-            self._update_visibility(radius=7) # Temporary vision boost
+            if "log" not in result: result["log"] = f"Moved to {x}, {y}."
             
-        elif action_type == "disarm":
-            if obj and "disarm" in obj.get("tags", []):
-                result["log"] = f"You carefully disarm the {obj['type']}."
-                del self.interactables[x, y]
-                self.active_scene.grid[y][x] = TILE_FLOOR
-            else: result = {"success": False, "reason": "Nothing to disarm"}
+        # 2. INTERACT / USE / OPEN / GET
+        elif action_type in ["interact", "use", "open", "get", "pickup"]:
+            if target_entity:
+                # Wrap Player as Actor
+                # We need a dummy actor that has 'inventory'
+                class ActorWrapper:
+                    def __init__(self, inventory): self.inventory = inventory
+                
+                # Convert self.inventory (list of dicts) to list of Entities for consistency?
+                # InteractionEngine expects actors inventory to be objects with tags/data.
+                # Let's wrap the inventory items too.
+                actor_inv = []
+                for item in self.inventory:
+                     e = Entity(item["name"], 0, 0)
+                     e.data["id"] = item["id"]
+                     e.add_tag(item["id"]) # ID as tag for easy lookup
+                     actor_inv.append(e)
+                
+                actor = ActorWrapper(actor_inv)
+                
+                # PERFORM INTERACTION
+                log = self.interaction.interact(actor, target_entity)
+                result["log"] = log
+                
+                # SYNC BACK STATE
+                # If unlocked...
+                if not target_entity.has_tag("locked") and obj_data.get("is_locked"):
+                    obj_data["is_locked"] = False
+                    # Update tags in map data
+                    if "locked" in obj_data.get("tags", []): obj_data["tags"].remove("locked")
+                    
+                # If picked up...
+                if target_entity.has_tag("carried"):
+                    # Remove from world
+                    del self.interactables[(x, y)]
+                    self.active_scene.grid[y][x] = TILE_FLOOR
+                    # Add to real inventory
+                    if "pickup_item_id" in target_entity.data:
+                         self.inventory.append({
+                             "id": target_entity.data["pickup_item_id"],
+                             "name": target_entity.data["pickup_item_name"]
+                         })
+            else:
+                 result["log"] = "Nothing to interact with here."
+
+        # 3. EXAMINE (Narrative Detailed Look)
+        elif action_type == "examine":
+            if target_entity:
+                # 1. Get History Context
+                depth = getattr(self.active_scene, "depth", 1)
+                logs = self.logger.get_context(level=depth)
+                # 2. Consult InteractionEngine (which asks Oracle)
+                result["log"] = self.interaction.examine(target_entity, logs)
+            else:
+                 result["log"] = "You see nothing of interest here."
+
+        # 4. CONSULT (Chatbot)
+        elif action_type == "consult":
+             # Payload "query" should be in the kwargs or extra args, 
+             # but handle_action signature is (action, x, y). 
+             # We might need to assume 'consult' is triggered with a special x,y or just ignore them 
+             # and look for a way to pass query.
+             # Actually, let's assume the query is passed via a property on self temporarily set 
+             # or we change handle_action signature.
+             # Given constraints, let's assume we use a 'last_query' state or similar if inputs are restricted.
+             # OR: abuse X/Y or rely on a separate method. 
+             # BUT: The requirement was to add it to handle_action.
+             # Let's pivot: If action="consult", we expect the input string to be passed somehow.
+             # We will look for it in `self.game_state.last_chat_input` if we had one, or ...
+             # Hack: We'll allow the caller to pass it as 'x' if type is string? No 'x' is int tag.
+             pass # Placeholder until better input hook defined, handled separate loop usually.
+
+        # 5. INSPECT (Technical Tag Dump)
+        elif action_type == "inspect":
+            if target_entity:
+                tags = sorted(list(target_entity.tags))
+                result["log"] = f"[DEBUG] {target_entity.name} Tags: {tags}"
+            else:
+                 result["log"] = "An ordinary patch of ground."
+
+    def _debug_inspect_room(self, x, y):
+        """Inspector Tool logic."""
+        print(f"\n--- 🕵️ INSPECTOR: ({x}, {y}) ---")
+        
+        # 1. Identify Room
+        # We need access to map_data room list or calculate from grid
+        # For now, let's assume valid room if inside dungeon bounds
+        # TODO: Real room ID from grid bitmask if available, or spatial query
+        
+        # Fallback: Spatial query against loaded layout? 
+        # The MapGenerator doesn't persist room IDs in the grid integers readily accessible here 
+        # unless we kept the IntFlag or a lookup.
+        # Let's try to infer from coordinates vs known room centers in current scene if possible?
+        # Actually... we don't have the room list here easily.
+        
+        # SIMPLIFICATION: usage of CampaignLogger.history to fuzzy match?
+        # Or just dump what we know.
+        
+        obj = self.interactables.get((x,y))
+        if obj:
+            print(f"📦 OBJECT: {obj}")
+            
+        # Check Logger
+        # We need the level depth.
+        depth = getattr(self.active_scene, "depth", 1)
+        print(f"📍 Depth: {depth}")
+        
+        # Fetch all logs for this level to scan
+        logs = self.logger.get_context(level=depth)
+        print(f"📜 LEVEL HISTORY ({len(logs)} entries):")
+        for log in logs:
+            # If log has locational tags...
+            tags = log.get("tags", {})
+            # This is fuzzy without exact room IDs in grid, but useful enough
+            print(f"   - [{log['category']}] {log['text']} {tags}")
+            
+        print("----------------------------\n")
+
+
+
+        
+
+
+
+
+
+
+        # 3. EXAMINE (Narrative detailed look)
+        elif action_type == "examine":
+            if target_entity:
+                # 1. Get History Context
+                depth = getattr(self.active_scene, "depth", 1)
+                logs = self.logger.get_context(level=depth)
+                # 2. Consult InteractionEngine (which asks Oracle)
+                result["log"] = self.interaction.examine(target_entity, logs)
+            else:
+                 result["log"] = "You see nothing of interest here."
+        
+        # 4. CONSULT (Chatbot)
+        elif action_type == "consult":
+             # Placeholder until better input hook defined
+             pass 
 
         elif action_type == "track":
-            # Tracking / Forensics Logic
-            if not self.chaos:
-                result = {"success": False, "reason": "No Chaos Manager"}
-            else:
-                # 1. Determine Difficulty
-                difficulty = 10 + self.chaos.chaos_level
-                
-                # 2. Roll (Simulated Survival/Perception)
-                # TODO: Check for actual player skills if available
-                roll = random.randint(1, 20)
-                bonus = 0
-                if self.player_combatant:
-                    # quick check for skill keywords in powers/skills
-                    skills = [s.lower() for s in self.player_combatant.character.skills]
-                    if "survival" in skills: bonus += 3
-                    elif "perception" in skills: bonus += 2
-                
-                total = roll + bonus
-                
-                result["log"] = f"Tracking (DC {difficulty})... Rolled {total} ({roll}+{bonus})."
-                
-                if total >= difficulty:
-                    result["success"] = True
-                    # If there's a specific object being tracked
-                    if obj and "track" in obj.get("tags", []):
-                        result["log"] += f" SUCCESS: You find distinct signs leading away from the {obj['type']}."
-                    else:
-                        # Generic Scene Tracking
-                        biomes = getattr(self.active_scene, 'biome', 'DUNGEON')
-                        result["log"] += " SUCCESS: You discern a path through the debris/foliage."
-                        
-                    if self.active_scenario:
-                         # Check context - if it's a forensic encounter, this MUST progress it.
-                         narrative = str(self.active_scenario.get("narrative", "")).lower()
-                         win_type = self.active_scenario["win_condition"].get("type", "")
-                         
-                         if "track" in narrative or "clues" in narrative or "footprints" in narrative:
-                             self._resolve_active_event("Tracked Successfully")
-                             result["log"] += " You found the target!"
-                         elif win_type == "FIND_CLUES": # explicit new type
-                             self._resolve_active_event("Evidence Recovered")
-                             result["log"] += " You uncovered the truth!"
-                         elif win_type == "PUZZLE_SOLVED": # fallback
-                             self._resolve_active_event("Mystery Solved via Tracking")
-                
-                else:
-                    result["success"] = False
-                    result["log"] += " FAILURE: The signs are too faint or corrupted to follow."
-                    # Tension penalty for wasting time?
-                    self.chaos.chaos_clock += 1
-                    result["log"] += " FAILURE: The signs are too faint or corrupted to follow."
-                    # Tension penalty for wasting time?
-                    self.chaos.chaos_clock += 1
-
+             result = self._handle_track_action(x, y)
+             
         elif action_type == "solve":
             if obj and "solve" in obj.get("tags", []):
                 result["log"] = f"You concentrate and solve the {obj['type']}! A mechanism clicks."

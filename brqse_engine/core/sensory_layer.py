@@ -23,6 +23,38 @@ Start descriptions directly with the sensory details. Use present tense."""
         self.api_url = api_url
         self.history = []
 
+            
+    def consult_oracle(self, system_prompt, user_query):
+        """
+        Direct interface for RAG-based Oracle.
+        """
+        try:
+            import requests
+        except ImportError:
+            return "The Oracle's voice is lost (requests library missing)."
+
+        # Prepare Ollama Payload with Custom System Prompt
+        ollama_payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_query}
+            ],
+            "stream": False
+        }
+        
+        try:
+            print(f"[SensoryLayer] Oracle consulting {self.model}...", flush=True)
+            response = requests.post(self.api_url, json=ollama_payload, timeout=30)
+            response.raise_for_status()
+            
+            result_json = response.json()
+            return result_json.get("message", {}).get("content", "The mists obscure all answers.")
+            
+        except requests.exceptions.RequestException as e:
+            print(f"[SensoryLayer] Oracle Error: {e}", flush=True)
+            return "The Oracle is silent (Connection Error)."
+
     def generate_narrative(self, context, event_type, combat_data=None, quest_context=None):
         """
         Main entry point for generating descriptions.

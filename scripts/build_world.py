@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from brqse_engine.world.donjon_generator import DonjonGenerator, Cell
 from brqse_engine.world.story_director import StoryDirector
+from brqse_engine.world.campaign_logger import CampaignLogger # NEW IMPORT
 
 SAVE_DIR = "Saves/WorldStack"
 
@@ -16,6 +17,10 @@ def build_stack(depth=5):
     
     if not os.path.exists(SAVE_DIR):
         os.makedirs(SAVE_DIR)
+        
+    # 1. Initialize Logger
+    logger = CampaignLogger()
+    logger.log(0, "SYSTEM", f"World Generation Started. Seed: {random.randint(1,9999)}")
 
     generator = DonjonGenerator()
     director = StoryDirector()
@@ -59,7 +64,7 @@ def build_stack(depth=5):
             prev_down_coords = (ex, ey)
         
         # 3. Run ASI (Story Director)
-        director.direct_scene(map_data, level)
+        director.direct_scene(map_data, level, logger)
 
         # 4. Serialize grid (IntFlag not JSON serializable by default)
         # Convert the IntFlag grid to simple Integers
@@ -72,6 +77,8 @@ def build_stack(depth=5):
             json.dump(map_data, f)
             
         manifest["levels"][str(level)] = filename
+        
+    logger.log(0, "SYSTEM", "World Generation Complete.")
 
     # Save Manifest
     with open(f"{SAVE_DIR}/manifest.json", "w") as f:
