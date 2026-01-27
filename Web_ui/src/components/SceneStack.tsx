@@ -178,21 +178,19 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
                             <span>Current Location</span>
                         </div>
 
-                        <div className="bg-stone-900 border border-stone-700 p-2 relative overflow-hidden group">
+                        <div className="bg-stone-900 border border-stone-700 p-3 relative overflow-visible group shadow-lg">
                             <div className="relative z-10">
-                                <div className="text-sm font-bold text-stone-200 mb-1">{currentScene.text}</div>
-                                <div className={`text-[10px] inline-block px-1 rounded ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
+                                <div className="text-sm font-bold text-stone-200 mb-2 leading-snug">{currentScene.text}</div>
+                                <div className={`text-[10px] inline-block px-1.5 py-0.5 rounded font-bold uppercase tracking-wider ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
                                     'bg-stone-800 text-stone-400 border border-stone-700'
                                     }`}>
                                     {currentScene.encounter_type}
                                 </div>
                             </div>
-                            {/* Advance Button (Hover) */}
-                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                                onClick={handleAdvanceScene}>
-                                <div className="flex items-center gap-1 text-xs font-bold text-[#00f2ff]">
-                                    ADVANCE <ChevronRight size={14} />
-                                </div>
+                            {/* Advance Button (Hover) - Only show if resolved? No, always allow manual override for now */}
+                            <div className="absolute -bottom-3 -right-3 bg-stone-900 border border-stone-600 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all cursor-pointer shadow-xl hover:scale-110 hover:border-[#00f2ff] z-20"
+                                onClick={handleAdvanceScene} title="Force Advance Scene">
+                                <ChevronRight size={16} className="text-[#00f2ff]" />
                             </div>
                         </div>
                     </div>

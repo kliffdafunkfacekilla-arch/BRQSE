@@ -2,30 +2,42 @@
   "entries": [
     {
       "id": 1,
-      "timestamp": "2026-01-26T20:26:30.152376",
-      "level": 1,
+      "timestamp": "2026-01-26T21:27:28.500900",
+      "level": 11,
       "category": "THEME",
-      "text": "Theme established: Dungeon Level 1",
+      "text": "Theme established: The Echoing Crypts",
       "tags": {}
     },
     {
       "id": 2,
-      "timestamp": "2026-01-26T20:26:32.824321",
-      "level": 1,
+      "timestamp": "2026-01-26T21:27:28.825723",
+      "level": 11,
       "category": "QUEST",
-      "text": "The The Key of Eldora is hidden in Room 4.",
+      "text": "The Key of Silent Whispers is hidden in Room 1.",
       "tags": {
-        "room_id": 4
+        "room_id": 1
       }
     },
     {
       "id": 3,
-      "timestamp": "2026-01-26T20:26:39.233519",
-      "level": 1,
-      "category": "BOSS",
-      "text": "Grim Slitherer guards the key in Room 4.",
+      "timestamp": "2026-01-26T21:27:33.426943",
+      "level": 11,
+      "category": "INTRO",
+      "text": "Deep within The Echoing Crypts, ancient walls of stone echo with silent whispers that dance like shadows in the flickering torchlight. To uncover the Key of Silent Whispers, you must navigate through the spectral guardian's labyrinthine phantasms and listen to the secrets it holds, for only then can the key be revealed.",
       "tags": {
-        "boss_name": "Grim Slitherer"
+        "theme": "The Echoing Crypts",
+        "key": "Key of Silent Whispers",
+        "boss": "Whispering Specter"
+      }
+    },
+    {
+      "id": 4,
+      "timestamp": "2026-01-26T21:27:33.428081",
+      "level": 11,
+      "category": "BOSS",
+      "text": "Whispering Specter guards the key in Room 1.",
+      "tags": {
+        "boss_name": "Whispering Specter"
       }
     }
   ]

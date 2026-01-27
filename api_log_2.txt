@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\simple_api.py", line 30, in <module>
+    GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE, sensory_layer=SENSORY_LAYER)
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\core\game_loop.py", line 64, in __init__
+    self.advance_scene()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\core\game_loop.py", line 73, in advance_scene
+    scene = self.scene_stack.advance()
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\world_engine.py", line 213, in advance
+    self.current_index += 1
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: 'SceneStack' object has no attribute 'current_index'

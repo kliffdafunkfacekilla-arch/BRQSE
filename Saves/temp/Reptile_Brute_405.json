@@ -1,0 +1,35 @@
+{
+    "Name": "Reptile Brute",
+    "Species": "Reptile",
+    "Stats": {
+        "Might": 14,
+        "Endurance": 14,
+        "Finesse": 10,
+        "Reflexes": 12,
+        "Vitality": 12,
+        "Fortitude": 14,
+        "Knowledge": 6,
+        "Logic": 8,
+        "Awareness": 10,
+        "Intuition": 12,
+        "Charm": 8,
+        "Willpower": 12
+    },
+    "Derived": {
+        "HP": 56,
+        "Speed": 30,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Reptile Brute",
+        "Reptile"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

@@ -1,27 +1,35 @@
 {
-    "Name": "Blaze",
-    "Species": "Plant",
-    "Stats": {
-        "Might": 11,
-        "Reflexes": 9,
-        "Endurance": 11,
-        "Vitality": 13,
-        "Fortitude": 13,
-        "Knowledge": 8,
-        "Logic": 10,
-        "Awareness": 11,
-        "Intuition": 11,
-        "Charm": 12,
-        "Willpower": 13,
-        "Finesse": 10
+    "AI": "Ranged",
+    "Backstory": "The Jab. Fast talk, witty comebacks, and stinging insults. Using words like a rapier. \"Nice outfit. Did you lose a bet?\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of gaming sets dice tarot and tokens of luck/fate.\n\nClinch. Using your body\u2019s hardness as a weapon.\n\nReliable. \"Living Armor made of once living material\" \n\nSplash.  Calculating arc, fuse time, and chemical mix.",
+    "Gear": {
+        "armor": {
+            "Cost": "40",
+            "Description": "Armor made of polished bone.",
+            "Effect": "Advantage on Intimidation checks.",
+            "Logic_Tags": "BUFF:Advantage:Social|MAT:Bone",
+            "Name": "Bone Mesh",
+            "Related_Skill": "Natural",
+            "Type": "Armor"
+        },
+        "rightHand": {
+            "Cost": "250",
+            "Description": "Short-range scatter gun.",
+            "Effect": "Deal 2d6 Piercing damage (Cone).",
+            "Logic_Tags": "DMG:2d6:Pierce|RANGE:15:Cone|PROP:Reload",
+            "Name": "Blunderbuss",
+            "Related_Skill": "Blast",
+            "Type": "Weapon"
+        }
     },
-    "Traits": [
-        "Tendril Fingers",
-        "Thorns",
-        "Cactus Spines",
-        "Whistling Branches",
-        "Long Stem",
-        "Stalk Hairs"
+    "Inventory": [
+        "Cestus",
+        "Ceramic Plate"
+    ],
+    "Name": "Blaze",
+    "Portrait": "fox_back.png",
+    "Powers": [
+        "Burn",
+        "Chill"
     ],
     "Skills": [
         "Fist Weapons",
@@ -33,12 +41,124 @@
         "Catalysts",
         "Signal"
     ],
-    "Powers": [
-        "Burn",
-        "Chill"
+    "Species": "Plant",
+    "Stats": {
+        "Awareness": 11,
+        "Charm": 12,
+        "Endurance": 11,
+        "Finesse": 10,
+        "Fortitude": 13,
+        "Intuition": 11,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Might": 11,
+        "Reflexes": 9,
+        "Vitality": 13,
+        "Willpower": 13
+    },
+    "Traits": [
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
     ],
-    "Inventory": [
+    "cmp": 44,
+    "current_hp": 41,
+    "equipment": {
+        "Armor": "Bone Mesh",
+        "Main Hand": "Blunderbuss",
+        "Off Hand": "Throwing Knife"
+    },
+    "fp": 31,
+    "inventory": [
         "Cestus",
         "Ceramic Plate"
+    ],
+    "level": 1,
+    "max_cmp": 44,
+    "max_fp": 31,
+    "max_hp": 33,
+    "max_sp": 34,
+    "name": "Blaze",
+    "powers": [
+        {
+            "active": true,
+            "name": "Burn",
+            "type": "Power"
+        },
+        {
+            "active": true,
+            "name": "Chill",
+            "type": "Power"
+        }
+    ],
+    "skills": [
+        {
+            "active": false,
+            "name": "Fist Weapons",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Exotic Ranged",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Insight",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Stoicism",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Heavy",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Mechanism",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Catalysts",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Signal",
+            "type": "Skill"
+        }
+    ],
+    "sp": 34,
+    "species": "Plant",
+    "sprite": "squirrel_right.png",
+    "stats": {
+        "Awareness": 11,
+        "Charm": 12,
+        "Endurance": 11,
+        "Finesse": 10,
+        "Fortitude": 13,
+        "Intuition": 11,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Might": 11,
+        "Reflexes": 9,
+        "Vitality": 13,
+        "Willpower": 13
+    },
+    "traits": [
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
     ]
 }

@@ -10,13 +10,19 @@ class StoryDirector:
     The ASI (Artificial Story Intelligence).
     It orchestrates the level layout and uses Local AI to write the lore.
     """
-    def __init__(self, api_url="http://localhost:5001/generate"):
+
+    def __init__(self, api_url="http://localhost:5001/generate", sensory_layer=None):
         self.events = EventManager()
         self.api_url = api_url
+        self.sensory_layer = sensory_layer
         # Fallback names if AI is offline
         self.fallback_names = ["Gorg", "Thrak", "The Silent One", "Darko"]
 
     def direct_scene(self, map_data, level_depth, logger):
+        # 0. Safety Check: Don't re-direct an already directed scene
+        if map_data.get("intro"): 
+            return
+
         rooms = list(map_data["rooms"].values())
         if not rooms: return
 
@@ -54,6 +60,13 @@ class StoryDirector:
         # 5. Generate The Boss (The Guardian)
         boss_name = self._consult_ai(f"Name a dangerous mini-boss creature living in {theme}. Return ONLY the name.") or "Dungeon Guardian"
         boss_desc = self._consult_ai(f"Describe the appearance of {boss_name} in one sentence.") or "It looks angry."
+
+        # 6. Generate Narrative Hook (Intro)
+        intro_prompt = f"You are a narrator. The player has entered {theme}. Their goal is to find the {key_name}. However, {boss_name} ({boss_desc}) guards it. Write a compelling 2-sentence introduction for the player telling them where they are and what they must do."
+        intro_text = self._consult_ai(intro_prompt, temp=0.8) or f"You enter {theme}. Find the {key_name} and defeat {boss_name}."
+        map_data["intro"] = intro_text
+        
+        logger.log(level_depth, "INTRO", intro_text, tags={"theme": theme, "key": key_name, "boss": boss_name})
         
         # Spawn Boss in Goal Room? User code said "key room or goal room".
         # Logic says Key guards exit, or Boss guards Key. 
@@ -92,8 +105,16 @@ class StoryDirector:
     # --- Helper: AI Communication ---
     def _consult_ai(self, prompt, temp=0.7):
         """
-        Sends a request to your local 'simple_api.py'.
+        Sends a request to your local 'simple_api.py' OR uses internal SensoryLayer.
         """
+        if self.sensory_layer:
+            try:
+                # Direct internal call (Self-Hosted mode)
+                return self.sensory_layer.consult_oracle("You are a creative game master.", prompt)
+            except Exception as e:
+                print(f"[StoryDirector] Internal AI fail: {e}")
+                return None
+        
         payload = {
             "prompt": f"System: You are a creative game master.\nUser: {prompt}\nAssistant:",
             "max_new_tokens": 60,

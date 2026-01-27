@@ -3,7 +3,7 @@ import {
     Move, Search, Hammer, RotateCw,
     ArrowUp, LogOut, Package, Eye,
     ArrowDown, Scissors, Play, Footprints,
-    Sword, MessageSquare
+    Sword, MessageSquare, Key
 } from 'lucide-react';
 
 interface Action {
@@ -38,7 +38,7 @@ export default function ContextMenu({ x, y, tileX, tileY, objectTags, onAction, 
     const actions: Action[] = [
         { id: 'move', label: 'Move', icon: Move },
         { id: 'search', label: 'Search', icon: Search },
-        { id: 'inspect', label: 'Inspect', icon: Eye },
+        { id: 'examine', label: 'Inspect', icon: Eye }, // Mapped to 'examine' for narrative
     ];
 
     // Map tags to actions
@@ -46,6 +46,7 @@ export default function ContextMenu({ x, y, tileX, tileY, objectTags, onAction, 
     if (objectTags.includes('talk')) actions.push({ id: 'talk', label: 'Talk', icon: MessageSquare });
 
     if (objectTags.includes('smash')) actions.push({ id: 'smash', label: 'Smash', icon: Hammer });
+    if (objectTags.includes('solve')) actions.push({ id: 'solve', label: 'Solve', icon: Key }); // Use Key icon for solving puzzles
     if (objectTags.includes('push')) actions.push({ id: 'push', label: 'Push', icon: ArrowUp });
     if (objectTags.includes('pull')) actions.push({ id: 'pull', label: 'Pull', icon: ArrowDown });
     if (objectTags.includes('climb')) actions.push({ id: 'climb', label: 'Climb', icon: ArrowUp });

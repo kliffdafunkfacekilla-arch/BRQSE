@@ -1,68 +1,68 @@
 {
-    "Name": "bob",
-    "Species": "Avian",
+    "Name": "Blaze",
+    "Species": "Plant",
     "Stats": {
-        "Might": 18,
-        "Reflexes": 12,
-        "Endurance": 10,
-        "Vitality": 11,
-        "Fortitude": 10,
-        "Knowledge": 11,
+        "Awareness": 11,
+        "Charm": 12,
+        "Endurance": 11,
+        "Finesse": 10,
+        "Fortitude": 13,
+        "Intuition": 11,
+        "Knowledge": 8,
         "Logic": 10,
-        "Awareness": 12,
-        "Intuition": 8,
-        "Charm": 10,
-        "Willpower": 10,
-        "Finesse": 10
+        "Might": 11,
+        "Reflexes": 9,
+        "Vitality": 13,
+        "Willpower": 13
     },
     "Traits": [
-        "Hooked Beak",
-        "Wide Wings",
-        "Large Talons",
-        "Wide Eyes",
-        "Head Crest",
-        "Large Pupils"
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
     ],
     "Powers": [
-        "Bolt",
-        "Shock"
+        "Burn",
+        "Chill"
     ],
     "Inventory": [
-        "Compound Bow",
-        "Acrobat's Leathers"
+        "Cestus",
+        "Ceramic Plate"
     ],
     "Gear": {
-        "rightHand": {
-            "Name": "Blunderbuss",
-            "Type": "Weapon",
-            "Cost": "250",
-            "Related_Skill": "Blast",
-            "Description": "Short-range scatter gun.",
-            "Effect": "Deal 2d6 Piercing damage (Cone).",
-            "Logic_Tags": "DMG:2d6:Pierce|RANGE:15:Cone|PROP:Reload"
-        },
         "armor": {
-            "Name": "Bone Mesh",
-            "Type": "Armor",
             "Cost": "40",
-            "Related_Skill": "Natural",
             "Description": "Armor made of polished bone.",
             "Effect": "Advantage on Intimidation checks.",
-            "Logic_Tags": "BUFF:Advantage:Social|MAT:Bone"
+            "Logic_Tags": "BUFF:Advantage:Social|MAT:Bone",
+            "Name": "Bone Mesh",
+            "Related_Skill": "Natural",
+            "Type": "Armor"
+        },
+        "rightHand": {
+            "Cost": "250",
+            "Description": "Short-range scatter gun.",
+            "Effect": "Deal 2d6 Piercing damage (Cone).",
+            "Logic_Tags": "DMG:2d6:Pierce|RANGE:15:Cone|PROP:Reload",
+            "Name": "Blunderbuss",
+            "Related_Skill": "Blast",
+            "Type": "Weapon"
         }
     },
     "Backstory": "The Jab. Fast talk, witty comebacks, and stinging insults. Using words like a rapier. \"Nice outfit. Did you lose a bet?\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of gaming sets dice tarot and tokens of luck/fate.\n\nClinch. Using your body\u2019s hardness as a weapon.\n\nReliable. \"Living Armor made of once living material\" \n\nSplash.  Calculating arc, fuse time, and chemical mix.",
     "Portrait": "fox_back.png",
     "sprite": "squirrel_right.png",
     "Skills": [
-        "Large Weapons",
-        "The Ballistics",
-        "Intimidation",
+        "Fist Weapons",
+        "Exotic Ranged",
+        "Insight",
         "Stoicism",
-        "Light ",
-        "Athletics",
-        "Snares",
-        "Tear Flesh"
+        "Heavy",
+        "Mechanism",
+        "Catalysts",
+        "Signal"
     ],
     "current_hp": 41,
     "equipment": {
@@ -71,114 +71,94 @@
         "Off Hand": "Throwing Knife"
     },
     "inventory": [
-        "Acrobat's Leathers",
-        "Spear"
+        "Cestus",
+        "Ceramic Plate"
     ],
     "level": 1,
-    "max_hp": 35,
-    "name": "pig",
+    "max_hp": 33,
+    "name": "Blaze",
     "powers": [
-        "Mend",
-        "Push"
-    ],
-    "skills": [
-        "Large Weapons",
-        "The Ballistics",
-        "Intimidation",
-        "Stoicism",
-        "Light ",
-        "Athletics",
-        "Snares",
-        "Tear Flesh"
-    ],
-    "species": "Mammal",
-    "stats": {
-        "Awareness": 9,
-        "Charm": 11,
-        "Endurance": 14,
-        "Finesse": 13,
-        "Fortitude": 9,
-        "Intuition": 11,
-        "Knowledge": 12,
-        "Logic": 8,
-        "Might": 13,
-        "Reflexes": 10,
-        "Vitality": 12,
-        "Willpower": 10
-    },
-    "traits": [
         {
-            "BodyPart": "Balanced Frame",
-            "Effect": "Standard: No penalties. Can use standard gear.",
-            "Name": "Medium",
-            "Type": "SIZE 3"
+            "active": true,
+            "name": "Burn",
+            "type": "Power"
         },
         {
-            "BodyPart": "Ursine Anatomy",
-            "Effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail.",
-            "Name": "The Bear",
-            "Type": "ANCESTRY"
-        },
-        {
-            "BodyPart": "Wet Nose",
-            "Effect": "Passive: Scent-Track (Track unseen enemies).",
-            "Name": "Blood-Scent",
-            "Type": "SENSES"
-        },
-        {
-            "BodyPart": "Opposable Thumbs",
-            "Effect": "Active: Choke-Slam (Throw target Prone + Dmg).",
-            "Name": "Grappler",
-            "Type": "ARMS"
-        },
-        {
-            "BodyPart": "Spring Tendons",
-            "Effect": "Active: Bound (Jump distance tripled).",
-            "Name": "Jumper",
-            "Type": "LEGS"
-        },
-        {
-            "BodyPart": "Dense Wool",
-            "Effect": "Passive: Winter-Coat (Resist Cold/Fire).",
-            "Name": "Insulated",
-            "Type": "BODY"
-        },
-        {
-            "BodyPart": "Skin Flaps",
-            "Effect": "Active: Glide (Negate fall dmg, Travel).",
-            "Name": "Flight",
-            "Type": "SPECIAL"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "The Gaze",
-            "Type": "Social Offense"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "Athletics",
-            "Type": "Utility"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "Regalia",
-            "Type": "Tool"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "Large",
-            "Type": "Weapon Skill"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "Light",
-            "Type": "Armor Skill"
-        },
-        {
-            "Effect": "Skill Mastery",
-            "Name": "Exotic Ranged",
-            "Type": "Weapon Skill"
+            "active": true,
+            "name": "Chill",
+            "type": "Power"
         }
     ],
-    "AI": "Ranged"
+    "skills": [
+        {
+            "active": false,
+            "name": "Fist Weapons",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Exotic Ranged",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Insight",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Stoicism",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Heavy",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Mechanism",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Catalysts",
+            "type": "Skill"
+        },
+        {
+            "active": false,
+            "name": "Signal",
+            "type": "Skill"
+        }
+    ],
+    "species": "Plant",
+    "stats": {
+        "Awareness": 11,
+        "Charm": 12,
+        "Endurance": 11,
+        "Finesse": 10,
+        "Fortitude": 13,
+        "Intuition": 11,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Might": 11,
+        "Reflexes": 9,
+        "Vitality": 13,
+        "Willpower": 13
+    },
+    "traits": [
+        "Tendril Fingers",
+        "Thorns",
+        "Cactus Spines",
+        "Whistling Branches",
+        "Long Stem",
+        "Stalk Hairs"
+    ],
+    "AI": "Ranged",
+    "cmp": 44,
+    "fp": 31,
+    "max_cmp": 44,
+    "max_fp": 31,
+    "max_sp": 34,
+    "sp": 34
 }

@@ -98,33 +98,6 @@ class Scene:
             if 3 in row: return False
         return True
 
-class SceneStack:
-    def __init__(self, chaos_manager):
-        self.chaos = chaos_manager
-        self.stack = []
-        self.rules = self._load_rules()
-        
-    def _load_rules(self):
-        try:
-            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../Data/chaos_core.json")
-            with open(path, 'r', encoding='utf-8') as f: return json.load(f)
-        except: return {}
-
-    def generate_enemy(self):
-        species_list = list(self.rules.get("Species", {}).keys())
-        if not species_list: species_list = list(self.rules.get("species", {}).keys())
-        s_name = random.choice(species_list) if species_list else "Mammal"
-        
-        w_list = list(self.rules.get("Weapons", {}).keys())
-        if not w_list: w_list = list(self.rules.get("weapons", {}).keys())
-        w_name = random.choice(w_list) if w_list else "Club"
-        
-        return {
-            "Species": s_name,
-            "Weapon": w_name,
-            "Armor": "Leather",
-            "Level": self.chaos.chaos_clock + 1
-        }
 
 class QuestType:
     INFILTRATION = ["Infiltrate Perimeter", "Disable Sensors", "The Vault", "Extraction"]
@@ -140,6 +113,7 @@ class SceneStack:
         self.quest_title = "Unknown Mission"
         self.quest_description = "Follow the path."
         self.total_steps = 0
+        self.current_index = 0
         
     def _load_rules(self):
         try:
