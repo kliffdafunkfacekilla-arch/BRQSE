@@ -12,8 +12,10 @@ from brqse_engine.abilities import engine_hooks
 from brqse_engine.abilities.effects_registry import registry
 from brqse_engine.core.event_engine import EventEngine
 from brqse_engine.models.journal import Journal
-from brqse_engine.core.interaction import InteractionEngine # NEW IMPORT
-from brqse_engine.world.campaign_logger import CampaignLogger # NEW IMPORT
+from brqse_engine.core.interaction import InteractionEngine 
+from brqse_engine.world.campaign_logger import CampaignLogger
+from brqse_engine.world.donjon_generator import DonjonGenerator, Cell
+from brqse_engine.world.story_director import StoryDirector
 
 class GameLoopController:
     """
@@ -164,6 +166,66 @@ class GameLoopController:
         
         self.state = "EXPLORE"
         self.current_event = "SCENE_STARTED"
+        return scene
+
+    # --- NEW: AI-Driven Generation ---
+    def generate_dungeon(self, level=1):
+        """
+        Uses DonjonGenerator + StoryDirector to build a level.
+        """
+        # 1. Generate Topology
+        dg = DonjonGenerator()
+        map_data = dg.generate(width=41, height=41)
+        
+        # 2. Director Scripting (The Hook)
+        director = StoryDirector()
+        director.direct_scene(map_data, level, self.logger)
+        
+        # 3. Convert to active scene
+        scene = Scene(f"Level {level}", "DUNGEON")
+        scene.biome = map_data.get("theme", "Dungeon")
+        
+        # Convert Donjon Grid to Game Grid
+        # Donjon: 0=Nothing, 1=Blocked, 2=Room, 4=Corridor
+        # Game: 0=Wall, 1=Floor
+        rows, cols = len(map_data["grid"]), len(map_data["grid"][0])
+        game_grid = [[TILE_WALL for _ in range(cols)] for _ in range(rows)]
+        
+        for r in range(rows):
+            for c in range(cols):
+                cell = map_data["grid"][r][c]
+                if cell & (Cell.ROOM | Cell.CORRIDOR):
+                    game_grid[r][c] = TILE_FLOOR
+                if cell & Cell.DOOR:
+                    game_grid[r][c] = TILE_DOOR
+                    
+        # Apply Objects & Entities
+        interactables = []
+        for obj in map_data.get("objects", []):
+            game_grid[obj["y"]][obj["x"]] = TILE_LOOT # Visual
+            if obj["type"] == "door": game_grid[obj["y"]][obj["x"]] = TILE_DOOR
+            
+            # Add to interactables
+            self.interactables[(obj["x"], obj["y"])] = obj
+            
+        for ent in map_data.get("entities", []):
+            game_grid[ent["y"]][ent["x"]] = TILE_ENEMY
+            # Spawn logic...
+            # For brevity, reusing the existing spawn logic in _manifest or manual here
+            from brqse_engine.combat.mechanics import Combatant
+            if ent.get("type") == "boss_monster":
+                c = Combatant(name=ent["name"], hp=50, ac=15) # Placeholder stats
+                c.team = "Enemies"
+                c.ai_context = ent.get("ai_context")
+                self.combat_engine.add_combatant(c, ent["x"], ent["y"])
+
+        scene.grid = game_grid
+        self.active_scene = scene
+        
+        # Set Player Start
+        start_room = list(map_data["rooms"].values())[0] # Naive start
+        self.player_pos = start_room["center"]
+        
         return scene
 
     def _trigger_scene_entry_event(self):
@@ -449,44 +511,8 @@ class GameLoopController:
             else:
                  result["log"] = "An ordinary patch of ground."
 
-    def _debug_inspect_room(self, x, y):
-        """Inspector Tool logic."""
-        print(f"\n--- 🕵️ INSPECTOR: ({x}, {y}) ---")
-        
-        # 1. Identify Room
-        # We need access to map_data room list or calculate from grid
-        # For now, let's assume valid room if inside dungeon bounds
-        # TODO: Real room ID from grid bitmask if available, or spatial query
-        
-        # Fallback: Spatial query against loaded layout? 
-        # The MapGenerator doesn't persist room IDs in the grid integers readily accessible here 
-        # unless we kept the IntFlag or a lookup.
-        # Let's try to infer from coordinates vs known room centers in current scene if possible?
-        # Actually... we don't have the room list here easily.
-        
-        # SIMPLIFICATION: usage of CampaignLogger.history to fuzzy match?
-        # Or just dump what we know.
-        
-        obj = self.interactables.get((x,y))
-        if obj:
-            print(f"📦 OBJECT: {obj}")
-            
-        # Check Logger
-        # We need the level depth.
-        depth = getattr(self.active_scene, "depth", 1)
-        print(f"📍 Depth: {depth}")
-        
-        # Fetch all logs for this level to scan
-        logs = self.logger.get_context(level=depth)
-        print(f"📜 LEVEL HISTORY ({len(logs)} entries):")
-        for log in logs:
-            # If log has locational tags...
-            tags = log.get("tags", {})
-            # This is fuzzy without exact room IDs in grid, but useful enough
-            print(f"   - [{log['category']}] {log['text']} {tags}")
-            
-        print("----------------------------\n")
 
+        
 
 
         

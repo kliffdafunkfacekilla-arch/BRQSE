@@ -257,5 +257,18 @@ def debug_force_combat():
 @app.route('/api/health', methods=['GET'])
 def health(): return jsonify({"status": "online", "version": "2.7 - Action Engine"})
 
+@app.route('/generate', methods=['POST'])
+def generate_text():
+    """Generic text generation endpoint for Story Director."""
+    try:
+        data = request.get_json()
+        prompt = data.get("prompt", "")
+        # Route through SENSORY_LAYER which handles Ollama connection
+        response_text = SENSORY_LAYER.consult_oracle("You are a creative game master.", prompt)
+        return jsonify({"response": response_text})
+    except Exception as e:
+        print(f"[API ERROR] Generate: {e}")
+        return jsonify({"error": str(e), "response": "The Oracle is silent."}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

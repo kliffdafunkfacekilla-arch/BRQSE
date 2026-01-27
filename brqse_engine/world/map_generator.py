@@ -35,22 +35,8 @@ class MapGenerator:
 
     def __init__(self, chaos_manager=None):
         self.chaos = chaos_manager
-        
-        
-        # 3. Furnish with enriched objects
-        grid, objects = self._furnish_biome(grid, scene.biome, scene.encounter_type)
-        
-        # 4. Save
-        scene.set_grid(grid, [start_pos], [end_pos], objects)
-        
-        if scene.encounter_type == "COMBAT" or "FINALE" in scene.text:
-            count = random.randint(3, 6) if "FINALE" in scene.text else random.randint(1, 4)
-            self._place_enemies(grid, count)
-        elif scene.encounter_type == "STEALTH":
-            # Fewer enemies, but they are stationary or in key spots
-            self._place_enemies(grid, 2)
-            
-        return scene
+        self.ROWS = 20
+        self.COLS = 20
 
     def _generate_shape(self, shape_type: str) -> List[List[int]]:
         grid = [[TILE_WALL for _ in range(self.COLS)] for _ in range(self.ROWS)]

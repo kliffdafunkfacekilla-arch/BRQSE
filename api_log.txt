@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\simple_api.py", line 30, in <module>
+    GAME_LOOP = GameLoopController(CHAOS_MANAGER, GAME_STATE, sensory_layer=SENSORY_LAYER)
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\core\game_loop.py", line 33, in __init__
+    self.map_gen = MapGenerator(self.chaos)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\world\map_generator.py", line 41, in __init__
+    grid, objects = self._furnish_biome(grid, scene.biome, scene.encounter_type)
+                                        ^^^^
+UnboundLocalError: cannot access local variable 'grid' where it is not associated with a value

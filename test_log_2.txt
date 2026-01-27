@@ -1,0 +1,37 @@
+EE
+======================================================================
+ERROR: test_consult_rag_prompt (__main__.TestOracleRAG.test_consult_rag_prompt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Python313\Lib\unittest\mock.py", line 1423, in patched
+    with self.decoration_helper(patched,
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+                                args,
+                                ^^^^^
+                                keywargs) as (newargs, newkeywargs):
+                                ^^^^^^^^^
+  File "C:\Python313\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "C:\Python313\Lib\unittest\mock.py", line 1405, in decoration_helper
+    arg = exit_stack.enter_context(patching)
+  File "C:\Python313\Lib\contextlib.py", line 530, in enter_context
+    result = _enter(cm)
+  File "C:\Python313\Lib\unittest\mock.py", line 1481, in __enter__
+    self.target = self.getter()
+                  ~~~~~~~~~~~^^
+  File "C:\Python313\Lib\pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+AttributeError: module 'brqse_engine.core.sensory_layer' has no attribute 'requests'
+
+======================================================================
+ERROR: test_inspect_entity (__main__.TestOracleRAG.test_inspect_entity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\test_oracle_rag.py", line 75, in test_inspect_entity
+    entity = Entity("Mysterious Orb", 0, 0, tags={"valuable", "magic"})
+TypeError: Entity.__init__() got an unexpected keyword argument 'tags'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+FAILED (errors=2)

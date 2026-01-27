@@ -12,13 +12,21 @@ from brqse_engine.models.entity import Entity
 
 class MockGameState:
     def __init__(self):
-        self.player = Entity("Hero", 10, 10, data={"hp": 20, "max_hp": 20})
+        self.player = Entity("Hero", 10, 10)
+        self.player.data.update({"hp": 20, "max_hp": 20})
         self.current_depth = 1
         self.inventory = [Entity("Rusty Key", 0,0), Entity("Torch", 0,0)]
-        self.objects = [
-            Entity("Chest", 12, 12, tags={"container", "locked"}),
-            Entity("Goblin", 15, 15, tags={"enemy"})
-        ]
+        self.objects = []
+        
+        chest = Entity("Chest", 12, 12)
+        chest.add_tag("container")
+        chest.add_tag("locked")
+        self.objects.append(chest)
+        
+        goblin = Entity("Goblin", 15, 15)
+        goblin.add_tag("enemy")
+        self.objects.append(goblin)
+
         self.logger = MagicMock()
         self.logger.get_context.return_value = [
             {"text": "You hear a growl.", "tags": {"room": 1}},
@@ -64,8 +72,11 @@ class TestOracleRAG(unittest.TestCase):
         self.assertIn("You hear a growl", system_prompt)
 
     def test_inspect_entity(self):
-        entity = Entity("Mysterious Orb", 0, 0, tags={"valuable", "magic"})
-        desc = self.oracle.inspect_entity(entity, [{"text": "The Orb glows.", "tags": {"item_id": entity.data["id"]}}])
+        entity = Entity("Mysterious Orb", 0, 0)
+        entity.add_tag("valuable")
+        entity.add_tag("magic")
+        desc = self.oracle.inspect_entity(entity, [{"text": "The Orb glows.", "tags": {"item_id": entity.data.get("id", str(id(entity)))}}]) # Fallback ID logic creation if needed, or just entity.data.get("id")
+
         print(f"\n[Test] Inspect Description: {desc}")
         self.assertIn("glitters with value", desc)
         self.assertIn("The Orb glows", desc)

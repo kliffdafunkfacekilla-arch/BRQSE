@@ -1,209 +1,142 @@
 import random
 import math
+import requests
+import json
 from brqse_engine.world.event_manager import EventManager
+from brqse_engine.world.donjon_generator import Cell
 
 class StoryDirector:
     """
     The ASI (Artificial Story Intelligence).
-    Responsible for placing Logic, Keys, Locks, and Bosses into a pre-generated map.
+    It orchestrates the level layout and uses Local AI to write the lore.
     """
-    def __init__(self):
+    def __init__(self, api_url="http://localhost:5001/generate"):
         self.events = EventManager()
+        self.api_url = api_url
+        # Fallback names if AI is offline
+        self.fallback_names = ["Gorg", "Thrak", "The Silent One", "Darko"]
 
-    def direct_scene(self, map_data, level_depth, logger=None):
-        """
-        Injects story data into the map dictionary.
-        """
+    def direct_scene(self, map_data, level_depth, logger):
         rooms = list(map_data["rooms"].values())
         if not rooms: return
 
-        # LOG THEME
-        if logger:
-            logger.log(level_depth, "THEME", f"Level {level_depth} established as a {map_data.get('theme', 'Dungeon')}.")
+        # 1. AI: Generate a Theme for this floor
+        theme_prompt = f"Give me a short, evocative theme for Dungeon Level {level_depth} (e.g. 'The Flooded Barracks', 'The Crystal Mines'). Return ONLY the name."
+        theme = self._consult_ai(theme_prompt) or f"Dungeon Level {level_depth}"
+        map_data["theme"] = theme
+        
+        logger.log(level_depth, "THEME", f"Theme established: {theme}")
 
-        # 1. Topology Analysis
-        # Identify the "Entry Room" (where stairs up are) and "Exit Room"
-        start_room = self._find_room_with_feature(map_data, 0x400000) # STAIR_UP
-        if not start_room: start_room = rooms[0]
-
-        # 2. Pick the Goal (The Boss/Stairs Down)
-        # We want the room furthest from the start
+        # 2. Topology: Find Start (Stairs Up) and Goal (Furthest Room)
+        start_room = self._find_room_with_feature(map_data, Cell.STAIR_UP) or rooms[0]
         goal_room = self._get_furthest_room(start_room, rooms)
         
-        # 3. Create a Lock & Key Puzzle
-        # Pick a room midway between start and goal to hold the key
+        # 3. Lock & Key Puzzle
         key_room = random.choice(rooms)
-        while key_room == start_room or key_room == goal_room:
+        # Avoid placing key in start or goal for now, though goal could have boss+key
+        attempts = 0
+        while key_room["id"] in [start_room["id"], goal_room["id"]] and attempts < 10:
             key_room = random.choice(rooms)
+            attempts += 1
 
-        # 4. Inject Entities
-        # Make sure the map has lists for these
-        if "entities" not in map_data: map_data["entities"] = []
-        if "objects" not in map_data: map_data["objects"] = []
-
-        # -- Place Key --
-        key_id = f"iron_key_{level_depth}"
-        cx, cy = key_room["center"]
-        map_data["objects"].append({
-            "type": "key", "id": key_id, "name": "Iron Key",
-            "x": cx, "y": cy,
-            "description": "A heavy iron key encrusted with rust.",
-            # Compatibility with current engine:
-            "subtype": "Loot Cache",
-            "has_key": key_id,
-            "key_name": "Iron Key",
-            "tags": ["search"]
-        })
-        if logger:
-            logger.log(level_depth, "QUEST_ITEM", 
-                       f"The Iron Key was hidden in Room {key_room['id']}.", 
-                       tags={"item_id": key_id, "room_id": key_room['id']})
+        # 4. Generate The "MacGuffin" (The Key Item)
+        key_name = self._consult_ai(f"Name a mystical key found in {theme}. Return ONLY the name.") or "Iron Key"
+        key_id = f"key_{level_depth}"
         
-        # -- Place Guardian (Context Aware AI) --
-        # This entity KNOWS it is guarding the key
-        map_data["entities"].append({
-            "name": f"Keykeeper of Level {level_depth}",
-            "type": "orc_jailer",
-            "subtype": "Orc Jailer", # Engine compat
-            "x": cx, "y": cy,
-            "ai_context": {
-                "role": "guardian",
-                "target_object_id": key_id,
-                "patrol_room_id": key_room["id"]
-            }
+        # Spawn Key
+        self._spawn_object(map_data, key_room, {
+            "id": key_id, "type": "key", "name": key_name,
+            "tags": ["pickup", "quest_item", "key", f"key_{level_depth}"], # Correct tag for locking mechanic
+            "description": f"The key to the level's exit, found in {theme}."
         })
-        if logger:
-            logger.log(level_depth, "BOSS_SPAWN", 
-                       f"The Keykeeper (Orc Jailer) posted guard in Room {key_room['id']}.", 
-                       tags={"entity_type": "orc_jailer", "role": "guardian"})
+        logger.log(level_depth, "QUEST", f"The {key_name} is hidden in Room {key_room['id']}.", tags={"room_id": key_room['id']})
 
-        # -- Place Locked Chest/Door at Goal --
-        # Decide if it's the STAIRS or a CHEST. If this is the last room, likely stairs down are locked or guarded.
-        gx, gy = goal_room["center"]
+        # 5. Generate The Boss (The Guardian)
+        boss_name = self._consult_ai(f"Name a dangerous mini-boss creature living in {theme}. Return ONLY the name.") or "Dungeon Guardian"
+        boss_desc = self._consult_ai(f"Describe the appearance of {boss_name} in one sentence.") or "It looks angry."
         
-        # Compatible Locked Object
-        map_data["objects"].append({
-            "type": "chest", "id": f"chest_{level_depth}",
-            "subtype": "Reinforced Chest", # Engine compat
-            "x": gx, "y": gy,
-            "is_locked": True,
-            "required_key": key_id,
-            "loot_table": f"tier_{level_depth}_loot",
-            "tags": ["open", "unlock", "inspect"]
+        # Spawn Boss in Goal Room? User code said "key room or goal room".
+        # Logic says Key guards exit, or Boss guards Key. 
+        # User code: "Spawn Boss in Key Room or Goal Room" (implementation used Key Room context but variable naming?)
+        # Let's put Boss in Key Room to guard it.
+        self._spawn_entity(map_data, key_room, {
+            "type": "boss_monster", "name": boss_name,
+            "tags": ["enemy", "boss", "flesh"],
+            "description": boss_desc,
+            "ai_context": {"role": "guardian", "guarding": key_id}
         })
-        if logger:
-            logger.log(level_depth, "QUEST_GOAL", 
-                       f"The Exit is locked in Room {goal_room['id']}.", 
-                       tags={"room_id": goal_room['id'], "requires": key_id})
+        logger.log(level_depth, "BOSS", f"{boss_name} guards the key in Room {key_room['id']}.", tags={"boss_name": boss_name})
 
-        # -- Place Boss --
-        map_data["entities"].append({
-            "name": f"Boss of Level {level_depth}",
-            "type": "troll_warlord",
-            "subtype": "Troll Warlord", # Engine compat
-            "x": gx, "y": gy,
-            "team": "Enemies",
-            "ai_context": {
-                "role": "boss",
-                "shout_on_sight": "You shall not pass to the next level!"
-            }
-        })
-
-        # NEW: Populate remaining empty rooms with Random Events
+        # 6. Fill Empty Rooms with Random Events (Flavored by AI)
         for room in rooms:
-            # Skip if room is already critical (Start/End/Key)
-            cx, cy = room["center"]
-            is_occupied = False
-            # Check objects
-            for obj in map_data["objects"]:
-                if obj["x"] == cx and obj["y"] == cy: is_occupied = True
-            for ent in map_data["entities"]:
-                 if ent["x"] == cx and ent["y"] == cy: is_occupied = True
-                 
-            if is_occupied: continue
+            # Skip critical rooms
+            if room["id"] in [start_room["id"], goal_room["id"], key_room["id"]]: continue
             
-            # Roll an event (10% chance of Chaos)
-            event = self.events.get_random_event(chaos_chance=0.1)
-            self._apply_event_to_room(map_data, room, event)
-            
-            # LOG THE EVENT
-            if logger:
-                category = "CHAOS" if event['type'] == "chaos_twist" else "ENCOUNTER"
-                logger.log(level_depth, category, 
-                           f"Room {room['id']}: {event['description']}", 
-                           tags={"event_type": event['type']})
+            # 20% Chance of Event
+            if random.random() < 0.2:
+                event = self.events.get_random_event()
+                if event:
+                    # Ask AI to flavor this generic event to fit the Theme
+                    flavor_text = self._consult_ai(
+                        f"Describe a '{event['name']}' event occurring in {theme}. One sentence.", 
+                        temp=0.8
+                    )
+                    
+                    self._spawn_object(map_data, room, {
+                        "type": "event_marker", "name": event['name'],
+                        "tags": ["event", "inspectable"],
+                        "description": flavor_text or event.get('description', "An event.")
+                    })
+                    logger.log(level_depth, "EVENT", f"Room {room['id']}: {flavor_text}", tags={"event_type": event.get('type', 'Unknown')})
 
-        print(f"   [ASI] Lvl {level_depth}: Key in Room {key_room['id']} -> Chest in Room {goal_room['id']}")
-
-    def _apply_event_to_room(self, map_data, room, event):
-        cx, cy = room["center"]
-        
-        if event["type"] == "empty": return
-
-        # Add a marker/object
-        obj_data = {
-            "x": cx, "y": cy,
-            "type": "event_trigger",
-            "subtype": "Curious Object",
-            "icon": "mysterious_orb", 
-            "event_data": event,
-            "tags": ["inspect", "touch"]
+    # --- Helper: AI Communication ---
+    def _consult_ai(self, prompt, temp=0.7):
+        """
+        Sends a request to your local 'simple_api.py'.
+        """
+        payload = {
+            "prompt": f"System: You are a creative game master.\nUser: {prompt}\nAssistant:",
+            "max_new_tokens": 60,
+            "temperature": temp
         }
-        
-        # Customize based on type
-        if event["type"] == "combat":
-            obj_data["subtype"] = "Battle Sign"
-            if "Goblins" in event["description"]: obj_data["subtype"] = "Goblin Camp"
-            
-            # Spawn Enemies
-            from brqse_engine.combat.enemy_spawner import spawner
-            beast = None
-            if spawner.beast_data:
-                # Filter for actual beasts (ignoring empty rows)
-                valid_beasts = [b for b in spawner.beast_data if b.get("Entity_ID") and b["Entity_ID"].startswith("BST")]
-                if valid_beasts:
-                    beast = random.choice(valid_beasts)
-            
-            ent_type = beast["Entity_ID"] if beast else "BST_01"
-            ent_name = f"{beast.get('Family_Name')} {beast.get('Role')}" if beast else event["name"]
-
-            map_data["entities"].append({
-                "x": cx, "y": cy,
-                "type": ent_type,
-                "team": "Enemies",
-                "name": ent_name,
-                "description": event["description"],
-                "tags": ["enemy", "combatant"]
-            })
-            
-        elif event["type"] == "treasure":
-            obj_data["subtype"] = "Lost Treasure"
-            # Tag Update: Ensure container/pickup semantics
-            # If it's just loot on the ground:
-            obj_data["tags"] = ["search", "loot", "pickup"]
-            obj_data["has_key"] = f"gold_{random.randint(10,100)}" # Placeholder value
-            obj_data["key_name"] = "Gold Coins"
-            
-        map_data["objects"].append(obj_data)
-
-    def _find_room_with_feature(self, map_data, feature_flag):
-        # Look through rooms to see if one contains a specific tile flag (like stairs)
-        grid = map_data["grid"]
-        for room in map_data["rooms"].values():
-            cx, cy = room["center"]
-            if grid[cy][cx] & feature_flag:
-                return room
+        try:
+            response = requests.post(self.api_url, json=payload, timeout=5) # Increased timeout slightly
+            if response.status_code == 200:
+                text = response.json().get("response", "").strip().strip('"')
+                return text
+        except:
+            return None 
         return None
 
-    def _get_furthest_room(self, start_room, rooms):
-        best_room = start_room
-        max_dist = 0
-        sx, sy = start_room["center"]
-        
-        for room in rooms:
-            rx, ry = room["center"]
-            dist = math.sqrt((rx-sx)**2 + (ry-sy)**2)
-            if dist > max_dist:
-                max_dist = dist
-                best_room = room
-        return best_room
+    # --- Helper: Spawning ---
+    def _spawn_object(self, map_data, room, obj_data):
+        map_data.setdefault("objects", [])
+        obj_data["x"], obj_data["y"] = room["center"]
+        obj_data["room_id"] = room["id"]
+        map_data["objects"].append(obj_data)
+
+    def _spawn_entity(self, map_data, room, ent_data):
+        map_data.setdefault("entities", [])
+        ent_data["x"], ent_data["y"] = room["center"]
+        ent_data["room_id"] = room["id"]
+        map_data["entities"].append(ent_data)
+
+    # --- Helper: Topology ---
+    def _find_room_with_feature(self, map_data, flag):
+        grid = map_data["grid"]
+        for r in map_data["rooms"].values():
+            cx, cy = r["center"]
+            # Check center or near center? The logic in user code checked center.
+            # But feature flags are usually on specific tiles.
+            # Checking just the center tile for the flag:
+            if grid[cy][cx] & flag: return r
+        return None
+
+    def _get_furthest_room(self, start, rooms):
+        best, max_d = start, 0
+        sx, sy = start["center"]
+        for r in rooms:
+            rx, ry = r["center"]
+            d = math.sqrt((rx-sx)**2 + (ry-sy)**2)
+            if d > max_d: max_d, best = d, r
+        return best
