@@ -1,0 +1,35 @@
+{
+    "Name": "Ambush Flora Trap",
+    "Species": "Plant",
+    "Stats": {
+        "Might": 18,
+        "Endurance": 14,
+        "Finesse": 6,
+        "Reflexes": 4,
+        "Vitality": 16,
+        "Fortitude": 16,
+        "Knowledge": 4,
+        "Logic": 4,
+        "Awareness": 14,
+        "Intuition": 8,
+        "Charm": 14,
+        "Willpower": 14
+    },
+    "Derived": {
+        "HP": 68,
+        "Speed": 0,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Ambush Flora Trap",
+        "Plant"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

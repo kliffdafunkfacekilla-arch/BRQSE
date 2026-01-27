@@ -74,6 +74,61 @@ class GameLoopController:
         for y, row in enumerate(scene.grid):
             for x, tile in enumerate(row):
                 if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
+                
+        # LOAD PREBUILT ASI CONTENT
+        if hasattr(scene, "prebuilt_objects"):
+            for obj in scene.prebuilt_objects:
+                # Convert ASI object format to GameLoop interactable format
+                self.interactables[(obj["x"], obj["y"])] = {
+                    "type": obj.get("subtype", obj.get("type", "Object")), # Use subtype for naming if avail
+                    "x": obj["x"], "y": obj["y"],
+                    "tags": obj.get("tags", ["inspect"]),
+                    "is_blocking": True, # Most objects block
+                    "is_locked": obj.get("locked", False), # ASI uses "locked", Loop uses "is_locked"
+                    "required_key": obj.get("key_required"),
+                    "has_key": obj.get("has_key"),
+                    "key_name": obj.get("key_name")
+                }
+                # Update tile visual
+                if obj.get("type") == "chest": self.active_scene.grid[obj["y"]][obj["x"]] = TILE_LOOT
+                if obj.get("type") == "door": self.active_scene.grid[obj["y"]][obj["x"]] = TILE_DOOR
+
+        if hasattr(scene, "prebuilt_entities"):
+            from brqse_engine.combat.mechanics import Combatant
+            import json
+            # We need a way to load enemy stats by type
+            # For now, simplistic fallback or loop through known files
+            
+            for ent in scene.prebuilt_entities:
+                # 1. Try to load stats based on type
+                # Assuming ent["type"] maps to a filename like "orc_jailer"
+                # TODO: Real loader. For now, hacky generic.
+                
+                # Try spawning it via spawner to get stats
+                from brqse_engine.combat.enemy_spawner import spawner
+                try:
+                    # Map ASI type to filename key
+                    fname = ent["type"] # e.g. "orc_jailer" or "BST_01"
+                    
+                    beast_id = fname if fname.startswith("BST_") else None
+                    if not beast_id and "orc" in fname: beast_id = "BST_05" # Fallback mapping if old types exist
+                    
+                    # Spawn specific beast if ID is known, otherwise random for biome
+                    path = spawner.spawn_beast(beast_id=beast_id, biome="DUNGEON", level=1)
+                    with open(path, 'r') as f: enemy_data = json.load(f)
+                    
+                    enemy = Combatant(data=enemy_data)
+                    enemy.name = ent["name"]
+                    enemy.team = ent.get("team", "Enemies")
+                    
+                    # INJECT ASI BRAIN
+                    if "ai_context" in ent:
+                        enemy.ai_context = ent["ai_context"]
+                        
+                    self.active_scene.grid[ent["y"]][ent["x"]] = TILE_ENEMY
+                    self.combat_engine.add_combatant(enemy, ent["x"], ent["y"])
+                except Exception as e:
+                    print(f"Failed to spawn ASI entity {ent['name']}: {e}")
         
         self.explored_tiles = set()
         

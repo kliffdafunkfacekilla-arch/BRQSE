@@ -10,30 +10,32 @@ TILE_ENEMY = 3
 TILE_DOOR = 4
 TILE_HAZARD = 5
 TILE_LOOT = 6
-TILE_ENTRANCE = 7
+TILE_DOOR = 2
+TILE_TAVERN = 3
+TILE_MERCHANT = 4
+TILE_LOOT = 5
+TILE_ENEMY = 6
+TILE_HAZARD = 7
+
+# Donjon Flags (Mirroring donjon_generator.py)
+DJ_NOTHING     = 0
+DJ_BLOCKED     = 1
+DJ_ROOM        = 2
+DJ_CORRIDOR    = 4
+DJ_PERIMETER   = 8
+DJ_ENTRANCE    = 16
+DJ_DOOR        = 0x20000
+DJ_STAIR_DN    = 0x200000
+DJ_STAIR_UP    = 0x400000
 
 class MapGenerator:
     """
     Generates map layouts with diverse objects and tags.
     """
-    ROWS, COLS = 20, 20
 
     def __init__(self, chaos_manager=None):
         self.chaos = chaos_manager
         
-    def generate_map(self, scene: Scene) -> Scene:
-        # 1. Select Shape
-        shape_type = "RECTANGLE"
-        if "Tunnel" in scene.text: shape_type = "TUNNEL"
-        if "Cavern" in scene.text or "Ruins" in scene.text: shape_type = "CAVE"
-        
-        grid = self._generate_shape(shape_type)
-        
-        # 2. Ports (Inside the Floor area: 2 to COLS-3)
-        start_pos = (2, self.ROWS//2)
-        end_pos = (self.COLS-3, self.ROWS//2)
-        grid[end_pos[1]][end_pos[0]] = TILE_DOOR
-        grid[start_pos[1]][start_pos[0]] = TILE_ENTRANCE
         
         # 3. Furnish with enriched objects
         grid, objects = self._furnish_biome(grid, scene.biome, scene.encounter_type)

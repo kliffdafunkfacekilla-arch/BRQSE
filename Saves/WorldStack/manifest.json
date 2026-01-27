@@ -1,0 +1,11 @@
+{
+  "depth": 5,
+  "seed": 969732,
+  "levels": {
+    "1": "level_1.json",
+    "2": "level_2.json",
+    "3": "level_3.json",
+    "4": "level_4.json",
+    "5": "level_5.json"
+  }
+}

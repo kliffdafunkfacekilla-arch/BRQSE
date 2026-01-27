@@ -206,8 +206,14 @@ class SceneStack:
         self.total_steps = len(self.stack)
 
     def advance(self):
-        if not self.stack: return Scene("QUEST COMPLETE")
-        scene = self.stack.pop()
+        if not self.stack:
+            # Fallback if stack invalid
+            return Scene("The Void", "DUNGEON")
+        
+        self.current_index += 1
+        scene = self.stack.pop(0)
+        # Assign depth for map loader
+        scene.depth = self.current_index
         if self.chaos.chaos_clock >= 10:
             scene.text += " [DOOMED]"
         return scene

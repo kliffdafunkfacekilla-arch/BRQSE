@@ -1,0 +1,35 @@
+{
+    "Name": "Insect Swarm Minion",
+    "Species": "Insect",
+    "Stats": {
+        "Might": 8,
+        "Endurance": 8,
+        "Finesse": 14,
+        "Reflexes": 14,
+        "Vitality": 10,
+        "Fortitude": 12,
+        "Knowledge": 6,
+        "Logic": 10,
+        "Awareness": 12,
+        "Intuition": 10,
+        "Charm": 6,
+        "Willpower": 22
+    },
+    "Derived": {
+        "HP": 50,
+        "Speed": 30,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Insect Swarm Minion",
+        "Insect"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

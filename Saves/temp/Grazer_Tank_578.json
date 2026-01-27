@@ -1,0 +1,35 @@
+{
+    "Name": "Grazer Tank",
+    "Species": "Mammal",
+    "Stats": {
+        "Might": 16,
+        "Endurance": 16,
+        "Finesse": 8,
+        "Reflexes": 8,
+        "Vitality": 14,
+        "Fortitude": 12,
+        "Knowledge": 6,
+        "Logic": 6,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 12,
+        "Willpower": 14
+    },
+    "Derived": {
+        "HP": 62,
+        "Speed": 30,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Grazer Tank",
+        "Mammal"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}
