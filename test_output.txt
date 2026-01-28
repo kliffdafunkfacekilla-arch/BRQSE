@@ -1,0 +1,42 @@
+FFFF
+======================================================================
+FAIL: test_basic_damage (__main__.TestAbilities.test_basic_damage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\abilities\test_abilities.py", line 119, in test_basic_damage
+    self.assertTrue(any("Effect deals 5 Fire damage" in l for l in log))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_healing (__main__.TestAbilities.test_healing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\abilities\test_abilities.py", line 183, in test_healing
+    self.assertGreater(self.p2.hp, 10)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: 8 not greater than 10
+
+======================================================================
+FAIL: test_push_effect (__main__.TestAbilities.test_push_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\abilities\test_abilities.py", line 141, in test_push_effect
+    self.assertTrue(any("is Pushed 10ft!" in l for l in log))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_status_effect (__main__.TestAbilities.test_status_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\brqse_engine\abilities\test_abilities.py", line 162, in test_status_effect
+    self.assertTrue(any("Stunned for 1 round(s)!" in l for l in log))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.004s
+
+FAILED (failures=4)
+DEBUG LOG: ['Attacker attacks Defender!', 'CRITICAL HIT! (34). 2 damage + Injury: Broken Arm!']

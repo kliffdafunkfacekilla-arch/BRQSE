@@ -1,0 +1,35 @@
+{
+    "Name": "Predator Striker",
+    "Species": "Mammal",
+    "Stats": {
+        "Might": 12,
+        "Endurance": 10,
+        "Finesse": 14,
+        "Reflexes": 14,
+        "Vitality": 10,
+        "Fortitude": 10,
+        "Knowledge": 8,
+        "Logic": 8,
+        "Awareness": 14,
+        "Intuition": 12,
+        "Charm": 10,
+        "Willpower": 10
+    },
+    "Derived": {
+        "HP": 50,
+        "Speed": 40,
+        "SP": 20,
+        "FP": 20,
+        "CMP": 20
+    },
+    "Traits": [
+        "Predator Striker",
+        "Mammal"
+    ],
+    "Powers": [],
+    "Skills": [
+        "Natural Weapons"
+    ],
+    "Inventory": [],
+    "AI": "Aggressive"
+}

@@ -18,90 +18,6 @@ class StoryDirector:
         # Fallback names if AI is offline
         self.fallback_names = ["Gorg", "Thrak", "The Silent One", "Darko"]
 
-    def direct_scene(self, map_data, level_depth, logger):
-        # 0. Safety Check: Don't re-direct an already directed scene
-        if map_data.get("intro"): 
-            return
-
-        rooms = list(map_data["rooms"].values())
-        if not rooms: return
-
-        # 1. AI: Generate a Theme for this floor
-        theme_prompt = f"Give me a short, evocative theme for Dungeon Level {level_depth} (e.g. 'The Flooded Barracks', 'The Crystal Mines'). Return ONLY the name."
-        theme = self._consult_ai(theme_prompt) or f"Dungeon Level {level_depth}"
-        map_data["theme"] = theme
-        
-        logger.log(level_depth, "THEME", f"Theme established: {theme}")
-
-        # 2. Topology: Find Start (Stairs Up) and Goal (Furthest Room)
-        start_room = self._find_room_with_feature(map_data, Cell.STAIR_UP) or rooms[0]
-        goal_room = self._get_furthest_room(start_room, rooms)
-        
-        # 3. Lock & Key Puzzle
-        key_room = random.choice(rooms)
-        # Avoid placing key in start or goal for now, though goal could have boss+key
-        attempts = 0
-        while key_room["id"] in [start_room["id"], goal_room["id"]] and attempts < 10:
-            key_room = random.choice(rooms)
-            attempts += 1
-
-        # 4. Generate The "MacGuffin" (The Key Item)
-        key_name = self._consult_ai(f"Name a mystical key found in {theme}. Return ONLY the name.") or "Iron Key"
-        key_id = f"key_{level_depth}"
-        
-        # Spawn Key
-        self._spawn_object(map_data, key_room, {
-            "id": key_id, "type": "key", "name": key_name,
-            "tags": ["pickup", "quest_item", "key", f"key_{level_depth}"], # Correct tag for locking mechanic
-            "description": f"The key to the level's exit, found in {theme}."
-        })
-        logger.log(level_depth, "QUEST", f"The {key_name} is hidden in Room {key_room['id']}.", tags={"room_id": key_room['id']})
-
-        # 5. Generate The Boss (The Guardian)
-        boss_name = self._consult_ai(f"Name a dangerous mini-boss creature living in {theme}. Return ONLY the name.") or "Dungeon Guardian"
-        boss_desc = self._consult_ai(f"Describe the appearance of {boss_name} in one sentence.") or "It looks angry."
-
-        # 6. Generate Narrative Hook (Intro)
-        intro_prompt = f"You are a narrator. The player has entered {theme}. Their goal is to find the {key_name}. However, {boss_name} ({boss_desc}) guards it. Write a compelling 2-sentence introduction for the player telling them where they are and what they must do."
-        intro_text = self._consult_ai(intro_prompt, temp=0.8) or f"You enter {theme}. Find the {key_name} and defeat {boss_name}."
-        map_data["intro"] = intro_text
-        
-        logger.log(level_depth, "INTRO", intro_text, tags={"theme": theme, "key": key_name, "boss": boss_name})
-        
-        # Spawn Boss in Goal Room? User code said "key room or goal room".
-        # Logic says Key guards exit, or Boss guards Key. 
-        # User code: "Spawn Boss in Key Room or Goal Room" (implementation used Key Room context but variable naming?)
-        # Let's put Boss in Key Room to guard it.
-        self._spawn_entity(map_data, key_room, {
-            "type": "boss_monster", "name": boss_name,
-            "tags": ["enemy", "boss", "flesh"],
-            "description": boss_desc,
-            "ai_context": {"role": "guardian", "guarding": key_id}
-        })
-        logger.log(level_depth, "BOSS", f"{boss_name} guards the key in Room {key_room['id']}.", tags={"boss_name": boss_name})
-
-        # 6. Fill Empty Rooms with Random Events (Flavored by AI)
-        for room in rooms:
-            # Skip critical rooms
-            if room["id"] in [start_room["id"], goal_room["id"], key_room["id"]]: continue
-            
-            # 20% Chance of Event
-            if random.random() < 0.2:
-                event = self.events.get_random_event()
-                if event:
-                    # Ask AI to flavor this generic event to fit the Theme
-                    flavor_text = self._consult_ai(
-                        f"Describe a '{event['name']}' event occurring in {theme}. One sentence.", 
-                        temp=0.8
-                    )
-                    
-                    self._spawn_object(map_data, room, {
-                        "type": "event_marker", "name": event['name'],
-                        "tags": ["event", "inspectable"],
-                        "description": flavor_text or event.get('description', "An event.")
-                    })
-                    logger.log(level_depth, "EVENT", f"Room {room['id']}: {flavor_text}", tags={"event_type": event.get('type', 'Unknown')})
-
     # --- Helper: AI Communication ---
     def _consult_ai(self, prompt, temp=0.7):
         """
@@ -141,6 +57,95 @@ class StoryDirector:
         ent_data["x"], ent_data["y"] = room["center"]
         ent_data["room_id"] = room["id"]
         map_data["entities"].append(ent_data)
+
+    def handle_entity_death(self, entity, map_data, logger):
+        """
+        Called when an entity dies. Checks for plot breaks and asks AI to patch them.
+        """
+        # 1. Check Role
+        ai_context = getattr(entity, "ai_context", {})
+        role = ai_context.get("role")
+        
+        if role in ["guardian", "boss", "quest_giver"]:
+            # 2. Consult AI for a Patch
+            problem = f"The player killed {entity.name}, who was the {role}. The story flow might be broken. How does the player proceed?"
+            patch = self._consult_ai(
+                f"{problem} Provide a one-sentence adaptation (e.g. 'The key slides into a grate', 'A ghost rises').", 
+                temp=0.8
+            )
+            
+            if patch:
+                logger.log(map_data.get("depth", 1), "PATCH", f"DM Adaptation: {patch}", tags={"entity": entity.name})
+                
+                # 3. Mechanically Apply Patch (Simple Heuristic: Spawn Ghost)
+                if "ghost" in patch.lower() or "spirit" in patch.lower():
+                    # Find room
+                    room = self._find_room_by_pos(map_data, entity.x, entity.y)
+                    if room:
+                        self._spawn_entity(map_data, room, {
+                            "type": "ghost_remnant", 
+                            "name": f"Ghost of {entity.name}",
+                            "description": "A spectral remnant lingering with purpose.",
+                            "tags": ["neutral", "spirit"]
+                        })
+
+    def _find_room_by_pos(self, map_data, x, y):
+        for r in map_data["rooms"].values():
+            if r["x"] <= x < r["x"] + r["w"] and r["y"] <= y < r["y"] + r["h"]:
+                return r
+        return None
+
+    def inject_scene_context(self, map_data, scene):
+        """
+        Flavors a single-scene map based on a specific Scene object.
+        Used by CampaignBuilder for the Linked Map System.
+        """
+        # 1. Set Meta
+        map_data["theme"] = scene.biome
+        map_data["scene_title"] = scene.text
+        
+        # 2. Main Description (Scene Text)
+        # We can ask AI to expand this if it's brief
+        if len(scene.text) < 50:
+             expanded = self._consult_ai(f"Describe a location based on this prompt: '{scene.text}'. The location is in a {scene.biome}. 2 sentences.")
+             map_data["intro"] = expanded or scene.text
+        else:
+            map_data["intro"] = scene.text
+            
+        # 3. Spawn Scene Enemy (if any)
+        # Place in the "Best" room (Strategy: Goal Room or Center?)
+        # For a single scene map, usually the last room is the 'Goal' of that scene.
+        rooms = list(map_data["rooms"].values())
+        if not rooms: return
+        
+        # Heuristic: Place enemy in the last room (furthest)
+        # or if it's a Boss scene, definitely last.
+        target_room = rooms[-1]
+        
+        if scene.enemy_data:
+             self._spawn_entity(map_data, target_room, {
+                "type": "enemy", 
+                "name": scene.enemy_data["Species"],
+                "tags": ["enemy", "hostile"],
+                "ai_context": {"role": "antagonist", "motive": "guarding area"}
+             })
+             
+        # 4. Fill other rooms with minor flavor
+        for r in rooms:
+            if r == target_room: continue
+            if random.random() < 0.3:
+                # Minor exploration event
+                self._spawn_object(map_data, r, {
+                    "type": "flavor", 
+                    "name": "Atmosphere", 
+                    "description": "Evidence of recent activity.",
+                    "tags": ["scenery"]
+                })
+
+    def direct_scene(self, map_data, level_depth, logger):
+        # Legacy method compatibility or removal?
+        # Keeping it for now but it's largely superseded by inject_scene_context in the new flow.
+        pass
 
     # --- Helper: Topology ---
     def _find_room_with_feature(self, map_data, flag):

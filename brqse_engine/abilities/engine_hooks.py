@@ -61,11 +61,9 @@ def apply_hooks(combatant, hook_type, context):
         if hook_type == "ON_ATTACK":
             if not any(k in low for k in ["attack", "heal", "regain", "damage", "push", "teleport", "stun", "poison", "fear", "charm", "grapple"]): 
                 continue
-        elif hook_type == "ON_DEFEND":
-            if not any(k in low for k in ["defend", "hit", "reflex", "will", "fortitude", "armor", "ac ", "resistance", "immune"]): 
-                continue
-            
-        registry.resolve(eff, context)
+        print(f"[DEBUG] resolving effect: {eff}")
+        res = registry.resolve(eff, context)
+        print(f"[DEBUG] resolve result: {res}")
 
 def get_ability_data(ability_name):
     """

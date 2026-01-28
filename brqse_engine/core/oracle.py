@@ -1,9 +1,16 @@
-import json
+from brqse_engine.core.context_manager import ContextManager
+from brqse_engine.core.arbiter import Arbiter
+from brqse_engine.core.dice import Dice
 
 class DungeonOracle:
-    def __init__(self, sensory_layer):
+    def __init__(self, sensory_layer, game_loop=None):
         self.sensory_layer = sensory_layer
+        self.loop = game_loop
+        self.ctx_manager = ContextManager(game_loop) if game_loop else None
+        self.arbiter = Arbiter() # Uses default local API URL
+        self.dice = Dice() # Standard d20 system
 
+        
     def inspect_entity(self, entity, room_history):
         """
         Explains an object using Tags + History.
@@ -16,16 +23,7 @@ class DungeonOracle:
         details = []
         if entity.has_tag("locked"):
             details.append("It is sealed tight.")
-        if entity.has_tag("flammable"):
-            details.append("It looks dry enough to burn.")
-        if entity.has_tag("heavy"):
-            details.append("It looks incredibly heavy.")
-        if entity.has_tag("valuable"):
-            details.append("It glitters with value.")
-        if entity.has_tag("enemy"):
-            details.append("It looks hostile.")
-        if entity.has_tag("search"):
-            details.append("It seems to contain something.")
+        details.append(f"Tags: {', '.join(entity.tags)}")
 
         # 2. Context from Story Director (The "Why")
         lore = ""
@@ -35,67 +33,95 @@ class DungeonOracle:
                 if ent_id and str(ent_id) == str(entry.get("tags", {}).get("item_id")):
                     lore = f"\n(Insight): {entry['text']}"
                     break
-                if entry["category"] == "CHAOS" and "event_trigger" in entity.data.get("type", ""):
-                     if "event_type" in entry.get("tags", {}) and entry["tags"]["event_type"] == entity.data.get("event_data", {}).get("type"):
-                        lore = f"\n(Warning): The air around it warps. {entry['text']}"
-
         return f"{desc} {' '.join(details)} {lore}"
 
-    def consult(self, player_input, game_state):
+    def chat(self, user_message):
         """
-        RAG-based Consultation.
+        Direct chat interface for the player (Omniscient GM).
+        Now with Arbiter Interception for Skill Checks.
         """
-        # --- Step 1: Gather Context (Retrieval) ---
-        # 1. Room Context
-        player = game_state.player
-        # Note: game_state objects need 'room_id' or we calculate it.
-        # Assuming we can filter objects by proximity or room if set.
-        # For now, just grab visible objects in the scene.
-        visible_objects = [
-            f"{o.name} ({', '.join(list(o.tags))})" 
-            for o in game_state.objects 
-            if abs(o.x - player.x) <= 10 and abs(o.y - player.y) <= 8 # Approximate screen bounds
-        ]
+        if not self.ctx_manager:
+            return "The spirits are silent (Context Manager not initialized)."
+
+        # 1. ARBITRATION STEP: Check for Risky Actions
+        # We pass self.loop as game_state context if needed
+        check_request = self.arbiter.judge_intent(user_message, self.loop)
         
-        # 2. History Context
-        # Get logs for current level
-        depth = getattr(game_state, "current_depth", 1)
-        # We need the logger which is on InteractionEngine? 
-        # Actually DungeonOracle is init with sensory_layer, but we need Logger for retrieval.
-        # Plan change: DungeonOracle needs Logger access too or GameState needs it.
-        # GameState usually doesn't hold Logger, GameLoop does.
-        # But consult is passed `game_state` which in `handle_action` is `self` (GameLoopController).
-        # So `game_state` IS `GameLoopController` instance based on our previous call.
+        roll_info = ""
         
-        logger = getattr(game_state, "logger", None)
-        room_logs = []
-        if logger:
-            # Try to get room-specific logs if we can infer room logic, or just level logs
-            # Let's give it the last 5 level logs for immediate context
-            all_logs = logger.get_context(level=depth)
-            room_logs = all_logs[-5:] if all_logs else []
+        if check_request:
+            # A check is required!
+            skill = check_request.get("skill", "General")
+            dc = check_request.get("dc", 10)
+            reason = check_request.get("reason", "Unknown risk")
             
-        # 3. Player Status
-        hp_status = f"{player.hp}/{player.max_hp}"
-        inventory = [i.name for i in getattr(game_state, "inventory", [])]
+            # Auto-Resolve Roll (Simulated Player Roll)
+            # In a full UI, we'd ask the frontend to roll, but here we auto-roll for fluid chat.
+            # TODO: Fetch actual player stats for bonus.
+            bonus = 0
+            # Resolve Bonus
+            bonus = 0
+            if self.loop and self.loop.player_combatant:
+                # 1. Get Attribute from Arbiter (e.g. "MIGHT")
+                attr_name = check_request.get("attribute", "Might").title()
+                
+                # 2. Get Modifier from Player (e.g. +3)
+                # Ensure get_stat_modifier exists/works
+                if hasattr(self.loop.player_combatant, "get_stat_modifier"):
+                    bonus = self.loop.player_combatant.get_stat_modifier(attr_name)
+                else:
+                    # Fallback if bare entity
+                    stats = getattr(self.loop.player_combatant, "stats", {})
+                    score = stats.get(attr_name, 10)
+                    bonus = (score - 10) // 2
 
-        # --- Step 2: Construct System Prompt ---
-        system_prompt = f"""
-        You are the Dungeon Master (The Oracle).
+            # Dice returns (total, rolls, breakdown)
+            roll_val, _, _ = self.dice.roll("1d20")
+            total = roll_val + bonus
+            success = total >= dc
+            outcome = "SUCCESS" if success else "FAILURE"
+            
+            roll_info = f"""
+            [SYSTEM EVENT]
+            ACTION: {user_message}
+            CHECK: {skill} ({attr_name.upper()} {bonus:+}) vs DC {dc} | REASON: {reason}
+            RESULT: {outcome} (Rolled {roll_val} {bonus:+} = {total})
+            """
+            
+            # Only append to prompt. We return the narration of this result.
+            # We modify the user message seen by the AI to include the mechanical truth.
+            user_message = f"{user_message} \n(MECHANICAL TRUTH: {roll_info})"
+
+        # 2. Build the Mega-Context
+        full_context = self.ctx_manager.build_full_context()
         
-        [GAME STATE]
-        - Level: {depth}
-        - Player HP: {hp_status}
-        - Inventory: {', '.join(inventory)}
-        - Nearby Objects: {', '.join(visible_objects)}
-        - Recent Events: {json.dumps(room_logs)}
+        # 3. Build Prompt
+        prompt = f"""
+        You are the Dungeon Master. Use the Game State and Rules below to answer the player.
         
-        [INSTRUCTION]
-        Answer the player's question briefly (under 50 words) and in character.
-        If they ask for a hint, use the Nearby Objects.
-        If they ask about story, use Recent Events.
-        Do not make up facts that contradict the State.
+        {full_context}
+        
+        PLAYER INPUT: "{user_message}"
+        
+        INSTRUCTIONS:
+        - If [SYSTEM EVENT] is present, NARRATE the outcome ({roll_info}) dramatically. Do not ask for a roll, it is already done.
+        - If no system event, answer normally.
+        - Keep it brief (under 50 words).
+        
+        DM:
         """
 
-        # --- Step 3: Consult RAG ---
-        return self.sensory_layer.consult_oracle(system_prompt, player_input)
+        # 4. Call AI
+        response = self.sensory_layer.consult_oracle(prompt, user_message)
+        
+        # Prepend the roll info to the response so the user sees the mechanics too
+        if roll_info:
+            response = f"{roll_info.strip()}\n\n{response}"
+            
+        return response
+
+    def consult(self, player_input, game_state=None):
+        """
+        Backwards compatibility alias for chat.
+        """
+        return self.chat(player_input)

@@ -1697,6 +1697,8 @@ class CombatEngine:
             atk_dis = True
         
         # === TACTICAL ADVANTAGE CHECKS (REVISED) ===
+
+        # === TACTICAL ADVANTAGE CHECKS ===
         
         # Track attacks received for multi-attacker disadvantage
         target.attacks_received_this_round += 1
@@ -1761,258 +1763,72 @@ class CombatEngine:
         
         # LOGIC: Check Hit
         # CLASH CHECK (Equal rolls or within 1)
-        if abs(margin) <= 1:
+        if margin == 0:
+            # TIE = CLASH
             self.clash_active = True
-            # Store participants for resolution
             self.clash_participants = (attacker, target)
-            self.clash_stat = attack_stat # Stat used for the clash
-            
-            log.append(f"CLASH TRIGGERED! ({hit_score} vs {def_roll})")
-            
-            # Record Clash for Sensory Layer (AI will assume 'clash' result type means 0 margin event)
-            self.replay_log.append({
-                "type": "clash_trigger",
-                "actor": attacker.name,
-                "target": target.name,
-                "weapon": weapon_name,
-                "armor": armor_name,
-                "result": "clash",
-                "margin": margin,
-                "hit_score": hit_score,
-                "def_score": def_roll
-            })
-            return log
-
-        if hit_score >= def_roll:
-             # HIT
-             was_killed = target.take_damage(damage) 
-             log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
-             
-             # Calculate Crit visually
-             style = "hit"
-             if hit_score >= def_roll + 5: # Solid hit
-                 if random.random() < 0.2: style = "hit crit" 
-             if hit_score >= def_roll + 10: # Crushing hit
-                 style = "hit crit"
-
-             # --- RECORD EVENT (PROTOCOL 2) ---
-             self.replay_log.append({
-                "type": "attack",
-                "actor": attacker.name,
-                "target": target.name,
-                "weapon": weapon_name,
-                "armor": armor_name,
-                "result": "hit",
-                "margin": margin,
-                "damage": damage,
-                "target_hp": target.hp,
-                "style": style
-             })
-             
-             if was_killed:
-                 log.append(f"{target.name} is SLAIN!")
-                 self.replay_log.append({
-                    "type": "death",
-                    "actor": target.name,
-                    "x": target.x,
-                    "y": target.y
-                 })
-             # ---------------------------------
-        else:
-             log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
-             # --- RECORD EVENT (PROTOCOL 2) ---
-             self.replay_log.append({
-                "type": "attack",
-                "actor": attacker.name,
-                "target": target.name,
-                "weapon": weapon_name,
-                "armor": armor_name,
-                "result": "miss",
-                "margin": margin,
-                "damage": 0
-             })
-             # ---------------------------------
-             
-        return log
-
-        # 1. Determine Damage Dice & Type
-        dmg_dice = "1d4"
-        damage_type = "Bludgeoning"
-        weapon_tags = {}
-        
-        if attacker.inventory:
-            dmg_dice, damage_type, weapon_tags = attacker.inventory.get_weapon_stats()
-            
-        # Parse Dice (e.g. "2d6")
-        if "d" in dmg_dice:
-            num, sides = map(int, dmg_dice.split("d"))
-            damage = sum(random.randint(1, sides) for _ in range(num))
-        else:
-            damage = int(dmg_dice)
-            
-        # 2. To Hit Calculation (Resource Clash)
-        # Attacker uses Might/Finesse vs Defender's Armor Stat
-        def_stat_name = "Reflexes"
-        if target.inventory: 
-            def_stat_name = target.inventory.get_defense_stat()
-            
-        # USE MODIFIERS
-        attack_stat = "Might"
-        skill_rank = 0
-        
-        if attacker.inventory:
-            attack_stat = attacker.inventory.get_weapon_main_stat()
-            # Get Skill Rank (e.g. "The Great Weapons")
-            wpn = attacker.inventory.equipped["Main Hand"]
-            if wpn and wpn.family:
-                 skill_rank = attacker.get_skill_rank(wpn.family)
-            if not wpn: # Unarmed
-                 skill_rank = attacker.get_skill_rank("The Fist")
-            
-        hit_mod = attacker.get_stat_modifier(attack_stat) + skill_rank
-
-        # === NEW ADVANTAGE/DISADVANTAGE SYSTEM ===
-        # Determine attacker's advantage/disadvantage
-        atk_adv = attacker.has_attack_advantage()
-        atk_dis = attacker.has_attack_disadvantage()
-        
-        # Factor in target's state (being prone gives attacker advantage, etc)
-        if target.is_attack_target_advantaged(attacker):
-            atk_adv = True
-        if target.is_attack_target_disadvantaged(attacker):
-            atk_dis = True
-        
-        # Prone attacking is disadvantage
-        if attacker.is_prone:
-            atk_dis = True
-        
-        # === TACTICAL ADVANTAGE CHECKS (REVISED) ===
-        
-        # Track attacks received for multi-attacker disadvantage
-        target.attacks_received_this_round += 1
-        
-        # Defender Disadvantage: 2nd+ attack against them this round
-        defender_disadvantage = target.attacks_received_this_round >= 2
-        
-        # Behind Attack: Advantage if attacker is in target's rear arc
-        if self.is_behind(attacker, target):
-            atk_adv = True
-            log.append("(Rear Attack!)")
-        
-        # 3+ Enemies: Advantage if target is engaged by 3+ enemies
-        adj_enemies = self.count_adjacent_enemies(target)
-        if adj_enemies >= 3:
-            atk_adv = True
-            log.append("(Surrounded!)")
-        
-        # High Ground: +2 bonus for ranged attacks
-        high_ground_bonus = 0
-        if self.has_high_ground(attacker, target):
-            high_ground_bonus = 2
-            log.append("(High Ground +2)")
-        
-        # Cover: Only Half and Full
-        cover_level = self.get_cover_between(attacker, target)
-        if cover_level == COVER_FULL:
-            return [f"{target.name} has Full Cover! Cannot target."]
-        # Half Cover = Defender gets Advantage (handled via defender_advantage below)
-        defender_advantage = cover_level == COVER_HALF
-        
-        # Apply multi-attacker penalty to defender's defense roll
-        # (defender_disadvantage and defender_advantage are used in defense roll below)
-            
-        # Roll with advantage/disadvantage
-        raw_d20 = attacker.roll_with_advantage(atk_adv, atk_dis)
-        hit_score = hit_mod + raw_d20 + high_ground_bonus
-        
-        # Track if Natural 20 (crit) or Natural 1 (disaster)
-        is_nat_20 = (raw_d20 == 20)
-        is_nat_1 = (raw_d20 == 1)
-        
-        # Invisibility breaks on attack
-        if attacker.is_invisible:
-            attacker.is_invisible = False
-            log.append(f"{attacker.name} appears from invisibility!")
-        
-        # Defender uses AC (Base 10 + Dex/Armor Mod)
-        # In D&D: AC = 10 + Mod. 
-        # Here: Armor might provide base AC? 
-        # For now, let's use: Def_Score = 10 + Def_Stat_Mod
-        
-        def_mod = target.get_stat_modifier(def_stat_name)
-        
-        # Add Defender Skill Rank (Armor)
-        def_skill_rank = 0
-        if target.inventory:
-             armor = target.inventory.equipped["Armor"]
-             if armor and armor.family:
-                  def_skill_rank = target.get_skill_rank(armor.family)
-        
-        # User requested "Active Defense" with advantage/disadvantage.
-        # Defender also gets status-based advantage/disadvantage
-        def_adv = defender_advantage or target.has_defense_advantage()
-        def_dis = defender_disadvantage or target.has_defense_disadvantage()
-        
-        def_total_mod = def_mod + def_skill_rank
-        def_raw_d20 = target.roll_with_advantage(def_adv, def_dis)
-        def_roll = def_total_mod + def_raw_d20
-        
-        # LOGIC: Check Hit
-        # CLASH CHECK (Equal rolls or within 1)
-        if abs(hit_score - def_roll) <= 1:
-            self.clash_active = True
-            # Store participants for resolution
-            self.clash_participants = (attacker, target)
-            self.clash_stat = attack_stat # Stat used for the clash
-            
+            self.clash_stat = attack_stat
             log.append(f"CLASH TRIGGERED! ({hit_score} vs {def_roll})")
             return log
-
-        if hit_score >= def_roll:
-             # HIT
-             was_killed = target.take_damage(damage) 
-             log.append(f"Attack HIT! ({hit_score} vs {def_roll}). Dealt {damage} {damage_type}.")
-             
-             # Calculate Crit visually
-             style = "hit"
-             if hit_score >= def_roll + 5: # Solid hit
-                 if random.random() < 0.2: style = "hit crit" 
-             if hit_score >= def_roll + 10: # Crushing hit
-                 style = "hit crit"
-
-             # --- RECORD EVENT (PROTOCOL 2) ---
-             self.replay_log.append({
-                "type": "attack",
-                "actor": attacker.name,
-                "target": target.name,
-                "result": "hit",
-                "damage": damage,
-                "target_hp": target.hp,
-                "style": style
-             })
-             
-             if was_killed:
-                 log.append(f"{target.name} is SLAIN!")
-                 self.replay_log.append({
-                    "type": "death",
-                    "actor": target.name,
-                    "x": target.x,
-                    "y": target.y
-                 })
-             # ---------------------------------
+            
+        # Determine Result based on User Defined Margins
+        if margin >= 1:
+            # POSITIVE MARGINS (Hits)
+            if margin <= 4:
+                # GRAZE (+1 to +4)
+                dmg_val = 2 # Fixed Graze Damage? Or minimal? User said "deal composure damage"
+                target.cmp -= dmg_val 
+                log.append(f"GRAZE! ({margin}). {target.name} takes {dmg_val} CMP damage.")
+                self.replay_log.append({"type": "graze", "actor": attacker.name, "target": target.name, "margin": margin})
+                
+            elif margin <= 10:
+                # HIT (+5 to +10)
+                was_killed = target.take_damage(damage)
+                log.append(f"HIT! ({margin}). Dealt {damage} HP damage.")
+                self.replay_log.append({"type": "hit", "actor": attacker.name, "target": target.name, "damage": damage, "margin": margin})
+                if was_killed: log.append(f"{target.name} is SLAIN!")
+                
+            else:
+                # CRIT (+11+)
+                was_killed = target.take_damage(damage * 2) # Crit Logic: Double Damage? 
+                # User said: "hp damage + roll injury table"
+                # Let's do Standard Damage + Injury
+                # Placeholder Injury
+                injuries = ["Broken Arm", "Concussion", "Bleeding Out", "Cracked Ribs"]
+                injury = random.choice(injuries)
+                target.apply_effect(injury, duration=-1) # Permanent
+                
+                log.append(f"CRITICAL HIT! ({margin}). {damage} damage + Injury: {injury}!")
+                self.replay_log.append({"type": "crit", "actor": attacker.name, "target": target.name, "damage": damage, "injury": injury, "margin": margin})
+                if was_killed: log.append(f"{target.name} is SLAIN!")
+                
         else:
-             log.append(f"Attack MISSED. ({hit_score} vs {def_roll})")
-             # --- RECORD EVENT (PROTOCOL 2) ---
-             self.replay_log.append({
-                "type": "attack",
-                "actor": attacker.name,
-                "target": target.name,
-                "result": "miss",
-                "damage": 0
-             })
-             # ---------------------------------
-             
+            # NEGATIVE MARGINS (Misses)
+            abs_margin = abs(margin)
+            if abs_margin <= 5:
+                # MISS (-1 to -5)
+                log.append(f"MISS! ({margin}).")
+                self.replay_log.append({"type": "miss", "actor": attacker.name, "target": target.name, "margin": margin})
+                
+            elif abs_margin <= 10:
+                # WHIFF (-6 to -10)
+                # Miss + Staggered
+                attacker.is_staggered = True
+                log.append(f"WHIFF! ({margin}). {attacker.name} is Staggered!")
+                self.replay_log.append({"type": "whiff", "actor": attacker.name, "target": target.name, "margin": margin})
+                
+            else:
+                # BOTCH (-11+)
+                # Trip and Damage
+                attacker.is_prone = True
+                self_dmg = random.randint(1, 4)
+                attacker.take_damage(self_dmg)
+                log.append(f"BOTCH! ({margin}). You trip and take {self_dmg} damage!")
+                self.replay_log.append({"type": "botch", "actor": attacker.name, "target": target.name, "margin": margin})
+        
         return log
+
+
 
     def create_wall(self, x, y):
         """Creates a blocking wall at x,y"""

@@ -10,9 +10,19 @@ class Cell(IntFlag):
     PERIMETER   = 8
     ENTRANCE    = 16
     ROOM_ID     = 0xFFC0 
+    
+    # Extended Feature Flags (Donjon Port)
+    ARCH        = 0x10000
     DOOR        = 0x20000
-    STAIR_DN    = 0x200000
-    STAIR_UP    = 0x400000
+    LOCKED      = 0x40000
+    TRAPPED     = 0x80000
+    SECRET      = 0x100000
+    PORTC       = 0x200000
+    STAIR_DN    = 0x400000
+    STAIR_UP    = 0x800000
+    
+    # Masks
+    DOORSPACE   = ARCH | DOOR | LOCKED | TRAPPED | SECRET | PORTC
 
 class DonjonGenerator:
     def __init__(self, seed=None):
@@ -32,13 +42,51 @@ class DonjonGenerator:
         self._scatter_rooms()
         self._generate_corridors()
         self._open_rooms()
-        self._remove_deadends()
+        self._remove_deadends() # This removes SOME, but leaves others.
+        self._emplace_stairs()
         
         return {
             "width": self.cols, "height": self.rows,
             "grid": self.grid, "rooms": self.rooms,
             "seed": self.seed
         }
+
+    def _emplace_stairs(self):
+        # Place Up/Down stairs at dead ends if possible
+        dead_ends = []
+        for r in range(1, self.rows-1):
+            for c in range(1, self.cols-1):
+                if self.grid[r][c] & Cell.CORRIDOR:
+                    # Count corridor neighbors
+                    neighbors = 0
+                    for dr, dc in [(0,1), (0,-1), (1,0), (-1,0)]:
+                        if self.grid[r+dr][c+dc] & Cell.CORRIDOR: neighbors += 1
+                        if self.grid[r+dr][c+dc] & Cell.ENTRANCE: neighbors += 1
+                    
+                    if neighbors == 1:
+                        dead_ends.append((c,r))
+        
+        random.shuffle(dead_ends)
+        
+        # Place Down Stair (Exit)
+        if dead_ends:
+            c, r = dead_ends.pop()
+            self.grid[r][c] |= Cell.STAIR_DN
+        else:
+            # Fallback: Random Room center
+            rid = random.choice(list(self.rooms.keys()))
+            c, r = self.rooms[rid]["center"]
+            self.grid[r][c] |= Cell.STAIR_DN
+
+        # Place Up Stair (Entrance)
+        if dead_ends:
+            c, r = dead_ends.pop()
+            self.grid[r][c] |= Cell.STAIR_UP
+        else:
+            # Fallback
+            rid = random.choice(list(self.rooms.keys()))
+            c, r = self.rooms[rid]["center"]
+            self.grid[r][c] |= Cell.STAIR_UP
 
     def _scatter_rooms(self):
         # Density: 1 room per 100 tiles roughly
@@ -110,8 +158,22 @@ class DonjonGenerator:
                 for _ in range(door_count):
                     if not sills: break
                     ds = sills.pop(random.randint(0, len(sills)-1))
-                    self.grid[ds[1]][ds[0]] = Cell.ENTRANCE | Cell.DOOR
+                    
+                    # Determine Door Type
+                    dtype = self._door_type()
+                    self.grid[ds[1]][ds[0]] = Cell.ENTRANCE | dtype
                     self.grid[ds[1]][ds[0]] &= ~Cell.PERIMETER # Clear perimeter
+
+    def _door_type(self):
+        # Ported from donjonsdungeongen.pl
+        # 15% Arch, 45% Door, 15% Locked, 15% Trapped, 10% Secret, Rest Portcullis
+        r = random.randint(0, 109)
+        if r < 15: return Cell.ARCH
+        elif r < 60: return Cell.DOOR
+        elif r < 75: return Cell.LOCKED
+        elif r < 90: return Cell.TRAPPED
+        elif r < 100: return Cell.SECRET
+        else: return Cell.PORTC
 
     def _check_sill(self, r, c, sills):
         if 0 <= r < self.rows and 0 <= c < self.cols:

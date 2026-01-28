@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\test_campaign_chain.py", line 69, in test_campaign_flow
+    self.game.combat_engine.tiles[enemy.y][enemy.x].occupant = None
+                                  ^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'y'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\test_campaign_chain.py", line 106, in <module>
+    t.test_campaign_flow()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\test_campaign_chain.py", line 89, in test_campaign_flow
+    self.fail("Test crashed")
+    ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\unittest\case.py", line 732, in fail
+    raise self.failureException(msg)
+AssertionError: Test crashed

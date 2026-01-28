@@ -1,9 +1,9 @@
 from brqse_engine.core.oracle import DungeonOracle # NEW IMPORT
 
 class InteractionEngine:
-    def __init__(self, logger, sensory_layer=None):
+    def __init__(self, logger, sensory_layer=None, game_loop=None):
         self.logger = logger
-        self.oracle = DungeonOracle(sensory_layer)
+        self.oracle = DungeonOracle(sensory_layer, game_loop=game_loop)
 
     def interact(self, actor, target):
         """

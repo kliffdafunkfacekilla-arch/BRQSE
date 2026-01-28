@@ -255,7 +255,29 @@ def debug_force_combat():
     return jsonify(GAME_LOOP.force_combat())
 
 @app.route('/api/health', methods=['GET'])
-def health(): return jsonify({"status": "online", "version": "2.7 - Action Engine"})
+def health(): return jsonify({"status": "online", "version": "2.8 - Omniscient GM"})
+
+@app.route('/api/game/chat', methods=['POST'])
+def game_chat():
+    """
+    Direct interface to the Dungeon Master (Oracle).
+    """
+    try:
+        data = request.get_json()
+        message = data.get("message", "")
+        if not message:
+            return jsonify({"response": "..."})
+
+        # Call Oracle Chat
+        # Logic: GameLoop -> Interaction -> Oracle -> Chat
+        response = GAME_LOOP.interaction.oracle.chat(message)
+        
+        return jsonify({"response": response})
+    except Exception as e:
+        print(f"[API ERROR] Chat: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e), "response": "The spirits are silent."}), 500
 
 @app.route('/generate', methods=['POST'])
 def generate_text():
