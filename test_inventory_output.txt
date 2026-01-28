@@ -1,0 +1,45 @@
+EE
+======================================================================
+ERROR: test_equip_armor (__main__.TestInventoryIntegration.test_equip_armor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\test_inventory_integration.py", line 21, in setUp
+    self.loop = GameLoopController(self.chaos)
+                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\brqse_engine\core\game_loop.py", line 69, in __init__
+    self.scene_stack.generate_quest()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 168, in generate_quest
+    self.stack.append(make_scene(f"FINALE: {q_type[-1]}", force_combat=True))
+                      ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 163, in make_scene
+    enemy = self.generate_enemy()
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 137, in generate_enemy
+    "Level": self.chaos.chaos_clock + 1
+             ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MockChaos' object has no attribute 'chaos_clock'
+
+======================================================================
+ERROR: test_equip_weapon (__main__.TestInventoryIntegration.test_equip_weapon)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\test_inventory_integration.py", line 21, in setUp
+    self.loop = GameLoopController(self.chaos)
+                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\brqse_engine\core\game_loop.py", line 69, in __init__
+    self.scene_stack.generate_quest()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 168, in generate_quest
+    self.stack.append(make_scene(f"FINALE: {q_type[-1]}", force_combat=True))
+                      ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 163, in make_scene
+    enemy = self.generate_enemy()
+  File "C:\Users\krazy\Desktop\BRQSE\scripts\tests\../..\scripts\world_engine.py", line 137, in generate_enemy
+    "Level": self.chaos.chaos_clock + 1
+             ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MockChaos' object has no attribute 'chaos_clock'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.009s
+
+FAILED (errors=2)

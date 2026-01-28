@@ -2,16 +2,63 @@ def handle_summon(match, ctx):
     if "log" in ctx: ctx["log"].append("Summoning Ally.")
 
 def handle_create_terrain(match, ctx):
-    type_ = match.group(1)
+    type_ = match.group(1).lower()
     if "log" in ctx: ctx["log"].append(f"Creating Terrain: {type_}.")
+    
+    x, y = None, None
+    if ctx.get("target_pos"):
+        x, y = ctx["target_pos"]
+        
+    if x is not None and y is not None:
+        if "engine" in ctx:
+            ctx["engine"].pending_world_updates.append({
+                "type": "terrain",
+                "subtype": "wall" if "wall" in type_ else "hazard",
+                "x": x,
+                "y": y
+            })
 
 def handle_create_hazard(match, ctx):
     type_ = match.group(1)
-    ele = match.group(2) or "Generic"
+    ele = (match.group(2) or "Generic").lower()
     if "log" in ctx: ctx["log"].append(f"Creating Hazard: {type_} ({ele}).")
+    
+    x, y = None, None
+    if ctx.get("target_pos"):
+        x, y = ctx["target_pos"]
+    elif ctx.get("target"):
+        x, y = ctx["target"].x, ctx["target"].y
+        
+    if x is not None and y is not None:
+        if "engine" in ctx:
+            ctx["engine"].pending_world_updates.append({
+                "type": "terrain",
+                "subtype": ele if ele in ["fire", "ice", "acid"] else "hazard",
+                "x": x,
+                "y": y
+            })
+            if "log" in ctx: ctx["log"].append(f"{ele.capitalize()} hazard materialized at {x},{y}!")
 
 def handle_create_wall(match, ctx):
     if "log" in ctx: ctx["log"].append("Creating Wall.")
+    
+    # Needs target position.
+    # Check ctx for target_pos (x, y) or derive from target entity
+    x, y = None, None
+    if ctx.get("target_pos"):
+        x, y = ctx["target_pos"]
+    elif ctx.get("target"):
+        x, y = ctx["target"].x, ctx["target"].y
+        
+    if x is not None and y is not None:
+        if "engine" in ctx:
+            ctx["engine"].pending_world_updates.append({
+                "type": "terrain",
+                "subtype": "wall",
+                "x": x,
+                "y": y
+            })
+            if "log" in ctx: ctx["log"].append(f"Wall materialized at {x},{y}!")
 
 def handle_create_construct(match, ctx):
     if "log" in ctx: ctx["log"].append("Creating Construct Automaton.")

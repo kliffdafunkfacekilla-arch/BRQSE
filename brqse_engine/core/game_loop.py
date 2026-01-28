@@ -42,6 +42,24 @@ class GameLoopController:
         # We pass 'self' (the GameLoop) so InteractionEngine can give it to Oracle for ContextManager
         self.interaction = InteractionEngine(self.logger, sensory_layer, game_loop=self)
         
+    def _process_world_updates(self, check_log_list: List[str]):
+        """Consumes updates from CombatEngine and applies them to the Grid."""
+        if not self.combat_engine.pending_world_updates: return
+
+        for update in self.combat_engine.pending_world_updates:
+            if update["type"] == "terrain":
+                tx, ty = update["x"], update["y"]
+                subtype = update.get("subtype", "wall")
+                if 0 <= ty < len(self.active_scene.grid) and 0 <= tx < len(self.active_scene.grid[0]):
+                    if subtype == "wall":
+                        self.active_scene.grid[ty][tx] = TILE_WALL
+                        check_log_list.append(f"[Map] Wall formed at {tx},{ty}.")
+                    elif subtype in ["fire", "ice", "acid"]:
+                         self.active_scene.grid[ty][tx] = TILE_HAZARD
+                         check_log_list.append(f"[Map] {subtype.capitalize()} Hazard at {tx},{ty}.")
+        
+        self.combat_engine.pending_world_updates.clear()
+        
         # Initialize Narrator (AI DM)
         self.narrator = Narrator(sensory_layer, self.logger)
         
@@ -451,10 +469,74 @@ class GameLoopController:
             except Exception as e:
                  print(f"Error loading staged battle: {e}")
 
-    def handle_action(self, action_type: str, x: int, y: int) -> Dict[str, Any]:
+    def handle_action(self, action_type: str, x: int, y: int, **kwargs) -> Dict[str, Any]:
         """Generic handler for player intent."""
         if self.state == "COMBAT":
             return self._handle_combat_action(action_type, x, y)
+            
+        # [NEW] ABILITY USAGE (Cast/Use Skill)
+        if action_type in ["cast", "ability", "skill"]:
+            ability_name = kwargs.get("ability") or kwargs.get("name")
+            target_entity = None
+            if x is not None and y is not None:
+                # Resolve target at x,y
+                # Could be combatant or interactable
+                target_combatant = self.combat_engine.get_combatant_at(x, y)
+                # If target is combatant, use it. usage might trigger combat?
+                # For non-combat spells (Heal), it's fine.
+                if target_combatant:
+                    # Generic activate
+                    log = self.combat_engine.activate_ability(self.player_combatant, ability_name, target_combatant)
+                    self._process_world_updates(log)
+                    return {"success": True, "log": " ".join(log)}
+            
+            # If no target or self-cast
+            target_pos_kwargs = {}
+            if x is not None and y is not None:
+                target_pos_kwargs = {"target_pos": (x,y)}
+                
+            log = self.combat_engine.activate_ability(self.player_combatant, ability_name, None, **target_pos_kwargs)
+            self._process_world_updates(log)
+            return {"success": True, "log": " ".join(log)}
+
+        # [NEW] INVENTORY EQUIP
+        if action_type == "equip":
+            item_name = kwargs.get("item") or kwargs.get("name")
+            if not item_name and x is not None: item_name = str(x) # Fallback if passed as positional
+            
+            # Simple fuzzy finder or exact match from bag
+            found_in_bag = False
+            for item in self.inventory:
+                if item.get("name", "").lower() == item_name.lower():
+                    found_in_bag = True
+                    item_name = item["name"] # Use canonical name
+                    break
+            
+            # Allow equipping even if not in bag? (For testing/cheating). 
+            # Or strictly enforce bag? Let's check bag first.
+            # actually user might just say 'equip sword' and rely on auto-find.
+            
+            if self.player_combatant and self.player_combatant.inventory:
+                success = self.player_combatant.inventory.equip(item_name)
+                if success:
+                    # Determine what slot it went to for log
+                    slot = "Main Hand" # Default assumption
+                    item_obj = self.player_combatant.inventory.db.get(item_name)
+                    if item_obj and item_obj.get("Type") == "Armor": slot = "Armor"
+                    elif item_obj and "Shield" in item_obj.get("Logic_Tags", ""): slot = "Off Hand"
+                    
+                    # LOG DEFENSE CHANGE
+                    msg = f"Equipped {item_name} to {slot}."
+                    if slot == "Armor":
+                        def_stat = self.player_combatant.inventory.get_defense_stat()
+                        msg += f" Defense now uses {def_stat}."
+                        
+                    return {"success": True, "log": msg}
+                else:
+                    return {"success": False, "log": f"Could not equip '{item_name}'. (Item likely not in DB)"}
+            else:
+                 return {"success": False, "log": "Player has no Inventory System."}
+
         if self.state != "EXPLORE": return {"success": False, "reason": "Locked"}
 
         # Update Facing for all actions (only if coords provided)
@@ -1295,17 +1377,47 @@ class GameLoopController:
             if self.active_scenario and self.active_scenario["win_condition"]["type"] == "ENEMIES_KILLED":
                  self._resolve_active_event("Victory")
 
-    def get_state(self):
-        # 1. Check for Auto-Resolution (e.g. Combat Over)
-        if not self.is_event_resolved and self.active_scenario:
-            win_type = self.active_scenario["win_condition"]["type"]
-            if win_type == "ENEMIES_KILLED":
-                enemies = [c for c in self.combat_engine.combatants if c.team == "Enemies" and c.hp > 0]
-                has_grid_enemies = self.active_scene.grid_has_no_enemies() if self.active_scene else True
-                if (not enemies and self.state == "COMBAT") or (not enemies and not has_grid_enemies):
-                    self._resolve_active_event("Combat Victory")
-                    self.state = "EXPLORE"
+    def save_session(self) -> Dict[str, Any]:
+        """Serializes current world and campaign state."""
+        return {
+            "campaign_id": getattr(self, "active_campaign_id", None),
+            "scene_index": getattr(self, "current_scene_index", 0),
+            "player_pos": self.player_pos,
+            "explored_tiles": [list(pos) for pos in self.explored_tiles],
+            "state": self.state,
+            "is_event_resolved": self.is_event_resolved,
+            "chaos": {
+                "level": self.chaos.chaos_level,
+                "clock": self.chaos.chaos_clock,
+                "threshold": self.chaos.tension_threshold
+            },
+            "journal": self.journal.get_summary() # We might want to save actual journal objects if complex
+        }
 
+    def load_session(self, data: Dict[str, Any]):
+        """Restores state from a session dictionary."""
+        camp_id = data.get("campaign_id")
+        scene_idx = data.get("scene_index", 0)
+        
+        if camp_id:
+            self.active_campaign_id = camp_id
+            self.load_scene_from_file(camp_id, scene_idx)
+            
+        self.player_pos = tuple(data.get("player_pos", [0, 0]))
+        self.explored_tiles = set(tuple(p) for p in data.get("explored_tiles", []))
+        self.state = data.get("state", "EXPLORE")
+        self.is_event_resolved = data.get("is_event_resolved", True)
+        
+        c = data.get("chaos")
+        if c:
+            self.chaos.chaos_level = c.get("level", 1)
+            self.chaos.chaos_clock = c.get("clock", 0)
+            self.chaos.tension_threshold = c.get("threshold", 1)
+            
+        print(f"[GameLoop] Session Restored: {camp_id} Scene {scene_idx}")
+
+    def get_state(self):
+        # ... existing code ...
         # 2. Calculate progress
         if self.scene_stack:
             current_step = self.scene_stack.total_steps - len(self.scene_stack.stack)

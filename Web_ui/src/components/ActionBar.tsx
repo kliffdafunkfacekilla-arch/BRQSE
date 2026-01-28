@@ -30,16 +30,16 @@ export default function ActionBar({ powers = [], skills = [], onAction }: Action
     ];
 
     return (
-        <div className="h-16 bg-[#0a0a0a] border-t border-stone-800 flex items-center justify-center gap-2 px-4 shrink-0">
+        <div className="h-16 bg-[#0a0a0a] border-t border-stone-800 flex items-center gap-2 px-4 shrink-0 overflow-x-auto scrollbar-thin scrollbar-thumb-stone-800 scrollbar-track-transparent">
             {actions.map((action, i) => (
                 <button
                     key={i}
                     onClick={() => onAction && onAction(action.label)}
-                    className={`min-w-[48px] h-12 bg-stone-900 border border-stone-700 ${action.color} transition-all flex flex-col items-center justify-center gap-1 group px-2 relative`}
+                    className={`shrink-0 w-12 h-12 bg-stone-900 border border-stone-700 ${action.color} transition-all flex flex-col items-center justify-center gap-1 group px-1 relative`}
                     title={action.label}
                 >
                     <action.icon size={18} className="text-stone-400 group-hover:text-white" />
-                    <span className="text-[8px] text-stone-300 font-mono font-bold uppercase truncate max-w-[40px] text-center">{action.label}</span>
+                    <span className="text-[8px] text-stone-300 font-mono font-bold uppercase truncate w-full text-center">{action.label}</span>
                     <span className="text-[8px] text-stone-600 font-mono absolute top-0.5 right-1">{action.hotkey}</span>
                 </button>
             ))}

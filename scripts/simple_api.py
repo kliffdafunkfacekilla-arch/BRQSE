@@ -53,8 +53,9 @@ def get_player():
             if "action" in desc or "cast" in desc or "perform" in desc:
                 is_active = True
         
-        # Hardcoded overrides for common active skills if data missing
-        if s_name in ["Athletics", "Stealth", "Perception", "Medicine", "Interrogation"]:
+        # Hardcoded overrides: Only strictly 'Action' skills (Utility/Tool)
+        # "Motion" (Stealth), "Tinctures" (Heal), "Mechanism" (Unlock), "Scouting" (Search)
+        if s_name in ["Motion", "Tinctures", "Mechanism", "Scouting"]: 
             is_active = True
             
         enriched_skills.append({"name": s_name, "active": is_active, "type": "Skill"})
@@ -173,7 +174,7 @@ def game_action():
         action = data.get('action') # 'move', 'search', 'smash', etc.
         x, y = data.get('x'), data.get('y')
         
-        result = GAME_LOOP.handle_action(action, x, y)
+        result = GAME_LOOP.handle_action(action, x, y, **data)
         
         return jsonify({
             "result": result,

@@ -58,13 +58,22 @@ class MockCombatant(Combatant):
         self.is_stunned = False
         self.is_paralyzed = False
         self.is_poisoned = False
-        self.is_frightened = False
-        self.is_charmed = False
-        self.is_deafened = False
-        self.is_invisible = False
-
+        self.is_shaken = False # Added shaken
+        self._is_stunned = False 
+        
         self.charmed_by = None
         
+    @property
+    def is_stunned(self): return self._is_stunned
+    @is_stunned.setter
+    def is_stunned(self, val): self._is_stunned = val
+        
+    def apply_effect(self, name, duration):
+        # Mock application for testing
+        print(f"DEBUG: Applying effect {name} to {self.name}")
+        if name == "Stunned": self.is_stunned = True
+        if name == "Prone": self.is_prone = True
+
     def get_stat(self, name): return self.stats.get(name, 0)
     
     def get_stat_modifier(self, stat):
@@ -106,6 +115,7 @@ class TestAbilities(unittest.TestCase):
         original_get = engine_hooks.get_entity_effects
         
         def mock_get_effects(comb):
+            print(f"DEBUG: Mock called for {comb.name}")
             if comb.name == "Attacker":
                 return ["Deal 5 Fire Damage"]
             return []

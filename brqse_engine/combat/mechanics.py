@@ -160,7 +160,9 @@ class Combatant:
             self.status = None
             
         self.taunted_by = None
+        self.taunted_by = None
         self.charmed_by = None # Reference to the entity that charmed this combatant
+        self.active_effects = [] # For temporary combat effects (e.g. from spells)
         
         # FIX: Critical states
         self.is_dead = False          # True = permanently dead until revived
@@ -667,6 +669,7 @@ class CombatEngine:
         self.hazards = []
         self.aoe_templates = []
         self.replay_log = []
+        self.pending_world_updates = [] # Buffer for world changes (walls, hazards)
         
         # Tile Grid (for terrain and cover)
         self.tiles = [[Tile("normal", x, y) for x in range(cols)] for y in range(rows)]
@@ -1645,6 +1648,16 @@ class CombatEngine:
         # Consume Action
         attacker.action_used = True
         
+        # --- [NEW] HOOKS: PRE-ATTACK ---
+        context = {
+            "attacker": attacker,
+            "target": target,
+            "combat_engine": self,
+            "log": log # Pass log to allow hooks to append
+        }
+        engine_hooks.apply_hooks(attacker, "ON_ATTACK", context)
+        # -------------------------------
+        
         # 1. Determine Damage Dice & Type
         dmg_dice = "1d4"
         damage_type = "Bludgeoning"
@@ -1758,6 +1771,10 @@ class CombatEngine:
         def_raw_d20 = target.roll_with_advantage(def_adv, def_dis)
         def_roll = def_total_mod + def_raw_d20
         
+        # --- [NEW] HOOKS: ON DEFEND ---
+        engine_hooks.apply_hooks(target, "ON_DEFEND", context)
+        # ------------------------------
+        
         # MARGIN CALCULATION
         margin = hit_score - def_roll
         
@@ -1786,6 +1803,10 @@ class CombatEngine:
                 was_killed = target.take_damage(damage)
                 log.append(f"HIT! ({margin}). Dealt {damage} HP damage.")
                 self.replay_log.append({"type": "hit", "actor": attacker.name, "target": target.name, "damage": damage, "margin": margin})
+                
+                # --- [NEW] HOOKS: ON HIT ---
+                engine_hooks.apply_hooks(attacker, "ON_HIT", context)
+                # ---------------------------
                 if was_killed: log.append(f"{target.name} is SLAIN!")
                 
             else:
@@ -1797,6 +1818,11 @@ class CombatEngine:
                 injuries = ["Broken Arm", "Concussion", "Bleeding Out", "Cracked Ribs"]
                 injury = random.choice(injuries)
                 target.apply_effect(injury, duration=-1) # Permanent
+                
+                # --- [NEW] HOOKS: ON CRIT / HIT ---
+                engine_hooks.apply_hooks(attacker, "ON_HIT", context) # Crits count as hits
+                engine_hooks.apply_hooks(attacker, "ON_CRIT", context)
+                # ----------------------------------
                 
                 log.append(f"CRITICAL HIT! ({margin}). {damage} damage + Injury: {injury}!")
                 self.replay_log.append({"type": "crit", "actor": attacker.name, "target": target.name, "damage": damage, "injury": injury, "margin": margin})
@@ -1954,7 +1980,7 @@ class CombatEngine:
 
         return log
 
-    def activate_ability(self, char, ability_name, target=None):
+    def activate_ability(self, char, ability_name, target=None, **kwargs):
         destination_name = target.name if target else "Self/Area"
         log = [f"{char.name} uses {ability_name} on {destination_name}!"]
         

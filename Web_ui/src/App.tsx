@@ -49,7 +49,7 @@ interface WorldStatus {
 }
 
 function App() {
-  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'character' | 'inventory' | 'journal' | 'skills' | 'builder' | 'create' | 'selector'>('start');
+  const [currentView, setCurrentView] = useState<'start' | 'tavern' | 'world' | 'gameplay' | 'character' | 'inventory' | 'journal' | 'skills' | 'builder' | 'create' | 'selector' | 'options' | 'manager'>('start');
   const [apiOnline, setApiOnline] = useState(false);
   const [showDevTools, setShowDevTools] = useState(false);
   const [playerState, setPlayerState] = useState<PlayerState | null>(null);
@@ -134,21 +134,28 @@ function App() {
 
   const handleEquip = async (itemName: string) => {
     if (!playerState) return;
-    let slot = "Main Hand";
-    const n = itemName.toLowerCase();
-    if (n.includes('shield')) slot = "Off Hand";
-    else if (n.includes('armor') || n.includes('plate') || n.includes('robe')) slot = "Body";
 
-    const newEquipment = { ...playerState.equipment, [slot]: itemName };
-    const newState = { ...playerState, equipment: newEquipment };
-    setPlayerState(newState);
+    try {
+      const res = await fetch('/api/game/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: "equip", item: itemName })
+      });
+      const data = await res.json();
 
-    await fetch('/api/player', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newState)
-    });
-    addLog('GEAR', `Equipped ${itemName}`);
+      if (data.result && data.result.success) {
+        if (data.result.log) addLog('GEAR', data.result.log);
+        else addLog('GEAR', `Equipped ${itemName}`);
+
+        // Refresh state
+        fetchData();
+        loadPlayerState();
+      } else {
+        addLog('GEAR', `Failed: ${data.result?.log || "Unknown error"}`, 'error');
+      }
+    } catch (e) {
+      addLog('SYSTEM', `Connection Error: ${e}`, 'error');
+    }
   };
 
   const [activeAbility, setActiveAbility] = useState<string | null>(null);
@@ -190,19 +197,69 @@ function App() {
   if (currentView === 'start') {
     return (
       <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
-        <MainMenu onStart={() => setCurrentView('selector')} onCreate={() => setCurrentView('create')} />
+        <MainMenu
+          onStart={() => setCurrentView('create')}
+          onLoad={() => setCurrentView('selector')}
+          onManage={() => setCurrentView('manager')}
+          onOptions={() => setCurrentView('options')}
+        />
       </div>
     );
   }
 
-  if (currentView === 'selector') {
+  if (currentView === 'selector' || currentView === 'manager') {
     return (
       <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
         <HeroSelector
           onSelect={() => { loadPlayerState(); setCurrentView('tavern'); }}
           onCreate={() => setCurrentView('create')}
           onBack={() => setCurrentView('start')}
+          isManageMode={currentView === 'manager'}
         />
+      </div>
+    );
+  }
+
+  if (currentView === 'options') {
+    return (
+      <div className="h-screen w-screen bg-[#050505] text-stone-400 font-serif flex flex-col overflow-hidden">
+        <div className="flex-1 flex items-center justify-center p-8 bg-grid-pattern bg-[#050505]">
+          <div className="w-full max-w-2xl bg-black/80 border border-stone-800 p-8 backdrop-blur-xl relative">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#92400e] to-transparent" />
+            <h2 className="text-2xl font-black text-white uppercase tracking-[0.3em] mb-8 border-b border-stone-900 pb-4">Codex <span className="text-[#92400e]">Options</span></h2>
+
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold text-stone-500 uppercase tracking-widest border-l-2 border-[#92400e] pl-2">Display & Visuals</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-stone-900/40 border border-stone-800 p-4">
+                    <p className="text-[10px] text-stone-400 uppercase font-bold mb-2">Ambient Particles</p>
+                    <button className="text-xs text-[#92400e] font-serif italic">Enabled</button>
+                  </div>
+                  <div className="bg-stone-900/40 border border-stone-800 p-4">
+                    <p className="text-[10px] text-stone-400 uppercase font-bold mb-2">UI Scaling</p>
+                    <button className="text-xs text-stone-600 font-serif italic">100%</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold text-stone-500 uppercase tracking-widest border-l-2 border-stone-700 pl-2">Audio Weaving</h3>
+                <div className="bg-stone-900/40 border border-stone-800 p-4 flex justify-between items-center">
+                  <p className="text-[10px] text-stone-400 uppercase font-bold">Atmospheres</p>
+                  <div className="h-1 w-32 bg-stone-800 rounded-full relative"><div className="absolute left-0 top-0 h-full w-[70%] bg-[#92400e]" /></div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setCurrentView('start')}
+              className="mt-12 px-8 py-2 bg-stone-900 border border-stone-800 hover:border-[#92400e] text-stone-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest"
+            >
+              Seal Codex
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

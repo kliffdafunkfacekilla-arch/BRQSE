@@ -10,13 +10,16 @@ def handle_skill_buff(match, ctx):
 
 def handle_skill_advantage(match, ctx):
     if "log" in ctx: ctx["log"].append("Skill Advantage Applied.")
+    if "advantage" in ctx: ctx["advantage"] = True
 
 def handle_stat_buff(match, ctx):
     stat = match.group(1)
-    if "log" in ctx: ctx["log"].append(f"Stat Buff: {stat} Increased.")
+    if "log" in ctx: ctx["log"].append(f"Stat Buff ({stat}): Gains Advantage.")
+    if "advantage" in ctx: ctx["advantage"] = True
 
 def handle_stat_drain(match, ctx):
-    if "log" in ctx: ctx["log"].append("Stat Drained.")
+    if "log" in ctx: ctx["log"].append("Stat Drained: Gains Disadvantage.")
+    if "disadvantage" in ctx: ctx["disadvantage"] = True
 
 def handle_natural_armor_buff(match, ctx):
     if "log" in ctx: ctx["log"].append("Natural Armor Buff.")
@@ -61,20 +64,22 @@ def handle_disadvantage(match, ctx):
     if "log" in ctx: ctx["log"].append("Disadvantage Applied.")
 
 def handle_die_hit_bonus(match, ctx):
-    if "log" in ctx: ctx["log"].append("Bonus Die to Hit.")
+    if "log" in ctx: ctx["log"].append("Bonus Die to Hit (Converted to Advantage).")
+    if "advantage" in ctx: ctx["advantage"] = True
 
 def handle_die_hit_penalty(match, ctx):
-    if "log" in ctx: ctx["log"].append("Penalty Die to Hit.")
+    if "log" in ctx: ctx["log"].append("Penalty Die to Hit (Converted to Disadvantage).")
+    if "disadvantage" in ctx: ctx["disadvantage"] = True
 
 def handle_to_hit_bonus(match, ctx):
     val = int(match.group(1))
-    if "hit_mod" in ctx: ctx["hit_mod"] += val
-    if "log" in ctx: ctx["log"].append(f"+{val} to Hit.")
+    if "log" in ctx: ctx["log"].append(f"+{val} to Hit (Converted to Advantage).")
+    if "advantage" in ctx: ctx["advantage"] = True
 
 def handle_to_hit_penalty(match, ctx):
     val = int(match.group(1))
-    if "hit_mod" in ctx: ctx["hit_mod"] -= val
-    if "log" in ctx: ctx["log"].append(f"-{val} to Hit.")
+    if "log" in ctx: ctx["log"].append(f"-{val} to Hit (Converted to Disadvantage).")
+    if "disadvantage" in ctx: ctx["disadvantage"] = True
 
 def handle_time_stop(match, ctx):
     if "log" in ctx: ctx["log"].append("Time Stop Active.")
