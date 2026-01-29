@@ -32,7 +32,7 @@ export default function GameVisualizer() {
     useEffect(() => {
         const fetchState = async () => {
             try {
-                const res = await fetch('http://localhost:5001/api/game/state');
+                const res = await fetch('/api/game/state');
                 const data = await res.json();
                 setState(data);
             } catch (e) {
@@ -49,7 +49,7 @@ export default function GameVisualizer() {
         // Simple click-to-move for now
         // In real visualizer, we might show a path first
         try {
-            const res = await fetch('http://localhost:5001/api/game/move', {
+            const res = await fetch('/api/game/action', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ x, y })

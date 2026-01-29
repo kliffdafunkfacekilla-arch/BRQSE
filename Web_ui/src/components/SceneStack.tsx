@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Skull, Clock, Dices, ChevronRight, Map, Flag } from 'lucide-react';
+import { Skull, Clock, Dices, ChevronRight, Flag, ChevronUp, ChevronDown } from 'lucide-react';
 
 interface Atmosphere {
     tone: string;
@@ -29,12 +29,13 @@ interface Scene {
     remaining: number;
 }
 
-const API_BASE = 'http://localhost:5001/api';
+const API_BASE = '/api';
 
 export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: string, type: 'info' | 'combat') => void, onSceneChange?: () => void }) {
     const [world, setWorld] = useState<WorldState | null>(null);
     const [currentScene, setCurrentScene] = useState<Scene | null>(null);
     const [loading, setLoading] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     // Poll world status
     const fetchStatus = async () => {
@@ -115,92 +116,93 @@ export default function SceneStack({ onLog, onSceneChange }: { onLog: (msg: stri
     const hasQuest = world.quest && world.quest.title !== "None";
 
     return (
-        <div className="absolute top-4 left-4 z-[60] w-64 bg-black/90 border border-stone-800 p-3 backdrop-blur-sm pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+        <div className={`absolute top-4 left-4 z-[60] ${isCollapsed ? 'w-48' : 'w-56'} bg-black/90 border border-stone-800 backdrop-blur-sm pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.8)] transition-all duration-300`}>
+
+            {/* HUD TOGGLE */}
+            <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="absolute -bottom-6 left-0 bg-black/90 border border-stone-800 border-t-0 px-2 py-1 text-[8px] font-bold text-stone-500 hover:text-white flex items-center gap-1 transition-all"
+            >
+                {isCollapsed ? <ChevronDown size={8} /> : <ChevronUp size={8} />}
+                {isCollapsed ? 'EXPAND HUD' : 'COLLAPSE HUD'}
+            </button>
 
             {/* ATMOSPHERE HEADER */}
-            <div className={`text-xs font-bold uppercase tracking-widest mb-2 pb-2 border-b border-stone-800 ${clockColor}`}>
-                {world.atmosphere.tone} ATMOSPHERE
+            <div className={`text-[10px] font-bold uppercase tracking-widest p-2 border-b border-stone-800 flex justify-between items-center ${clockColor}`}>
+                <span>{world.atmosphere.tone} ATMOSPHERE</span>
+                {isCollapsed && <Clock size={10} className="text-stone-500" />}
             </div>
 
-            {/* METRICS GRID */}
-            <div className="grid grid-cols-2 gap-2 mb-3">
-                {/* CHAOS CLOCK */}
-                <div className="bg-stone-900/50 p-2 rounded flex flex-col items-center border border-stone-800">
-                    <div className="flex items-center gap-1 text-[10px] text-stone-500 uppercase mb-1">
-                        <Clock size={10} /> Chaos Clock
-                    </div>
-                    <div className="text-xl font-mono relative">
-                        {world.chaos_clock} <span className="text-stone-600 text-xs">/ 12</span>
-                        {world.is_doomed && <Skull size={12} className="absolute -top-1 -right-4 text-red-500 animate-bounce" />}
-                    </div>
-                </div>
-
-                {/* TENSION DIE */}
-                <div className="bg-stone-900/50 p-2 rounded flex flex-col items-center border border-stone-800 cursor-pointer hover:bg-stone-800 transition-colors"
-                    onClick={handleRollTension}>
-                    <div className="flex items-center gap-1 text-[10px] text-stone-500 uppercase mb-1">
-                        <Dices size={10} /> Tension (1-{world.tension_threshold})
-                    </div>
-                    <div className="text-xl font-mono text-[#00f2ff]">
-                        d10
-                    </div>
-                </div>
-            </div>
-
-            {/* QUEST & SCENE CARD */}
-            <div className="mb-3 space-y-2">
-
-                {/* Active Quest Header */}
-                {hasQuest ? (
-                    <div className="border border-stone-800 bg-stone-900/80 p-2 rounded">
-                        <div className="flex justify-between items-start mb-1">
-                            <div className="flex items-center gap-1 text-[10px] text-[#00f2ff] uppercase font-bold">
-                                <Flag size={10} /> {world.quest.title}
+            {!isCollapsed && (
+                <div className="p-2">
+                    {/* METRICS GRID */}
+                    <div className="grid grid-cols-2 gap-1.5 mb-2">
+                        {/* CHAOS CLOCK */}
+                        <div className="bg-stone-900/50 p-1.5 rounded flex flex-col items-center border border-stone-800">
+                            <div className="flex items-center gap-1 text-[8px] text-stone-500 uppercase mb-0.5">
+                                <Clock size={8} /> Chaos
                             </div>
-                            <div className="text-[9px] text-stone-500">{world.quest.progress}</div>
+                            <div className="text-sm font-mono relative">
+                                {world.chaos_clock} <span className="text-stone-600 text-[10px]">/ 12</span>
+                                {world.is_doomed && <Skull size={10} className="absolute -top-1 -right-3 text-red-500 animate-bounce" />}
+                            </div>
                         </div>
-                        <div className="text-[10px] text-stone-400 italic leading-tight">
-                            "{world.quest.description}"
+
+                        {/* TENSION DIE */}
+                        <div className="bg-stone-900/50 p-1.5 rounded flex flex-col items-center border border-stone-800 cursor-pointer hover:bg-stone-800 transition-colors"
+                            onClick={handleRollTension}>
+                            <div className="flex items-center gap-1 text-[8px] text-stone-500 uppercase mb-0.5">
+                                <Dices size={8} /> Tension
+                            </div>
+                            <div className="text-sm font-mono text-[#00f2ff]">
+                                1-{world.tension_threshold}
+                            </div>
                         </div>
                     </div>
-                ) : (
-                    <button onClick={generateQuest} disabled={loading} className="w-full py-3 border border-dashed border-stone-700 text-stone-500 text-xs hover:text-[#00f2ff] hover:border-[#00f2ff]">
-                        + GENERATE NEW QUEST
-                    </button>
-                )}
 
-                {/* Current Scene Node */}
-                {currentScene && hasQuest && (
-                    <div className="ml-2 relative border-l-2 border-stone-700 pl-3 py-1">
-                        <div className="absolute -left-[5px] top-3 w-2 h-2 rounded-full bg-stone-500" />
+                    {/* QUEST & SCENE CARD */}
+                    <div className="space-y-1.5">
+                        {hasQuest ? (
+                            <div className="border border-stone-800 bg-stone-900/80 p-1.5 rounded">
+                                <div className="flex justify-between items-start mb-0.5">
+                                    <div className="flex items-center gap-1 text-[9px] text-[#00f2ff] uppercase font-bold truncate">
+                                        <Flag size={9} /> {world.quest.title}
+                                    </div>
+                                    <div className="text-[8px] text-stone-500 shrink-0">{world.quest.progress}</div>
+                                </div>
+                                <div className="text-[9px] text-stone-500 italic leading-tight line-clamp-2">
+                                    "{world.quest.description}"
+                                </div>
+                            </div>
+                        ) : (
+                            <button onClick={generateQuest} disabled={loading} className="w-full py-2 border border-dashed border-stone-700 text-stone-500 text-[10px] hover:text-[#00f2ff] hover:border-[#00f2ff]">
+                                + NEW QUEST
+                            </button>
+                        )}
 
-                        <div className="text-[9px] text-stone-500 uppercase mb-0.5 flex justify-between">
-                            <span>Current Location</span>
-                        </div>
-
-                        <div className="bg-stone-900 border border-stone-700 p-3 relative overflow-visible group shadow-lg">
-                            <div className="relative z-10">
-                                <div className="text-sm font-bold text-stone-200 mb-2 leading-snug">{currentScene.text}</div>
-                                <div className={`text-[10px] inline-block px-1.5 py-0.5 rounded font-bold uppercase tracking-wider ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
+                        {currentScene && hasQuest && (
+                            <div className="bg-stone-900 border border-stone-700 p-2 relative overflow-hidden group shadow-lg">
+                                <div className="text-[9px] font-bold text-stone-200 mb-1 leading-tight truncate">{currentScene.text}</div>
+                                <div className={`text-[8px] inline-block px-1 py-0.25 rounded font-bold uppercase tracking-wider ${currentScene.encounter_type === 'COMBAT' ? 'bg-red-900/50 text-red-200 border border-red-800' :
                                     'bg-stone-800 text-stone-400 border border-stone-700'
                                     }`}>
                                     {currentScene.encounter_type}
                                 </div>
-                            </div>
-                            {/* Advance Button (Hover) - Only show if resolved? No, always allow manual override for now */}
-                            <div className="absolute -bottom-3 -right-3 bg-stone-900 border border-stone-600 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all cursor-pointer shadow-xl hover:scale-110 hover:border-[#00f2ff] z-20"
-                                onClick={handleAdvanceScene} title="Force Advance Scene">
-                                <ChevronRight size={16} className="text-[#00f2ff]" />
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
 
-            {/* DESCRIPTOR */}
-            {world.atmosphere.descriptor && (
-                <div className="text-[10px] text-stone-400 italic font-serif border-l-2 border-stone-700 pl-2">
-                    "{world.atmosphere.descriptor}"
+                                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-all cursor-pointer hover:scale-110"
+                                    onClick={handleAdvanceScene} title="Force Advance">
+                                    <ChevronRight size={12} className="text-[#00f2ff]" />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* DESCRIPTOR */}
+                    {world.atmosphere.descriptor && (
+                        <div className="text-[9px] text-stone-500 italic font-serif border-l-2 border-stone-800 pl-2 mt-2 line-clamp-2">
+                            "{world.atmosphere.descriptor}"
+                        </div>
+                    )}
                 </div>
             )}
         </div>

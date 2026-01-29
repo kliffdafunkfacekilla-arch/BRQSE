@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { User, Save, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, Book, Shield, Swords, Sparkles, Shuffle, Activity, Heart, Zap, Scroll } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5001/api';
+const API_BASE = '/api';
 
 // --- Interfaces ---
 interface SpeciesBase {

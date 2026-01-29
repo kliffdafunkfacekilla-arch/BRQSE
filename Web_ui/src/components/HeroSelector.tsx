@@ -46,7 +46,7 @@ export default function HeroSelector({ onSelect, onCreate, onBack, isManageMode 
             const res = await fetch('/api/character/load', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: hero.filename })
+                body: JSON.stringify({ name: hero.filename }) // Filename includes the .base part
             });
             if (res.ok) {
                 onSelect(hero.name);
@@ -145,36 +145,34 @@ export default function HeroSelector({ onSelect, onCreate, onBack, isManageMode 
 
                                 {/* Management Actions */}
                                 {isManageMode && (
-                                    <div className="absolute inset-0 bg-black/80 backdrop-blur-md opacity-0 hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-6 text-center gap-4">
+                                    <div className="absolute inset-0 bg-black/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 flex flex-col items-center justify-center p-6 text-center gap-4 z-40 pointer-events-none group-hover:pointer-events-auto">
                                         {confirmDelete === hero.filename ? (
-                                            <div className="animate-fade-in flex flex-col items-center gap-4">
+                                            <div className="animate-fade-in flex flex-col items-center gap-4 pointer-events-auto">
                                                 <AlertTriangle className="text-red-600 animate-bounce" size={32} />
-                                                <p className="text-[10px] font-bold text-stone-300 uppercase leading-relaxed">This soul will be lost forever.<br />Confirm erasure?</p>
+                                                <p className="text-[10px] font-bold text-white uppercase leading-relaxed">This soul will be lost forever.<br />Confirm erasure?</p>
                                                 <div className="flex gap-2 w-full">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleDeleteHero(hero.filename); }}
-                                                        className="flex-1 py-1.5 bg-red-900/40 border border-red-800 text-red-200 text-[9px] font-bold uppercase tracking-widest hover:bg-red-900"
+                                                        className="flex-1 py-1.5 bg-red-900/60 border border-red-800 text-red-200 text-[9px] font-bold uppercase tracking-widest hover:bg-red-700 transition-colors"
                                                     >
-                                                        Erase
+                                                        Confirm
                                                     </button>
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); setConfirmDelete(null); }}
-                                                        className="flex-1 py-1.5 bg-stone-800 border border-stone-700 text-stone-400 text-[9px] font-bold uppercase tracking-widest hover:text-white"
+                                                        className="flex-1 py-1.5 bg-stone-800 border border-stone-700 text-stone-300 text-[9px] font-bold uppercase tracking-widest hover:bg-stone-700 transition-colors"
                                                     >
                                                         Cancel
                                                     </button>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <>
-                                                <button
-                                                    onClick={(e) => { e.stopPropagation(); setConfirmDelete(hero.filename); }}
-                                                    className="w-full py-2 bg-stone-900/60 border border-red-900/40 text-red-800 hover:text-red-500 hover:border-red-600 transition-all flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest"
-                                                >
-                                                    <Trash2 size={14} />
-                                                    Sever Soul
-                                                </button>
-                                            </>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); setConfirmDelete(hero.filename); }}
+                                                className="w-full py-2 bg-red-900/20 border border-red-900/40 text-red-500 hover:text-white hover:bg-red-900/40 hover:border-red-600 transition-all flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest pointer-events-auto"
+                                            >
+                                                <Trash2 size={14} />
+                                                Sever Soul
+                                            </button>
                                         )}
                                     </div>
                                 )}

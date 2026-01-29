@@ -31,13 +31,14 @@ class StoryDirector:
                 print(f"[StoryDirector] Internal AI fail: {e}")
                 return None
         
+        # Fallback to HTTP
         payload = {
             "prompt": f"System: You are a creative game master.\nUser: {prompt}\nAssistant:",
-            "max_new_tokens": 60,
+            "max_new_tokens": 100,
             "temperature": temp
         }
         try:
-            response = requests.post(self.api_url, json=payload, timeout=5) # Increased timeout slightly
+            response = requests.post(self.api_url, json=payload, timeout=5)
             if response.status_code == 200:
                 text = response.json().get("response", "").strip().strip('"')
                 return text

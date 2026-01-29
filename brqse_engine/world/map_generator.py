@@ -1,32 +1,12 @@
 import random
 from typing import Dict, Any, List, Tuple
-from scripts.world_engine import Scene
+from brqse_engine.world.world_system import Scene
 
-# TILE CONSTANTS
-TILE_WALL = 0
-TILE_FLOOR = 1
-TILE_COVER = 2
-TILE_ENEMY = 3
-TILE_DOOR = 4
-TILE_HAZARD = 5
-TILE_LOOT = 6
-TILE_DOOR = 2
-TILE_TAVERN = 3
-TILE_MERCHANT = 4
-TILE_LOOT = 5
-TILE_ENEMY = 6
-TILE_HAZARD = 7
+from brqse_engine.world.donjon_generator import Cell
 
-# Donjon Flags (Mirroring donjon_generator.py)
-DJ_NOTHING     = 0
-DJ_BLOCKED     = 1
-DJ_ROOM        = 2
-DJ_CORRIDOR    = 4
-DJ_PERIMETER   = 8
-DJ_ENTRANCE    = 16
-DJ_DOOR        = 0x20000
-DJ_STAIR_DN    = 0x200000
-DJ_STAIR_UP    = 0x400000
+# TILE CONSTANTS (Synchronized with Arena.tsx)
+# Note: Arena.tsx logic handles both simple ints (Old Generator) and Donjon Flags (New Generator)
+# But for object placement we must respect the bitmask.
 
 class MapGenerator:
     """
@@ -35,17 +15,16 @@ class MapGenerator:
 
     def __init__(self, chaos_manager=None):
         self.chaos = chaos_manager
-        self.ROWS = 20
-        self.COLS = 20
 
-    def _generate_shape(self, shape_type: str) -> List[List[int]]:
-        grid = [[TILE_WALL for _ in range(self.COLS)] for _ in range(self.ROWS)]
-        for y in range(2, self.ROWS-2):
-            for x in range(2, self.COLS-2): grid[y][x] = TILE_FLOOR
-        return grid
-
-    def _furnish_biome(self, grid: List[List[int]], biome: str, enc_type: str = "EMPTY") -> Tuple[List[List[int]], List[Dict]]:
+    def furnish_biome(self, grid: List[List[int]], biome: str, enc_type: str = "EMPTY") -> List[Dict]:
+        """
+        Populates a Donjon-generated grid with interactive objects.
+        Respects Cell flags to avoid blocking doors/stairs.
+        Returns a list of object dicts.
+        """
         interactables = []
+        rows = len(grid)
+        cols = len(grid[0])
         
         # Standard Obstacles
         BANK = {
@@ -71,37 +50,39 @@ class MapGenerator:
         object_types = list(BANK.keys())
         specials = SPECIALS.get(enc_type, {})
 
-        for y in range(len(grid)):
-            for x in range(len(grid[0])):
-                if grid[y][x] == TILE_FLOOR:
+        for y in range(rows):
+            for x in range(cols):
+                cell_val = grid[y][x]
+                
+                # Check for Valid Floor (Must be a Room or Corridor)
+                # AND NOT Blocking features (Door, Stairs, Blocked)
+                if (cell_val & Cell.ROOM) and not (cell_val & (Cell.DOORSPACE | Cell.STAIR_DN | Cell.STAIR_UP | Cell.BLOCKED)):
+                    
+                    # Density Check (approx 5% chance per tile)
                     r = random.random()
                     
-                    # Place Specials with higher priority but lower frequency
-                    if specials and r > 0.98:
+                    # Place Specials (Rare: 0.5% chance)
+                    if specials and r > 0.995:
                         obj_type = random.choice(list(specials.keys()))
                         interactables.append({
-                            "x": x, "y": y, 
                             "type": obj_type, 
+                            "name": obj_type,
+                            "x": x, "y": y, 
                             "tags": specials[obj_type],
                             "is_blocking": True
                         })
-                        grid[y][x] = TILE_LOOT
-                    elif r > 0.95:
+                        # NOTE: We do NOT modify the grid here because we don't want to break the Donjon bitmask.
+                        # The client (Arena.tsx) renders objects on top.
+                        
+                    # Place Standard (Common: 3% chance)
+                    elif r > 0.97:
                         obj_type = random.choice(object_types)
                         interactables.append({
-                            "x": x, "y": y, 
                             "type": obj_type, 
+                            "name": obj_type,
+                            "x": x, "y": y, 
                             "tags": BANK[obj_type],
                             "is_blocking": True
                         })
-                        grid[y][x] = TILE_LOOT 
                         
-        return grid, interactables
-
-    def _place_enemies(self, grid: List[List[int]], count: int = 1):
-        placed = 0
-        while placed < count:
-            ex, ey = random.randint(5, self.COLS-2), random.randint(2, self.ROWS-2)
-            if grid[ey][ex] == TILE_FLOOR:
-                grid[ey][ex] = TILE_ENEMY
-                placed += 1
+        return interactables

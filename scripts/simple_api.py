@@ -21,7 +21,7 @@ GAME_STATE = GameState(BASE_DIR)
 
 # --- WORLD & LOOP ---
 # --- WORLD & LOOP ---
-from scripts.world_engine import ChaosManager
+from brqse_engine.world.world_system import ChaosManager
 from brqse_engine.core.game_loop import GameLoopController
 from brqse_engine.core.sensory_layer import SensoryLayer
 
@@ -64,14 +64,16 @@ def get_player():
     if GAME_LOOP.player_combatant:
         c = GAME_LOOP.player_combatant
         p_data.update({
+            "current_hp": c.hp,
+            "max_hp": c.max_hp,
             "sp": c.sp,
             "max_sp": c.max_sp,
             "fp": c.fp,
             "max_fp": c.max_fp,
             "cmp": c.cmp,
             "max_cmp": c.max_cmp,
-            # Ensure sprite is consistent with active combatant
-            "sprite": c.data.get("Sprite") or c.data.get("sprite") or p_data.get("sprite")
+            "active_effects": list(c.status._active_conditions),
+            "sprite": c.sprite
         })
 
     p_data["powers"] = enriched_powers
@@ -136,8 +138,7 @@ def roll_tension_api():
 
 @app.route('/api/world/quest/generate', methods=['POST'])
 def generate_quest_api():
-    GAME_LOOP.scene_stack.generate_quest()
-    GAME_LOOP.advance_scene()
+    GAME_LOOP.start_new_campaign()
     return jsonify({
         "title": GAME_LOOP.scene_stack.quest_title,
         "steps": GAME_LOOP.scene_stack.total_steps
@@ -199,7 +200,7 @@ def game_action():
 @app.route('/api/character/save', methods=['POST'])
 def save_character():
     data = request.get_json()
-    name = data.get("Name")
+    name = data.get("Name") or data.get("name") # Handle both cases
     if not name:
         return jsonify({"error": "Name is required"}), 400
     
@@ -207,36 +208,50 @@ def save_character():
     if not os.path.exists(saves_dir):
         os.makedirs(saves_dir)
     
-    fpath = os.path.join(saves_dir, f"{name}.json")
-    with open(fpath, 'w') as f:
+    # 1. Save Character JSON
+    char_fpath = os.path.join(saves_dir, f"{name}.json")
+    with open(char_fpath, 'w') as f:
         json.dump(data, f, indent=4)
+    
+    # 2. Save World Session (linked to character)
+    session_data = GAME_LOOP.save_session()
+    sess_fpath = os.path.join(saves_dir, f"{name}.session.json")
+    with open(sess_fpath, 'w') as f:
+        json.dump(session_data, f, indent=4)
     
     # Also update current player if it's the one being saved
     GAME_STATE.update_player(data)
-    GAME_LOOP.load_player()
     
-    return jsonify({"status": "saved", "path": fpath})
+    return jsonify({"status": "saved", "character": char_fpath, "session": sess_fpath})
 
 @app.route('/api/character/load', methods=['POST'])
 def load_character_api():
-    data = request.get_json()
-    name = data.get("name") # This is the filename without .json
-    if not name:
-        return jsonify({"error": "Name is required"}), 400
-    
-    fpath = os.path.join(GAME_STATE.get_saves_dir(), f"{name}.json")
-    if not os.path.exists(fpath):
-        return jsonify({"error": "Character file not found"}), 404
-        
+    """Loads a character and their linked session."""
     try:
-        with open(fpath, 'r') as f:
+        data = request.get_json()
+        name = data.get("name") # Expecting the filename base
+        
+        saves_dir = GAME_STATE.get_saves_dir()
+        char_path = os.path.join(saves_dir, f"{name}.json")
+        sess_path = os.path.join(saves_dir, f"{name}.session.json")
+        
+        if not os.path.exists(char_path):
+            return jsonify({"error": "Soul not found"}), 404
+            
+        # Load Character
+        with open(char_path, 'r') as f:
             char_data = json.load(f)
         
-        # Update current game state player
+        # Sync with GameState and GameLoop
         GAME_STATE.update_player(char_data)
-        # Force game loop to refresh player instance
         GAME_LOOP.load_player()
         
+        # Load Session if exists
+        if os.path.exists(sess_path):
+            with open(sess_path, 'r') as f:
+                session_data = json.load(f)
+            GAME_LOOP.load_session(session_data)
+            
         return jsonify({"status": "loaded", "character": char_data})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

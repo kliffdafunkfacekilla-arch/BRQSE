@@ -92,3 +92,59 @@ def handle_withdraw(match, ctx):
 
 def handle_calculate_defense(match, ctx):
     if "log" in ctx: ctx["log"].append("Calculating Defense Pattern.")
+
+def handle_parry(match, ctx):
+    """Parry: Reduce incoming melee damage"""
+    if "damage_taken" in ctx and "damage_type" in ctx and ctx["damage_type"] == "Physical":
+        reduce = 3 # Basic parry value, could scale
+        ctx["damage_taken"] = max(0, ctx["damage_taken"] - reduce)
+        if "log" in ctx: ctx["log"].append(f"Parried! Reduced damage by {reduce}.")
+
+def handle_deflect(match, ctx):
+    """Deflect: Redirect attack to adjacent (Narrative/Log only for now)"""
+    if "log" in ctx: ctx["log"].append("Deflected attack to side!")
+
+def handle_flow(match, ctx):
+    """Flow: Move 5ft when hit (Reaction)"""
+    if "log" in ctx: ctx["log"].append("Flows with the hit (5ft shift).")
+
+def handle_amorphous(match, ctx):
+    """Liquid form"""
+    if "crit_immune" in ctx: ctx["crit_immune"] = True
+    if "log" in ctx: ctx["log"].append("Amorphous (Immune to Crits/Grapple).")
+
+def handle_intangible(match, ctx):
+    """Permanent Phasing"""
+    if "log" in ctx: ctx["log"].append("Intangible (Phasing).")
+
+def handle_catch(match, ctx):
+    """Catch: Snatch weapon/item thrown at you."""
+    if "damage_taken" in ctx and "damage_type" in ctx and ctx["damage_type"] == "Physical":
+        ctx["damage_taken"] = 0
+        if "log" in ctx: ctx["log"].append("Caught the projectile! (0 Damage)")
+
+def handle_brace(match, ctx):
+    """Brace: Ignore Knockback/Prone"""
+    if "log" in ctx: ctx["log"].append("Braced! (Immune to Knockback/Prone)")
+
+def handle_orbit(match, ctx):
+    """Orbit: Shield of debris"""
+    # Mechanically could be temp HP or AC
+    handle_ac_buff(type("Match", (), {"group": lambda s, n: "2"})(), ctx)
+    if "log" in ctx: ctx["log"].append("Debris Orbit (+2 AC).")
+
+def handle_event_horizon(match, ctx):
+    """Event Horizon: Absorb magical projectiles"""
+    # Simplistic implementation: Negate damage if magical/projectile context?
+    if "log" in ctx: ctx["log"].append("Event Horizon Active (Absorbs Magic).")
+
+def handle_reflect_damage(match, ctx):
+    """Reflect incoming damage back to attacker"""
+    if "log" in ctx: ctx["log"].append("Reflecting Damage!")
+    if "damage_taken" in ctx:
+        # Simplistic reflection logging
+        amt = ctx["damage_taken"]
+        ctx["damage_taken"] = 0
+        if "attacker" in ctx and ctx["attacker"]:
+             # If engine allows, deal damage back. For now log.
+             ctx["log"].append(f"Reflected {amt} damage back to attacker.")

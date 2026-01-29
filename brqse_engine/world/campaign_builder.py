@@ -6,6 +6,7 @@ import shutil
 
     # Correct import paths based on project structure
 from brqse_engine.world.donjon_generator import DonjonGenerator, Cell
+from brqse_engine.world.map_generator import MapGenerator
 from brqse_engine.world.story_director import StoryDirector
 from brqse_engine.world.story_weaver import StoryWeaver
 from scripts.world_engine import SceneStack, ChaosManager
@@ -19,6 +20,7 @@ class CampaignBuilder:
     def __init__(self, sensory_layer=None):
         self.chaos = ChaosManager()
         self.stack_gen = SceneStack(self.chaos)
+        self.map_gen = MapGenerator(self.chaos)
         self.director = StoryDirector(sensory_layer=sensory_layer)
         self.weaver = StoryWeaver(sensory_layer=sensory_layer)
         self.save_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "Saves", "Campaigns")
@@ -101,7 +103,12 @@ class CampaignBuilder:
         map_data["scene_index"] = index
         map_data["biome"] = biome
         
-        # 2. Inject Narrative (Director)
+        # 2. Populate Objects (MapGenerator)
+        # Using the Donjon Grid directly
+        objects = self.map_gen.furnish_biome(map_data["grid"], biome, scene.encounter_type)
+        map_data["objects"] = objects
+        
+        # 3. Inject Narrative (Director)
         # We need a new/modified method or re-use direct_scene with context
         # For now, I'll manually inject the basics here, 
         # or call a helper in Director if I update it.

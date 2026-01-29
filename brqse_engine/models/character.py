@@ -34,6 +34,15 @@ class Character:
         self.max_hp = self._calculate_max_hp()
         self.current_hp = data.get("Current_HP", data.get("current_hp", self.max_hp))
         
+        self.max_sp = self._calculate_max_sp()
+        self.sp = data.get("Current_SP", data.get("sp", data.get("current_sp", self.max_sp)))
+        
+        self.max_fp = self._calculate_max_fp()
+        self.fp = data.get("Current_FP", data.get("fp", data.get("current_fp", self.max_fp)))
+        
+        self.max_cmp = self._calculate_max_cmp()
+        self.cmp = data.get("Current_CMP", data.get("cmp", data.get("current_cmp", self.max_cmp)))
+        
         # Inventory & Equipment Hydration
         self.inventory: List[Item] = []
         raw_inv = data.get("Inventory", data.get("inventory", []))
@@ -75,6 +84,20 @@ class Character:
         reflex = self.stats.get("Reflexes", 10)
         return might + vit + reflex
 
+    def _calculate_max_sp(self) -> int:
+        speed = self.stats.get("Speed", 5)
+        reflex = self.stats.get("Reflexes", 10)
+        return (speed * 2) + reflex
+
+    def _calculate_max_fp(self) -> int:
+        intellect = self.stats.get("Intellect", 10)
+        return intellect * 2
+
+    def _calculate_max_cmp(self) -> int:
+        bravery = self.stats.get("Bravery", 10)
+        charm = self.stats.get("Charm", 10)
+        return bravery + charm
+
     def get_stat_mod(self, name: str) -> int:
         val = self.stats.get(name, 10)
         return (val - 10) // 2
@@ -100,6 +123,12 @@ class Character:
             "traits": self.traits,
             "current_hp": self.current_hp,
             "max_hp": self.max_hp,
+            "sp": self.sp,
+            "max_sp": self.max_sp,
+            "fp": self.fp,
+            "max_fp": self.max_fp,
+            "cmp": self.cmp,
+            "max_cmp": self.max_cmp,
             "level": self.level
         })
         return out

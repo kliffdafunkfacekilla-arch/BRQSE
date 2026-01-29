@@ -57,3 +57,51 @@ html, body, #root {
     transform: translateY(0);
   }
 }
+
+/* Visual FX Animations */
+@keyframes sim-shake {
+  0%, 100% { transform: translate(0, 0) scale(1.5); }
+  25% { transform: translate(-5px, 5px) scale(1.5); }
+  50% { transform: translate(5px, -5px) scale(1.5); }
+  75% { transform: translate(-5px, -5px) scale(1.5); }
+}
+
+.animate-sim-shake {
+  animation: sim-shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes flash-red {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(127, 29, 29, 0.3); } /* Red-900 */
+}
+
+.animate-flash-red {
+  animation: flash-red 0.5s ease-out;
+}
+
+@keyframes flash-cyan {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(22, 78, 99, 0.3); } /* Cyan-900 */
+}
+
+.animate-flash-cyan {
+  animation: flash-cyan 0.5s ease-out;
+}
+
+@keyframes flash-purple {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(88, 28, 135, 0.3); } /* Purple-900 */
+}
+
+.animate-flash-purple {
+  animation: flash-purple 0.5s ease-out;
+}
+
+@keyframes flash-white {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 255, 255, 0.2); }
+}
+
+.animate-flash-white {
+  animation: flash-white 0.3s ease-out;
+}

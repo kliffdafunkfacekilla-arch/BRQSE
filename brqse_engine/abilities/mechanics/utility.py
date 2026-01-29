@@ -143,3 +143,42 @@ def handle_hold_breath(match, ctx):
 
 def handle_flavor_text(match, ctx):
     pass
+
+def handle_lift(match, ctx):
+    if "log" in ctx: ctx["log"].append("Lifting Object (Reduce Weight).")
+
+def handle_burden(match, ctx):
+    target = ctx.get("target")
+    if target: 
+         if "log" in ctx: ctx["log"].append(f"{target.name} Burdened (Slowed).")
+         # Logic to reduce speed would go here
+
+def handle_breach(match, ctx):
+    if "log" in ctx: ctx["log"].append("Breaching Cover/Wall!")
+
+def handle_gravity_well(match, ctx):
+    if "log" in ctx: ctx["log"].append("Gravity Well created.")
+
+def handle_feather_fall(match, ctx):
+    if "log" in ctx: ctx["log"].append("Feather Fall (Slow Fall).")
+
+def handle_preserve(match, ctx):
+    if "log" in ctx: ctx["log"].append("Preserving Object (Stop Decay).")
+
+def handle_arcane_lock(match, ctx):
+    if "log" in ctx: ctx["log"].append("Arcane Lock (Unopenable).")
+
+def handle_aura_courage(match, ctx):
+    if "log" in ctx: ctx["log"].append("Aura of Courage (Immune to Fear).")
+
+def handle_ward(match, ctx):
+    if "log" in ctx: ctx["log"].append("Warding Bond (Share Damage/Buff AC).")
+
+def handle_reveal(match, ctx):
+    if "log" in ctx: ctx["log"].append("Revealing Invisibility/Stealth.")
+
+def handle_sanctuary(match, ctx):
+    if "log" in ctx: ctx["log"].append("Sanctuary (Enemies must save to attack).")
+
+def handle_dazzle(match, ctx):
+    if "log" in ctx: ctx["log"].append("Dazzled! (Blind/Stun).")

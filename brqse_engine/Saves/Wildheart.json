@@ -1,0 +1,116 @@
+{
+    "Name": "Wildheart",
+    "Species": "Plant",
+    "Stats": {
+        "Might": 12,
+        "Endurance": 12,
+        "Finesse": 9,
+        "Reflexes": 9,
+        "Vitality": 13,
+        "Fortitude": 11,
+        "Knowledge": 8,
+        "Logic": 10,
+        "Awareness": 10,
+        "Intuition": 10,
+        "Charm": 12,
+        "Willpower": 16
+    },
+    "Traits": [
+        {
+            "Name": "Medium",
+            "Type": "SIZE 3",
+            "Effect": "Standard: No penalties. Can use standard gear.",
+            "BodyPart": "Balanced Frame"
+        },
+        {
+            "Name": "The Shrub",
+            "Type": "ANCESTRY",
+            "Effect": "Includes: Leafy Camouflage, Berry Growth, Dense Twigs.",
+            "BodyPart": "Bush Anatomy"
+        },
+        {
+            "Name": "Tremor",
+            "Type": "SENSES",
+            "Effect": "Passive: Ground-Sense (Detect footsteps within 30ft. Cannot be Surprised).",
+            "BodyPart": "Root-Nerves"
+        },
+        {
+            "Name": "Needles",
+            "Type": "ARMS",
+            "Effect": "Active: Barrage (Ranged Attack. Fire volley of needles).",
+            "BodyPart": "Cactus-Spines"
+        },
+        {
+            "Name": "Slither",
+            "Type": "LEGS",
+            "Effect": "Passive: Creeper (Ignore Difficult Terrain. Climb Speed = Walk Speed).",
+            "BodyPart": "Vine-Mass"
+        },
+        {
+            "Name": "Hollow",
+            "Type": "BODY",
+            "Effect": "Passive: Lightweight (Float on water. Advantage to Jump).",
+            "BodyPart": "Reed-Structure"
+        },
+        {
+            "Name": "Clone",
+            "Type": "SPECIAL",
+            "Effect": "Passive: Rebirth (If killed, a clone grows from your corpse in 1 week).",
+            "BodyPart": "Fungal-Spore"
+        },
+        {
+            "Name": "The Hammer",
+            "Type": "Social Offense",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Command",
+            "Type": "Utility",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Regalia",
+            "Type": "Tool",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Medium",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Heavy",
+            "Type": "Armor Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Simple",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        }
+    ],
+    "Powers": [
+        {
+            "School": "Flux",
+            "Attribute": "Finesse",
+            "Tier": "1",
+            "Type": "Utility",
+            "Name": "Unlock",
+            "Damage_Type": "Acid",
+            "Description": "Open simple mechanism."
+        },
+        {
+            "School": "Lex",
+            "Attribute": "Willpower",
+            "Tier": "1",
+            "Type": "Defense",
+            "Name": "Focus",
+            "Damage_Type": "Psychic",
+            "Description": "Save Bonus."
+        }
+    ],
+    "Inventory": [],
+    "Gear": {},
+    "Backstory": "The Threat. Using physical presence, volume, or violence to force compliance. \"Get out of my way or I'll go through you.\"\n\nLeadership interrogation. Lore: Religion theology and cults.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nParry. Technical fighting. Analyzing the duel.\n\nBulwark. You are the anvil. You absorb the blow.\n\nMobile Fire. Cardio. Running and gunning without shaking.",
+    "Portrait": "monkey_1_front_2.png"
+}

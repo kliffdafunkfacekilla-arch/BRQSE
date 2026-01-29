@@ -1,6 +1,8 @@
 
 import json
 import random
+import csv
+import os
 from typing import List, Dict, Any
 
 class StoryWeaver:
@@ -14,21 +16,58 @@ class StoryWeaver:
     
     def __init__(self, sensory_layer=None):
         self.sensory_layer = sensory_layer
+        self.archetypes = self._load_archetypes()
+        self.room_templates = self._load_room_templates()
+
+    def _load_room_templates(self) -> List[Dict[str, str]]:
+        path = "Data/Room_Templates.csv"
+        templates = []
+        if os.path.exists(path):
+            try:
+                with open(path, mode='r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        templates.append(row)
+            except Exception as e:
+                print(f"[StoryWeaver] Error loading room templates: {e}")
+        return templates
+
+    def _load_archetypes(self) -> List[Dict[str, str]]:
+        path = "Data/NPC_Archetypes.csv"
+        archetypes = []
+        if os.path.exists(path):
+            try:
+                with open(path, mode='r', encoding='utf-8') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        archetypes.append(row)
+            except Exception as e:
+                print(f"[StoryWeaver] Error loading archetypes: {e}")
+        return archetypes
     
     def weave_campaign(self, maps: List[Dict[str, Any]], quest_params: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
         Main entry point.
-        1. Summarizes the topology of the provided maps.
-        2. Prompts the LLM to distribute assets based on quest_params.
-        3. Injects the returned assets into the map dictionaries.
         """
         print(f"[StoryWeaver] Weaving story for {len(maps)} maps...")
+        
+        # 0. Pre-Theatrics: Assign Room Templates
+        for m in maps:
+            biome = m.get("biome", "Caves")
+            theme_templates = [t for t in self.room_templates if t["Theme"] == biome]
+            
+            for r_id, room in m.get("rooms", {}).items():
+                if theme_templates:
+                    # Try to match room type if possible, otherwise random
+                    # For now just random from theme
+                    tmpl = random.choice(theme_templates)
+                    room["set_piece"] = tmpl["Set_Piece"]
+                    room["flavor_tags"] = tmpl["Flavor_Tags"]
         
         # 1. Summarize Topology
         topology_summary = self._summarize_campaign(maps)
         
         # 2. Prompt LLM
-        # For prototype, we might mock this or use a very structured prompt.
         distribution_plan = self._prompt_llm(topology_summary, quest_params)
         
         # 3. Distribute Assets
@@ -122,24 +161,67 @@ Example:
         try:
             # Strip potential markdown code blocks
             clean_text = response_text.strip()
-            if "```json" in clean_text:
-                clean_text = clean_text.split("```json")[1].split("```")[0]
-            elif "```" in clean_text:
-                clean_text = clean_text.split("```")[1].split("```")[0]
+            if "```" in clean_text:
+                parts = clean_text.split("```")
+                # Look for the part that looks like JSON or is the second block
+                clean_text = parts[1] if len(parts) > 1 else clean_text
+                if clean_text.startswith("json"): 
+                    clean_text = clean_text[4:].strip()
             
             # Find list bracket
             start = clean_text.find("[")
             end = clean_text.rfind("]")
             if start != -1 and end != -1:
                 json_str = clean_text[start:end+1]
+                # Fix common LLM JSON errors (trailing commas)
+                json_str = json_str.replace(",\n]", "\n]").replace(",]", "]")
+                
                 data = json.loads(json_str)
                 if isinstance(data, list):
+                    print(f"[StoryWeaver] AI successfully generated {len(data)} plot items.")
                     return data
         except Exception as e:
             print(f"[StoryWeaver] JSON Parse Error: {e} \nRaw: {response_text}")
             
-        print("[StoryWeaver] Failed to get valid JSON from AI. Using empty list.")
-        return []
+        print("[StoryWeaver] Failed to get valid JSON from AI. Generating Fallback Plot.")
+        return self._generate_fallback_plot(quest_params)
+
+    def _generate_fallback_plot(self, quest_params: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Mechanistic fallback to ensure the map always has a quest flow.
+        """
+        plot = []
+        maps_count = quest_params.get("length", 1)
+        
+        # 1. Clue/Intro Item (First Map)
+        plot.append({
+            "map_index": 0, 
+            "room_id": "random", 
+            "type": "clue", 
+            "name": "Crumpled Note", 
+            "desc": f"Hints at the location of {quest_params.get('title')}."
+        })
+        
+        # 2. Key/Gate (Middle Map or Early Map)
+        if maps_count > 1:
+            plot.append({
+                "map_index": 0, 
+                "room_id": "last", 
+                "type": "key", 
+                "name": "Rusted Key", 
+                "desc": "Opens the way forward."
+            })
+            
+        # 3. Boss/Goal (Last Map)
+        plot.append({
+            "map_index": -1, 
+            "room_id": "last", 
+            "type": "boss", 
+            "name": "Dungeon Guardian", 
+            "desc": "The final challenge."
+        })
+        
+        return plot
 
     def _distribute_assets(self, maps, plan):
         """
@@ -194,6 +276,15 @@ Example:
                         if item["type"] == "social": obj["tags"].append("npc")
                         
                         target_map.setdefault("objects", []).append(obj)
+                        
+                        # If it's an NPC, assign an archetype
+                        if item["type"] == "social" and self.archetypes:
+                            arch = random.choice(self.archetypes)
+                            obj["archetype"] = arch["Archetype"]
+                            obj["voice_cue"] = arch["Voice"]
+                            obj["motive"] = arch["Motivation"]
+                            obj["diction"] = arch["Diction"]
+                            
                         print(f"[StoryWeaver] Placed {item['name']} in Map {map_idx} Room {target_room.get('id')}")
 
     def enrich_assets(self, maps: List[Dict[str, Any]], quest_params):
@@ -209,14 +300,22 @@ Example:
             
             # 1. Collect Objects
             for obj in m.get("objects", []):
-                if not obj.get("description") or len(obj["description"]) < 5: # Lower threshold to catch '.'
-                    context = f"Object: {obj['name']} ({obj['type']}). Location: {biome}."
+                room_id = self._find_room_id(m, obj["x"], obj["y"])
+                room = m.get("rooms", {}).get(room_id, {})
+                room_ctx = f"Room Setpiece: {room.get('set_piece', 'empty space')}. Tags: {room.get('flavor_tags', 'none')}."
+                
+                if not obj.get("description") or len(obj["description"]) < 5:
+                    context = f"Object: {obj['name']} ({obj['type']}). BIOME: {biome}. {room_ctx}"
                     items_to_process.append({"ref": obj, "ctx": context})
                     
             # 2. Collect Entities
             for ent in m.get("entities", []):
+                room_id = self._find_room_id(m, ent["x"], ent["y"])
+                room = m.get("rooms", {}).get(room_id, {})
+                room_ctx = f"Room Setpiece: {room.get('set_piece', 'empty space')}. Tags: {room.get('flavor_tags', 'none')}."
+                
                 if not ent.get("description") or len(ent["description"]) < 5:
-                     context = f"Entity: {ent['name']} ({ent['type']}). Location: {biome}."
+                     context = f"Entity: {ent['name']} ({ent['type']}). BIOME: {biome}. {room_ctx}"
                      items_to_process.append({"ref": ent, "ctx": context})
                      
         # 3. Process in Batches

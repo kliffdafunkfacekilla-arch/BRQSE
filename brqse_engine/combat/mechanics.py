@@ -1586,8 +1586,8 @@ class CombatEngine:
         self.replay_log.append({
             "type": "move",
             "actor": char.name,
-            "from": [old_x, old_y],
-            "to": [tx, ty],
+            "pos_from": [old_x, old_y],
+            "pos_to": [tx, ty],
             "timestamp": time.time()
         })
         # ---------------------------------
@@ -1610,12 +1610,19 @@ class CombatEngine:
             wpn = attacker.inventory.equipped.get("Main Hand")
             if wpn:
                 # Check for ranged weapon
+                tags = getattr(wpn, "tags", {})
                 if hasattr(wpn, "range_short") and wpn.range_short:
                     is_ranged = True
                     max_range = wpn.range_short  # In tiles (squares)
-                elif hasattr(wpn, "tags") and "RANGE" in getattr(wpn, "tags", {}):
+                elif "RANGE" in tags:
                     is_ranged = True
-                    max_range = 6  # Default ranged = 6 tiles (30ft)
+                    range_val = tags["RANGE"][0]
+                    try:
+                        # Handle formats like "150/600", "20/60", or just "15"
+                        clean_val = str(range_val).split('/')[0].split(':')[0]
+                        max_range = max(1, int(clean_val) // 5)
+                    except:
+                        max_range = 6  # Default fallback
                 
                 # Get name
                 weapon_name = getattr(wpn, "name", wpn) if hasattr(wpn, "name") else str(wpn)
@@ -1793,16 +1800,29 @@ class CombatEngine:
             # POSITIVE MARGINS (Hits)
             if margin <= 4:
                 # GRAZE (+1 to +4)
-                dmg_val = 2 # Fixed Graze Damage? Or minimal? User said "deal composure damage"
-                target.cmp -= dmg_val 
-                log.append(f"GRAZE! ({margin}). {target.name} takes {dmg_val} CMP damage.")
-                self.replay_log.append({"type": "graze", "actor": attacker.name, "target": target.name, "margin": margin})
+                logs.append(f"GRAZE! ({margin}). {target.name} takes {dmg_val} CMP damage.")
+                self.replay_log.append({
+                    "type": "graze", 
+                    "actor": attacker.name, 
+                    "target": target.name,
+                    "pos_from": [attacker.x, attacker.y],
+                    "pos_to": [target.x, target.y],
+                    "margin": margin
+                })
                 
             elif margin <= 10:
                 # HIT (+5 to +10)
                 was_killed = target.take_damage(damage)
                 log.append(f"HIT! ({margin}). Dealt {damage} HP damage.")
-                self.replay_log.append({"type": "hit", "actor": attacker.name, "target": target.name, "damage": damage, "margin": margin})
+                self.replay_log.append({
+                    "type": "hit", 
+                    "actor": attacker.name, 
+                    "target": target.name, 
+                    "pos_from": [attacker.x, attacker.y],
+                    "pos_to": [target.x, target.y],
+                    "damage": damage, 
+                    "margin": margin
+                })
                 
                 # --- [NEW] HOOKS: ON HIT ---
                 engine_hooks.apply_hooks(attacker, "ON_HIT", context)
@@ -1825,7 +1845,16 @@ class CombatEngine:
                 # ----------------------------------
                 
                 log.append(f"CRITICAL HIT! ({margin}). {damage} damage + Injury: {injury}!")
-                self.replay_log.append({"type": "crit", "actor": attacker.name, "target": target.name, "damage": damage, "injury": injury, "margin": margin})
+                self.replay_log.append({
+                    "type": "crit", 
+                    "actor": attacker.name, 
+                    "target": target.name, 
+                    "pos_from": [attacker.x, attacker.y],
+                    "pos_to": [target.x, target.y],
+                    "damage": damage, 
+                    "injury": injury, 
+                    "margin": margin
+                })
                 if was_killed: log.append(f"{target.name} is SLAIN!")
                 
         else:
@@ -1834,14 +1863,28 @@ class CombatEngine:
             if abs_margin <= 5:
                 # MISS (-1 to -5)
                 log.append(f"MISS! ({margin}).")
-                self.replay_log.append({"type": "miss", "actor": attacker.name, "target": target.name, "margin": margin})
+                self.replay_log.append({
+                    "type": "miss", 
+                    "actor": attacker.name, 
+                    "target": target.name, 
+                    "pos_from": [attacker.x, attacker.y],
+                    "pos_to": [target.x, target.y],
+                    "margin": margin
+                })
                 
             elif abs_margin <= 10:
                 # WHIFF (-6 to -10)
                 # Miss + Staggered
                 attacker.is_staggered = True
                 log.append(f"WHIFF! ({margin}). {attacker.name} is Staggered!")
-                self.replay_log.append({"type": "whiff", "actor": attacker.name, "target": target.name, "margin": margin})
+                self.replay_log.append({
+                    "type": "whiff", 
+                    "actor": attacker.name, 
+                    "target": target.name, 
+                    "pos_from": [attacker.x, attacker.y],
+                    "pos_to": [target.x, target.y],
+                    "margin": margin
+                })
                 
             else:
                 # BOTCH (-11+)
@@ -2048,6 +2091,24 @@ class CombatEngine:
                     log.append("No Effect Description.")
             else:
                 log.append(f"Ability data not found for '{ability_name}'.")
+
+            # --- RECORD EVENT ---
+            pos_from = [char.x, char.y]
+            pos_to = None
+            if target:
+                pos_to = [target.x, target.y]
+            elif "target_pos" in kwargs:
+                pos_to = kwargs["target_pos"]
+                
+            self.replay_log.append({
+                "type": "ability",
+                "actor": char.name,
+                "ability": ability_name,
+                "pos_from": pos_from,
+                "pos_to": pos_to,
+                "timestamp": time.time()
+            })
+            # --------------------
 
         except Exception as e:
             log.append(f"FAILED: {e}")

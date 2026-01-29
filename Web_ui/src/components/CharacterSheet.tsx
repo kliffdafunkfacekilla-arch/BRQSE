@@ -9,9 +9,10 @@ interface CharacterSheetProps {
     name?: string;
     powers?: string[];
     skills?: string[];
+    conditions?: string[];
 }
 
-export default function CharacterSheet({ equipment, stats: propStats, onUnequip, sprite, name, powers = [], skills = [] }: CharacterSheetProps) {
+export default function CharacterSheet({ equipment, stats: propStats, onUnequip, sprite, name, powers = [], skills = [], conditions = [] }: CharacterSheetProps) {
     const gear = equipment || {
         "Main Hand": "Empty", "Off Hand": "Empty", "Armor": "Empty"
     };
@@ -81,6 +82,19 @@ export default function CharacterSheet({ equipment, stats: propStats, onUnequip,
                         <StatBlock label="CHARM" val={stats.Charm} />
                         <StatBlock label="WILLPOWER" val={stats.Willpower} />
                     </div>
+                </div>
+
+                <div className="bg-[#0a0a0a] p-4 border border-stone-900 flex-1">
+                    <h3 className="text-stone-500 font-bold uppercase text-[10px] mb-3 flex items-center gap-2 tracking-widest border-b border-stone-900 pb-1"><Activity size={12} /> Status Conditions</h3>
+                    {conditions.length === 0 ? (
+                        <div className="text-[9px] text-stone-700 italic text-center py-2">No active effects</div>
+                    ) : (
+                        <div className="flex flex-wrap gap-2">
+                            {conditions.map((cond, i) => (
+                                <span key={i} className="px-2 py-1 bg-stone-900 border border-stone-800 text-[9px] text-stone-400 font-bold uppercase tracking-wider">{cond}</span>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 

@@ -96,3 +96,28 @@ def handle_stand_up(match, ctx):
         if hasattr(t, "is_prone"): t.is_prone = False
         if hasattr(t, "remove_effect"): t.remove_effect("Prone")
         if "log" in ctx: ctx["log"].append(f"{t.name} Stands Up.")
+
+def handle_pull(match, ctx):
+    dist_str = match.group(1)
+    dist = int(dist_str) if dist_str else 5 # Default 5ft
+    target = ctx.get("target")
+    if target: 
+        if "log" in ctx: ctx["log"].append(f"{target.name} is Pulled {dist}ft closer!")
+
+def handle_jump_boost(match, ctx):
+    user = ctx.get("attacker")
+    if user:
+        if "log" in ctx: ctx["log"].append(f"{user.name} boosts Jump height/distance.")
+
+def handle_levitate(match, ctx):
+    target = ctx.get("target") or ctx.get("attacker")
+    if target:
+        if "log" in ctx: ctx["log"].append(f"{target.name} Levitates (Floats).")
+
+def handle_reverse_gravity(match, ctx):
+    if "log" in ctx: ctx["log"].append("Gravity Reversed! (Ceiling is floor).")
+
+def handle_launch(match, ctx):
+    target = ctx.get("target")
+    if target:
+        if "log" in ctx: ctx["log"].append(f"{target.name} Launched a long distance!")

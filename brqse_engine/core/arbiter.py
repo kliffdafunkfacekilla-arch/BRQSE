@@ -7,8 +7,9 @@ class Arbiter:
     """
     The Rules Lawyer. Intercepts player messages to determine if game mechanics (Skill Checks) are required.
     """
-    def __init__(self, api_url="http://localhost:5001/generate"):
+    def __init__(self, api_url="http://localhost:5001/generate", sensory_layer=None):
         self.api_url = api_url
+        self.sensory_layer = sensory_layer
         self.valid_skills, self.skill_map = self._load_skills()
 
     def _load_skills(self):
@@ -70,35 +71,47 @@ class Arbiter:
 
         prompt = f"System: {system_prompt}\nUser: PLAYER_INPUT: \"{player_input}\"\nAssistant: JSON:"
         
+        # 1. Try Direct Internal Call
+        if self.sensory_layer:
+            try:
+                text = self.sensory_layer.consult_oracle(system_prompt, f"PLAYER_INPUT: \"{player_input}\"")
+                if text:
+                    return self._parse_json_result(text)
+            except Exception as e:
+                print(f"[Arbiter] Direct call failed: {e}")
+
+        # 2. Fallback to HTTP
         try:
-            # We use a lower temperature (0.1) because we need logic, not creativity
-            # Note: Using port 5001 as seen in simple_api.py
             payload = {"prompt": prompt, "temperature": 0.1, "max_new_tokens": 100}
             response = requests.post(self.api_url, json=payload, timeout=2)
             
             if response.status_code == 200:
                 text = response.json().get("response", "").strip()
-                # Clean up potential AI chatter around the JSON
-                if "{" in text and "}" in text:
-                    json_str = text[text.find("{"):text.rfind("}")+1]
-                    try:
-                        data = json.loads(json_str)
-                        if data.get("check_needed"):
-                            # Enrich with Attribute
-                            skill_name = data.get("skill")
-                            # Try exact match, or case insensitive
-                            attr = self.skill_map.get(skill_name)
-                            if not attr:
-                                # Try case insensitive scan
-                                for k, v in self.skill_map.items():
-                                    if k.lower() == str(skill_name).lower():
-                                        attr = v
-                                        break
-                            data["attribute"] = attr or "Unknown"
-                            return data
-                    except json.JSONDecodeError:
-                        pass
+                return self._parse_json_result(text)
         except Exception as e:
             print(f"[Arbiter Error]: {e}")
             
+        return None
+
+    def _parse_json_result(self, text):
+        # Clean up potential AI chatter around the JSON
+        if "{" in text and "}" in text:
+            json_str = text[text.find("{"):text.rfind("}")+1]
+            try:
+                data = json.loads(json_str)
+                if data.get("check_needed"):
+                    # Enrich with Attribute
+                    skill_name = data.get("skill")
+                    # Try exact match, or case insensitive
+                    attr = self.skill_map.get(skill_name)
+                    if not attr:
+                        # Try case insensitive scan
+                        for k, v in self.skill_map.items():
+                            if k.lower() == str(skill_name).lower():
+                                attr = v
+                                break
+                    data["attribute"] = attr or "Unknown"
+                    return data
+            except json.JSONDecodeError:
+                pass
         return None

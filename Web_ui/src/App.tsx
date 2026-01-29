@@ -36,6 +36,7 @@ interface PlayerState {
   sp?: number; max_sp?: number;
   fp?: number; max_fp?: number;
   cmp?: number; max_cmp?: number;
+  active_effects?: string[];
 }
 
 interface WorldStatus {
@@ -106,12 +107,10 @@ function App() {
       const worldData = await worldRes.json();
       setWorldStatus(worldData);
 
-      // 3. Fetch Player State if needed
-      if (!playerState) {
-        const pRes = await fetch('/api/player');
-        const pData = await pRes.json();
-        setPlayerState(pData);
-      }
+      // 3. Always fetch latest Player State to sync resource bars
+      const pRes = await fetch('/api/player');
+      const pData = await pRes.json();
+      setPlayerState(pData);
     } catch (e) { }
   };
 
@@ -271,6 +270,7 @@ function App() {
     inventory: playerState.inventory || [],
     equipment: playerState.equipment || {},
     stats: playerState.stats || {},
+    active_effects: playerState.active_effects || [],
   } : {
     name: "Awaiting Soul",
     species: "Unknown",
@@ -279,6 +279,7 @@ function App() {
     inventory: [],
     powers: [],
     skills: [],
+    active_effects: [],
     sprite: "badger_front.png",
     max_hp: 20,
     current_hp: 20,
@@ -300,31 +301,41 @@ function App() {
           <nav className="flex gap-1 bg-black border border-stone-800 p-1 rounded-sm">
             <button
               onClick={() => setCurrentView('gameplay')}
-              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'gameplay' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+              disabled={!playerState}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'gameplay' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed'}`}
+              title={!playerState ? "Select a hero first" : ""}
             >
               World View
             </button>
             <button
               onClick={() => setCurrentView('character')}
-              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'character' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+              disabled={!playerState}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'character' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed'}`}
+              title={!playerState ? "Select a hero first" : ""}
             >
               Character Sheet
             </button>
             <button
               onClick={() => setCurrentView('inventory')}
-              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'inventory' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+              disabled={!playerState}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'inventory' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed'}`}
+              title={!playerState ? "Select a hero first" : ""}
             >
               Inventory
             </button>
             <button
               onClick={() => setCurrentView('skills')}
-              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'skills' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+              disabled={!playerState}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'skills' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed'}`}
+              title={!playerState ? "Select a hero first" : ""}
             >
               Skills
             </button>
             <button
               onClick={() => setCurrentView('journal')}
-              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'journal' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white'}`}
+              disabled={!playerState}
+              className={`px-4 py-1 text-[10px] font-bold uppercase transition-all ${currentView === 'journal' ? 'bg-[#92400e] text-white' : 'text-stone-600 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed'}`}
+              title={!playerState ? "Select a hero first" : ""}
             >
               Journal
             </button>
@@ -364,7 +375,8 @@ function App() {
           {(!isQuestActive || engineState?.event === 'QUEST_COMPLETE') && (
             <button
               onClick={() => setCurrentView('tavern')}
-              className="px-3 py-1 bg-stone-900 border border-stone-800 text-[10px] font-bold uppercase text-stone-400 hover:text-white hover:border-[#92400e] transition-colors"
+              disabled={!playerState}
+              className="px-3 py-1 bg-stone-900 border border-stone-800 text-[10px] font-bold uppercase text-stone-400 hover:text-white hover:border-[#92400e] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               Return to Tavern
             </button>
@@ -463,6 +475,7 @@ function App() {
                 sprite={p.sprite}
                 powers={p.powers}
                 skills={p.skills}
+                conditions={p.active_effects}
               />
             )}
             {currentView === 'inventory' && <InventoryPanel characterItems={p.inventory} onEquip={handleEquip} />}
@@ -476,7 +489,6 @@ function App() {
                 questObjective={engineState?.quest_objective}
               />
             )}
-            {currentView === 'builder' && <BattleBuilder onBattleStart={() => setCurrentView('gameplay')} />}
             {currentView === 'create' && <CharacterBuilder onSave={() => { loadPlayerState(); setCurrentView('tavern'); }} />}
           </div>
 
@@ -489,8 +501,22 @@ function App() {
               {systemLogs.map(log => (
                 <div key={log.id} className="text-[10px] flex gap-2">
                   <span className="text-stone-700 font-mono">[{log.time}]</span>
+
                   <span className={`uppercase font-bold tracking-widest ${log.type === 'error' ? 'text-red-900' : 'text-stone-500'}`}>{log.source}:</span>
-                  <span className="italic text-stone-400">"{log.message}"</span>
+                  <span className={`italic ${log.message.toLowerCase().includes('fire') || log.message.toLowerCase().includes('burn') ? 'text-orange-400' :
+                    log.message.toLowerCase().includes('cold') || log.message.toLowerCase().includes('freze') ? 'text-cyan-400' :
+                      log.message.toLowerCase().includes('necrotic') || log.message.toLowerCase().includes('doom') ? 'text-purple-400' :
+                        log.message.toLowerCase().includes('radiant') || log.message.toLowerCase().includes('light') ? 'text-yellow-200' :
+                          log.message.toLowerCase().includes('psychic') || log.message.toLowerCase().includes('mind') ? 'text-pink-400' :
+                            log.message.toLowerCase().includes('acid') || log.message.toLowerCase().includes('poison') ? 'text-green-400' :
+                              log.message.toLowerCase().includes('force') || log.message.toLowerCase().includes('gravity') ? 'text-indigo-400' :
+                                log.message.toLowerCase().includes('lightning') || log.message.toLowerCase().includes('shock') ? 'text-blue-400' :
+                                  log.message.toLowerCase().includes('sonic') || log.message.toLowerCase().includes('thunder') ? 'text-sky-300' :
+                                    log.message.toLowerCase().includes('heal') || log.message.toLowerCase().includes('regen') ? 'text-emerald-400' :
+                                      'text-stone-400'
+                    }`}>
+                    "{log.message}"
+                  </span>
                 </div>
               ))}
             </div>

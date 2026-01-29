@@ -6,8 +6,8 @@ import traceback
 import json
 import os
 from brqse_engine.combat.mechanics import CombatEngine, Combatant
-from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_ENEMY, TILE_HAZARD, TILE_DOOR
-from scripts.world_engine import SceneStack, ChaosManager, Scene
+from brqse_engine.world.map_generator import MapGenerator, TILE_WALL, TILE_FLOOR, TILE_LOOT, TILE_HAZARD, TILE_DOOR, TILE_ENTRANCE, TILE_TREE, TILE_ENEMY
+from brqse_engine.world.world_system import SceneStack, ChaosManager, Scene
 from brqse_engine.abilities import engine_hooks
 from brqse_engine.abilities.effects_registry import registry
 from brqse_engine.core.event_engine import EventEngine
@@ -36,11 +36,11 @@ class GameLoopController:
         
         # Initialize Logger
         self.logger = CampaignLogger()
-        self.chaos = chaos_manager
         
         # Initialize Interaction Engine with RAG capacity
         # We pass 'self' (the GameLoop) so InteractionEngine can give it to Oracle for ContextManager
         self.interaction = InteractionEngine(self.logger, sensory_layer, game_loop=self)
+        self._initialize_game_state(sensory_layer)
         
     def _process_world_updates(self, check_log_list: List[str]):
         """Consumes updates from CombatEngine and applies them to the Grid."""
@@ -59,7 +59,8 @@ class GameLoopController:
                          check_log_list.append(f"[Map] {subtype.capitalize()} Hazard at {tx},{ty}.")
         
         self.combat_engine.pending_world_updates.clear()
-        
+
+    def _initialize_game_state(self, sensory_layer):
         # Initialize Narrator (AI DM)
         self.narrator = Narrator(sensory_layer, self.logger)
         
@@ -69,7 +70,6 @@ class GameLoopController:
         self.load_player()
         self.active_scene = None
         self.interactables = {}
-        self.explored_tiles = set()
         self.explored_tiles = set()
         self.current_event = "SCENE_STARTED"
         self.dice_log = []
@@ -90,50 +90,55 @@ class GameLoopController:
     def advance_scene(self) -> Scene:
         """Moves to next scene, resets visibility."""
         if not self.is_event_resolved:
-            # We can't really return a Scene here, but we can prevent the update.
-            # In handle_action, we already block the call to this.
             return self.active_scene
             
-        scene = self.scene_stack.advance()
-        if scene.text == "QUEST COMPLETE":
-            self.active_scene = scene
-            self.current_event = "QUEST_COMPLETE"
-            return scene
+        # 1. Check if we are in a campaign
+        if getattr(self, "active_campaign_id", None):
+            self.current_scene_index += 1
+            print(f"[GameLoop] Advancing to Scene {self.current_scene_index} in Campaign {self.active_campaign_id}")
+            self.load_scene_from_file(self.active_campaign_id, self.current_scene_index)
+            return self.active_scene
 
-        # AI-Enhanced Story Director Hook
-        # Replace old MapGenerator with new Donjon+StoryDirector
-        level = len(self.scene_stack.stack) + 1
-        scene = self.generate_dungeon(level=level)
-        
-        # Ensure CombatEngine matches new grid size
-        rows = len(scene.grid)
-        cols = len(scene.grid[0])
-        self.active_scene = scene
-        self.combat_engine = CombatEngine(cols, rows)
-        
-        # Setup interactables and walls
-        self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
-        for y, row in enumerate(scene.grid):
-            for x, tile in enumerate(row):
-                if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
+        # 2. Legacy Fallback (SceneStack)
+        if hasattr(self, "scene_stack"):
+            scene = self.scene_stack.advance()
+            if scene.text == "QUEST COMPLETE":
+                self.active_scene = scene
+                self.current_event = "QUEST_COMPLETE"
+                return scene
+
+            # процедурная генерация (fallback)
+            level = len(self.scene_stack.stack) + 1
+            # Ensure we have a valid generator or return dummy
+            if not hasattr(self, "map_gen"):
+                from brqse_engine.world.map_generator import MapGenerator
+                self.map_gen = MapGenerator(self.chaos)
                 
-        # LOAD PREBUILT ASI CONTENT
-        if hasattr(scene, "prebuilt_objects"):
-            for obj in scene.prebuilt_objects:
-                # Convert ASI object format to GameLoop interactable format
-                self.interactables[(obj["x"], obj["y"])] = {
-                    "type": obj.get("subtype", obj.get("type", "Object")), # Use subtype for naming if avail
-                    "x": obj["x"], "y": obj["y"],
-                    "tags": obj.get("tags", ["inspect"]),
-                    "is_blocking": True, # Most objects block
-                    "is_locked": obj.get("locked", False), # ASI uses "locked", Loop uses "is_locked"
-                    "required_key": obj.get("key_required"),
-                    "has_key": obj.get("has_key"),
-                    "key_name": obj.get("key_name")
-                }
-                # Update tile visual
-                if obj.get("type") == "chest": self.active_scene.grid[obj["y"]][obj["x"]] = TILE_LOOT
-                if obj.get("type") == "door": self.active_scene.grid[obj["y"]][obj["x"]] = TILE_DOOR
+            grid = self.map_gen._generate_shape("DUNGEON")
+            grid, interactables = self.map_gen._furnish_biome(grid, "DUNGEON", scene.encounter_type)
+            scene.set_grid(grid, [(1, 10)], [(19, 10)], interactables)
+            
+            # Hydrate
+            self.active_scene = scene
+            rows, cols = len(scene.grid), len(scene.grid[0])
+            self.combat_engine = CombatEngine(cols, rows)
+            
+            for y, row in enumerate(scene.grid):
+                for x, tile in enumerate(row):
+                    if tile == TILE_WALL: self.combat_engine.create_wall(x, y)
+            
+            self.interactables = {(node["x"], node["y"]): node for node in scene.interactables}
+            
+            self.explored_tiles = set()
+            self.player_pos = (1, 10)
+            self._update_visibility()
+            self._trigger_scene_entry_event()
+            
+            self.state = "EXPLORE"
+            self.current_event = "SCENE_STARTED"
+            return scene
+            
+        return self.active_scene
 
         if hasattr(scene, "prebuilt_entities"):
             from brqse_engine.combat.mechanics import Combatant
@@ -235,44 +240,58 @@ class GameLoopController:
         s_obj.text = map_data.get("intro", "You enter the area.")
         
         # 2. Manifest (Build Grid/Entities)
-        # We reuse _manifest_scene logic but distinct because map_data structure is slightly different?
-        # Actually CampaignBuilder uses DonjonGenerator which matches current map_data structure.
-        # So we can just pass map_data to a manifest helper or use existing generate_dungeon's hydration logic.
-        # Let's extract the hydration logic from generate_dungeon into _hydrate_map(map_data)
-        # For now, I'll inline the hydration here to be safe.
+        from brqse_engine.world.map_generator import TILE_WALL, TILE_FLOOR, TILE_DOOR, TILE_LOOT, TILE_ENTRANCE, DJ_ROOM, DJ_CORRIDOR, DJ_ENTRANCE, DJ_DOOR, TILE_ENEMY
         
-        # Grid Conversion
         rows, cols = len(map_data["grid"]), len(map_data["grid"][0])
         game_grid = [[TILE_WALL for _ in range(cols)] for _ in range(rows)]
+        
+        entrance_pos = None
         
         for r in range(rows):
             for c in range(cols):
                 cell = map_data["grid"][r][c]
-                if cell & (Cell.ROOM | Cell.CORRIDOR):
+                # Check Room/Corridor bits
+                if cell & (DJ_ROOM | DJ_CORRIDOR):
                     game_grid[r][c] = TILE_FLOOR
-                if cell & Cell.DOOR:
+                # Check Entrance/Door bits
+                if cell & DJ_ENTRANCE:
+                    game_grid[r][c] = TILE_ENTRANCE
+                    if cell & Cell.STAIR_UP: entrance_pos = (c, r)
+                if cell & DJ_DOOR:
                     game_grid[r][c] = TILE_DOOR
 
-        # Objects
+        # 3. Objects & Transitions
         self.interactables = {}
         for obj in map_data.get("objects", []):
-            game_grid[obj["y"]][obj["x"]] = TILE_LOOT 
-            if obj["type"] == "door": game_grid[obj["y"]][obj["x"]] = TILE_DOOR
-            # Special: Zone Transitions need to be checked in movement
-            if obj.get("type") == "zone_transition":
-                game_grid[obj["y"]][obj["x"]] = TILE_DOOR # Visual as door
-                # We store it in interactables to check on move
+            ox, oy = obj["x"], obj["y"]
+            game_grid[oy][ox] = TILE_LOOT 
             
-            self.interactables[(obj["x"], obj["y"])] = obj
+            if obj.get("type") == "zone_transition":
+                game_grid[oy][ox] = TILE_ENTRANCE # Visual cue
+                if "entrance" in obj.get("tags", []):
+                    entrance_pos = (ox, oy)
+            
+            self.interactables[(ox, oy)] = obj
 
+        # 4. Player Positioning
+        if not entrance_pos:
+            # Fallback to first room center if no entrance found
+            rooms = list(map_data.get("rooms", {}).values())
+            if rooms: entrance_pos = rooms[0]["center"]
+            else: entrance_pos = (cols // 2, rows // 2)
+
+        self.player_pos = entrance_pos
+        if self.player_combatant:
+            self.player_combatant.x, self.player_combatant.y = entrance_pos
+        
+        self.explored_tiles = {entrance_pos} # Reset exploration for new scene
         s_obj.grid = game_grid
-        s_obj.entrances = [] # We might need to find the "Link Prev" object to set player spawn?
         
         # Set Active
         self.active_scene = s_obj
         
         # Entities
-        self.combat_engine.combatants = [c for c in self.combat_engine.combatants if c.team == "Players"] # Clear enemies
+        self.combat_engine.combatants = [c for c in self.combat_engine.combatants if c.team == "Players"] 
         for ent in map_data.get("entities", []):
             game_grid[ent["y"]][ent["x"]] = TILE_ENEMY
             # Spawn...
@@ -471,10 +490,23 @@ class GameLoopController:
 
     def handle_action(self, action_type: str, x: int, y: int, **kwargs) -> Dict[str, Any]:
         """Generic handler for player intent."""
+        # Clear Replay Log for fresh events
+        self.combat_engine.replay_log.clear()
+
         if self.state == "COMBAT":
-            return self._handle_combat_action(action_type, x, y)
+            result = self._handle_combat_action(action_type, x, y)
+        else:
+            result = self._handle_exploration_action(action_type, x, y, **kwargs)
+        
+        # Capture Combat Events for Animations
+        if self.combat_engine.replay_log:
+            result["events"] = list(self.combat_engine.replay_log)
+            self.combat_engine.replay_log.clear()
             
-        # [NEW] ABILITY USAGE (Cast/Use Skill)
+        return result
+
+    def _handle_exploration_action(self, action_type: str, x: int, y: int, **kwargs) -> Dict[str, Any]:
+        """Original handle_action logic for EXPLORE mode, separated for clarity."""
         if action_type in ["cast", "ability", "skill"]:
             ability_name = kwargs.get("ability") or kwargs.get("name")
             target_entity = None
@@ -1041,13 +1073,11 @@ class GameLoopController:
             self.player_combatant.facing = direction
 
     def _process_move(self, tx, ty) -> Dict[str, Any]:
-        if not (0 <= tx < 20 and 0 <= ty < 20): 
-            # Check dynamic bounds if possible, but strict bounds for now
-            # Actually grid size might vary.
-            h = len(self.active_scene.grid)
-            w = len(self.active_scene.grid[0])
-            if not (0 <= tx < w and 0 <= ty < h):
-                 return {"success": False, "reason": "Void"}
+        # Dynamic boundary check
+        h = len(self.active_scene.grid)
+        w = len(self.active_scene.grid[0])
+        if not (0 <= tx < w and 0 <= ty < h):
+             return {"success": False, "reason": "Void"}
 
         tile = self.active_scene.grid[ty][tx]
         

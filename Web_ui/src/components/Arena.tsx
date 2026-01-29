@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Token from './Token';
 import ContextMenu from './ContextMenu';
+import EffectLayer from './EffectLayer';
 import { Target } from 'lucide-react';
 
 const TILE_SIZE = 64;
@@ -22,6 +23,8 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
     const [playerPos, setPlayerPos] = useState({ x: 5, y: 5 });
     const [objects, setObjects] = useState<any[]>([]);
     const [explored, setExplored] = useState<Set<string>>(new Set());
+    const [activeEvents, setActiveEvents] = useState<any[]>([]);
+    const [visualEffect, setVisualEffect] = useState<string | null>(null);
 
     // UI State
     const [tensionEvent, setTensionEvent] = useState<{ type: string, visible: boolean }>({ type: '', visible: false });
@@ -137,7 +140,28 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                 if (res.success) {
                     updateExplorationState(data.state);
 
-                    if (res.log && onLog) onLog(activeAbility ? 'COMBAT' : 'SYSTEM', res.log, 'info');
+                    // Capture Combat Events for Animations
+                    if (data.events) {
+                        setActiveEvents(data.events);
+                    }
+
+                    if (res.log && onLog) {
+                        onLog(activeAbility ? 'COMBAT' : 'SYSTEM', res.log, 'info');
+
+                        // trigger visual effects based on log content
+                        const l = res.log.toLowerCase();
+                        if (l.includes('fire') || l.includes('burn')) setVisualEffect('animate-flash-red');
+                        else if (l.includes('cold') || l.includes('freeze')) setVisualEffect('animate-flash-cyan');
+                        else if (l.includes('necrotic') || l.includes('doom')) setVisualEffect('animate-flash-purple');
+                        else if (l.includes('healed') || l.includes('radiant')) setVisualEffect('animate-flash-white');
+                        else if (l.includes('force') || l.includes('earthquake')) setVisualEffect('animate-sim-shake');
+
+                        if (l.includes('force') || l.includes('earthquake')) {
+                            setTimeout(() => setVisualEffect(null), 500);
+                        } else {
+                            setTimeout(() => setVisualEffect(null), 600);
+                        }
+                    }
 
                     // Tension Trigger
                     if (res.tension && res.tension !== 'SAFE') {
@@ -289,6 +313,11 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                 </div>
             )}
 
+            {/* VISUAL FX OVERLAY */}
+            {visualEffect && (
+                <div className={`absolute inset-0 z-40 pointer-events-none ${visualEffect}`} />
+            )}
+
             {/* MAP CONTAINER */}
             <div
                 className="relative border-4 border-stone-900 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden bg-stone-950"
@@ -362,6 +391,9 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                         <Token name={c.name} facing={c.facing || 'down'} team={c.team} sprite={c.sprite} dead={c.hp <= 0} />
                     </div>
                 ))}
+
+                {/* VISUAL EFFECTS LAYER */}
+                <EffectLayer events={activeEvents} gridSize={gridSize} />
             </div>
         </div>
     );

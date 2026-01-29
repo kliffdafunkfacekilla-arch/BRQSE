@@ -24,6 +24,12 @@ class InteractionEngine:
         if target.has_tag("door"):
             return self._handle_door(actor, target)
 
+        # 4. Is it an NPC?
+        if target.has_tag("npc"):
+            # For now, we assume the first interaction is a 'greet'
+            # In a full UI, this would be a specific 'Talk' action
+            return self.oracle.speak_as_npc(target, "Hello.")
+
         return f"You touch the {target.name}, but nothing happens."
 
     def examine(self, target, room_history=None):

@@ -1,68 +1,166 @@
 {
-    "Name": "Blaze",
-    "Species": "Plant",
+    "Name": "pig",
+    "Species": "Mammal",
     "Stats": {
-        "Awareness": 11,
-        "Charm": 12,
-        "Endurance": 11,
-        "Finesse": 10,
-        "Fortitude": 13,
+        "Might": 13,
+        "Endurance": 14,
+        "Finesse": 13,
+        "Reflexes": 10,
+        "Vitality": 12,
+        "Fortitude": 9,
+        "Knowledge": 12,
+        "Logic": 8,
+        "Awareness": 9,
         "Intuition": 11,
-        "Knowledge": 8,
-        "Logic": 10,
-        "Might": 11,
-        "Reflexes": 9,
-        "Vitality": 13,
-        "Willpower": 13
+        "Charm": 11,
+        "Willpower": 10
     },
     "Traits": [
-        "Tendril Fingers",
-        "Thorns",
-        "Cactus Spines",
-        "Whistling Branches",
-        "Long Stem",
-        "Stalk Hairs"
+        {
+            "Name": "Medium",
+            "Type": "SIZE 3",
+            "Effect": "Standard: No penalties. Can use standard gear.",
+            "BodyPart": "Balanced Frame"
+        },
+        {
+            "Name": "The Bear",
+            "Type": "ANCESTRY",
+            "Effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail.",
+            "BodyPart": "Ursine Anatomy"
+        },
+        {
+            "Name": "Blood-Scent",
+            "Type": "SENSES",
+            "Effect": "Passive: Scent-Track (Track unseen enemies).",
+            "BodyPart": "Wet Nose"
+        },
+        {
+            "Name": "Grappler",
+            "Type": "ARMS",
+            "Effect": "Active: Choke-Slam (Throw target Prone + Dmg).",
+            "BodyPart": "Opposable Thumbs"
+        },
+        {
+            "Name": "Jumper",
+            "Type": "LEGS",
+            "Effect": "Active: Bound (Jump distance tripled).",
+            "BodyPart": "Spring Tendons"
+        },
+        {
+            "Name": "Insulated",
+            "Type": "BODY",
+            "Effect": "Passive: Winter-Coat (Resist Cold/Fire).",
+            "BodyPart": "Dense Wool"
+        },
+        {
+            "Name": "Flight",
+            "Type": "SPECIAL",
+            "Effect": "Active: Glide (Negate fall dmg, Travel).",
+            "BodyPart": "Skin Flaps"
+        },
+        {
+            "Name": "The Gaze",
+            "Type": "Social Offense",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Athletics",
+            "Type": "Utility",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Regalia",
+            "Type": "Tool",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Large",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Light",
+            "Type": "Armor Skill",
+            "Effect": "Skill Mastery"
+        },
+        {
+            "Name": "Exotic Ranged",
+            "Type": "Weapon Skill",
+            "Effect": "Skill Mastery"
+        }
     ],
     "Powers": [
-        "Burn",
-        "Chill"
+        {
+            "School": "Vita",
+            "Attribute": "Vitality",
+            "Tier": "1",
+            "Type": "Utility",
+            "Name": "Mend",
+            "Damage_Type": "Poison",
+            "Description": "Heal minor wounds."
+        },
+        {
+            "School": "Mass",
+            "Attribute": "Might",
+            "Tier": "1",
+            "Type": "Offense",
+            "Name": "Push",
+            "Damage_Type": "Force",
+            "Description": "Shove target away (Knockback)."
+        }
     ],
     "Inventory": [
-        "Cestus",
-        "Ceramic Plate"
+        {
+            "Name": "Acrobat's Leathers",
+            "Type": "Armor",
+            "Cost": "60",
+            "Related_Skill": "Light",
+            "Description": "Tight, grip-enhanced leather.",
+            "Effect": "Gain Climbing Speed equal to Walking Speed.",
+            "Logic_Tags": "SPEED:Climb|PROP:Light"
+        },
+        {
+            "Name": "Spear",
+            "Type": "Weapon",
+            "Cost": "1",
+            "Related_Skill": "Large",
+            "Description": "Simple pointed pole.",
+            "Effect": "Deal 1d6 (1d8) Piercing damage.",
+            "Logic_Tags": "DMG:1d6:Pierce|PROP:Reach|PROP:Versatile"
+        }
     ],
     "Gear": {
         "armor": {
-            "Cost": "40",
-            "Description": "Armor made of polished bone.",
-            "Effect": "Advantage on Intimidation checks.",
-            "Logic_Tags": "BUFF:Advantage:Social|MAT:Bone",
-            "Name": "Bone Mesh",
-            "Related_Skill": "Natural",
-            "Type": "Armor"
+            "Name": "Acrobat's Leathers",
+            "Type": "Armor",
+            "Cost": "60",
+            "Related_Skill": "Light",
+            "Description": "Tight, grip-enhanced leather.",
+            "Effect": "Gain Climbing Speed equal to Walking Speed.",
+            "Logic_Tags": "SPEED:Climb|PROP:Light"
         },
         "rightHand": {
-            "Cost": "250",
-            "Description": "Short-range scatter gun.",
-            "Effect": "Deal 2d6 Piercing damage (Cone).",
-            "Logic_Tags": "DMG:2d6:Pierce|RANGE:15:Cone|PROP:Reload",
-            "Name": "Blunderbuss",
-            "Related_Skill": "Blast",
-            "Type": "Weapon"
+            "Name": "Spear",
+            "Type": "Weapon",
+            "Cost": "1",
+            "Related_Skill": "Large",
+            "Description": "Simple pointed pole.",
+            "Effect": "Deal 1d6 (1d8) Piercing damage.",
+            "Logic_Tags": "DMG:1d6:Pierce|PROP:Reach|PROP:Versatile"
         }
     },
-    "Backstory": "The Jab. Fast talk, witty comebacks, and stinging insults. Using words like a rapier. \"Nice outfit. Did you lose a bet?\"\n\nAcrobatics stealth balancing. Lore: Ballistics and physics of speed.\n\nMastery of gaming sets dice tarot and tokens of luck/fate.\n\nClinch. Using your body\u2019s hardness as a weapon.\n\nReliable. \"Living Armor made of once living material\" \n\nSplash.  Calculating arc, fuse time, and chemical mix.",
-    "Portrait": "fox_back.png",
+    "Backstory": "The Pressure. Relentless, unblinking pressure. Not shouting, just refusing to back down until they crack. \"I can wait all day.\"\n\nSwimming climbing breaking objects. Lore: War tactics and sieges.\n\nMastery of banners warhorns and badges to signal and rally troops.\n\nReach. Spatial awareness. Keeping the enemy at exact range.\n\nSilent. Armor that allows you to dodge and twist.\n\nDebilitate. Tricky, annoying, and stylish tools.",
+    "Portrait": "bear_front.png",
     "sprite": "squirrel_right.png",
     "Skills": [
-        "Fist Weapons",
-        "Exotic Ranged",
-        "Insight",
+        "Large Weapons",
+        "The Ballistics",
+        "Intimidation",
         "Stoicism",
-        "Heavy",
-        "Mechanism",
-        "Catalysts",
-        "Signal"
+        "Light ",
+        "Athletics",
+        "Snares",
+        "Tear Flesh"
     ],
     "current_hp": 41,
     "equipment": {

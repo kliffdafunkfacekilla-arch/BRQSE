@@ -797,7 +797,13 @@ def handle_vines(match, ctx):
 def handle_laser(match, ctx):
     if "log" in ctx: ctx["log"].append("Laser.")
     
-def handle_nova(match, ctx):
+def handle_entomb(match, ctx):
+    if "log" in ctx: ctx["log"].append("Entombed! (Buried under earth/ice).")
+
+def handle_crystallize(match, ctx):
+    if "log" in ctx: ctx["log"].append("Crystallized! (Target is Fragile).")
+    # Logic: Next hit is Crit or Vulnerability?
+    if "vulnerable_damage" in ctx: ctx["vulnerable_damage"] = True # Hypothetical flag
     if "log" in ctx: ctx["log"].append("Nova.")
     
 def handle_split_beam(match, ctx):
@@ -895,3 +901,69 @@ def handle_save_half_damage(match, ctx):
 
 def handle_save_damage(match, ctx):
      if "log" in ctx: ctx["log"].append("Save Damage.")
+
+# --- ANUMIS HANDLERS ---
+def handle_regenerate(match, ctx):
+    if "log" in ctx: ctx["log"].append("Regenerate (Heal per turn).")
+
+def handle_soul_trap(match, ctx):
+    if "log" in ctx: ctx["log"].append("Soul Trapped! (Cannot Revive).")
+
+def handle_blight(match, ctx):
+    if "log" in ctx: ctx["log"].append("Blighted (Wither Area).")
+
+def handle_exhaustion(match, ctx):
+    if "log" in ctx: ctx["log"].append("Exhaustion Level Increased.")
+
+def handle_create_homunculus(match, ctx):
+    if "log" in ctx: ctx["log"].append("Created Homunculus Servant.")
+
+def handle_life_link(match, ctx):
+    if "log" in ctx: ctx["log"].append("Life Link (Share Damage).")
+
+# --- RATIO HANDLERS ---
+def handle_logic_bomb(match, ctx):
+    if "log" in ctx: ctx["log"].append("Logic Bomb (AOE Stun/Psychic).")
+
+def handle_edit_memory(match, ctx):
+    if "log" in ctx: ctx["log"].append("Editing Memory.")
+
+def handle_calculate(match, ctx):
+    if "log" in ctx: ctx["log"].append("Calculated Outcome (Auto-Hit).")
+    if "advantage" in ctx: ctx["advantage"] = True
+
+def handle_mind_read(match, ctx):
+    if "log" in ctx: ctx["log"].append("Reading Mind (Detect Intent).")
+    
+def handle_encrypt(match, ctx):
+    if "log" in ctx: ctx["log"].append("Encrypting Info (Cannot be Read).")
+
+def handle_charm(match, ctx):
+    if "log" in ctx: ctx["log"].append("Charmed (Friendly).")
+    
+def handle_fear(match, ctx):
+    if "log" in ctx: ctx["log"].append("Fear (Frightened).")
+
+def handle_forbid(match, ctx):
+    if "log" in ctx: ctx["log"].append("Forbid Action (Cannot do X).")
+
+def handle_true_name(match, ctx):
+    if "log" in ctx: ctx["log"].append("Invoking True Name (Full Control/Crit).")
+
+def handle_new_law(match, ctx):
+    if "log" in ctx: ctx["log"].append("Proclaiming New Law (Global Rule).")
+
+def handle_prevent_lying(match, ctx):
+    if "log" in ctx: ctx["log"].append("Zone of Truth (Cannot Lie).")
+
+def handle_force_speech(match, ctx):
+    if "log" in ctx: ctx["log"].append("Command/Force Speech.")
+    
+def handle_silence(match, ctx):
+    if "log" in ctx: ctx["log"].append("Silence (No Spells/Speech).")
+    
+def handle_bless(match, ctx):
+    if "log" in ctx: ctx["log"].append("Bless (+1d4).")
+
+def handle_divine_save(match, ctx):
+     if "log" in ctx: ctx["log"].append("Divine Save.")

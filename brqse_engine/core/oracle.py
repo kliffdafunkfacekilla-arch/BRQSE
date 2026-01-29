@@ -7,7 +7,7 @@ class DungeonOracle:
         self.sensory_layer = sensory_layer
         self.loop = game_loop
         self.ctx_manager = ContextManager(game_loop) if game_loop else None
-        self.arbiter = Arbiter() # Uses default local API URL
+        self.arbiter = Arbiter(sensory_layer=sensory_layer) # Pass sensory layer directly
         self.dice = Dice() # Standard d20 system
 
         
@@ -34,6 +34,46 @@ class DungeonOracle:
                     lore = f"\n(Insight): {entry['text']}"
                     break
         return f"{desc} {' '.join(details)} {lore}"
+
+    def speak_as_npc(self, npc_entity, player_message):
+        """
+        Converses with an NPC using Persona + World Context.
+        """
+        if not self.ctx_manager:
+            return "The air is heavy, but no words come."
+
+        # 1. Fetch NPC Persona from tags or data
+        archetype = npc_entity.data.get("archetype", "Cryptic Sage")
+        voice_cue = npc_entity.data.get("voice_cue", "Mysterious and indirect.")
+        motive = npc_entity.data.get("motive", "Wants to test the traveler's intent.")
+        
+        # 2. Build the Persona Prompt
+        full_context = self.ctx_manager.build_full_context()
+        
+        prompt = f"""
+        You are an NPC in a Dark Fantasy RPG. 
+        YOUR NAME: {npc_entity.name}
+        YOUR ARCHETYPE: {archetype}
+        YOUR VOICE: {voice_cue}
+        YOUR MOTIVE: {motive}
+        
+        CURRENT WORLD CONTEXT:
+        {full_context}
+        
+        PLAYER SAYS: "{player_message}"
+        
+        INSTRUCTIONS:
+        - Speak in character using your assigned voice and archetype.
+        - Use first person ("I", "Me").
+        - Keep it brief (under 40 words).
+        - If the player asks about the world, use the context provided.
+        
+        NPC:
+        """
+        
+        # 3. Call AI
+        response = self.sensory_layer.consult_oracle(prompt, player_message)
+        return response
 
     def chat(self, user_message):
         """
