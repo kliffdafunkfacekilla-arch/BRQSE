@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import DialogueWindow from './DialogueWindow';
 import Token from './Token';
 import ContextMenu from './ContextMenu';
 import EffectLayer from './EffectLayer';
@@ -31,6 +31,9 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
     const [activeEvent, setActiveEvent] = useState<{ title: string, description: string, choices: any[] } | null>(null);
     const [menu, setMenu] = useState<{ x: number, y: number, tx: number, ty: number, tags: string[] } | null>(null);
 
+    // NPC Dialogue State
+    const [dialogue, setDialogue] = useState<{ speaker: string, text: string, archetype?: string, tx: number, ty: number } | null>(null);
+
     const TERRAIN_ASSETS: Record<string, string> = {
         'normal': '/tiles/floor_stone.png',
         'grass': '/tiles/floor_stone.png',
@@ -44,7 +47,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         'entrance': '/doors/closed_door.png'
     };
 
-    // Mapping for specific object types
+    // ... (Mapping for specific object types kept same) ...
     const OBJECT_ASSETS: Record<string, string> = {
         'Barrel': '/objects/barrel.png',
         'Crate': '/objects/crate.png',
@@ -54,12 +57,13 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         'Stone': '/traps/pressure_plate.png',
         'Logs': '/trees/mangrove_1.png',
         'Chandelier': '/icons/weapon/bloodbane.png',
-        'Footprints': '/traps/bear_trap.png', // Placeholder
-        'Strange Clue': '/items/scroll_map.png', // Placeholder
+        'Footprints': '/traps/bear_trap.png',
+        'Strange Clue': '/items/scroll_map.png',
         'Locked Cage': '/doors/gate_iron.png'
     };
 
     const fetchData = () => {
+        // ... (fetchData logic same) ...
         fetch('/api/game/state')
             .then(res => res.json())
             .then(data => {
@@ -108,6 +112,7 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
     };
 
     const loadReplayData = () => {
+        // ... (loadReplayData same) ...
         setExplorationMode(false);
         fetch('/data/last_battle_replay.json?t=' + Date.now())
             .then(res => res.json())
@@ -118,37 +123,36 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
             });
     };
 
-    const handleAction = (action: string, tx: number, ty: number) => {
+    const handleAction = (action: string, tx: number, ty: number, input?: string) => {
         if (!explorationMode) return;
 
-        // If we have an active ability (aiming), override the action
         const finalAction = activeAbility ? activeAbility.toLowerCase() : action;
 
         fetch('/api/game/action', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: finalAction, x: tx, y: ty })
+            body: JSON.stringify({ action: finalAction, x: tx, y: ty, input: input })
         })
             .then(res => res.json())
             .then(data => {
                 const res = data.result;
-                // If we used an ability, clear the aiming state
-                if (activeAbility && onAbilityComplete) {
-                    onAbilityComplete();
-                }
+                if (activeAbility && onAbilityComplete) onAbilityComplete();
 
                 if (res.success) {
                     updateExplorationState(data.state);
+                    if (data.events) setActiveEvents(data.events);
 
-                    // Capture Combat Events for Animations
-                    if (data.events) {
-                        setActiveEvents(data.events);
+                    // Check for Dialogue Response
+                    if (res.dialogue) {
+                        setDialogue({
+                            ...res.dialogue,
+                            tx, ty // Keep context of who we are talking to
+                        });
                     }
 
                     if (res.log && onLog) {
                         onLog(activeAbility ? 'COMBAT' : 'SYSTEM', res.log, 'info');
-
-                        // trigger visual effects based on log content
+                        // ... Visual Effect Logic ...
                         const l = res.log.toLowerCase();
                         if (l.includes('fire') || l.includes('burn')) setVisualEffect('animate-flash-red');
                         else if (l.includes('cold') || l.includes('freeze')) setVisualEffect('animate-flash-cyan');
@@ -184,12 +188,14 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
             });
     };
 
+    const handleDialogueReply = (text: string) => {
+        if (!dialogue) return;
+        // Send reply to same target
+        handleAction('talk', dialogue.tx, dialogue.ty, text);
+    };
+
+    // ... (handleEventChoice, triggerTensionFX, onRightClick same) ...
     const handleEventChoice = (choiceId: string) => {
-        // Resolve event via generic action (needs backend support or simple 'resolve' action)
-        // For now, let's assume 'resolve_event' action or similar.
-        // Actually, trigger_event in backend usually just requires any valid move or specific resolution? 
-        // Logic says "The way is barred until... resolved".
-        // Let's implement a 'resolve' action.
         fetch('/api/game/action', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -214,25 +220,17 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         e.preventDefault();
         if (!explorationMode) return;
 
-        // Check for object first, then combatant
         const obj = objects.find(o => o.x === tx && o.y === ty);
         const combatant = combatants.find(c => c.x === tx && c.y === ty);
-
-        // If neither, return (unless we want to inspect empty tiles)
-        // Actually, we should allow interactions on combatants too
 
         let tags: string[] = [];
         if (obj) tags = obj.tags || [];
         if (combatant) {
-            // Use tags from backend if available, otherwise default
             tags = combatant.tags || ['inspect'];
-
-            // Legacy fallback if backend doesn't define them yet
             if (tags.length === 0 || (tags.length === 1 && tags[0] === 'inspect')) {
                 tags = ['inspect'];
                 if (combatant.team !== 'Player' && explorationMode) {
-                    // This block can be removed once backend is fully trusted, 
-                    // but keeping as safety for now.
+                    // Add logic if needed
                 }
             }
         }
@@ -254,6 +252,18 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
         <div className="w-full h-full relative flex items-center justify-center p-4 bg-[#050505] overflow-hidden">
 
             {/* OVERLAYS & UI */}
+
+            {/* NEW: Dialogue Overlay */}
+            {dialogue && (
+                <DialogueWindow
+                    speaker={dialogue.speaker}
+                    text={dialogue.text}
+                    archetype={dialogue.archetype}
+                    onReply={handleDialogueReply}
+                    onClose={() => setDialogue(null)}
+                />
+            )}
+
             {menu && (
                 <ContextMenu
                     {...menu}
@@ -339,10 +349,10 @@ export default function Arena({ onStatsUpdate, onLog, sceneVersion = 0, playerSp
                     const terrainAsset = TERRAIN_ASSETS[tile] || TERRAIN_ASSETS['normal'];
                     let objectAsset = obj ? OBJECT_ASSETS[obj.type] : null;
 
-                    // Fallback for unmapped types (e.g. Social NPCs like "Industrialists")
+                    // Fallback for unmapped types
                     if (obj && !objectAsset) {
-                        // Default to NPC sprite for now
-                        objectAsset = '/objects/npc.png';
+                        if (obj.tags && obj.tags.includes("npc")) objectAsset = '/objects/npc.png'; // Fallback for NPCs
+                        else objectAsset = '/objects/chest_closed.png';
                     }
 
                     return (

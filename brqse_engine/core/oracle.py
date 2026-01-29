@@ -47,7 +47,44 @@ class DungeonOracle:
         voice_cue = npc_entity.data.get("voice_cue", "Mysterious and indirect.")
         motive = npc_entity.data.get("motive", "Wants to test the traveler's intent.")
         
-        # 2. Build the Persona Prompt
+        # 2. ARBITRATION STEP (NEW): Check for Social Skills (Intimidate, Persuade, Deceive)
+        # We pass self.loop as game_state context if needed
+        roll_info = ""
+        check_request = None
+        
+        # Only check if the message is substantial
+        if len(player_message.split()) > 2:
+            check_request = self.arbiter.judge_intent(player_message, self.loop)
+            
+        if check_request and check_request.get("check_needed"):
+             skill = check_request.get("skill", "General")
+             dc = check_request.get("dc", 10)
+             reason = check_request.get("reason", "Unknown social risk")
+             attr_name = check_request.get("attribute", "Charm").title() # Default to Charm for social
+             
+             # Resolve Roll
+             bonus = 0
+             if self.loop and self.loop.player_combatant:
+                 if hasattr(self.loop.player_combatant, "get_stat_modifier"):
+                     bonus = self.loop.player_combatant.get_stat_modifier(attr_name)
+                 else:
+                     stats = getattr(self.loop.player_combatant, "stats", {})
+                     score = stats.get(attr_name, 10)
+                     bonus = (score - 10) // 2
+             
+             roll_val, _, _ = self.dice.roll("1d20")
+             total = roll_val + bonus
+             success = total >= dc
+             outcome = "SUCCESS" if success else "FAILURE"
+             
+             roll_info = f"""
+             [SYSTEM EVENT]
+             ACTION: {player_message}
+             CHECK: {skill} ({attr_name.upper()} {bonus:+}) vs DC {dc} | REASON: {reason}
+             RESULT: {outcome} (Rolled {roll_val} {bonus:+} = {total})
+             """
+
+        # 3. Build the Persona Prompt
         full_context = self.ctx_manager.build_full_context()
         
         prompt = f"""
@@ -63,16 +100,27 @@ class DungeonOracle:
         PLAYER SAYS: "{player_message}"
         
         INSTRUCTIONS:
+        - If [SYSTEM EVENT] is present below, you MUST react to the RESULT ({outcome if 'outcome' in locals() else 'N/A'}).
+          - SUCCESS: Yield to the player, believe the lie, or be intimidated.
+          - FAILURE: Reject the player, catch the lie, or become hostile.
         - Speak in character using your assigned voice and archetype.
         - Use first person ("I", "Me").
         - Keep it brief (under 40 words).
-        - If the player asks about the world, use the context provided.
+        
+        {roll_info}
         
         NPC:
         """
         
-        # 3. Call AI
+        # 4. Call AI
         response = self.sensory_layer.consult_oracle(prompt, player_message)
+        
+        # Prepend roll info so player sees it
+        if roll_info:
+             # Strip minimal data for display
+             display_roll = f"[{outcome}: {skill} vs DC {dc}]" 
+             response = f"{display_roll}\n{response}"
+             
         return response
 
     def chat(self, user_message):

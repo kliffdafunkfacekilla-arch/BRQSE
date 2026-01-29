@@ -597,6 +597,7 @@ class GameLoopController:
         
         # BRIDGE: Convert dict object to Entity-like wrapper for InteractionEngine
         obj_data = self.interactables.get((x, y))
+        obj = obj_data # [FIX] Alias for legacy code blocks using 'obj'
         target_entity = None
         if obj_data:
             from brqse_engine.models.entity import Entity
@@ -627,6 +628,36 @@ class GameLoopController:
                  return result
              else:
                  return {"success": False, "reason": "Nothing to attack here."}
+
+        # [NEW] TALK
+        if action_type == "talk":
+             if target_entity:
+                 # Player Actor
+                 class ActorWrapper:
+                     def __init__(self, name): self.name = name
+                 actor = ActorWrapper(self.player_combatant.name if self.player_combatant else "Player")
+                 
+                 # Extract input text if any
+                 user_input = kwargs.get("input") or kwargs.get("text") or "Hello."
+                 
+                 log = self.interaction.talk(actor, target_entity, user_input)
+                 result["log"] = log
+                 
+                 # [NEW] Return structured Dialogue Data for UI
+                 result["dialogue"] = {
+                     "speaker": target_entity.name,
+                     "text": log,
+                     "archetype": target_entity.data.get("archetype", "Unknown")
+                 }
+                 
+                 # Check for critical events triggered by talking
+                 # e.g. "TALKED_TO_NPC" win condition
+                 if self.active_scenario and self.active_scenario["win_condition"]["type"] == "TALKED_TO_NPC":
+                     # Check if it's the RIGHT NPC?
+                     # For now, any social interaction counts if the condition is generic
+                     self._resolve_active_event("Negotiated")
+             else:
+                 result["log"] = "No one to talk to here."
 
         # 1. MOVE
         if action_type == "move":

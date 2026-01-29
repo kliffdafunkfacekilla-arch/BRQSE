@@ -1,0 +1,15 @@
+Init Skill Check Test...
+Action: Talk (Threatening)...
+Arbiter called: YES
+SUCCESS: Prompt contained Skill Check Event.
+Snippet:  it brief (under 40 words).
+        
+        
+             [SYSTEM EVENT]
+             ACTION: Drop your weapon or else!
+             CHECK: Intimidation (CHARM +0) vs DC 10 | REASON: Player is threatening.
+             RESULT: SUCCESS (Rolled 17 +0 = 17)
+             
+        
+        NPC:
+        

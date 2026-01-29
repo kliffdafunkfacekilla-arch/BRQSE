@@ -32,6 +32,16 @@ class InteractionEngine:
 
         return f"You touch the {target.name}, but nothing happens."
 
+    def talk(self, actor, target, input_text="Hello."):
+        """
+        Specific conversation handler.
+        """
+        if not target: return "No one to talk to."
+        if not target.has_tag("npc"): return f"The {target.name} does not respond."
+        
+        # Use Oracle to generate response based on Persona
+        return self.oracle.speak_as_npc(target, input_text)
+
     def examine(self, target, room_history=None):
         """
         Detailed look using the Oracle.
